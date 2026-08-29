@@ -78,11 +78,13 @@ PHASES = {
         "max_turns": 50,
         "functions": {"allow": READ_ONLY + CHARTER},
     },
-    # A sentence becomes a spec, read-only against the target repository.
-    "draft": {
+    # A vague idea becomes a spec work can begin from. Read-only against the
+    # target repository: it decides what to ask for, not what to change.
+    "refine": {
         "model": "claude-opus-5",
+        "thinking_level": "high",
         "max_turns": 40,
-        "functions": {"allow": READ_ONLY},
+        "functions": {"allow": READ_ONLY + CHARTER},
     },
 }
 
@@ -121,6 +123,19 @@ PIPELINE = {
     "stages": {
         "prepare": {
             "action": "prepare_workspace",
+            "next": "refine",
+        },
+        # Optional, and off unless a job asks for it. A spec somebody wrote
+        # carefully should not be rewritten by a turn; an idea somebody typed in
+        # a hurry has to become one before anything can be built from it.
+        #
+        # `make submit SPEC=... REFINE=1`, or `idea:` instead of `spec:`.
+        "refine": {
+            "phase": "refine",
+            "opt_in": True,
+            "requires": ["spec"],
+            "produces": ["spec"],
+            "skip_when": ["revision", "rework"],
             "next": "plan",
         },
         # Deciding what to build and building it are separate turns on different

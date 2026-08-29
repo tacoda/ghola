@@ -7,7 +7,7 @@
 #   3. tell it to do work      make turn  (make work, once the factory lands)
 
 .PHONY: help setup doctor install engine policy ladder factory auditd submit up down logs status stop restart \
-        call schema models console config pipeline jobs turn work test test-live eval audit clean
+        call schema models console config pipeline jobs turn idea work test test-live eval audit clean
 
 VENV := .venv
 PY   := $(VENV)/bin/python
@@ -42,6 +42,7 @@ help:
 	@echo "  make config     the effective settings, and where each value came from"
 	@echo "  make pipeline   the stage graph as it will run, and what is wrong with it"
 	@echo '  make submit SPEC=specs/x.md REPO=../repo SLUG=owner/name'
+	@echo '  make idea IDEA="a rough sentence" REPO=../repo   # refined into a spec first'
 	@echo "  make jobs       every job, newest first"
 	@echo "  make audit      the append-only record: intact? and what it says"
 	@echo "  make models     what the router can actually reach"
@@ -153,6 +154,14 @@ submit:
 	@test -n "$(SPEC)" || { echo 'usage: make submit SPEC=specs/x.md REPO=../repo [SLUG=owner/name]'; exit 2; }
 	@$(MAKE) --no-print-directory call FN=ghola::submit \
 		JSON='{"spec":"$(SPEC)","repo":"$(REPO)","repo_slug":"$(SLUG)"}'
+
+# An IDEA rather than a spec: rough, and refined into one before anything is
+# built. A spec somebody wrote carefully is not rewritten; an idea somebody
+# typed in a hurry has to become one first.
+idea:
+	@test -n "$(IDEA)" || { echo 'usage: make idea IDEA="a sentence" REPO=../repo'; exit 2; }
+	@$(MAKE) --no-print-directory call FN=ghola::submit \
+		JSON='{"idea":"$(IDEA)","repo":"$(REPO)","repo_slug":"$(SLUG)"}'
 
 # The stage graph as it will actually run, and anything wrong with it. Read this
 # before submitting rather than discovering a broken stage two turns in.

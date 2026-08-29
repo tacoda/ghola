@@ -751,6 +751,40 @@ Two properties worth stating, because both were bugs waiting to happen:
   answer amend the contract the checks are graded against without editing what a
   person wrote.
 
+### 4.8d Refine: an idea is not a spec
+
+**An optional first phase that turns a vague idea into a spec work can begin
+from.** It is opt-in rather than merely optional, and the distinction is one the
+first version got wrong:
+
+- **opt-out** (`optional: true`) — the stage runs unless a job turns it off.
+  `prove` and `review` are this, because a factory that quietly stopped checking
+  would be worse than one that never checked.
+- **opt-in** (`opt_in: true`) — the stage runs only when a job asks for it.
+  `refine` is this, because most work arrives as a spec somebody wrote, and
+  rewriting it would be rewriting their words.
+
+```
+make submit SPEC=specs/x.md REPO=../repo    # written carefully, used as-is
+make idea IDEA="a rough sentence" REPO=../repo   # refined into a spec first
+```
+
+**The idea is kept beside the spec, not replaced by it.** A refinement that
+drifted from what was actually wanted is only visible if both are in the
+document, and the pull request carries both.
+
+What the phase is told to do, and it is the useful part: read the repository
+before writing, because the idea is vague precisely because whoever wrote it did
+not have the code in front of them. Narrow it, because a vague idea usually
+contains three changes. And **do not invent a requirement the idea did not
+contain** — genuine ambiguity goes under `Open questions` rather than being
+decided silently, because a spec that quietly answers a question nobody asked is
+how the wrong thing gets built confidently.
+
+Verified live: `"the makefile help output is hard to scan"` became a spec naming
+three concrete defects with line numbers, having noticed that
+`.DEFAULT_GOAL := help` is set on line 1 and therefore that reordering is safe.
+
 ### 4.9 Everything else
 
 `ghola.yaml` holds ports, paths, and the harness pin. Environment variables

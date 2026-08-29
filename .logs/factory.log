@@ -1,6 +1,6 @@
 ghola-factory started on ws://localhost:49154
   jobs   : /Users/tacoda/tacoda/ghola/state/jobs
-  stages : prepare -> plan -> run -> prove -> review -> commit -> publish -> waiting -> rework
+  stages : prepare -> refine -> plan -> run -> prove -> review -> commit -> publish -> waiting -> rework
   audit  : through ghola-audit, which owns the chain
   queue  : ghola.stage -> ghola::step
   poll   : 0 * * * * * -> ghola::tick (0 waiting)

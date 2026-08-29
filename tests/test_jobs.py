@@ -118,6 +118,8 @@ class WithTheGraph(unittest.TestCase):
             if move.to == "waiting":
                 break
 
+        # No `refine`: it is optional and this job did not ask for it, which is
+        # the common case — most work arrives as a spec somebody wrote.
         self.assertEqual(seen, ["prepare", "plan", "run", "prove", "review",
                                 "commit", "publish", "waiting"])
         self.assertEqual(self.store.read(job["id"])["stage"], "waiting")
@@ -141,6 +143,18 @@ class WithTheGraph(unittest.TestCase):
         job = self.store.write(jobs.advance(job, move.to, move.why))
         self.assertEqual(job["history"][0]["from"], "prepare")
         self.assertEqual(job["history"][0]["to"], "plan")
+
+    def test_a_job_that_asked_to_be_refined_walks_one_stage_more(self):
+        job = self.store.create("a rough idea", "/repo", self.graph.first)
+        job["want_refine"] = True
+        seen = [job["stage"]]
+        for _ in range(20):
+            move = g.next_stage(job, self.graph, {"ok": True})
+            job = self.store.write(jobs.advance(job, move.to, move.why))
+            seen.append(move.to)
+            if move.to == "waiting":
+                break
+        self.assertEqual(seen[:3], ["prepare", "refine", "plan"])
 
 
 if __name__ == "__main__":

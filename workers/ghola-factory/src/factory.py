@@ -134,10 +134,19 @@ def fn_submit(payload: dict) -> dict:
     """
     data = payload.get("payload") or payload
     spec = str(data.get("spec") or "").strip()
+    idea = str(data.get("idea") or "").strip()
     repo_path = str(data.get("repo") or "").strip()
 
+    # An IDEA is the rough version somebody typed; a SPEC is something written
+    # carefully. Refining a spec somebody wrote would be rewriting their words;
+    # building from an idea nobody refined is how the wrong thing gets built
+    # confidently. So which one arrived decides whether `refine` runs.
+    wants_refine = bool(idea) or bool(data.get("refine"))
+    spec = spec or idea
+
     if not spec:
-        return {"error": "no spec. Pass `spec` as text or a path under specs/"}
+        return {"error": "no spec and no idea. Pass `spec` for something written, "
+                         "or `idea` for something rough that needs refining first"}
     if not repo_path:
         return {"error": "no repo. Pass `repo` as an absolute path"}
 
@@ -151,6 +160,7 @@ def fn_submit(payload: dict) -> dict:
 
     settings = reposlib.resolve(repo_path)
     job = STORE.create(
+        want_refine=wants_refine,
         spec=spec, repo=str(Path(repo_path).expanduser()), stage=graph.first,
         # The call may name it; otherwise repos.toml does. Neither guesses it
         # from a git remote.
@@ -158,8 +168,16 @@ def fn_submit(payload: dict) -> dict:
         title=str(data.get("title") or spec.splitlines()[0][:70] if spec else ""),
         **settings.as_job_fields())
 
+    # The idea is kept beside the spec rather than replaced by it, so a reviewer
+    # can see what was asked for AND what it was refined into. A refinement that
+    # drifted is only visible if both are there.
+    doc = doclib.start(spec, str(job.get("title") or ""))
+    if idea:
+        doc = doc.add("idea", idea)
+    write_document(job, doc)
+
     record("stage.entered", actor="ghola::submit", subject=job["id"],
-           stage=graph.first, repo=job["repo"])
+           stage=graph.first, repo=job["repo"], refine=wants_refine)
     enqueue(job["id"], graph.first)
     return {"job": jobslib.summary(job)}
 

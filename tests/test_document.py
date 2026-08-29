@@ -137,5 +137,79 @@ class ThePipelineDeclaresThem(unittest.TestCase):
             produced.update(stage.produces)
 
 
+
+
+class RefiningAnIdea(unittest.TestCase):
+    """A vague idea becomes a spec work can begin from.
+
+    A spec somebody wrote carefully is not rewritten; an idea somebody typed in
+    a hurry has to become one before anything is built from it.
+    """
+
+    def test_the_idea_is_kept_beside_the_spec(self):
+        # A refinement that drifted is only visible if both are there.
+        d = doc.start("make the docs better").add("idea", "make the docs better")
+        d = d.add("spec", "# Document the ports\n\n## Acceptance criteria\n- ...")
+        self.assertIn("make the docs better", d.get("idea"))
+        self.assertIn("Document the ports", d.get("spec"))
+
+    def test_refine_requires_and_produces_a_spec(self):
+        stage = g.parse(defaults.pipeline()).get("refine")
+        self.assertEqual(stage.requires, ("spec",))
+        self.assertEqual(stage.produces, ("spec",))
+
+    def test_it_is_opt_in_rather_than_merely_optional(self):
+        # Two different things. `optional` is opt-OUT: prove and review run
+        # unless a job turns them off, because a factory that quietly stopped
+        # checking is worse than one that never checked. `opt_in` is off until
+        # asked for. Conflating them made refine run on a job that never asked.
+        graph = g.parse(defaults.pipeline())
+        self.assertTrue(graph.get("refine").opt_in)
+        self.assertTrue(graph.get("prove").optional)
+        self.assertFalse(graph.get("prove").opt_in)
+
+    def test_it_is_skipped_for_a_rework(self):
+        # A reviewer's comment is already specific. Re-refining would blur it.
+        stage = g.parse(defaults.pipeline()).get("refine")
+        self.assertIn("rework", stage.skip_when)
+
+    def test_a_job_that_did_not_ask_for_it_goes_straight_to_planning(self):
+        graph = g.parse(defaults.pipeline())
+        move = g.next_stage({"stage": "prepare", "want_refine": False},
+                            graph, {"ok": True})
+        self.assertEqual(move.to, "plan")
+
+    def test_a_job_that_asked_for_it_refines_first(self):
+        graph = g.parse(defaults.pipeline())
+        move = g.next_stage({"stage": "prepare", "want_refine": True},
+                            graph, {"ok": True})
+        self.assertEqual(move.to, "refine")
+
+
+
+class SectionBoundaries(unittest.TestCase):
+    """A section ends where the next one's HEADING starts, not at its marker.
+
+    The heading line sits above the marker, so slicing to the marker swallows
+    it: the first refined idea came back with `## The plan` appended to it.
+    """
+
+    def test_a_section_does_not_swallow_the_next_heading(self):
+        d = doc.start("the idea").add("plan", "the plan").add("work", "the work")
+        self.assertNotIn("##", d.get("spec"))
+        self.assertNotIn("##", d.get("plan"))
+        self.assertEqual(d.get("plan"), "the plan")
+
+    def test_the_last_section_still_reads_to_the_end(self):
+        d = doc.start("s").add("work", "line one\nline two")
+        self.assertEqual(d.get("work"), "line one\nline two")
+
+    def test_a_section_containing_its_own_headings_keeps_them(self):
+        # A spec legitimately has `## Acceptance criteria` inside it.
+        body = "## What\n\ndo the thing\n\n## Acceptance criteria\n\n- it is done"
+        d = doc.start(body)
+        self.assertIn("## Acceptance criteria", d.get("spec"))
+        self.assertIn("- it is done", d.get("spec"))
+
 if __name__ == "__main__":
     unittest.main()

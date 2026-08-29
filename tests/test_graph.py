@@ -248,5 +248,25 @@ class ANoOpIsNotATransition(unittest.TestCase):
         move = g.next_stage(state, built_in(), {})
         self.assertEqual(move.to, state["stage"])
 
+
+
+class OptOutAndOptInAreDifferent(unittest.TestCase):
+    """Conflating them makes every optional stage default-on."""
+
+    def test_an_opt_out_stage_runs_unless_turned_off(self):
+        graph = built_in()
+        self.assertEqual(g.next_stage(job("run"), graph, {"ok": True}).to, "prove")
+        self.assertEqual(
+            g.next_stage(job("run", want_prove=False), graph, {"ok": True}).to,
+            "review")
+
+    def test_an_opt_in_stage_is_skipped_unless_asked_for(self):
+        graph = built_in()
+        self.assertEqual(
+            g.next_stage(job("prepare"), graph, {"ok": True}).to, "plan")
+        self.assertEqual(
+            g.next_stage(job("prepare", want_refine=True), graph, {"ok": True}).to,
+            "refine")
+
 if __name__ == "__main__":
     unittest.main()

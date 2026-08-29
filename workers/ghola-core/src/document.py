@@ -32,6 +32,10 @@ from dataclasses import dataclass
 # The sections a phase can require or produce. A name not in here is a typo
 # rather than a new idea, and `make pipeline` says so before a job runs.
 SECTIONS = {
+    # The rough version somebody typed. Kept beside the spec rather than
+    # replaced by it, so a reviewer can see what was asked for AND what it was
+    # refined into — which is the only way to notice a refinement that drifted.
+    "idea": "The idea, as it arrived",
     "spec": "What was asked",
     "plan": "The plan",
     "answer": "The question, and its answer",
@@ -65,10 +69,16 @@ class Document:
         found: dict[str, str] = {}
         marks = list(MARKER.finditer(self.text))
         for index, mark in enumerate(marks):
-            end = marks[index + 1].start() if index + 1 < len(marks) else len(self.text)
-            body = self.text[mark.end():end]
-            # Drop the heading line the marker sits under, if any.
-            found[mark.group(1)] = body.strip()
+            if index + 1 < len(marks):
+                # Stop at the NEXT section's heading, not at its marker. The
+                # heading line sits above the marker, so slicing to the marker
+                # swallows it and every section ends with the next one's title.
+                nxt = marks[index + 1].start()
+                heading = self.text.rfind("\n" + HEADING, mark.end(), nxt)
+                end = heading if heading != -1 else nxt
+            else:
+                end = len(self.text)
+            found[mark.group(1)] = self.text[mark.end():end].strip()
         return found
 
     def has(self, name: str) -> bool:

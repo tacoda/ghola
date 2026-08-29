@@ -53,7 +53,17 @@ class Stage:
     # complaint and a reviewer's comment are already briefs; re-planning would
     # only blur them.
     skip_when: tuple[str, ...] = ()
+    # `optional` is opt-OUT: the stage runs unless a job turns it off. `prove`
+    # and `review` are this, because a factory that quietly stopped checking
+    # would be worse than one that never checked.
     optional: bool = False
+    # `opt_in` is the other half: the stage runs only when a job asks for it.
+    # `refine` is this, because most work arrives as a spec somebody wrote and
+    # rewriting it would be rewriting their words.
+    #
+    # Conflating the two makes every optional stage default-on, which is how
+    # `refine` ran on a job that never asked to be refined.
+    opt_in: bool = False
     # What a refusal from this stage does: where to go, how many times, and when
     # to stop trying.
     on_refusal: str = ""
@@ -126,6 +136,7 @@ def parse(config: dict | None) -> Graph:
             next=str(block.get("next") or block.get("then") or ""),
             skip_when=tuple(block.get("skip_when") or ()),
             optional=bool(block.get("optional")),
+            opt_in=bool(block.get("opt_in")),
             on_refusal=str((block.get("on_refusal") or {}).get("goto") or ""),
             max_revisions=int((block.get("on_refusal") or {}).get("max", 2)),
             stop_when_identical=bool(
@@ -324,8 +335,14 @@ def skip_to(job: dict, graph: Graph, target: str) -> str:
     while target in graph.stages and target not in seen:
         seen.add(target)
         stage = graph.stages[target]
-        skipped = (reason and reason in stage.skip_when) or (
-            stage.optional and not job.get(f"want_{stage.name}", True))
+        wanted = job.get(f"want_{stage.name}")
+        skipped = (
+            (reason and reason in stage.skip_when)
+            # opt-out: on unless the job says no.
+            or (stage.optional and wanted is False)
+            # opt-in: off unless the job says yes.
+            or (stage.opt_in and not wanted)
+        )
         if not skipped:
             return target
         target = stage.next
