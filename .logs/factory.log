@@ -1,0 +1,5 @@
+ghola-factory started on ws://localhost:49154
+  jobs   : /Users/tacoda/tacoda/ghola/state/jobs
+  stages : prepare -> plan -> run -> prove -> review -> publish -> waiting -> rework
+  audit  : /Users/tacoda/tacoda/ghola/audit
+  the console is the UI: invoke ghola::submit from it

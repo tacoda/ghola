@@ -2542,3 +2542,125 @@ OpenTelemetry initialized: exporter=memory (max_spans=10000), service_name=ghola
     ├ ip_address: Some("127.0.0.1")
     └ pid: Some(86201)
 [03:00:29.352 PM] [INFO] iii::workers::engine_fn New functions detected, firing functions-available trigger
+[03:02:51.489 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 9b21779f-fb71-4926-a448-1f5d4766794a
+    └ ip_address: Some("127.0.0.1")
+[03:02:51.489 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 9b21779f-fb71-4926-a448-1f5d4766794a
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(86930)
+[03:03:34.215 PM] [INFO] iii::workers::reload reload: config changed, reloading from config.yaml
+[03:03:34.218 PM] [WARN] iii::workers::reload reload: tracked worker is dead, promoting to CHANGED for restart
+    └ worker: opengantry
+[03:03:34.220 PM] [WARN] iii::workers::reload reload: tracked worker is dead, promoting to CHANGED for restart
+    └ worker: opengantry#1
+[03:03:34.220 PM] [INFO] iii::workers::reload reload: diff +0 added, -0 removed, ~2 changed (2 revived), =34 unchanged
+[03:03:34.259 PM] [INFO] iii::function [UNREGISTERED] Function gantry::middleware
+[03:03:34.259 PM] [INFO] iii::function [UNREGISTERED] Function gantry::on-trigger-type-registration
+[03:03:34.259 PM] [INFO] iii::function [UNREGISTERED] Function gantry::on-trigger-registration
+[03:03:34.259 PM] [INFO] iii::function [UNREGISTERED] Function gantry::verify
+[03:03:34.259 PM] [INFO] iii::function [UNREGISTERED] Function gantry::on-function-registration
+[03:03:34.259 PM] [WARN] iii::trigger [DISABLED] Trigger 4406f418-2a14-4e99-86ca-4c9d963aae84 (type gantry::verdict, function ghola::record::verdict) is disabled: its trigger type was unregistered. It will be re-registered automatically when the trigger type returns.
+[03:03:34.259 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: e2479fa8-8176-447f-9d39-c661e317ca93
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(220)
+[03:03:34.372 PM] [INFO] iii::workers::registry_worker Worker stopped via iii-worker
+    └ worker: opengantry
+[03:03:34.372 PM] [INFO] iii::workers::config Starting external worker via iii-worker
+    ├ worker: opengantry
+    └ port: 49154
+[03:03:34.373 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs opengantry`)
+    ├ worker: opengantry
+    ├ pid: Some(87144)
+    ├ port: 49154
+    └ config: None
+[03:03:34.400 PM] [INFO] iii::workers::registry_worker Worker stopped via iii-worker
+    └ worker: opengantry
+[03:03:34.400 PM] [INFO] iii::workers::config Starting external worker via iii-worker
+    ├ worker: opengantry
+    └ port: 49154
+[03:03:34.401 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs opengantry`)
+    ├ worker: opengantry
+    ├ pid: Some(87176)
+    ├ port: 49154
+    └ config: None
+[03:03:34.401 PM] [INFO] iii::workers::reload reload: success
+[03:03:34.447 PM] [INFO] iii::workers::engine_fn New functions detected, firing functions-available trigger
+[03:03:34.688 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 3f5e1568-b2e1-46b7-93c0-1d65fd65fbd9
+    └ ip_address: Some("127.0.0.1")
+[03:03:34.699 PM] [INFO] iii::trigger [REGISTERED] Trigger Type gantry::verdict
+[03:03:34.699 PM] [INFO] iii::trigger [REGISTERED] Trigger 4406f418-2a14-4e99-86ca-4c9d963aae84 (type gantry::verdict, function ghola::record::verdict) recovered from pending
+[03:03:34.699 PM] [INFO] iii::function [REGISTERED] Function gantry::middleware
+[03:03:34.700 PM] [INFO] iii::function [REGISTERED] Function gantry::verify
+[03:03:34.700 PM] [INFO] iii::function [REGISTERED] Function gantry::on-function-registration
+[03:03:34.700 PM] [INFO] iii::function [REGISTERED] Function gantry::on-trigger-registration
+[03:03:34.700 PM] [INFO] iii::function [REGISTERED] Function gantry::on-trigger-type-registration
+[03:03:39.450 PM] [INFO] iii::workers::engine_fn New functions detected, firing functions-available trigger
+[03:07:44.140 PM] [INFO] iii::workers::reload reload: config changed, reloading from config.yaml
+[03:07:44.143 PM] [WARN] iii::workers::reload reload: tracked worker is dead, promoting to CHANGED for restart
+    └ worker: opengantry
+[03:07:44.145 PM] [WARN] iii::workers::reload reload: tracked worker is dead, promoting to CHANGED for restart
+    └ worker: opengantry#1
+[03:07:44.145 PM] [INFO] iii::workers::reload reload: diff +0 added, -0 removed, ~2 changed (2 revived), =34 unchanged
+[03:07:44.175 PM] [INFO] iii::function [UNREGISTERED] Function gantry::middleware
+[03:07:44.175 PM] [INFO] iii::function [UNREGISTERED] Function gantry::on-function-registration
+[03:07:44.175 PM] [INFO] iii::function [UNREGISTERED] Function gantry::on-trigger-type-registration
+[03:07:44.175 PM] [INFO] iii::function [UNREGISTERED] Function gantry::verify
+[03:07:44.175 PM] [INFO] iii::function [UNREGISTERED] Function gantry::on-trigger-registration
+[03:07:44.175 PM] [WARN] iii::trigger [DISABLED] Trigger 4406f418-2a14-4e99-86ca-4c9d963aae84 (type gantry::verdict, function ghola::record::verdict) is disabled: its trigger type was unregistered. It will be re-registered automatically when the trigger type returns.
+[03:07:44.175 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 3f5e1568-b2e1-46b7-93c0-1d65fd65fbd9
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(220)
+[03:07:44.287 PM] [INFO] iii::workers::registry_worker Worker stopped via iii-worker
+    └ worker: opengantry
+[03:07:44.287 PM] [INFO] iii::workers::config Starting external worker via iii-worker
+    ├ worker: opengantry
+    └ port: 49154
+[03:07:44.288 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs opengantry`)
+    ├ worker: opengantry
+    ├ pid: Some(88374)
+    ├ port: 49154
+    └ config: None
+[03:07:44.322 PM] [INFO] iii::workers::registry_worker Worker stopped via iii-worker
+    └ worker: opengantry
+[03:07:44.322 PM] [INFO] iii::workers::config Starting external worker via iii-worker
+    ├ worker: opengantry
+    └ port: 49154
+[03:07:44.322 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs opengantry`)
+    ├ worker: opengantry
+    ├ pid: Some(88409)
+    ├ port: 49154
+    └ config: None
+[03:07:44.322 PM] [INFO] iii::workers::reload reload: success
+[03:07:44.572 PM] [INFO] iii::workers::engine_fn New functions detected, firing functions-available trigger
+[03:07:44.677 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 5e3a3ba4-840d-4252-a7fc-e39e87e5cdd1
+    └ ip_address: Some("127.0.0.1")
+[03:07:44.690 PM] [INFO] iii::trigger [REGISTERED] Trigger Type gantry::verdict
+[03:07:44.690 PM] [INFO] iii::trigger [REGISTERED] Trigger 4406f418-2a14-4e99-86ca-4c9d963aae84 (type gantry::verdict, function ghola::record::verdict) recovered from pending
+[03:07:44.690 PM] [INFO] iii::function [REGISTERED] Function gantry::middleware
+[03:07:44.690 PM] [INFO] iii::function [REGISTERED] Function gantry::verify
+[03:07:44.690 PM] [INFO] iii::function [REGISTERED] Function gantry::on-function-registration
+[03:07:44.690 PM] [INFO] iii::function [REGISTERED] Function gantry::on-trigger-registration
+[03:07:44.690 PM] [INFO] iii::function [REGISTERED] Function gantry::on-trigger-type-registration
+[03:07:49.574 PM] [INFO] iii::workers::engine_fn New functions detected, firing functions-available trigger
+[03:08:18.936 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: c359e4ca-6dbc-4fff-a248-5f4716edc406
+    └ ip_address: Some("127.0.0.1")
+[03:08:18.939 PM] [INFO] iii::function [REGISTERED] Function ghola::submit
+[03:08:18.939 PM] [INFO] iii::function [REGISTERED] Function ghola::jobs
+[03:08:18.939 PM] [INFO] iii::function [REGISTERED] Function ghola::job
+[03:08:18.939 PM] [INFO] iii::function [REGISTERED] Function ghola::pipeline
+[03:08:18.939 PM] [INFO] iii::function [REGISTERED] Function ghola::step
+[03:08:18.939 PM] [INFO] iii::function [REGISTERED] Function ghola::turn-completed
+[03:08:19.589 PM] [INFO] iii::workers::engine_fn New functions detected, firing functions-available trigger
+[03:08:35.765 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 4c1faf97-849f-4792-b26c-826700fc03cc
+    └ ip_address: Some("127.0.0.1")
+[03:08:35.769 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 4c1faf97-849f-4792-b26c-826700fc03cc
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(88829)

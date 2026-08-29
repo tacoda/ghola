@@ -6,8 +6,8 @@
 #   2. add config and scripts  edit settings/, drop files in actions/
 #   3. tell it to do work      make turn  (make work, once the factory lands)
 
-.PHONY: help setup doctor install engine policy ladder up down logs status stop restart \
-        call schema models console config turn work test test-live eval audit clean
+.PHONY: help setup doctor install engine policy ladder factory submit up down logs status stop restart \
+        call schema models console config pipeline jobs turn work test test-live eval audit clean
 
 VENV := .venv
 PY   := $(VENV)/bin/python
@@ -40,6 +40,9 @@ help:
 	@echo "doing work"
 	@echo '  make turn PHASE=plan PROMPT="..." [WORKSPACE=../repo]'
 	@echo "  make config     the effective settings, and where each value came from"
+	@echo "  make pipeline   the stage graph as it will run, and what is wrong with it"
+	@echo '  make submit SPEC=specs/x.md REPO=../repo SLUG=owner/name'
+	@echo "  make jobs       every job, newest first"
 	@echo "  make audit      the append-only record: intact? and what it says"
 	@echo "  make models     what the router can actually reach"
 	@echo ""
@@ -89,8 +92,8 @@ doctor:
 # fail with an error about the venv rather than doing the install.
 install:
 	@uv venv $(VENV) --allow-existing
-	@uv pip install --quiet --python $(PY) -e workers/ghola-core -e workers/ghola-policy
-	@echo "  installed ghola-core and ghola-policy into $(VENV)"
+	@uv pip install --quiet --python $(PY) -e workers/ghola-core -e workers/ghola-policy -e workers/ghola-factory
+	@echo "  installed ghola-core, ghola-policy and ghola-factory into $(VENV)"
 
 # ---------------------------------------------------------------- running
 
@@ -115,6 +118,24 @@ ladder:
 	@test -d $(LADDER) || { echo "no ladder at $(LADDER). Clone tacoda/ladder beside this repo"; exit 2; }
 	@$(ENV) PYTHONUNBUFFERED=1 III_URL=ws://localhost:$(MGR_PORT) LADDER_HOME=$(LADDER) \
 		$(LADDER)/.venv/bin/python $(LADDER)/src/main.py
+
+# The pipeline. Serves no HTTP: the console is the UI.
+factory:
+	@$(RUN) $(PY) workers/ghola-factory/src/factory.py
+
+# Step three: a spec and a repo.
+submit:
+	@test -n "$(SPEC)" || { echo 'usage: make submit SPEC=specs/x.md REPO=../repo [SLUG=owner/name]'; exit 2; }
+	@$(MAKE) --no-print-directory call FN=ghola::submit \
+		JSON='{"spec":"$(SPEC)","repo":"$(REPO)","repo_slug":"$(SLUG)"}'
+
+# The stage graph as it will actually run, and anything wrong with it. Read this
+# before submitting rather than discovering a broken stage two turns in.
+pipeline:
+	@$(MAKE) --no-print-directory call FN=ghola::pipeline
+
+jobs:
+	@$(MAKE) --no-print-directory call FN=ghola::jobs
 
 # What this repository contributes to a turn: four callbacks and no tools. The
 # turn loop is the harness worker's, started by the engine like every other one.
@@ -146,6 +167,8 @@ up:
 	@echo ""
 	@pgrep -f '[g]hola-policy/src/boot.py' >/dev/null \
 		|| ($(RUN) $(PY) workers/ghola-policy/src/boot.py > $(LOGS)/policy.log 2>&1 &)
+	@pgrep -f '[g]hola-factory/src/factory.py' >/dev/null \
+		|| ($(RUN) $(PY) workers/ghola-factory/src/factory.py > $(LOGS)/factory.log 2>&1 &)
 	@test -d $(LADDER) && { pgrep -f '[l]adder/src/main.py' >/dev/null \
 		|| ($(ENV) PYTHONUNBUFFERED=1 III_URL=ws://localhost:$(MGR_PORT) LADDER_HOME=$(LADDER) \
 		    $(LADDER)/.venv/bin/python $(LADDER)/src/main.py > $(LOGS)/ladder.log 2>&1 &); } || true
@@ -231,6 +254,7 @@ status:
 	@echo "engine   : $$(pgrep -f '[i]ii --config config.yaml' >/dev/null && echo up || echo down)"
 	@echo "policy   : $$(pgrep -f '[g]hola-policy/src/boot.py' >/dev/null && echo up || echo down)"
 	@echo "ladder   : $$(pgrep -f '[l]adder/src/main.py' >/dev/null && echo up || echo down)"
+	@echo "factory  : $$(pgrep -f '[g]hola-factory/src/factory.py' >/dev/null && echo up || echo down)"
 	@for p in $(HTTP_PORT) $(CONSOLE_PORT) $(STREAM_PORT) $(MGR_PORT) $(GOVERNED_PORT); do \
 		printf '%-9s: %s\n' "port $$p" "$$(lsof -nP -iTCP:$$p -sTCP:LISTEN >/dev/null 2>&1 && echo listening || echo free)"; \
 	done
@@ -243,6 +267,7 @@ status:
 # already stopped is a success here rather than an error to read past.
 stop:
 	@pkill -f 'ghola-policy/src/boot.py' || true
+	@pkill -f 'ghola-factory/src/factory.py' || true
 	@pkill -f 'ladder/src/main.py' || true
 	@pkill -f 'iii --config config.yaml' || true
 	@# The engine's workers are its children and outlive the signal by a few

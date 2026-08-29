@@ -1,0 +1,19 @@
+[project]
+name = "ghola-factory"
+version = "0.1.0"
+description = "The stage graph, the job record, and the briefs. Serves no HTTP: the console is the UI."
+requires-python = ">=3.11"
+dependencies = [
+    "iii-sdk==0.22.1",
+    "iii-helpers==0.22.1",
+    "pyyaml",
+    "ghola-core",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+only-include = ["src"]
+sources = ["src"]

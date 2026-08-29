@@ -239,7 +239,7 @@ rather than this plan being wrong.
 
 | Worker | What it owns |
 |---|---|
-| `workers/ghola-factory` | The stage graph, the job record, the briefs, and the HTTP surface. Calls `worktree::*` and `github::*` rather than running git. Starts turns; never runs one. |
+| `workers/ghola-factory` | The stage graph, the job record, and the briefs. Calls `worktree::*` and `github::*` rather than running git. Starts turns; never runs one. **Serves no HTTP: the console is the UI.** |
 | `workers/ghola-policy` | What this repository contributes to a turn: the four callbacks carrying the ladder, and the evaluator functions. **Registers no tools.** Holds no session state. |
 
 `ghola-core` is not a worker. It is a plain Python package both workers import:
@@ -689,6 +689,30 @@ If per-phase regression suites turn out to be necessary, they are built on
 The honest limit: I have not run one yet. Every claim in this section about what
 the worker reports is read from its documentation, not observed.
 
+### 4.8b There is no HTTP surface. The console is the UI.
+
+An earlier draft had ghola serving a browser surface: a job board, a stage rail,
+a live log, and endpoints for submitting a spec and answering a hold. All of it
+is deleted, because iii's console already does it and does it better.
+
+| what the surface was for | what does it instead |
+|---|---|
+| submit a spec | invoke `ghola::submit` from the console, or `make submit` |
+| watch a job move | the console's turn waterfall, per session |
+| tail what a turn is doing | the same waterfall, live, with the model's own calls |
+| answer a hold | `approval-gate` injects its own console page |
+| queue depth, failures | the console's queue and DLQ views |
+
+**And if ghola ever does need a page of its own, it injects one rather than
+serving one.** `console:script` and `console:style` are trigger types: a worker
+registers an asset and the console renders it. `harness`, `eval` and `memory`
+all do this today. A bespoke dashboard would be a second UI to maintain, a
+second port to secure, and a worse trace view than the one already there.
+
+What this costs, stated plainly: there is no remote access and no form. Both
+follow from a non-goal this plan already has (one operator, one machine), and a
+spec arrives as a file path rather than a drag-and-drop upload.
+
 ### 4.9 Everything else
 
 `ghola.yaml` holds ports, paths, and the harness pin. Environment variables
@@ -877,8 +901,7 @@ predicate a different rule wearing this one's authority.
 
 ### M4. The factory and the graph
 
-- `ghola-factory`: the HTTP surface, the job record in the `state` worker, and
-  the briefs. Worktrees are `worktree::create` / `claim` / `release`; prepare and
+- `ghola-factory`: the job record, the briefs, and the stage dispatch. Worktrees are `worktree::create` / `claim` / `release`; prepare and
   cleanup are `shell::exec`.
 - **The state durability check, before anything depends on it.** Kill the `state`
   worker mid-job and assert the record survives. wipp lost a live job exactly
