@@ -40,10 +40,26 @@ PROMOTE_SUFFIXES = ("::promote", "::deploy", "::merge", "::publish", "::apply",
 # only catches the calls polite enough to be called `::deploy` is theatre.
 ALSO_PROMOTE = {
     "worktree::land": "fast-forwards a target branch",
-    "github::pr::create": "publishes a pull request to a forge",
-    "github::pr::comment": "publishes text under this operator's name",
-    "github::issue::create": "publishes an issue to a forge",
+    "github::pr::merge": "merges a pull request",
     "github::release::create": "publishes a release",
+}
+
+# Deliberately NOT promote-class, and the distinction is the whole design.
+#
+# The first real job through this pipeline failed here, and it was right to
+# fail and wrong to be asked. `github::pr::create` publishes a PROPOSAL that a
+# human then decides on. It is the one thing ghola exists to do, and gating it
+# behind a machine proof means a factory whose entire output requires a verdict
+# it has no way to mint yet.
+#
+# **What changes the world is the merge, not the proposal.** A pull request
+# nobody merged has changed nothing, which is the same reason ghola never
+# merges: the human is the gate, and a gate in front of asking the human is a
+# gate in front of the wrong thing.
+NOT_PROMOTE = {
+    "github::pr::create": "a pull request is a proposal; the human decides",
+    "github::pr::comment": "a comment asks; it does not change code",
+    "github::issue::create": "an issue asks; it does not change code",
 }
 
 ALLOW = "allow"
@@ -67,6 +83,8 @@ class Gate:
 
 def is_promote(function_id: str) -> tuple[bool, str]:
     """Whether this call ships something, and why it counts as shipping."""
+    if function_id in NOT_PROMOTE:
+        return False, ""
     if function_id in ALSO_PROMOTE:
         return True, ALSO_PROMOTE[function_id]
     for suffix in PROMOTE_SUFFIXES:

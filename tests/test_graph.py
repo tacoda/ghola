@@ -125,10 +125,11 @@ class Skipping(unittest.TestCase):
 
     def test_turning_off_two_in_a_row_reaches_the_next_real_stage(self):
         # Chained, or turning off both checks lands on a stage that is also
-        # skipped.
+        # skipped. `commit` is next because the checks are optional and the
+        # delivery gate is not.
         move = g.next_stage(job("run", want_prove=False, want_review=False),
                             built_in(), {"ok": True})
-        self.assertEqual(move.to, "publish")
+        self.assertEqual(move.to, "commit")
 
 
 class Refusals(unittest.TestCase):

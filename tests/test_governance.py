@@ -31,9 +31,22 @@ class WhatCountsAsShipping(unittest.TestCase):
         self.assertTrue(promote)
         self.assertIn("fast-forwards", why)
 
-    def test_publishing_to_a_forge_counts(self):
-        self.assertTrue(governance.is_promote("github::pr::create")[0])
-        self.assertTrue(governance.is_promote("github::pr::comment")[0])
+    def test_merging_counts(self):
+        self.assertTrue(governance.is_promote("github::pr::merge")[0])
+        self.assertTrue(governance.is_promote("worktree::land")[0])
+
+    def test_opening_a_pull_request_does_not_count(self):
+        # The first real job through this pipeline failed here, and it was right
+        # to fail and wrong to be asked. A pull request is a PROPOSAL a human
+        # decides on: it is the one thing ghola exists to do, and gating it
+        # behind a machine proof means a factory whose entire output requires a
+        # verdict it cannot yet mint. What changes the world is the merge.
+        for name in ("github::pr::create", "github::pr::comment",
+                     "github::issue::create"):
+            self.assertFalse(governance.is_promote(name)[0], name)
+
+    def test_a_proposal_needs_no_verdict(self):
+        self.assertTrue(governance.decide("github::pr::create", has_verdict=False).allowed)
 
     def test_an_ordinary_call_is_not_promote_class(self):
         for name in ("coder::read-file", "shell::exec", "ladder::list"):

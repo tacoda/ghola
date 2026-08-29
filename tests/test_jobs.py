@@ -119,7 +119,7 @@ class WithTheGraph(unittest.TestCase):
                 break
 
         self.assertEqual(seen, ["prepare", "plan", "run", "prove", "review",
-                                "publish", "waiting"])
+                                "commit", "publish", "waiting"])
         self.assertEqual(self.store.read(job["id"])["stage"], "waiting")
 
     def test_a_revision_loop_terminates(self):

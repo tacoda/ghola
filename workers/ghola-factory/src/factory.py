@@ -39,6 +39,7 @@ import graph as graphlib  # noqa: E402
 import jobs as jobslib  # noqa: E402
 import oversight as oversightlib  # noqa: E402
 import paths  # noqa: E402
+import prompts as promptslib  # noqa: E402
 import repos as reposlib  # noqa: E402
 import turn as turnlib  # noqa: E402
 import yaml  # noqa: E402
@@ -51,10 +52,16 @@ STORE = jobslib.Store(ROOT / "state" / "jobs")
 AUDIT = audit_log.AuditLog(os.environ.get("GHOLA_AUDIT_DIR") or ROOT / "audit")
 
 
-def record(kind: str, **fields) -> None:
-    """Append to the audit log. Never raises, never silent."""
+def record(kind: str, actor: str = "", subject: str = "", **detail) -> None:
+    """Append to the audit log. Never raises, never silent.
+
+    `actor` and `subject` are the entry's own fields; everything else is
+    `detail`. The first version splatted every keyword into `append()` and every
+    write failed with a TypeError — which the log printed on every transition,
+    loudly, which is why this was a five-minute bug rather than a silent one.
+    """
     try:
-        AUDIT.append(kind, **fields)
+        AUDIT.append(kind, actor=actor, subject=subject, detail=detail)
     except Exception as exc:  # noqa: BLE001
         print(f"AUDIT WRITE FAILED ({kind}): {type(exc).__name__}: {exc}")
 
@@ -110,7 +117,9 @@ def fn_submit(payload: dict) -> dict:
     settings = reposlib.resolve(repo_path)
     job = STORE.create(
         spec=spec, repo=str(Path(repo_path).expanduser()), stage=graph.first,
-        repo_slug=str(data.get("repo_slug") or ""),
+        # The call may name it; otherwise repos.toml does. Neither guesses it
+        # from a git remote.
+        repo_slug=str(data.get("repo_slug") or settings.slug or ""),
         title=str(data.get("title") or spec.splitlines()[0][:70] if spec else ""),
         **settings.as_job_fields())
 
@@ -170,11 +179,24 @@ def fn_pipeline(payload: dict) -> dict:
 # ------------------------------------------------------------- the dispatch
 
 def enqueue(job_id: str, stage: str) -> None:
-    """One durable message per transition, so a crash resumes rather than restarts."""
+    """One durable message per transition, so a crash resumes rather than restarts.
+
+    `iii::durable::publish` rather than `engine::queue::enqueue`: the latter is
+    the engine's internal provider for `TriggerAction::Enqueue` and takes a
+    message receipt id, which a caller does not have.
+    """
     if WORKER is None:
         return
-    WORKER.trigger({"function_id": "queue::enqueue", "timeout_ms": 15000, "payload": {
-        "topic": QUEUE, "message": {"job_id": job_id, "stage": stage}}})
+    try:
+        WORKER.trigger({"function_id": "iii::durable::publish", "timeout_ms": 15000,
+                        "payload": {"topic": QUEUE,
+                                    "data": {"job_id": job_id, "stage": stage}}})
+    except Exception as exc:  # noqa: BLE001
+        # A job that cannot be enqueued has stopped, and a stopped job that
+        # looks queued is the worst version of that. Say so loudly.
+        print(f"ENQUEUE FAILED for {job_id} at {stage}: {type(exc).__name__}: {exc}")
+        record("stage.left", actor="ghola::enqueue", subject=job_id,
+               to="stalled", why=f"could not enqueue: {exc}")
 
 
 def fn_step(payload: dict) -> dict:
@@ -261,17 +283,20 @@ def start_turn(job: dict, stage: graphlib.Stage) -> dict:
 
 
 def brief_for(job: dict, stage: graphlib.Stage) -> str:
-    """What this phase is asked to do.
+    """What this phase is asked to do: its prompt, filled in.
 
     A refusal or a reviewer's comment is already a brief and replaces the spec
-    rather than being appended to it: re-stating the original alongside a
-    specific complaint is how a turn ends up solving the wrong one.
+    rather than being appended to it.
     """
-    if job.get("brief"):
-        return str(job["brief"])
-    spec = str(job.get("spec") or "")
-    plan = str(job.get("plan") or "")
-    return f"{spec}\n\n## The plan\n\n{plan}" if plan else spec
+    return promptslib.brief(stage.phase, {
+        "spec": job.get("spec"),
+        "plan": job.get("plan"),
+        "diff": job.get("diff"),
+        "brief": job.get("brief"),
+        "repo": job.get("repo"),
+        "branch": job.get("branch"),
+        "phase": stage.phase,
+    })
 
 
 def advance(job: dict, graph: graphlib.Graph, result: dict) -> dict:
@@ -301,6 +326,10 @@ def fn_turn_completed(payload: dict) -> dict:
 
     job = STORE.read(job_id)
     if job is None:
+        # A completion for a job with no record. Either somebody else's turn on
+        # a session that happens to parse, or the id and the filename have come
+        # apart — which is silent, so it is said out loud.
+        print(f"turn completed for `{job_id}` ({phase}) and no such job record")
         return {}
 
     record("turn.completed", actor=f"phase:{phase}", subject=job_id,
@@ -353,11 +382,19 @@ def main() -> None:
                              "function_id": f"{NAME}::turn-completed",
                              "config": {}})
 
+    # Without this the factory enqueues transitions that nothing consumes: every
+    # job would submit, write its first record, and stop, looking exactly like a
+    # job that was still working.
+    WORKER.register_trigger({"type": "durable:subscriber",
+                             "function_id": f"{NAME}::step",
+                             "config": {"queue": QUEUE, "max_retries": 3}})
+
     graph = pipeline()
     print(f"ghola-factory started on {url}")
     print(f"  jobs   : {STORE.folder}")
     print(f"  stages : {' -> '.join(graph.stages) or 'none'}")
     print(f"  audit  : {AUDIT.folder}")
+    print(f"  queue  : {QUEUE} -> {NAME}::step")
     print("  the console is the UI: invoke ghola::submit from it")
     for problem in graph.problems:
         print(f"  PIPELINE PROBLEM: {problem}")

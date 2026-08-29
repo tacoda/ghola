@@ -159,6 +159,13 @@ PIPELINE = {
             "phase": "review",
             "optional": True,
             "contract": "verdict",
+            "next": "commit",
+        },
+        # Rung 4, the repository's own commit hook, then the branch. A refusal
+        # here goes back to `run` with the gate's own words as the brief.
+        "commit": {
+            "action": "commit_and_push",
+            "on_refusal": {"goto": "run", "max": 2, "stop_when_identical": True},
             "next": "publish",
         },
         "publish": {

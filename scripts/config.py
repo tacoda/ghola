@@ -40,6 +40,13 @@ def main() -> int:
         print("  WARNING: the file exists and parsed to nothing. A YAML error here")
         print("           is silently identical to having no file at all.")
 
+    import prompts
+    have = prompts.declared()
+    known_phases = phase_settings.phases()
+    missing = [p for p in known_phases if p not in have]
+    print(f"prompts  : {len(have)} of {len(known_phases)} phases"
+          + (f"  (no prompt for: {', '.join(missing)})" if missing else ""))
+
     wanted = [a for a in sys.argv[1:] if a]
     known = phase_settings.phases()
     for phase in wanted or known:

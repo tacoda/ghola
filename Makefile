@@ -85,7 +85,20 @@ doctor:
 		{ [ -f .env ] && grep -q '^ANTHROPIC_API_KEY=.\+' .env && echo "ANTHROPIC_API_KEY set"; } \
 		|| echo "no ANTHROPIC_API_KEY yet"
 	@printf '  %-9s ' "gh auth"; \
-		gh auth status >/dev/null 2>&1 && echo "logged in" || echo "not logged in — run: gh auth login"
+		gh auth status >/dev/null 2>&1 && echo "logged in as $$(gh api user --jq .login 2>/dev/null)" \
+		|| echo "not logged in — run: gh auth login"
+	@# The identity that PUSHES and the identity that opens a PULL REQUEST are
+	@# not the same thing. git may use an ssh host alias while gh uses a token
+	@# from the environment, and the mismatch fails only at `pr create`, after a
+	@# job has paid for a worktree, a plan, a run and two checks.
+	@for slug in $$(grep -oE 'slug *= *"[^"]+"' repos.toml 2>/dev/null | grep -oE '"[^"]+"' | tr -d '"'); do \
+		printf '  %-9s ' "$$slug"; \
+		if gh api "repos/$$slug" --jq '.permissions.push' 2>/dev/null | grep -q true; then \
+			echo "can push and open pull requests"; \
+		else \
+			echo "NO PR ACCESS as $$(gh api user --jq .login 2>/dev/null). git may still push over ssh; the API is what opens the PR"; \
+		fi; \
+	done
 
 # `--allow-existing` because this runs again every time a package gains a
 # dependency, and refusing to touch an existing venv made the obvious command

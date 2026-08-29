@@ -1877,3 +1877,3099 @@ OpenTelemetry initialized: exporter=memory (max_spans=10000), service_name=ghola
     ├ worker_id: b16dc931-d42f-41cb-b06e-1fafc9397d16
     ├ ip_address: Some("127.0.0.1")
     └ pid: Some(97020)
+[03:26:09.620 PM] [INFO] iii::workers::engine_fn New functions detected, firing functions-available trigger
+[03:30:02.845 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: cdbbc3f0-3081-4b84-af32-4ae16cf1d093
+    └ ip_address: Some("127.0.0.1")
+[03:30:02.846 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: cdbbc3f0-3081-4b84-af32-4ae16cf1d093
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(98013)
+[03:30:02.908 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: f095d4e3-e0b0-4ef8-99ab-5120c1c2cdf5
+    └ ip_address: Some("127.0.0.1")
+[03:30:02.908 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: f095d4e3-e0b0-4ef8-99ab-5120c1c2cdf5
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(98159)
+[03:31:57.107 PM] [INFO] iii::workers::reload reload: config changed, reloading from config.yaml
+[03:31:57.113 PM] [INFO] iii::workers::reload reload: diff +0 added, -0 removed, ~0 changed (0 revived), =36 unchanged
+[03:31:57.113 PM] [INFO] iii::workers::reload reload: success
+[03:33:43.507 PM] [INFO] iii::workers::reload reload: config changed, reloading from config.yaml
+[03:33:43.513 PM] [INFO] iii::workers::reload reload: diff +0 added, -0 removed, ~0 changed (0 revived), =36 unchanged
+[03:33:43.513 PM] [INFO] iii::workers::reload reload: success
+[03:33:56.008 PM] [INFO] iii::function [UNREGISTERED] Function ghola::turn-completed
+[03:33:56.008 PM] [INFO] iii::function [UNREGISTERED] Function ghola::pipeline
+[03:33:56.008 PM] [INFO] iii::function [UNREGISTERED] Function ghola::step
+[03:33:56.008 PM] [INFO] iii::function [UNREGISTERED] Function ghola::submit
+[03:33:56.008 PM] [INFO] iii::function [UNREGISTERED] Function ghola::jobs
+[03:33:56.008 PM] [INFO] iii::function [UNREGISTERED] Function ghola::job
+[03:33:56.008 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 3a131cf6-c1ac-4964-9161-5e74321a9dd2
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(93257)
+[03:33:57.232 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 39267bec-a81b-4376-a2b0-6643641b1837
+    └ ip_address: Some("127.0.0.1")
+[03:33:57.233 PM] [INFO] iii::function [REGISTERED] Function ghola::submit
+[03:33:57.233 PM] [INFO] iii::function [REGISTERED] Function ghola::jobs
+[03:33:57.233 PM] [INFO] iii::function [REGISTERED] Function ghola::job
+[03:33:57.233 PM] [INFO] iii::function [REGISTERED] Function ghola::pipeline
+[03:33:57.233 PM] [INFO] iii::function [REGISTERED] Function ghola::step
+[03:33:57.233 PM] [INFO] iii::function [REGISTERED] Function ghola::turn-completed
+[03:34:30.574 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: e95ec846-5f8a-4ace-a9e1-522d2e18d283
+    └ ip_address: Some("127.0.0.1")
+[03:34:30.574 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: e95ec846-5f8a-4ace-a9e1-522d2e18d283
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(99594)
+[03:34:30.652 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 352cb3f4-3cbf-43e1-97ca-be555e2c9d0d
+    └ ip_address: Some("127.0.0.1")
+[03:34:30.654 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 352cb3f4-3cbf-43e1-97ca-be555e2c9d0d
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(99597)
+[03:34:48.884 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 5d748a88-e75e-484f-9ce5-75a71a8b88cb
+    └ ip_address: Some("127.0.0.1")
+[03:34:48.885 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 5d748a88-e75e-484f-9ce5-75a71a8b88cb
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(99731)
+[03:35:00.315 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: a1c07ccf-356b-4efc-b734-01497c57910a
+    └ ip_address: Some("127.0.0.1")
+[03:35:00.315 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: a1c07ccf-356b-4efc-b734-01497c57910a
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(99968)
+[03:35:28.961 PM] [INFO] iii::function [UNREGISTERED] Function ghola::turn-completed
+[03:35:28.961 PM] [INFO] iii::function [UNREGISTERED] Function ghola::pipeline
+[03:35:28.961 PM] [INFO] iii::function [UNREGISTERED] Function ghola::job
+[03:35:28.961 PM] [INFO] iii::function [UNREGISTERED] Function ghola::jobs
+[03:35:28.961 PM] [INFO] iii::function [UNREGISTERED] Function ghola::step
+[03:35:28.962 PM] [INFO] iii::function [UNREGISTERED] Function ghola::submit
+[03:35:28.962 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 39267bec-a81b-4376-a2b0-6643641b1837
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(99422)
+[03:35:29.902 PM] [INFO] iii::workers::engine_fn New functions detected, firing functions-available trigger
+[03:35:30.146 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 06e694a5-697c-453c-afed-caef81208b21
+    └ ip_address: Some("127.0.0.1")
+[03:35:30.148 PM] [INFO] iii::function [REGISTERED] Function ghola::submit
+[03:35:30.148 PM] [INFO] iii::function [REGISTERED] Function ghola::jobs
+[03:35:30.148 PM] [INFO] iii::function [REGISTERED] Function ghola::job
+[03:35:30.148 PM] [INFO] iii::function [REGISTERED] Function ghola::pipeline
+[03:35:30.148 PM] [INFO] iii::function [REGISTERED] Function ghola::step
+[03:35:30.148 PM] [INFO] iii::function [REGISTERED] Function ghola::turn-completed
+[03:35:34.908 PM] [INFO] iii::workers::engine_fn New functions detected, firing functions-available trigger
+[03:35:52.187 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: a6440470-d75c-49f9-9407-09adcdfec772
+    └ ip_address: Some("127.0.0.1")
+[03:35:52.190 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: a6440470-d75c-49f9-9407-09adcdfec772
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(650)
+[03:35:52.702 PM] [INFO] iii::workers::reload reload: config changed, reloading from config.yaml
+[03:35:52.707 PM] [INFO] iii::workers::reload reload: diff +0 added, -0 removed, ~0 changed (0 revived), =36 unchanged
+[03:35:52.707 PM] [INFO] iii::workers::reload reload: success
+[03:35:52.880 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 2f303f70-1d87-457a-aba9-a5f514594b4d
+    └ dir: read
+[03:35:52.880 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 2f303f70-1d87-457a-aba9-a5f514594b4d
+    └ dir: read
+[03:35:52.880 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 2f303f70-1d87-457a-aba9-a5f514594b4d
+[03:35:52.882 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 5a087cdb-9270-407b-8bea-20267330e675
+    └ dir: read
+[03:35:52.882 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 5a087cdb-9270-407b-8bea-20267330e675
+    └ dir: read
+[03:35:52.882 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 5a087cdb-9270-407b-8bea-20267330e675
+[03:35:53.800 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 5a087cdb-9270-407b-8bea-20267330e675
+    └ dir: write
+[03:35:53.801 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 5a087cdb-9270-407b-8bea-20267330e675
+    └ dir: write
+[03:35:53.801 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 5a087cdb-9270-407b-8bea-20267330e675
+[03:35:53.801 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 2f303f70-1d87-457a-aba9-a5f514594b4d
+    └ dir: write
+[03:35:53.801 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 2f303f70-1d87-457a-aba9-a5f514594b4d
+    └ dir: write
+[03:35:53.801 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 2f303f70-1d87-457a-aba9-a5f514594b4d
+[03:35:56.978 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 2f303f70-1d87-457a-aba9-a5f514594b4d
+[03:35:56.978 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 2f303f70-1d87-457a-aba9-a5f514594b4d
+    ├ total_bytes: 0
+    └ msg_count: 20
+[03:35:56.978 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 2f303f70-1d87-457a-aba9-a5f514594b4d
+    ├ total_bytes: 0
+    └ msg_count: 20
+[03:35:56.978 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 5a087cdb-9270-407b-8bea-20267330e675
+[03:35:56.978 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 5a087cdb-9270-407b-8bea-20267330e675
+    ├ total_bytes: 0
+    └ msg_count: 20
+[03:35:56.978 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 5a087cdb-9270-407b-8bea-20267330e675
+    ├ total_bytes: 0
+    └ msg_count: 20
+[03:35:57.788 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 5261e8f5-838f-4d11-bb3c-66aaab1d167c
+    └ dir: read
+[03:35:57.788 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 5261e8f5-838f-4d11-bb3c-66aaab1d167c
+    └ dir: read
+[03:35:57.788 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 5261e8f5-838f-4d11-bb3c-66aaab1d167c
+[03:35:57.789 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: b3528cb5-ff2e-4be0-9c53-13df9316e6d4
+    └ dir: read
+[03:35:57.790 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: b3528cb5-ff2e-4be0-9c53-13df9316e6d4
+    └ dir: read
+[03:35:57.790 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: b3528cb5-ff2e-4be0-9c53-13df9316e6d4
+[03:35:58.556 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: b3528cb5-ff2e-4be0-9c53-13df9316e6d4
+    └ dir: write
+[03:35:58.557 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: b3528cb5-ff2e-4be0-9c53-13df9316e6d4
+    └ dir: write
+[03:35:58.557 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: b3528cb5-ff2e-4be0-9c53-13df9316e6d4
+[03:35:58.557 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 5261e8f5-838f-4d11-bb3c-66aaab1d167c
+    └ dir: write
+[03:35:58.557 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 5261e8f5-838f-4d11-bb3c-66aaab1d167c
+    └ dir: write
+[03:35:58.557 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 5261e8f5-838f-4d11-bb3c-66aaab1d167c
+[03:36:02.813 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: b3528cb5-ff2e-4be0-9c53-13df9316e6d4
+[03:36:02.814 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: b3528cb5-ff2e-4be0-9c53-13df9316e6d4
+    ├ total_bytes: 0
+    └ msg_count: 26
+[03:36:02.814 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: b3528cb5-ff2e-4be0-9c53-13df9316e6d4
+    ├ total_bytes: 0
+    └ msg_count: 26
+[03:36:02.814 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 5261e8f5-838f-4d11-bb3c-66aaab1d167c
+[03:36:02.814 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 5261e8f5-838f-4d11-bb3c-66aaab1d167c
+    ├ total_bytes: 0
+    └ msg_count: 26
+[03:36:02.814 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 5261e8f5-838f-4d11-bb3c-66aaab1d167c
+    ├ total_bytes: 0
+    └ msg_count: 26
+[03:36:03.258 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: ee74609f-26f9-4592-9ddc-661fc0e1f3cb
+    └ dir: read
+[03:36:03.258 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: ee74609f-26f9-4592-9ddc-661fc0e1f3cb
+    └ dir: read
+[03:36:03.258 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: ee74609f-26f9-4592-9ddc-661fc0e1f3cb
+[03:36:03.260 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 5865b18f-ae83-4af7-b9db-2e8bf393e641
+    └ dir: read
+[03:36:03.260 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 5865b18f-ae83-4af7-b9db-2e8bf393e641
+    └ dir: read
+[03:36:03.260 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 5865b18f-ae83-4af7-b9db-2e8bf393e641
+[03:36:04.225 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 5865b18f-ae83-4af7-b9db-2e8bf393e641
+    └ dir: write
+[03:36:04.225 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 5865b18f-ae83-4af7-b9db-2e8bf393e641
+    └ dir: write
+[03:36:04.225 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 5865b18f-ae83-4af7-b9db-2e8bf393e641
+[03:36:04.226 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: ee74609f-26f9-4592-9ddc-661fc0e1f3cb
+    └ dir: write
+[03:36:04.226 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: ee74609f-26f9-4592-9ddc-661fc0e1f3cb
+    └ dir: write
+[03:36:04.226 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: ee74609f-26f9-4592-9ddc-661fc0e1f3cb
+[03:36:18.047 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 5865b18f-ae83-4af7-b9db-2e8bf393e641
+[03:36:18.047 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 5865b18f-ae83-4af7-b9db-2e8bf393e641
+    ├ total_bytes: 0
+    └ msg_count: 43
+[03:36:18.047 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 5865b18f-ae83-4af7-b9db-2e8bf393e641
+    ├ total_bytes: 0
+    └ msg_count: 43
+[03:36:18.047 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: ee74609f-26f9-4592-9ddc-661fc0e1f3cb
+[03:36:18.047 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: ee74609f-26f9-4592-9ddc-661fc0e1f3cb
+    ├ total_bytes: 0
+    └ msg_count: 43
+[03:36:18.047 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: ee74609f-26f9-4592-9ddc-661fc0e1f3cb
+    ├ total_bytes: 0
+    └ msg_count: 43
+[03:36:18.114 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 8e1732a8-77aa-44f3-a137-3a9e8580022b
+    └ ip_address: Some("127.0.0.1")
+[03:36:18.115 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 8e1732a8-77aa-44f3-a137-3a9e8580022b
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(93287)
+[03:36:18.994 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: e22d3cc2-fc28-48ee-905e-41a98dc43b27
+    └ dir: read
+[03:36:18.994 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: e22d3cc2-fc28-48ee-905e-41a98dc43b27
+    └ dir: read
+[03:36:18.994 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: e22d3cc2-fc28-48ee-905e-41a98dc43b27
+[03:36:18.996 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 66e1e8f3-8714-4651-a723-638ad15d6461
+    └ dir: read
+[03:36:18.996 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 66e1e8f3-8714-4651-a723-638ad15d6461
+    └ dir: read
+[03:36:18.996 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 66e1e8f3-8714-4651-a723-638ad15d6461
+[03:36:19.758 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 52835612-5b26-4944-9049-b33adfdb8fea
+    └ ip_address: Some("127.0.0.1")
+[03:36:19.759 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 52835612-5b26-4944-9049-b33adfdb8fea
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(1879)
+[03:36:19.881 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 66e1e8f3-8714-4651-a723-638ad15d6461
+    └ dir: write
+[03:36:19.881 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 66e1e8f3-8714-4651-a723-638ad15d6461
+    └ dir: write
+[03:36:19.881 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 66e1e8f3-8714-4651-a723-638ad15d6461
+[03:36:19.881 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: e22d3cc2-fc28-48ee-905e-41a98dc43b27
+    └ dir: write
+[03:36:19.881 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: e22d3cc2-fc28-48ee-905e-41a98dc43b27
+    └ dir: write
+[03:36:19.881 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: e22d3cc2-fc28-48ee-905e-41a98dc43b27
+[03:36:26.563 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 66e1e8f3-8714-4651-a723-638ad15d6461
+[03:36:26.564 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 66e1e8f3-8714-4651-a723-638ad15d6461
+    ├ total_bytes: 0
+    └ msg_count: 22
+[03:36:26.564 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 66e1e8f3-8714-4651-a723-638ad15d6461
+    ├ total_bytes: 0
+    └ msg_count: 22
+[03:36:26.565 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: e22d3cc2-fc28-48ee-905e-41a98dc43b27
+[03:36:26.565 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: e22d3cc2-fc28-48ee-905e-41a98dc43b27
+    ├ total_bytes: 0
+    └ msg_count: 22
+[03:36:26.565 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: e22d3cc2-fc28-48ee-905e-41a98dc43b27
+    ├ total_bytes: 0
+    └ msg_count: 22
+[03:36:27.055 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: ccb2419e-41ce-4044-be0f-606916875fe0
+    └ dir: read
+[03:36:27.055 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: ccb2419e-41ce-4044-be0f-606916875fe0
+    └ dir: read
+[03:36:27.055 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: ccb2419e-41ce-4044-be0f-606916875fe0
+[03:36:27.057 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: abaa3d24-c2e7-4459-836f-4970ed15c3f7
+    └ dir: read
+[03:36:27.057 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: abaa3d24-c2e7-4459-836f-4970ed15c3f7
+    └ dir: read
+[03:36:27.057 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: abaa3d24-c2e7-4459-836f-4970ed15c3f7
+[03:36:27.928 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: abaa3d24-c2e7-4459-836f-4970ed15c3f7
+    └ dir: write
+[03:36:27.928 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: abaa3d24-c2e7-4459-836f-4970ed15c3f7
+    └ dir: write
+[03:36:27.928 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: abaa3d24-c2e7-4459-836f-4970ed15c3f7
+[03:36:27.928 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: ccb2419e-41ce-4044-be0f-606916875fe0
+    └ dir: write
+[03:36:27.928 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: ccb2419e-41ce-4044-be0f-606916875fe0
+    └ dir: write
+[03:36:27.929 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: ccb2419e-41ce-4044-be0f-606916875fe0
+[03:36:34.835 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 0d0e1a9e-ab7a-4b98-a329-a526f52851bf
+    └ ip_address: Some("127.0.0.1")
+[03:36:34.836 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 0d0e1a9e-ab7a-4b98-a329-a526f52851bf
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(2042)
+[03:37:00.303 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: ccb2419e-41ce-4044-be0f-606916875fe0
+[03:37:00.303 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: ccb2419e-41ce-4044-be0f-606916875fe0
+    ├ total_bytes: 0
+    └ msg_count: 54
+[03:37:00.303 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: ccb2419e-41ce-4044-be0f-606916875fe0
+    ├ total_bytes: 0
+    └ msg_count: 54
+[03:37:00.304 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: abaa3d24-c2e7-4459-836f-4970ed15c3f7
+[03:37:00.304 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: abaa3d24-c2e7-4459-836f-4970ed15c3f7
+    ├ total_bytes: 0
+    └ msg_count: 54
+[03:37:00.304 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: abaa3d24-c2e7-4459-836f-4970ed15c3f7
+    ├ total_bytes: 0
+    └ msg_count: 54
+[03:37:00.349 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: d5116c40-2efa-426d-905e-4d33db62ddd2
+    └ dir: read
+[03:37:00.349 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: d5116c40-2efa-426d-905e-4d33db62ddd2
+    └ dir: read
+[03:37:00.349 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: d5116c40-2efa-426d-905e-4d33db62ddd2
+[03:37:00.349 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 4fc07343-d162-4afb-bd34-09247d55aa97
+    └ dir: read
+[03:37:00.349 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 4fc07343-d162-4afb-bd34-09247d55aa97
+    └ dir: read
+[03:37:00.350 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 4fc07343-d162-4afb-bd34-09247d55aa97
+[03:37:01.310 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 4fc07343-d162-4afb-bd34-09247d55aa97
+    └ dir: write
+[03:37:01.311 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 4fc07343-d162-4afb-bd34-09247d55aa97
+    └ dir: write
+[03:37:01.311 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 4fc07343-d162-4afb-bd34-09247d55aa97
+[03:37:01.312 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: d5116c40-2efa-426d-905e-4d33db62ddd2
+    └ dir: write
+[03:37:01.312 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: d5116c40-2efa-426d-905e-4d33db62ddd2
+    └ dir: write
+[03:37:01.312 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: d5116c40-2efa-426d-905e-4d33db62ddd2
+[03:37:01.323 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 4fc07343-d162-4afb-bd34-09247d55aa97
+[03:37:01.323 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 4fc07343-d162-4afb-bd34-09247d55aa97
+    ├ total_bytes: 0
+    └ msg_count: 1
+[03:37:01.323 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 4fc07343-d162-4afb-bd34-09247d55aa97
+    ├ total_bytes: 0
+    └ msg_count: 1
+[03:37:01.324 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: d5116c40-2efa-426d-905e-4d33db62ddd2
+[03:37:01.324 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: d5116c40-2efa-426d-905e-4d33db62ddd2
+    ├ total_bytes: 0
+    └ msg_count: 1
+[03:37:01.324 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: d5116c40-2efa-426d-905e-4d33db62ddd2
+    ├ total_bytes: 0
+    └ msg_count: 1
+[03:38:15.794 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 07f617c7-8f5c-4447-84b9-2a2d8f6a7737
+    └ ip_address: Some("127.0.0.1")
+[03:38:15.798 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 07f617c7-8f5c-4447-84b9-2a2d8f6a7737
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(2423)
+[03:39:14.636 PM] [INFO] iii::function [UNREGISTERED] Function ghola::job
+[03:39:14.636 PM] [INFO] iii::function [UNREGISTERED] Function ghola::submit
+[03:39:14.636 PM] [INFO] iii::function [UNREGISTERED] Function ghola::jobs
+[03:39:14.636 PM] [INFO] iii::function [UNREGISTERED] Function ghola::pipeline
+[03:39:14.636 PM] [INFO] iii::function [UNREGISTERED] Function ghola::step
+[03:39:14.636 PM] [INFO] iii::function [UNREGISTERED] Function ghola::turn-completed
+[03:39:14.636 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 06e694a5-697c-453c-afed-caef81208b21
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(411)
+[03:39:14.980 PM] [INFO] iii::workers::engine_fn New functions detected, firing functions-available trigger
+[03:39:15.829 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: cbffc771-b2ab-44c8-ad32-0a0f00d1d71a
+    └ ip_address: Some("127.0.0.1")
+[03:39:15.832 PM] [INFO] iii::function [REGISTERED] Function ghola::submit
+[03:39:15.832 PM] [INFO] iii::function [REGISTERED] Function ghola::jobs
+[03:39:15.832 PM] [INFO] iii::function [REGISTERED] Function ghola::job
+[03:39:15.832 PM] [INFO] iii::function [REGISTERED] Function ghola::pipeline
+[03:39:15.832 PM] [INFO] iii::function [REGISTERED] Function ghola::step
+[03:39:15.832 PM] [INFO] iii::function [REGISTERED] Function ghola::turn-completed
+[03:39:19.982 PM] [INFO] iii::workers::engine_fn New functions detected, firing functions-available trigger
+[03:39:22.667 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: ca0287ab-a8ad-48eb-8755-3cffcf72fa0d
+    └ ip_address: Some("127.0.0.1")
+[03:39:22.669 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: ca0287ab-a8ad-48eb-8755-3cffcf72fa0d
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(2745)
+[03:39:34.386 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 500cd3eb-4f2b-4ba0-921f-1742ebb23a46
+    └ ip_address: Some("127.0.0.1")
+[03:39:34.386 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 500cd3eb-4f2b-4ba0-921f-1742ebb23a46
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(2847)
+[03:39:34.431 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: fed9d9ba-d734-480e-889c-3450c23e47a6
+    └ ip_address: Some("127.0.0.1")
+[03:39:34.442 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: fed9d9ba-d734-480e-889c-3450c23e47a6
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(2992)
+[03:40:08.611 PM] [INFO] iii::function [UNREGISTERED] Function ghola::step
+[03:40:08.611 PM] [INFO] iii::function [UNREGISTERED] Function ghola::submit
+[03:40:08.611 PM] [INFO] iii::function [UNREGISTERED] Function ghola::turn-completed
+[03:40:08.611 PM] [INFO] iii::function [UNREGISTERED] Function ghola::jobs
+[03:40:08.611 PM] [INFO] iii::function [UNREGISTERED] Function ghola::job
+[03:40:08.611 PM] [INFO] iii::function [UNREGISTERED] Function ghola::pipeline
+[03:40:08.611 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: cbffc771-b2ab-44c8-ad32-0a0f00d1d71a
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(2730)
+[03:40:09.822 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: ba526b43-70d2-4aaf-a760-18e9555c03c6
+    └ ip_address: Some("127.0.0.1")
+[03:40:09.825 PM] [INFO] iii::function [REGISTERED] Function ghola::submit
+[03:40:09.825 PM] [INFO] iii::function [REGISTERED] Function ghola::jobs
+[03:40:09.825 PM] [INFO] iii::function [REGISTERED] Function ghola::job
+[03:40:09.825 PM] [INFO] iii::function [REGISTERED] Function ghola::pipeline
+[03:40:09.825 PM] [INFO] iii::function [REGISTERED] Function ghola::step
+[03:40:09.825 PM] [INFO] iii::function [REGISTERED] Function ghola::turn-completed
+[03:40:16.668 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: c2bc44f4-bc87-4884-95ff-f575b0edd3b7
+    └ ip_address: Some("127.0.0.1")
+[03:40:16.671 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: c2bc44f4-bc87-4884-95ff-f575b0edd3b7
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(3281)
+[03:40:17.183 PM] [INFO] iii::workers::reload reload: config changed, reloading from config.yaml
+[03:40:17.191 PM] [INFO] iii::workers::reload reload: diff +0 added, -0 removed, ~0 changed (0 revived), =36 unchanged
+[03:40:17.191 PM] [INFO] iii::workers::reload reload: success
+[03:40:17.547 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: f4b24d06-ff3f-45a0-a165-360c13ee0ebb
+    └ dir: read
+[03:40:17.547 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: f4b24d06-ff3f-45a0-a165-360c13ee0ebb
+    └ dir: read
+[03:40:17.547 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: f4b24d06-ff3f-45a0-a165-360c13ee0ebb
+[03:40:17.547 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 57440002-1e12-4522-b2b3-9a1ab9701368
+    └ dir: read
+[03:40:17.547 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 57440002-1e12-4522-b2b3-9a1ab9701368
+    └ dir: read
+[03:40:17.547 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 57440002-1e12-4522-b2b3-9a1ab9701368
+[03:40:18.348 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 57440002-1e12-4522-b2b3-9a1ab9701368
+    └ dir: write
+[03:40:18.348 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 57440002-1e12-4522-b2b3-9a1ab9701368
+    └ dir: write
+[03:40:18.348 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 57440002-1e12-4522-b2b3-9a1ab9701368
+[03:40:18.349 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: f4b24d06-ff3f-45a0-a165-360c13ee0ebb
+    └ dir: write
+[03:40:18.349 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: f4b24d06-ff3f-45a0-a165-360c13ee0ebb
+    └ dir: write
+[03:40:18.349 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: f4b24d06-ff3f-45a0-a165-360c13ee0ebb
+[03:40:20.935 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 57440002-1e12-4522-b2b3-9a1ab9701368
+[03:40:20.935 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 57440002-1e12-4522-b2b3-9a1ab9701368
+    ├ total_bytes: 0
+    └ msg_count: 22
+[03:40:20.935 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 57440002-1e12-4522-b2b3-9a1ab9701368
+    ├ total_bytes: 0
+    └ msg_count: 22
+[03:40:20.935 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: f4b24d06-ff3f-45a0-a165-360c13ee0ebb
+[03:40:20.936 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: f4b24d06-ff3f-45a0-a165-360c13ee0ebb
+    ├ total_bytes: 0
+    └ msg_count: 22
+[03:40:20.936 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: f4b24d06-ff3f-45a0-a165-360c13ee0ebb
+    ├ total_bytes: 0
+    └ msg_count: 22
+[03:40:21.317 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 315c01e0-4ea5-4373-993b-9cb9c37b2773
+    └ dir: read
+[03:40:21.317 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 315c01e0-4ea5-4373-993b-9cb9c37b2773
+    └ dir: read
+[03:40:21.317 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 315c01e0-4ea5-4373-993b-9cb9c37b2773
+[03:40:21.318 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: d29cbf1e-c218-49e9-88ec-5df2017e5504
+    └ dir: read
+[03:40:21.318 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: d29cbf1e-c218-49e9-88ec-5df2017e5504
+    └ dir: read
+[03:40:21.318 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: d29cbf1e-c218-49e9-88ec-5df2017e5504
+[03:40:22.080 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: d29cbf1e-c218-49e9-88ec-5df2017e5504
+    └ dir: write
+[03:40:22.080 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: d29cbf1e-c218-49e9-88ec-5df2017e5504
+    └ dir: write
+[03:40:22.080 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: d29cbf1e-c218-49e9-88ec-5df2017e5504
+[03:40:22.081 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 315c01e0-4ea5-4373-993b-9cb9c37b2773
+    └ dir: write
+[03:40:22.081 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 315c01e0-4ea5-4373-993b-9cb9c37b2773
+    └ dir: write
+[03:40:22.081 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 315c01e0-4ea5-4373-993b-9cb9c37b2773
+[03:40:25.291 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: c690229c-e796-41c0-b28f-2c15f44dab5a
+    └ ip_address: Some("127.0.0.1")
+[03:40:25.293 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: c690229c-e796-41c0-b28f-2c15f44dab5a
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(3437)
+[03:40:27.721 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 315c01e0-4ea5-4373-993b-9cb9c37b2773
+[03:40:27.721 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 315c01e0-4ea5-4373-993b-9cb9c37b2773
+    ├ total_bytes: 0
+    └ msg_count: 26
+[03:40:27.721 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 315c01e0-4ea5-4373-993b-9cb9c37b2773
+    ├ total_bytes: 0
+    └ msg_count: 26
+[03:40:27.721 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: d29cbf1e-c218-49e9-88ec-5df2017e5504
+[03:40:27.721 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: d29cbf1e-c218-49e9-88ec-5df2017e5504
+    ├ total_bytes: 0
+    └ msg_count: 26
+[03:40:27.721 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: d29cbf1e-c218-49e9-88ec-5df2017e5504
+    ├ total_bytes: 0
+    └ msg_count: 26
+[03:40:27.783 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 80119365-68e7-4f39-8d3a-ffb16661f9e0
+    └ ip_address: Some("127.0.0.1")
+[03:40:27.783 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 80119365-68e7-4f39-8d3a-ffb16661f9e0
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(93287)
+[03:40:28.757 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: bc52560e-7adf-4e8e-9d18-7a1d3a784540
+    └ dir: read
+[03:40:28.757 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: bc52560e-7adf-4e8e-9d18-7a1d3a784540
+    └ dir: read
+[03:40:28.757 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: bc52560e-7adf-4e8e-9d18-7a1d3a784540
+[03:40:28.759 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 4a376b67-cbba-4cf9-91d9-b9e2523d095d
+    └ dir: read
+[03:40:28.759 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 4a376b67-cbba-4cf9-91d9-b9e2523d095d
+    └ dir: read
+[03:40:28.760 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 4a376b67-cbba-4cf9-91d9-b9e2523d095d
+[03:40:29.610 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 4a376b67-cbba-4cf9-91d9-b9e2523d095d
+    └ dir: write
+[03:40:29.610 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 4a376b67-cbba-4cf9-91d9-b9e2523d095d
+    └ dir: write
+[03:40:29.611 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 4a376b67-cbba-4cf9-91d9-b9e2523d095d
+[03:40:29.611 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: bc52560e-7adf-4e8e-9d18-7a1d3a784540
+    └ dir: write
+[03:40:29.611 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: bc52560e-7adf-4e8e-9d18-7a1d3a784540
+    └ dir: write
+[03:40:29.611 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: bc52560e-7adf-4e8e-9d18-7a1d3a784540
+[03:40:35.359 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 39b07db1-d462-4c22-9fa5-f171928afccd
+    └ ip_address: Some("127.0.0.1")
+[03:40:35.360 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 39b07db1-d462-4c22-9fa5-f171928afccd
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(4439)
+[03:40:36.028 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 4a376b67-cbba-4cf9-91d9-b9e2523d095d
+[03:40:36.029 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 4a376b67-cbba-4cf9-91d9-b9e2523d095d
+    ├ total_bytes: 0
+    └ msg_count: 23
+[03:40:36.029 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 4a376b67-cbba-4cf9-91d9-b9e2523d095d
+    ├ total_bytes: 0
+    └ msg_count: 23
+[03:40:36.030 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: bc52560e-7adf-4e8e-9d18-7a1d3a784540
+[03:40:36.030 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: bc52560e-7adf-4e8e-9d18-7a1d3a784540
+    ├ total_bytes: 0
+    └ msg_count: 23
+[03:40:36.030 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: bc52560e-7adf-4e8e-9d18-7a1d3a784540
+    ├ total_bytes: 0
+    └ msg_count: 23
+[03:40:36.424 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 486eb182-4cb3-4e90-a36e-8bf5908936e8
+    └ dir: read
+[03:40:36.424 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 486eb182-4cb3-4e90-a36e-8bf5908936e8
+    └ dir: read
+[03:40:36.424 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 486eb182-4cb3-4e90-a36e-8bf5908936e8
+[03:40:36.427 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 803f815e-5fc9-4b67-ad3f-8b8292c4fe03
+    └ dir: read
+[03:40:36.427 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 803f815e-5fc9-4b67-ad3f-8b8292c4fe03
+    └ dir: read
+[03:40:36.427 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 803f815e-5fc9-4b67-ad3f-8b8292c4fe03
+[03:40:37.318 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 803f815e-5fc9-4b67-ad3f-8b8292c4fe03
+    └ dir: write
+[03:40:37.318 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 803f815e-5fc9-4b67-ad3f-8b8292c4fe03
+    └ dir: write
+[03:40:37.318 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 803f815e-5fc9-4b67-ad3f-8b8292c4fe03
+[03:40:37.319 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 486eb182-4cb3-4e90-a36e-8bf5908936e8
+    └ dir: write
+[03:40:37.319 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 486eb182-4cb3-4e90-a36e-8bf5908936e8
+    └ dir: write
+[03:40:37.319 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 486eb182-4cb3-4e90-a36e-8bf5908936e8
+[03:40:44.092 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 803f815e-5fc9-4b67-ad3f-8b8292c4fe03
+[03:40:44.092 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 803f815e-5fc9-4b67-ad3f-8b8292c4fe03
+    ├ total_bytes: 0
+    └ msg_count: 30
+[03:40:44.093 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 803f815e-5fc9-4b67-ad3f-8b8292c4fe03
+    ├ total_bytes: 0
+    └ msg_count: 30
+[03:40:44.093 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 486eb182-4cb3-4e90-a36e-8bf5908936e8
+[03:40:44.093 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 486eb182-4cb3-4e90-a36e-8bf5908936e8
+    ├ total_bytes: 0
+    └ msg_count: 30
+[03:40:44.093 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 486eb182-4cb3-4e90-a36e-8bf5908936e8
+    ├ total_bytes: 0
+    └ msg_count: 30
+[03:40:44.625 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 035ef87f-f42b-4b63-8da1-f1702a8ce1bf
+    └ dir: read
+[03:40:44.625 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 035ef87f-f42b-4b63-8da1-f1702a8ce1bf
+    └ dir: read
+[03:40:44.625 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 035ef87f-f42b-4b63-8da1-f1702a8ce1bf
+[03:40:44.627 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 6f4185d3-d1c3-45a9-a1ec-ebb60f806568
+    └ dir: read
+[03:40:44.627 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 6f4185d3-d1c3-45a9-a1ec-ebb60f806568
+    └ dir: read
+[03:40:44.628 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 6f4185d3-d1c3-45a9-a1ec-ebb60f806568
+[03:40:45.397 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: e5da6254-663c-421c-9bd1-b2d22b4568ac
+    └ ip_address: Some("127.0.0.1")
+[03:40:45.398 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: e5da6254-663c-421c-9bd1-b2d22b4568ac
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(4539)
+[03:40:45.434 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 6f4185d3-d1c3-45a9-a1ec-ebb60f806568
+    └ dir: write
+[03:40:45.434 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 6f4185d3-d1c3-45a9-a1ec-ebb60f806568
+    └ dir: write
+[03:40:45.434 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 6f4185d3-d1c3-45a9-a1ec-ebb60f806568
+[03:40:45.434 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 035ef87f-f42b-4b63-8da1-f1702a8ce1bf
+    └ dir: write
+[03:40:45.434 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 035ef87f-f42b-4b63-8da1-f1702a8ce1bf
+    └ dir: write
+[03:40:45.434 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 035ef87f-f42b-4b63-8da1-f1702a8ce1bf
+[03:40:50.528 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 6f4185d3-d1c3-45a9-a1ec-ebb60f806568
+[03:40:50.528 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 6f4185d3-d1c3-45a9-a1ec-ebb60f806568
+    ├ total_bytes: 0
+    └ msg_count: 19
+[03:40:50.528 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 6f4185d3-d1c3-45a9-a1ec-ebb60f806568
+    ├ total_bytes: 0
+    └ msg_count: 19
+[03:40:50.529 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 035ef87f-f42b-4b63-8da1-f1702a8ce1bf
+[03:40:50.529 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 035ef87f-f42b-4b63-8da1-f1702a8ce1bf
+    ├ total_bytes: 0
+    └ msg_count: 19
+[03:40:50.529 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 035ef87f-f42b-4b63-8da1-f1702a8ce1bf
+    ├ total_bytes: 0
+    └ msg_count: 19
+[03:40:50.848 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: e22c87e2-4187-400d-8914-e40fbe4ac628
+    └ dir: read
+[03:40:50.848 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: e22c87e2-4187-400d-8914-e40fbe4ac628
+    └ dir: read
+[03:40:50.849 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: e22c87e2-4187-400d-8914-e40fbe4ac628
+[03:40:50.851 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: cfb5aaf8-4928-42b1-a879-d51f23c252bc
+    └ dir: read
+[03:40:50.851 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: cfb5aaf8-4928-42b1-a879-d51f23c252bc
+    └ dir: read
+[03:40:50.851 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: cfb5aaf8-4928-42b1-a879-d51f23c252bc
+[03:40:51.623 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: cfb5aaf8-4928-42b1-a879-d51f23c252bc
+    └ dir: write
+[03:40:51.623 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: cfb5aaf8-4928-42b1-a879-d51f23c252bc
+    └ dir: write
+[03:40:51.623 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: cfb5aaf8-4928-42b1-a879-d51f23c252bc
+[03:40:51.623 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: e22c87e2-4187-400d-8914-e40fbe4ac628
+    └ dir: write
+[03:40:51.623 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: e22c87e2-4187-400d-8914-e40fbe4ac628
+    └ dir: write
+[03:40:51.624 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: e22c87e2-4187-400d-8914-e40fbe4ac628
+[03:40:55.430 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 2273fa8b-ca5b-487f-8fed-171d152bf7ac
+    └ ip_address: Some("127.0.0.1")
+[03:40:55.431 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 2273fa8b-ca5b-487f-8fed-171d152bf7ac
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(4593)
+[03:41:05.499 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 0d0a4376-f8b2-42a4-94c1-43d6022a1bea
+    └ ip_address: Some("127.0.0.1")
+[03:41:05.501 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 0d0a4376-f8b2-42a4-94c1-43d6022a1bea
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(4649)
+[03:41:15.569 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 946bab21-bacb-42b5-b90e-2699c3866002
+    └ ip_address: Some("127.0.0.1")
+[03:41:15.570 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 946bab21-bacb-42b5-b90e-2699c3866002
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(4715)
+[03:41:25.621 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 1c431421-5bbf-43b4-a9b6-d954192df75d
+    └ ip_address: Some("127.0.0.1")
+[03:41:25.623 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 1c431421-5bbf-43b4-a9b6-d954192df75d
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(4767)
+[03:41:26.751 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 71d6f56b-88b2-4968-adda-0ab871f09b96
+    └ ip_address: Some("127.0.0.1")
+[03:41:26.753 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 71d6f56b-88b2-4968-adda-0ab871f09b96
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(4797)
+[03:41:26.766 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 09e9cebe-4cd3-468d-bb21-8913bcfb2c55
+    └ ip_address: Some("127.0.0.1")
+[03:41:26.767 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 09e9cebe-4cd3-468d-bb21-8913bcfb2c55
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(4798)
+[03:41:27.205 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: e22c87e2-4187-400d-8914-e40fbe4ac628
+[03:41:27.205 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: e22c87e2-4187-400d-8914-e40fbe4ac628
+    ├ total_bytes: 0
+    └ msg_count: 56
+[03:41:27.205 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: e22c87e2-4187-400d-8914-e40fbe4ac628
+    ├ total_bytes: 0
+    └ msg_count: 56
+[03:41:27.205 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: cfb5aaf8-4928-42b1-a879-d51f23c252bc
+[03:41:27.205 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: cfb5aaf8-4928-42b1-a879-d51f23c252bc
+    ├ total_bytes: 0
+    └ msg_count: 56
+[03:41:27.205 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: cfb5aaf8-4928-42b1-a879-d51f23c252bc
+    ├ total_bytes: 0
+    └ msg_count: 56
+[03:41:27.314 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 4ec72787-48a6-4714-be1a-a188713ef72b
+    └ dir: read
+[03:41:27.314 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 4ec72787-48a6-4714-be1a-a188713ef72b
+    └ dir: read
+[03:41:27.314 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 4ec72787-48a6-4714-be1a-a188713ef72b
+[03:41:27.314 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 6c9c863e-c534-4cfe-8408-8c025a109f59
+    └ dir: read
+[03:41:27.314 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 6c9c863e-c534-4cfe-8408-8c025a109f59
+    └ dir: read
+[03:41:27.314 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 6c9c863e-c534-4cfe-8408-8c025a109f59
+[03:41:27.714 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 6c9c863e-c534-4cfe-8408-8c025a109f59
+    └ dir: write
+[03:41:27.714 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 6c9c863e-c534-4cfe-8408-8c025a109f59
+    └ dir: write
+[03:41:27.714 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 6c9c863e-c534-4cfe-8408-8c025a109f59
+[03:41:27.715 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 4ec72787-48a6-4714-be1a-a188713ef72b
+    └ dir: write
+[03:41:27.715 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 4ec72787-48a6-4714-be1a-a188713ef72b
+    └ dir: write
+[03:41:27.715 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 4ec72787-48a6-4714-be1a-a188713ef72b
+[03:41:27.726 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 6c9c863e-c534-4cfe-8408-8c025a109f59
+[03:41:27.726 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 6c9c863e-c534-4cfe-8408-8c025a109f59
+    ├ total_bytes: 0
+    └ msg_count: 1
+[03:41:27.726 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 6c9c863e-c534-4cfe-8408-8c025a109f59
+    ├ total_bytes: 0
+    └ msg_count: 1
+[03:41:27.727 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 4ec72787-48a6-4714-be1a-a188713ef72b
+[03:41:27.727 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 4ec72787-48a6-4714-be1a-a188713ef72b
+    ├ total_bytes: 0
+    └ msg_count: 1
+[03:41:27.727 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 4ec72787-48a6-4714-be1a-a188713ef72b
+    ├ total_bytes: 0
+    └ msg_count: 1
+[03:41:35.702 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 30df6bcb-0b07-4ca7-bac6-9fab89e54f26
+    └ ip_address: Some("127.0.0.1")
+[03:41:35.703 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 30df6bcb-0b07-4ca7-bac6-9fab89e54f26
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(4887)
+[03:41:45.741 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: d0cdd678-e243-4bc8-b3f1-5ecce0249b27
+    └ ip_address: Some("127.0.0.1")
+[03:41:45.742 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: d0cdd678-e243-4bc8-b3f1-5ecce0249b27
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(4973)
+[03:41:48.496 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 52502957-b57c-4386-8c5d-b91105503056
+    └ ip_address: Some("127.0.0.1")
+[03:41:48.497 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 52502957-b57c-4386-8c5d-b91105503056
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(4991)
+[03:41:55.795 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: dffda36e-e3d8-4814-9a51-217f483e88a5
+    └ ip_address: Some("127.0.0.1")
+[03:41:55.796 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: dffda36e-e3d8-4814-9a51-217f483e88a5
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(5074)
+[03:41:57.453 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: e66f62b8-7a0e-4a62-8139-99b39d9bc883
+    └ ip_address: Some("127.0.0.1")
+[03:41:57.455 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: e66f62b8-7a0e-4a62-8139-99b39d9bc883
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(5093)
+[03:42:05.852 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 6fa8a009-efee-4505-9421-0285121e5832
+    └ ip_address: Some("127.0.0.1")
+[03:42:05.853 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 6fa8a009-efee-4505-9421-0285121e5832
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(5161)
+[03:42:15.943 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 1493b497-3bbb-4791-be96-dbbf6d94fb41
+    └ ip_address: Some("127.0.0.1")
+[03:42:15.944 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 1493b497-3bbb-4791-be96-dbbf6d94fb41
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(5269)
+[03:42:26.025 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: db58f343-d4ef-43cb-be6c-948c5b87d79d
+    └ ip_address: Some("127.0.0.1")
+[03:42:26.026 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: db58f343-d4ef-43cb-be6c-948c5b87d79d
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(5360)
+[03:42:36.065 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 856687c1-0e68-4030-bce3-2469415acc40
+    └ ip_address: Some("127.0.0.1")
+[03:42:36.066 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 856687c1-0e68-4030-bce3-2469415acc40
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(5412)
+[03:42:46.108 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: c711fc70-643b-4c8c-a4e4-1b05b9586aad
+    └ ip_address: Some("127.0.0.1")
+[03:42:46.109 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: c711fc70-643b-4c8c-a4e4-1b05b9586aad
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(5494)
+[03:42:56.181 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: fe99f5fa-9d14-4fdd-8458-4c574ed4393c
+    └ ip_address: Some("127.0.0.1")
+[03:42:56.182 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: fe99f5fa-9d14-4fdd-8458-4c574ed4393c
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(5569)
+[03:43:06.246 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 78744118-cc66-49d9-85cf-2e0672c18d7b
+    └ ip_address: Some("127.0.0.1")
+[03:43:06.247 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 78744118-cc66-49d9-85cf-2e0672c18d7b
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(5679)
+[03:43:16.335 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 9719642f-af9e-40f1-a020-9970f8596105
+    └ ip_address: Some("127.0.0.1")
+[03:43:16.336 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 9719642f-af9e-40f1-a020-9970f8596105
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(5784)
+[03:43:26.404 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 04bf0e64-747f-406e-9ea1-ed5f98eb8ad9
+    └ ip_address: Some("127.0.0.1")
+[03:43:26.405 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 04bf0e64-747f-406e-9ea1-ed5f98eb8ad9
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(5878)
+[03:43:36.504 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 23465950-c081-4f47-869e-fd5a51bf6c90
+    └ ip_address: Some("127.0.0.1")
+[03:43:36.505 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 23465950-c081-4f47-869e-fd5a51bf6c90
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(5930)
+[03:43:40.252 PM] [INFO] iii::workers::reload reload: config changed, reloading from config.yaml
+[03:43:40.258 PM] [INFO] iii::workers::reload reload: diff +0 added, -0 removed, ~0 changed (0 revived), =36 unchanged
+[03:43:40.258 PM] [INFO] iii::workers::reload reload: success
+[03:43:46.596 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 22e6dd59-c365-48a9-836f-3c67b0db5ad4
+    └ ip_address: Some("127.0.0.1")
+[03:43:46.597 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 22e6dd59-c365-48a9-836f-3c67b0db5ad4
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(6039)
+[03:43:56.649 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 51a0f6aa-8db5-4cd9-8340-af4647f4d90c
+    └ ip_address: Some("127.0.0.1")
+[03:43:56.651 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 51a0f6aa-8db5-4cd9-8340-af4647f4d90c
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(6091)
+[03:44:06.733 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 22893ecb-9edb-4fe6-b459-5ff7dfcb1961
+    └ ip_address: Some("127.0.0.1")
+[03:44:06.735 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 22893ecb-9edb-4fe6-b459-5ff7dfcb1961
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(6167)
+[03:44:16.816 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 810821cf-bb4b-4fee-88fd-0ed344584d36
+    └ ip_address: Some("127.0.0.1")
+[03:44:16.817 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 810821cf-bb4b-4fee-88fd-0ed344584d36
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(6246)
+[03:44:26.904 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: e6964dfa-af02-495e-bffe-0463373d2cb9
+    └ ip_address: Some("127.0.0.1")
+[03:44:26.906 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: e6964dfa-af02-495e-bffe-0463373d2cb9
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(6298)
+[03:44:37.021 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 762beb0b-adfb-4003-8406-00425f7e208e
+    └ ip_address: Some("127.0.0.1")
+[03:44:37.022 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 762beb0b-adfb-4003-8406-00425f7e208e
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(6355)
+[03:44:47.077 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 91d8c098-bfea-4d6c-83a3-849fcc9f95ea
+    └ ip_address: Some("127.0.0.1")
+[03:44:47.078 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 91d8c098-bfea-4d6c-83a3-849fcc9f95ea
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(6421)
+[03:44:57.182 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: afcfc272-b7a8-4b85-8634-774597c958d0
+    └ ip_address: Some("127.0.0.1")
+[03:44:57.183 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: afcfc272-b7a8-4b85-8634-774597c958d0
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(6473)
+[03:45:07.294 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 7b9a6a16-8a7f-48e1-8c9e-8c8098317f64
+    └ ip_address: Some("127.0.0.1")
+[03:45:07.296 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 7b9a6a16-8a7f-48e1-8c9e-8c8098317f64
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(6526)
+[03:45:17.351 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: e166e5d4-d97f-469f-a8be-cb8aeb3cd819
+    └ ip_address: Some("127.0.0.1")
+[03:45:17.352 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: e166e5d4-d97f-469f-a8be-cb8aeb3cd819
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(6593)
+[03:45:27.395 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: eeb03065-f110-4fe9-b8ed-a16f0e762f65
+    └ ip_address: Some("127.0.0.1")
+[03:45:27.397 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: eeb03065-f110-4fe9-b8ed-a16f0e762f65
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(6690)
+[03:45:37.469 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: e8ecccf0-eb07-4f56-be2a-fbc55f50ef43
+    └ ip_address: Some("127.0.0.1")
+[03:45:37.470 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: e8ecccf0-eb07-4f56-be2a-fbc55f50ef43
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(6774)
+[03:45:47.508 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 368bab0f-26f3-4d65-b9a9-79afb93595ca
+    └ ip_address: Some("127.0.0.1")
+[03:45:47.509 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 368bab0f-26f3-4d65-b9a9-79afb93595ca
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(6851)
+[03:45:57.617 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 7b6c9713-2eae-489f-88ef-87bf6bd96f30
+    └ ip_address: Some("127.0.0.1")
+[03:45:57.618 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 7b6c9713-2eae-489f-88ef-87bf6bd96f30
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(6903)
+[03:46:07.673 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: b5b54e53-08ef-45f0-ab09-8cc06b755c6b
+    └ ip_address: Some("127.0.0.1")
+[03:46:07.674 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: b5b54e53-08ef-45f0-ab09-8cc06b755c6b
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(6960)
+[03:46:12.290 PM] [INFO] iii::function [UNREGISTERED] Function ghola::jobs
+[03:46:12.291 PM] [INFO] iii::function [UNREGISTERED] Function ghola::submit
+[03:46:12.291 PM] [INFO] iii::function [UNREGISTERED] Function ghola::job
+[03:46:12.291 PM] [INFO] iii::function [UNREGISTERED] Function ghola::step
+[03:46:12.291 PM] [INFO] iii::function [UNREGISTERED] Function ghola::turn-completed
+[03:46:12.291 PM] [INFO] iii::function [UNREGISTERED] Function ghola::pipeline
+[03:46:12.291 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: ba526b43-70d2-4aaf-a760-18e9555c03c6
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(3213)
+[03:46:13.518 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 57d9d8ce-c483-4610-9991-a36e1b9c19a5
+    └ ip_address: Some("127.0.0.1")
+[03:46:13.520 PM] [INFO] iii::function [REGISTERED] Function ghola::submit
+[03:46:13.520 PM] [INFO] iii::function [REGISTERED] Function ghola::jobs
+[03:46:13.520 PM] [INFO] iii::function [REGISTERED] Function ghola::job
+[03:46:13.520 PM] [INFO] iii::function [REGISTERED] Function ghola::pipeline
+[03:46:13.520 PM] [INFO] iii::function [REGISTERED] Function ghola::step
+[03:46:13.520 PM] [INFO] iii::function [REGISTERED] Function ghola::turn-completed
+[03:46:13.821 PM] [INFO] iii::workers::reload reload: config changed, reloading from config.yaml
+[03:46:13.829 PM] [INFO] iii::workers::reload reload: diff +0 added, -0 removed, ~0 changed (0 revived), =36 unchanged
+[03:46:13.829 PM] [INFO] iii::workers::reload reload: success
+[03:46:17.768 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 81ba7c4c-b4b9-42db-bfa4-1a6164e94327
+    └ ip_address: Some("127.0.0.1")
+[03:46:17.769 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 81ba7c4c-b4b9-42db-bfa4-1a6164e94327
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(7055)
+[03:46:20.344 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 96ddbcaa-c247-4ad9-ac78-8e8e2b658be0
+    └ ip_address: Some("127.0.0.1")
+[03:46:20.346 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 96ddbcaa-c247-4ad9-ac78-8e8e2b658be0
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(7090)
+[03:46:20.851 PM] [INFO] iii::workers::reload reload: config changed, reloading from config.yaml
+[03:46:20.854 PM] [INFO] iii::workers::reload reload: diff +0 added, -0 removed, ~0 changed (0 revived), =36 unchanged
+[03:46:20.854 PM] [INFO] iii::workers::reload reload: success
+[03:46:44.674 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: bba60cc0-a6ec-455e-a5a8-40ac50e2f482
+    └ ip_address: Some("127.0.0.1")
+[03:46:44.676 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: bba60cc0-a6ec-455e-a5a8-40ac50e2f482
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(7282)
+[03:47:30.942 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: ddf615a3-810e-4615-b37b-b6b9d594abf3
+    └ ip_address: Some("127.0.0.1")
+[03:47:30.943 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: ddf615a3-810e-4615-b37b-b6b9d594abf3
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(7639)
+[03:47:41.029 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 9aded6cd-fc50-4335-ac89-e862359507f3
+    └ ip_address: Some("127.0.0.1")
+[03:47:41.030 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 9aded6cd-fc50-4335-ac89-e862359507f3
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(7720)
+[03:47:41.037 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: db41481a-eb28-4505-bb99-bdf62acb862f
+    └ ip_address: Some("127.0.0.1")
+[03:47:41.314 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: db41481a-eb28-4505-bb99-bdf62acb862f
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(7723)
+[03:47:41.324 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 314a6380-57d2-4c85-bf7e-2d2b5f882142
+    └ ip_address: Some("127.0.0.1")
+[03:47:41.324 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 314a6380-57d2-4c85-bf7e-2d2b5f882142
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(7773)
+[03:47:41.331 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: d882973c-9d31-46e8-8ee7-fdc60031b8e1
+    └ ip_address: Some("127.0.0.1")
+[03:47:41.411 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: d882973c-9d31-46e8-8ee7-fdc60031b8e1
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(7775)
+[03:47:41.422 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: c84fb6fc-d390-4cf1-975a-66d1032bd460
+    └ ip_address: Some("127.0.0.1")
+[03:47:41.422 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: c84fb6fc-d390-4cf1-975a-66d1032bd460
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(7829)
+[03:48:12.666 PM] [INFO] iii::function [UNREGISTERED] Function ghola::jobs
+[03:48:12.667 PM] [INFO] iii::function [UNREGISTERED] Function ghola::submit
+[03:48:12.667 PM] [INFO] iii::function [UNREGISTERED] Function ghola::pipeline
+[03:48:12.667 PM] [INFO] iii::function [UNREGISTERED] Function ghola::step
+[03:48:12.667 PM] [INFO] iii::function [UNREGISTERED] Function ghola::turn-completed
+[03:48:12.667 PM] [INFO] iii::function [UNREGISTERED] Function ghola::job
+[03:48:12.667 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 57d9d8ce-c483-4610-9991-a36e1b9c19a5
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(6987)
+[03:48:13.899 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 4a279928-aedd-4148-863a-a97be8454385
+    └ ip_address: Some("127.0.0.1")
+[03:48:13.901 PM] [INFO] iii::function [REGISTERED] Function ghola::submit
+[03:48:13.901 PM] [INFO] iii::function [REGISTERED] Function ghola::jobs
+[03:48:13.901 PM] [INFO] iii::function [REGISTERED] Function ghola::job
+[03:48:13.901 PM] [INFO] iii::function [REGISTERED] Function ghola::pipeline
+[03:48:13.901 PM] [INFO] iii::function [REGISTERED] Function ghola::step
+[03:48:13.901 PM] [INFO] iii::function [REGISTERED] Function ghola::turn-completed
+[03:48:14.195 PM] [INFO] iii::workers::reload reload: config changed, reloading from config.yaml
+[03:48:14.200 PM] [INFO] iii::workers::reload reload: diff +0 added, -0 removed, ~0 changed (0 revived), =36 unchanged
+[03:48:14.200 PM] [INFO] iii::workers::reload reload: success
+[03:48:20.724 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: d2d4a2de-24d2-472c-82de-ea977d3e5dc9
+    └ ip_address: Some("127.0.0.1")
+[03:48:20.727 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: d2d4a2de-24d2-472c-82de-ea977d3e5dc9
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(8117)
+[03:48:21.237 PM] [INFO] iii::workers::reload reload: config changed, reloading from config.yaml
+[03:48:21.241 PM] [INFO] iii::workers::reload reload: diff +0 added, -0 removed, ~0 changed (0 revived), =36 unchanged
+[03:48:21.241 PM] [INFO] iii::workers::reload reload: success
+[03:48:21.330 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 3328b38a-4d6b-421d-9dd7-c2013bdbf3f4
+    └ dir: read
+[03:48:21.331 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 3328b38a-4d6b-421d-9dd7-c2013bdbf3f4
+    └ dir: read
+[03:48:21.331 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 3328b38a-4d6b-421d-9dd7-c2013bdbf3f4
+[03:48:21.332 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: a9f0f426-b767-45a5-b627-375ba0b0d624
+    └ dir: read
+[03:48:21.332 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: a9f0f426-b767-45a5-b627-375ba0b0d624
+    └ dir: read
+[03:48:21.332 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: a9f0f426-b767-45a5-b627-375ba0b0d624
+[03:48:22.166 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: a9f0f426-b767-45a5-b627-375ba0b0d624
+    └ dir: write
+[03:48:22.166 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: a9f0f426-b767-45a5-b627-375ba0b0d624
+    └ dir: write
+[03:48:22.166 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: a9f0f426-b767-45a5-b627-375ba0b0d624
+[03:48:22.167 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 3328b38a-4d6b-421d-9dd7-c2013bdbf3f4
+    └ dir: write
+[03:48:22.167 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 3328b38a-4d6b-421d-9dd7-c2013bdbf3f4
+    └ dir: write
+[03:48:22.167 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 3328b38a-4d6b-421d-9dd7-c2013bdbf3f4
+[03:48:25.207 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: a9f0f426-b767-45a5-b627-375ba0b0d624
+[03:48:25.207 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: a9f0f426-b767-45a5-b627-375ba0b0d624
+    ├ total_bytes: 0
+    └ msg_count: 21
+[03:48:25.207 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: a9f0f426-b767-45a5-b627-375ba0b0d624
+    ├ total_bytes: 0
+    └ msg_count: 21
+[03:48:25.207 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 3328b38a-4d6b-421d-9dd7-c2013bdbf3f4
+[03:48:25.207 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 3328b38a-4d6b-421d-9dd7-c2013bdbf3f4
+    ├ total_bytes: 0
+    └ msg_count: 21
+[03:48:25.207 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 3328b38a-4d6b-421d-9dd7-c2013bdbf3f4
+    ├ total_bytes: 0
+    └ msg_count: 21
+[03:48:25.775 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 99c348ab-1bc6-4248-9261-e77c648aac9d
+    └ dir: read
+[03:48:25.775 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 99c348ab-1bc6-4248-9261-e77c648aac9d
+    └ dir: read
+[03:48:25.775 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 99c348ab-1bc6-4248-9261-e77c648aac9d
+[03:48:25.776 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 87c5afad-8112-4455-9950-1224ad1d6194
+    └ dir: read
+[03:48:25.776 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 87c5afad-8112-4455-9950-1224ad1d6194
+    └ dir: read
+[03:48:25.776 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 87c5afad-8112-4455-9950-1224ad1d6194
+[03:48:26.686 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 87c5afad-8112-4455-9950-1224ad1d6194
+    └ dir: write
+[03:48:26.687 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 87c5afad-8112-4455-9950-1224ad1d6194
+    └ dir: write
+[03:48:26.687 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 87c5afad-8112-4455-9950-1224ad1d6194
+[03:48:26.687 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 99c348ab-1bc6-4248-9261-e77c648aac9d
+    └ dir: write
+[03:48:26.687 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 99c348ab-1bc6-4248-9261-e77c648aac9d
+    └ dir: write
+[03:48:26.687 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 99c348ab-1bc6-4248-9261-e77c648aac9d
+[03:48:28.978 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 99c348ab-1bc6-4248-9261-e77c648aac9d
+[03:48:28.978 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 99c348ab-1bc6-4248-9261-e77c648aac9d
+    ├ total_bytes: 0
+    └ msg_count: 23
+[03:48:28.979 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 99c348ab-1bc6-4248-9261-e77c648aac9d
+    ├ total_bytes: 0
+    └ msg_count: 23
+[03:48:28.979 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 87c5afad-8112-4455-9950-1224ad1d6194
+[03:48:28.979 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 87c5afad-8112-4455-9950-1224ad1d6194
+    ├ total_bytes: 0
+    └ msg_count: 23
+[03:48:28.979 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 87c5afad-8112-4455-9950-1224ad1d6194
+    ├ total_bytes: 0
+    └ msg_count: 23
+[03:48:29.490 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 8c1c6f69-3ea8-41b1-982f-f77b0cfcb6f6
+    └ dir: read
+[03:48:29.490 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 8c1c6f69-3ea8-41b1-982f-f77b0cfcb6f6
+    └ dir: read
+[03:48:29.490 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 8c1c6f69-3ea8-41b1-982f-f77b0cfcb6f6
+[03:48:29.491 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 62dd39bb-bb91-4108-838f-5bfb294a5e4a
+    └ dir: read
+[03:48:29.491 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 62dd39bb-bb91-4108-838f-5bfb294a5e4a
+    └ dir: read
+[03:48:29.491 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 62dd39bb-bb91-4108-838f-5bfb294a5e4a
+[03:48:30.309 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 62dd39bb-bb91-4108-838f-5bfb294a5e4a
+    └ dir: write
+[03:48:30.309 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 62dd39bb-bb91-4108-838f-5bfb294a5e4a
+    └ dir: write
+[03:48:30.309 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 62dd39bb-bb91-4108-838f-5bfb294a5e4a
+[03:48:30.309 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 8c1c6f69-3ea8-41b1-982f-f77b0cfcb6f6
+    └ dir: write
+[03:48:30.309 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 8c1c6f69-3ea8-41b1-982f-f77b0cfcb6f6
+    └ dir: write
+[03:48:30.309 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 8c1c6f69-3ea8-41b1-982f-f77b0cfcb6f6
+[03:48:36.309 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 8c1c6f69-3ea8-41b1-982f-f77b0cfcb6f6
+[03:48:36.309 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 8c1c6f69-3ea8-41b1-982f-f77b0cfcb6f6
+    ├ total_bytes: 0
+    └ msg_count: 26
+[03:48:36.309 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 8c1c6f69-3ea8-41b1-982f-f77b0cfcb6f6
+    ├ total_bytes: 0
+    └ msg_count: 26
+[03:48:36.310 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 62dd39bb-bb91-4108-838f-5bfb294a5e4a
+[03:48:36.310 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 62dd39bb-bb91-4108-838f-5bfb294a5e4a
+    ├ total_bytes: 0
+    └ msg_count: 26
+[03:48:36.310 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 62dd39bb-bb91-4108-838f-5bfb294a5e4a
+    ├ total_bytes: 0
+    └ msg_count: 26
+[03:48:37.207 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 6820d9b4-fc82-428b-a46f-8e747c52ac73
+    └ dir: read
+[03:48:37.207 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 6820d9b4-fc82-428b-a46f-8e747c52ac73
+    └ dir: read
+[03:48:37.207 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 6820d9b4-fc82-428b-a46f-8e747c52ac73
+[03:48:37.210 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: a7b25a62-6731-48f1-acc6-2bb1d80b4d8f
+    └ dir: read
+[03:48:37.210 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: a7b25a62-6731-48f1-acc6-2bb1d80b4d8f
+    └ dir: read
+[03:48:37.210 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: a7b25a62-6731-48f1-acc6-2bb1d80b4d8f
+[03:48:38.084 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: a7b25a62-6731-48f1-acc6-2bb1d80b4d8f
+    └ dir: write
+[03:48:38.084 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: a7b25a62-6731-48f1-acc6-2bb1d80b4d8f
+    └ dir: write
+[03:48:38.084 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: a7b25a62-6731-48f1-acc6-2bb1d80b4d8f
+[03:48:38.085 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 6820d9b4-fc82-428b-a46f-8e747c52ac73
+    └ dir: write
+[03:48:38.085 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 6820d9b4-fc82-428b-a46f-8e747c52ac73
+    └ dir: write
+[03:48:38.085 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 6820d9b4-fc82-428b-a46f-8e747c52ac73
+[03:48:45.800 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: ccc301f7-90af-4753-99f7-ba78d4de518e
+    └ ip_address: Some("127.0.0.1")
+[03:48:45.801 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: ccc301f7-90af-4753-99f7-ba78d4de518e
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(8275)
+[03:48:56.841 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: e92b71b7-3f81-4868-a88d-78f972701ef8
+    └ ip_address: Some("127.0.0.1")
+[03:48:56.842 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: e92b71b7-3f81-4868-a88d-78f972701ef8
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(8379)
+[03:49:05.044 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: a7b25a62-6731-48f1-acc6-2bb1d80b4d8f
+[03:49:05.044 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: a7b25a62-6731-48f1-acc6-2bb1d80b4d8f
+    ├ total_bytes: 0
+    └ msg_count: 58
+[03:49:05.044 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: a7b25a62-6731-48f1-acc6-2bb1d80b4d8f
+    ├ total_bytes: 0
+    └ msg_count: 58
+[03:49:05.044 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 6820d9b4-fc82-428b-a46f-8e747c52ac73
+[03:49:05.044 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 6820d9b4-fc82-428b-a46f-8e747c52ac73
+    ├ total_bytes: 0
+    └ msg_count: 58
+[03:49:05.045 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 6820d9b4-fc82-428b-a46f-8e747c52ac73
+    ├ total_bytes: 0
+    └ msg_count: 58
+[03:49:05.507 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 7dea5023-ecdc-4cd6-a60b-e1c5b01f411b
+    └ dir: read
+[03:49:05.507 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 7dea5023-ecdc-4cd6-a60b-e1c5b01f411b
+    └ dir: read
+[03:49:05.507 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 7dea5023-ecdc-4cd6-a60b-e1c5b01f411b
+[03:49:05.509 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: b03b36da-6104-42e6-85b2-4e789b02738d
+    └ dir: read
+[03:49:05.509 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: b03b36da-6104-42e6-85b2-4e789b02738d
+    └ dir: read
+[03:49:05.509 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: b03b36da-6104-42e6-85b2-4e789b02738d
+[03:49:06.371 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: b03b36da-6104-42e6-85b2-4e789b02738d
+    └ dir: write
+[03:49:06.371 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: b03b36da-6104-42e6-85b2-4e789b02738d
+    └ dir: write
+[03:49:06.371 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: b03b36da-6104-42e6-85b2-4e789b02738d
+[03:49:06.372 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 7dea5023-ecdc-4cd6-a60b-e1c5b01f411b
+    └ dir: write
+[03:49:06.372 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 7dea5023-ecdc-4cd6-a60b-e1c5b01f411b
+    └ dir: write
+[03:49:06.372 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 7dea5023-ecdc-4cd6-a60b-e1c5b01f411b
+[03:49:16.888 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 5e8fc66b-ca74-4230-976d-fa499fc26bdf
+    └ ip_address: Some("127.0.0.1")
+[03:49:16.890 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 5e8fc66b-ca74-4230-976d-fa499fc26bdf
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(8476)
+[03:49:36.945 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: ecfc6576-2246-49f3-9fb5-a9e82f028a46
+    └ ip_address: Some("127.0.0.1")
+[03:49:36.946 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: ecfc6576-2246-49f3-9fb5-a9e82f028a46
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(8549)
+[03:49:57.012 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: d7caae3e-7dc6-45ed-8f0d-8eda86958f1d
+    └ ip_address: Some("127.0.0.1")
+[03:49:57.013 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: d7caae3e-7dc6-45ed-8f0d-8eda86958f1d
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(8636)
+[03:50:09.157 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 7dea5023-ecdc-4cd6-a60b-e1c5b01f411b
+[03:50:09.157 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 7dea5023-ecdc-4cd6-a60b-e1c5b01f411b
+    ├ total_bytes: 0
+    └ msg_count: 98
+[03:50:09.157 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 7dea5023-ecdc-4cd6-a60b-e1c5b01f411b
+    ├ total_bytes: 0
+    └ msg_count: 98
+[03:50:09.157 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: b03b36da-6104-42e6-85b2-4e789b02738d
+[03:50:09.157 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: b03b36da-6104-42e6-85b2-4e789b02738d
+    ├ total_bytes: 0
+    └ msg_count: 98
+[03:50:09.157 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: b03b36da-6104-42e6-85b2-4e789b02738d
+    ├ total_bytes: 0
+    └ msg_count: 98
+[03:50:09.187 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 80955548-c467-4dd3-a96a-a467152452f0
+    └ dir: read
+[03:50:09.187 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 80955548-c467-4dd3-a96a-a467152452f0
+    └ dir: read
+[03:50:09.187 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 80955548-c467-4dd3-a96a-a467152452f0
+[03:50:09.187 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 1edfec0d-bd82-44ff-a6df-a1cecba268f6
+    └ dir: read
+[03:50:09.187 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 1edfec0d-bd82-44ff-a6df-a1cecba268f6
+    └ dir: read
+[03:50:09.187 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 1edfec0d-bd82-44ff-a6df-a1cecba268f6
+[03:50:09.431 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 1edfec0d-bd82-44ff-a6df-a1cecba268f6
+    └ dir: write
+[03:50:09.431 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 1edfec0d-bd82-44ff-a6df-a1cecba268f6
+    └ dir: write
+[03:50:09.431 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 1edfec0d-bd82-44ff-a6df-a1cecba268f6
+[03:50:09.432 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 80955548-c467-4dd3-a96a-a467152452f0
+    └ dir: write
+[03:50:09.432 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 80955548-c467-4dd3-a96a-a467152452f0
+    └ dir: write
+[03:50:09.432 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 80955548-c467-4dd3-a96a-a467152452f0
+[03:50:09.443 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 80955548-c467-4dd3-a96a-a467152452f0
+[03:50:09.443 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 80955548-c467-4dd3-a96a-a467152452f0
+    ├ total_bytes: 0
+    └ msg_count: 1
+[03:50:09.443 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 80955548-c467-4dd3-a96a-a467152452f0
+    ├ total_bytes: 0
+    └ msg_count: 1
+[03:50:09.443 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 1edfec0d-bd82-44ff-a6df-a1cecba268f6
+[03:50:09.443 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 1edfec0d-bd82-44ff-a6df-a1cecba268f6
+    ├ total_bytes: 0
+    └ msg_count: 1
+[03:50:09.443 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 1edfec0d-bd82-44ff-a6df-a1cecba268f6
+    ├ total_bytes: 0
+    └ msg_count: 1
+[03:50:09.847 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 30d61935-0e60-4d73-9273-c3be4c9640e9
+    └ dir: read
+[03:50:09.847 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 30d61935-0e60-4d73-9273-c3be4c9640e9
+    └ dir: read
+[03:50:09.847 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 30d61935-0e60-4d73-9273-c3be4c9640e9
+[03:50:09.848 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 33b457b4-701e-43e1-9c49-99c88f8ca36e
+    └ dir: read
+[03:50:09.848 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 33b457b4-701e-43e1-9c49-99c88f8ca36e
+    └ dir: read
+[03:50:09.848 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 33b457b4-701e-43e1-9c49-99c88f8ca36e
+[03:50:10.827 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 33b457b4-701e-43e1-9c49-99c88f8ca36e
+    └ dir: write
+[03:50:10.828 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 33b457b4-701e-43e1-9c49-99c88f8ca36e
+    └ dir: write
+[03:50:10.828 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 33b457b4-701e-43e1-9c49-99c88f8ca36e
+[03:50:10.828 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 30d61935-0e60-4d73-9273-c3be4c9640e9
+    └ dir: write
+[03:50:10.828 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 30d61935-0e60-4d73-9273-c3be4c9640e9
+    └ dir: write
+[03:50:10.829 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 30d61935-0e60-4d73-9273-c3be4c9640e9
+[03:50:14.843 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 33b457b4-701e-43e1-9c49-99c88f8ca36e
+[03:50:14.843 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 33b457b4-701e-43e1-9c49-99c88f8ca36e
+    ├ total_bytes: 0
+    └ msg_count: 18
+[03:50:14.844 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 33b457b4-701e-43e1-9c49-99c88f8ca36e
+    ├ total_bytes: 0
+    └ msg_count: 18
+[03:50:14.844 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 30d61935-0e60-4d73-9273-c3be4c9640e9
+[03:50:14.844 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 30d61935-0e60-4d73-9273-c3be4c9640e9
+    ├ total_bytes: 0
+    └ msg_count: 18
+[03:50:14.844 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 30d61935-0e60-4d73-9273-c3be4c9640e9
+    ├ total_bytes: 0
+    └ msg_count: 18
+[03:50:15.369 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: ad203470-5f87-4869-9c48-4984331e6071
+    └ dir: read
+[03:50:15.369 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: ad203470-5f87-4869-9c48-4984331e6071
+    └ dir: read
+[03:50:15.369 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: ad203470-5f87-4869-9c48-4984331e6071
+[03:50:15.370 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: d04f9c0b-f4b7-4287-869c-faae09372443
+    └ dir: read
+[03:50:15.370 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: d04f9c0b-f4b7-4287-869c-faae09372443
+    └ dir: read
+[03:50:15.370 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: d04f9c0b-f4b7-4287-869c-faae09372443
+[03:50:16.079 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: d04f9c0b-f4b7-4287-869c-faae09372443
+    └ dir: write
+[03:50:16.079 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: d04f9c0b-f4b7-4287-869c-faae09372443
+    └ dir: write
+[03:50:16.079 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: d04f9c0b-f4b7-4287-869c-faae09372443
+[03:50:16.080 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: ad203470-5f87-4869-9c48-4984331e6071
+    └ dir: write
+[03:50:16.080 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: ad203470-5f87-4869-9c48-4984331e6071
+    └ dir: write
+[03:50:16.080 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: ad203470-5f87-4869-9c48-4984331e6071
+[03:50:17.074 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 70a0179c-f33b-4da6-a4c0-d217c7d7d6cb
+    └ ip_address: Some("127.0.0.1")
+[03:50:17.076 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 70a0179c-f33b-4da6-a4c0-d217c7d7d6cb
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(8734)
+[03:50:17.946 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: d04f9c0b-f4b7-4287-869c-faae09372443
+[03:50:17.946 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: d04f9c0b-f4b7-4287-869c-faae09372443
+    ├ total_bytes: 0
+    └ msg_count: 16
+[03:50:17.946 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: d04f9c0b-f4b7-4287-869c-faae09372443
+    ├ total_bytes: 0
+    └ msg_count: 16
+[03:50:17.946 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: ad203470-5f87-4869-9c48-4984331e6071
+[03:50:17.946 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: ad203470-5f87-4869-9c48-4984331e6071
+    ├ total_bytes: 0
+    └ msg_count: 16
+[03:50:17.946 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: ad203470-5f87-4869-9c48-4984331e6071
+    ├ total_bytes: 0
+    └ msg_count: 16
+[03:50:18.616 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 53f252a3-869f-49a4-a5d6-61dc596cad9c
+    └ dir: read
+[03:50:18.616 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 53f252a3-869f-49a4-a5d6-61dc596cad9c
+    └ dir: read
+[03:50:18.616 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 53f252a3-869f-49a4-a5d6-61dc596cad9c
+[03:50:18.618 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: d900812d-390a-4b71-b2da-eeabd38715de
+    └ dir: read
+[03:50:18.618 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: d900812d-390a-4b71-b2da-eeabd38715de
+    └ dir: read
+[03:50:18.618 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: d900812d-390a-4b71-b2da-eeabd38715de
+[03:50:19.333 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: d900812d-390a-4b71-b2da-eeabd38715de
+    └ dir: write
+[03:50:19.333 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: d900812d-390a-4b71-b2da-eeabd38715de
+    └ dir: write
+[03:50:19.333 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: d900812d-390a-4b71-b2da-eeabd38715de
+[03:50:19.334 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 53f252a3-869f-49a4-a5d6-61dc596cad9c
+    └ dir: write
+[03:50:19.334 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 53f252a3-869f-49a4-a5d6-61dc596cad9c
+    └ dir: write
+[03:50:19.334 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 53f252a3-869f-49a4-a5d6-61dc596cad9c
+[03:50:27.737 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: d900812d-390a-4b71-b2da-eeabd38715de
+[03:50:27.737 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: d900812d-390a-4b71-b2da-eeabd38715de
+    ├ total_bytes: 0
+    └ msg_count: 23
+[03:50:27.737 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: d900812d-390a-4b71-b2da-eeabd38715de
+    ├ total_bytes: 0
+    └ msg_count: 23
+[03:50:27.738 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 53f252a3-869f-49a4-a5d6-61dc596cad9c
+[03:50:27.738 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 53f252a3-869f-49a4-a5d6-61dc596cad9c
+    ├ total_bytes: 0
+    └ msg_count: 23
+[03:50:27.738 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 53f252a3-869f-49a4-a5d6-61dc596cad9c
+    ├ total_bytes: 0
+    └ msg_count: 23
+[03:50:28.304 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 468b6d48-3b14-4dd7-86c8-d705c552682a
+    └ dir: read
+[03:50:28.304 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 468b6d48-3b14-4dd7-86c8-d705c552682a
+    └ dir: read
+[03:50:28.304 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 468b6d48-3b14-4dd7-86c8-d705c552682a
+[03:50:28.306 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: b0dc01bf-50d4-48fd-ac87-9e3dd513bc3a
+    └ dir: read
+[03:50:28.306 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: b0dc01bf-50d4-48fd-ac87-9e3dd513bc3a
+    └ dir: read
+[03:50:28.307 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: b0dc01bf-50d4-48fd-ac87-9e3dd513bc3a
+[03:50:29.366 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: b0dc01bf-50d4-48fd-ac87-9e3dd513bc3a
+    └ dir: write
+[03:50:29.366 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: b0dc01bf-50d4-48fd-ac87-9e3dd513bc3a
+    └ dir: write
+[03:50:29.366 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: b0dc01bf-50d4-48fd-ac87-9e3dd513bc3a
+[03:50:29.367 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 468b6d48-3b14-4dd7-86c8-d705c552682a
+    └ dir: write
+[03:50:29.367 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 468b6d48-3b14-4dd7-86c8-d705c552682a
+    └ dir: write
+[03:50:29.367 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 468b6d48-3b14-4dd7-86c8-d705c552682a
+[03:50:37.162 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: a8d2db68-f8e5-4718-b622-bdc751d96f07
+    └ ip_address: Some("127.0.0.1")
+[03:50:37.163 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: a8d2db68-f8e5-4718-b622-bdc751d96f07
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(8809)
+[03:50:57.244 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 4c9502d9-3024-49b2-8453-5f4d3a29e4d7
+    └ ip_address: Some("127.0.0.1")
+[03:50:57.245 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 4c9502d9-3024-49b2-8453-5f4d3a29e4d7
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(8896)
+[03:51:17.370 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: caeb5c06-2a18-4866-a3d0-ab3e699b16fc
+    └ ip_address: Some("127.0.0.1")
+[03:51:17.378 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: caeb5c06-2a18-4866-a3d0-ab3e699b16fc
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(8987)
+[03:51:17.392 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: b0dc01bf-50d4-48fd-ac87-9e3dd513bc3a
+[03:51:17.392 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: b0dc01bf-50d4-48fd-ac87-9e3dd513bc3a
+    ├ total_bytes: 0
+    └ msg_count: 68
+[03:51:17.392 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: b0dc01bf-50d4-48fd-ac87-9e3dd513bc3a
+    ├ total_bytes: 0
+    └ msg_count: 68
+[03:51:17.393 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 468b6d48-3b14-4dd7-86c8-d705c552682a
+[03:51:17.393 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 468b6d48-3b14-4dd7-86c8-d705c552682a
+    ├ total_bytes: 0
+    └ msg_count: 68
+[03:51:17.393 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 468b6d48-3b14-4dd7-86c8-d705c552682a
+    ├ total_bytes: 0
+    └ msg_count: 68
+[03:51:17.739 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 85c56d3b-445f-400c-8ff6-f85b80fc4112
+    └ dir: read
+[03:51:17.739 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 85c56d3b-445f-400c-8ff6-f85b80fc4112
+    └ dir: read
+[03:51:17.739 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 85c56d3b-445f-400c-8ff6-f85b80fc4112
+[03:51:17.742 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 9efdb3ec-a7bb-43f7-9d7b-6d167c129450
+    └ dir: read
+[03:51:17.742 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 9efdb3ec-a7bb-43f7-9d7b-6d167c129450
+    └ dir: read
+[03:51:17.742 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 9efdb3ec-a7bb-43f7-9d7b-6d167c129450
+[03:51:18.643 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 9efdb3ec-a7bb-43f7-9d7b-6d167c129450
+    └ dir: write
+[03:51:18.643 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 9efdb3ec-a7bb-43f7-9d7b-6d167c129450
+    └ dir: write
+[03:51:18.644 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 9efdb3ec-a7bb-43f7-9d7b-6d167c129450
+[03:51:18.644 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 85c56d3b-445f-400c-8ff6-f85b80fc4112
+    └ dir: write
+[03:51:18.644 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 85c56d3b-445f-400c-8ff6-f85b80fc4112
+    └ dir: write
+[03:51:18.644 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 85c56d3b-445f-400c-8ff6-f85b80fc4112
+[03:51:31.839 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 9efdb3ec-a7bb-43f7-9d7b-6d167c129450
+[03:51:31.840 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 9efdb3ec-a7bb-43f7-9d7b-6d167c129450
+    ├ total_bytes: 0
+    └ msg_count: 31
+[03:51:31.840 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 9efdb3ec-a7bb-43f7-9d7b-6d167c129450
+    ├ total_bytes: 0
+    └ msg_count: 31
+[03:51:31.840 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 85c56d3b-445f-400c-8ff6-f85b80fc4112
+[03:51:31.840 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 85c56d3b-445f-400c-8ff6-f85b80fc4112
+    ├ total_bytes: 0
+    └ msg_count: 31
+[03:51:31.840 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 85c56d3b-445f-400c-8ff6-f85b80fc4112
+    ├ total_bytes: 0
+    └ msg_count: 31
+[03:51:32.323 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: f461065e-eabe-4257-9d31-b1fae2eac01b
+    └ dir: read
+[03:51:32.324 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: f461065e-eabe-4257-9d31-b1fae2eac01b
+    └ dir: read
+[03:51:32.324 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: f461065e-eabe-4257-9d31-b1fae2eac01b
+[03:51:32.326 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 0d6d0b76-acee-40af-aad9-b857354807f7
+    └ dir: read
+[03:51:32.326 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 0d6d0b76-acee-40af-aad9-b857354807f7
+    └ dir: read
+[03:51:32.326 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 0d6d0b76-acee-40af-aad9-b857354807f7
+[03:51:33.086 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 0d6d0b76-acee-40af-aad9-b857354807f7
+    └ dir: write
+[03:51:33.086 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 0d6d0b76-acee-40af-aad9-b857354807f7
+    └ dir: write
+[03:51:33.086 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 0d6d0b76-acee-40af-aad9-b857354807f7
+[03:51:33.086 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: f461065e-eabe-4257-9d31-b1fae2eac01b
+    └ dir: write
+[03:51:33.087 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: f461065e-eabe-4257-9d31-b1fae2eac01b
+    └ dir: write
+[03:51:33.087 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: f461065e-eabe-4257-9d31-b1fae2eac01b
+[03:51:35.381 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 0d6d0b76-acee-40af-aad9-b857354807f7
+[03:51:35.382 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 0d6d0b76-acee-40af-aad9-b857354807f7
+    ├ total_bytes: 0
+    └ msg_count: 16
+[03:51:35.382 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 0d6d0b76-acee-40af-aad9-b857354807f7
+    ├ total_bytes: 0
+    └ msg_count: 16
+[03:51:35.383 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: f461065e-eabe-4257-9d31-b1fae2eac01b
+[03:51:35.383 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: f461065e-eabe-4257-9d31-b1fae2eac01b
+    ├ total_bytes: 0
+    └ msg_count: 16
+[03:51:35.383 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: f461065e-eabe-4257-9d31-b1fae2eac01b
+    ├ total_bytes: 0
+    └ msg_count: 16
+[03:51:35.768 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 7b9d4a0c-ecb2-4946-b738-de0d0e05ffc0
+    └ dir: read
+[03:51:35.769 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 7b9d4a0c-ecb2-4946-b738-de0d0e05ffc0
+    └ dir: read
+[03:51:35.769 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 7b9d4a0c-ecb2-4946-b738-de0d0e05ffc0
+[03:51:35.772 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 76a63269-6ef8-4ee1-bbc4-c8d7ccf57fa2
+    └ dir: read
+[03:51:35.772 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 76a63269-6ef8-4ee1-bbc4-c8d7ccf57fa2
+    └ dir: read
+[03:51:35.772 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 76a63269-6ef8-4ee1-bbc4-c8d7ccf57fa2
+[03:51:36.574 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 76a63269-6ef8-4ee1-bbc4-c8d7ccf57fa2
+    └ dir: write
+[03:51:36.574 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 76a63269-6ef8-4ee1-bbc4-c8d7ccf57fa2
+    └ dir: write
+[03:51:36.574 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 76a63269-6ef8-4ee1-bbc4-c8d7ccf57fa2
+[03:51:36.575 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 7b9d4a0c-ecb2-4946-b738-de0d0e05ffc0
+    └ dir: write
+[03:51:36.575 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 7b9d4a0c-ecb2-4946-b738-de0d0e05ffc0
+    └ dir: write
+[03:51:36.575 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 7b9d4a0c-ecb2-4946-b738-de0d0e05ffc0
+[03:51:37.479 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 5ed7f4b0-4747-4107-a431-bfca070c5585
+    └ ip_address: Some("127.0.0.1")
+[03:51:37.480 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 5ed7f4b0-4747-4107-a431-bfca070c5585
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(9049)
+[03:51:40.030 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 76a63269-6ef8-4ee1-bbc4-c8d7ccf57fa2
+[03:51:40.031 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 76a63269-6ef8-4ee1-bbc4-c8d7ccf57fa2
+    ├ total_bytes: 0
+    └ msg_count: 22
+[03:51:40.031 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 76a63269-6ef8-4ee1-bbc4-c8d7ccf57fa2
+    ├ total_bytes: 0
+    └ msg_count: 22
+[03:51:40.032 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 7b9d4a0c-ecb2-4946-b738-de0d0e05ffc0
+[03:51:40.032 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 7b9d4a0c-ecb2-4946-b738-de0d0e05ffc0
+    ├ total_bytes: 0
+    └ msg_count: 22
+[03:51:40.032 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 7b9d4a0c-ecb2-4946-b738-de0d0e05ffc0
+    ├ total_bytes: 0
+    └ msg_count: 22
+[03:51:40.473 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 11a117c2-6cca-4d4b-a10e-555c49ad8750
+    └ dir: read
+[03:51:40.473 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 11a117c2-6cca-4d4b-a10e-555c49ad8750
+    └ dir: read
+[03:51:40.473 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 11a117c2-6cca-4d4b-a10e-555c49ad8750
+[03:51:40.475 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: b70c2ebc-c118-4e11-b24f-1c837473eb70
+    └ dir: read
+[03:51:40.475 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: b70c2ebc-c118-4e11-b24f-1c837473eb70
+    └ dir: read
+[03:51:40.475 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: b70c2ebc-c118-4e11-b24f-1c837473eb70
+[03:51:41.467 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: b70c2ebc-c118-4e11-b24f-1c837473eb70
+    └ dir: write
+[03:51:41.467 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: b70c2ebc-c118-4e11-b24f-1c837473eb70
+    └ dir: write
+[03:51:41.467 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: b70c2ebc-c118-4e11-b24f-1c837473eb70
+[03:51:41.468 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 11a117c2-6cca-4d4b-a10e-555c49ad8750
+    └ dir: write
+[03:51:41.468 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 11a117c2-6cca-4d4b-a10e-555c49ad8750
+    └ dir: write
+[03:51:41.468 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 11a117c2-6cca-4d4b-a10e-555c49ad8750
+[03:51:45.788 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 11a117c2-6cca-4d4b-a10e-555c49ad8750
+[03:51:45.789 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 11a117c2-6cca-4d4b-a10e-555c49ad8750
+    ├ total_bytes: 0
+    └ msg_count: 22
+[03:51:45.789 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 11a117c2-6cca-4d4b-a10e-555c49ad8750
+    ├ total_bytes: 0
+    └ msg_count: 22
+[03:51:45.790 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: b70c2ebc-c118-4e11-b24f-1c837473eb70
+[03:51:45.790 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: b70c2ebc-c118-4e11-b24f-1c837473eb70
+    ├ total_bytes: 0
+    └ msg_count: 22
+[03:51:45.790 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: b70c2ebc-c118-4e11-b24f-1c837473eb70
+    ├ total_bytes: 0
+    └ msg_count: 22
+[03:51:46.142 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 8f10de91-8d2d-416b-a887-f1c0799b967f
+    └ dir: read
+[03:51:46.142 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 8f10de91-8d2d-416b-a887-f1c0799b967f
+    └ dir: read
+[03:51:46.142 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 8f10de91-8d2d-416b-a887-f1c0799b967f
+[03:51:46.144 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 4903999b-1b2d-4703-99bc-38d20cf20a33
+    └ dir: read
+[03:51:46.145 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 4903999b-1b2d-4703-99bc-38d20cf20a33
+    └ dir: read
+[03:51:46.145 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 4903999b-1b2d-4703-99bc-38d20cf20a33
+[03:51:46.980 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 4903999b-1b2d-4703-99bc-38d20cf20a33
+    └ dir: write
+[03:51:46.980 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 4903999b-1b2d-4703-99bc-38d20cf20a33
+    └ dir: write
+[03:51:46.980 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 4903999b-1b2d-4703-99bc-38d20cf20a33
+[03:51:46.981 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 8f10de91-8d2d-416b-a887-f1c0799b967f
+    └ dir: write
+[03:51:46.981 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 8f10de91-8d2d-416b-a887-f1c0799b967f
+    └ dir: write
+[03:51:46.982 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 8f10de91-8d2d-416b-a887-f1c0799b967f
+[03:51:49.086 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 4903999b-1b2d-4703-99bc-38d20cf20a33
+[03:51:49.086 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 4903999b-1b2d-4703-99bc-38d20cf20a33
+    ├ total_bytes: 0
+    └ msg_count: 19
+[03:51:49.086 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 4903999b-1b2d-4703-99bc-38d20cf20a33
+    ├ total_bytes: 0
+    └ msg_count: 19
+[03:51:49.087 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 8f10de91-8d2d-416b-a887-f1c0799b967f
+[03:51:49.087 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 8f10de91-8d2d-416b-a887-f1c0799b967f
+    ├ total_bytes: 0
+    └ msg_count: 19
+[03:51:49.087 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 8f10de91-8d2d-416b-a887-f1c0799b967f
+    ├ total_bytes: 0
+    └ msg_count: 19
+[03:51:50.834 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 721c3eca-4039-47a1-ae09-3099b6fb157f
+    └ dir: read
+[03:51:50.834 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 721c3eca-4039-47a1-ae09-3099b6fb157f
+    └ dir: read
+[03:51:50.834 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 721c3eca-4039-47a1-ae09-3099b6fb157f
+[03:51:50.836 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 60fb63bf-dc98-46d9-b134-635c6b27c389
+    └ dir: read
+[03:51:50.836 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 60fb63bf-dc98-46d9-b134-635c6b27c389
+    └ dir: read
+[03:51:50.836 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 60fb63bf-dc98-46d9-b134-635c6b27c389
+[03:51:51.683 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 60fb63bf-dc98-46d9-b134-635c6b27c389
+    └ dir: write
+[03:51:51.683 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 60fb63bf-dc98-46d9-b134-635c6b27c389
+    └ dir: write
+[03:51:51.683 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 60fb63bf-dc98-46d9-b134-635c6b27c389
+[03:51:51.684 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 721c3eca-4039-47a1-ae09-3099b6fb157f
+    └ dir: write
+[03:51:51.684 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 721c3eca-4039-47a1-ae09-3099b6fb157f
+    └ dir: write
+[03:51:51.684 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 721c3eca-4039-47a1-ae09-3099b6fb157f
+[03:51:57.554 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 9c6b2a5a-6008-4291-8634-b7938abc0d79
+    └ ip_address: Some("127.0.0.1")
+[03:51:57.555 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 9c6b2a5a-6008-4291-8634-b7938abc0d79
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(9168)
+[03:51:58.553 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 721c3eca-4039-47a1-ae09-3099b6fb157f
+[03:51:58.554 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 721c3eca-4039-47a1-ae09-3099b6fb157f
+    ├ total_bytes: 0
+    └ msg_count: 23
+[03:51:58.554 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 721c3eca-4039-47a1-ae09-3099b6fb157f
+    ├ total_bytes: 0
+    └ msg_count: 23
+[03:51:58.554 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 60fb63bf-dc98-46d9-b134-635c6b27c389
+[03:51:58.554 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 60fb63bf-dc98-46d9-b134-635c6b27c389
+    ├ total_bytes: 0
+    └ msg_count: 23
+[03:51:58.554 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 60fb63bf-dc98-46d9-b134-635c6b27c389
+    ├ total_bytes: 0
+    └ msg_count: 23
+[03:51:59.085 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: e97f0fad-5f63-4fc7-883c-9e82f0df3eb8
+    └ dir: read
+[03:51:59.085 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: e97f0fad-5f63-4fc7-883c-9e82f0df3eb8
+    └ dir: read
+[03:51:59.085 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: e97f0fad-5f63-4fc7-883c-9e82f0df3eb8
+[03:51:59.087 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 9569a4a2-dedb-4f11-b1a5-b28575893814
+    └ dir: read
+[03:51:59.087 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 9569a4a2-dedb-4f11-b1a5-b28575893814
+    └ dir: read
+[03:51:59.087 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 9569a4a2-dedb-4f11-b1a5-b28575893814
+[03:51:59.871 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 9569a4a2-dedb-4f11-b1a5-b28575893814
+    └ dir: write
+[03:51:59.871 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 9569a4a2-dedb-4f11-b1a5-b28575893814
+    └ dir: write
+[03:51:59.872 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 9569a4a2-dedb-4f11-b1a5-b28575893814
+[03:51:59.873 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: e97f0fad-5f63-4fc7-883c-9e82f0df3eb8
+    └ dir: write
+[03:51:59.873 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: e97f0fad-5f63-4fc7-883c-9e82f0df3eb8
+    └ dir: write
+[03:51:59.873 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: e97f0fad-5f63-4fc7-883c-9e82f0df3eb8
+[03:52:12.285 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: e97f0fad-5f63-4fc7-883c-9e82f0df3eb8
+[03:52:12.285 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 9569a4a2-dedb-4f11-b1a5-b28575893814
+[03:52:12.285 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: e97f0fad-5f63-4fc7-883c-9e82f0df3eb8
+    ├ total_bytes: 0
+    └ msg_count: 31
+[03:52:12.285 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 9569a4a2-dedb-4f11-b1a5-b28575893814
+    ├ total_bytes: 0
+    └ msg_count: 31
+[03:52:12.285 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: e97f0fad-5f63-4fc7-883c-9e82f0df3eb8
+    ├ total_bytes: 0
+    └ msg_count: 31
+[03:52:12.285 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 9569a4a2-dedb-4f11-b1a5-b28575893814
+    ├ total_bytes: 0
+    └ msg_count: 31
+[03:52:12.389 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: e70406d3-ee4e-4413-8703-f53a9c73338f
+    └ dir: read
+[03:52:12.389 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: e70406d3-ee4e-4413-8703-f53a9c73338f
+    └ dir: read
+[03:52:12.389 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: e70406d3-ee4e-4413-8703-f53a9c73338f
+[03:52:12.390 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: b994ccdc-f57b-4fbc-aafe-85f03529d1ae
+    └ dir: read
+[03:52:12.390 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: b994ccdc-f57b-4fbc-aafe-85f03529d1ae
+    └ dir: read
+[03:52:12.390 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: b994ccdc-f57b-4fbc-aafe-85f03529d1ae
+[03:52:12.647 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: b994ccdc-f57b-4fbc-aafe-85f03529d1ae
+    └ dir: write
+[03:52:12.647 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: b994ccdc-f57b-4fbc-aafe-85f03529d1ae
+    └ dir: write
+[03:52:12.648 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: b994ccdc-f57b-4fbc-aafe-85f03529d1ae
+[03:52:12.648 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: e70406d3-ee4e-4413-8703-f53a9c73338f
+    └ dir: write
+[03:52:12.648 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: e70406d3-ee4e-4413-8703-f53a9c73338f
+    └ dir: write
+[03:52:12.648 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: e70406d3-ee4e-4413-8703-f53a9c73338f
+[03:52:12.660 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: b994ccdc-f57b-4fbc-aafe-85f03529d1ae
+[03:52:12.660 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: e70406d3-ee4e-4413-8703-f53a9c73338f
+[03:52:12.660 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: b994ccdc-f57b-4fbc-aafe-85f03529d1ae
+    ├ total_bytes: 0
+    └ msg_count: 1
+[03:52:12.660 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: e70406d3-ee4e-4413-8703-f53a9c73338f
+    ├ total_bytes: 0
+    └ msg_count: 1
+[03:52:12.660 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: b994ccdc-f57b-4fbc-aafe-85f03529d1ae
+    ├ total_bytes: 0
+    └ msg_count: 1
+[03:52:12.660 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: e70406d3-ee4e-4413-8703-f53a9c73338f
+    ├ total_bytes: 0
+    └ msg_count: 1
+[03:52:13.308 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 576753e3-4418-4670-9251-7a91716eaf80
+    └ dir: read
+[03:52:13.308 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 576753e3-4418-4670-9251-7a91716eaf80
+    └ dir: read
+[03:52:13.308 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 576753e3-4418-4670-9251-7a91716eaf80
+[03:52:13.309 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: b2edfdd6-3a75-48db-b9aa-84b273dce684
+    └ dir: read
+[03:52:13.309 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: b2edfdd6-3a75-48db-b9aa-84b273dce684
+    └ dir: read
+[03:52:13.309 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: b2edfdd6-3a75-48db-b9aa-84b273dce684
+[03:52:13.951 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: b2edfdd6-3a75-48db-b9aa-84b273dce684
+    └ dir: write
+[03:52:13.951 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: b2edfdd6-3a75-48db-b9aa-84b273dce684
+    └ dir: write
+[03:52:13.951 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: b2edfdd6-3a75-48db-b9aa-84b273dce684
+[03:52:13.951 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 576753e3-4418-4670-9251-7a91716eaf80
+    └ dir: write
+[03:52:13.951 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 576753e3-4418-4670-9251-7a91716eaf80
+    └ dir: write
+[03:52:13.951 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 576753e3-4418-4670-9251-7a91716eaf80
+[03:52:15.473 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: b2edfdd6-3a75-48db-b9aa-84b273dce684
+[03:52:15.473 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: b2edfdd6-3a75-48db-b9aa-84b273dce684
+    ├ total_bytes: 0
+    └ msg_count: 19
+[03:52:15.473 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: b2edfdd6-3a75-48db-b9aa-84b273dce684
+    ├ total_bytes: 0
+    └ msg_count: 19
+[03:52:15.474 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 576753e3-4418-4670-9251-7a91716eaf80
+[03:52:15.474 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 576753e3-4418-4670-9251-7a91716eaf80
+    ├ total_bytes: 0
+    └ msg_count: 19
+[03:52:15.474 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 576753e3-4418-4670-9251-7a91716eaf80
+    ├ total_bytes: 0
+    └ msg_count: 19
+[03:52:15.772 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: fe8f9236-7b26-4ef3-a9d6-d3d70b2ac688
+    └ dir: read
+[03:52:15.772 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: fe8f9236-7b26-4ef3-a9d6-d3d70b2ac688
+    └ dir: read
+[03:52:15.772 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: fe8f9236-7b26-4ef3-a9d6-d3d70b2ac688
+[03:52:15.773 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 80b33ff4-05a6-4c1d-9ac5-5d1965071fd5
+    └ dir: read
+[03:52:15.773 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 80b33ff4-05a6-4c1d-9ac5-5d1965071fd5
+    └ dir: read
+[03:52:15.773 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 80b33ff4-05a6-4c1d-9ac5-5d1965071fd5
+[03:52:16.378 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 80b33ff4-05a6-4c1d-9ac5-5d1965071fd5
+    └ dir: write
+[03:52:16.379 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 80b33ff4-05a6-4c1d-9ac5-5d1965071fd5
+    └ dir: write
+[03:52:16.379 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 80b33ff4-05a6-4c1d-9ac5-5d1965071fd5
+[03:52:16.379 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: fe8f9236-7b26-4ef3-a9d6-d3d70b2ac688
+    └ dir: write
+[03:52:16.379 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: fe8f9236-7b26-4ef3-a9d6-d3d70b2ac688
+    └ dir: write
+[03:52:16.379 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: fe8f9236-7b26-4ef3-a9d6-d3d70b2ac688
+[03:52:17.629 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 44eecde4-9d39-40af-8e9e-6daa2caf8da0
+    └ ip_address: Some("127.0.0.1")
+[03:52:17.630 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 44eecde4-9d39-40af-8e9e-6daa2caf8da0
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(9267)
+[03:52:21.001 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 80b33ff4-05a6-4c1d-9ac5-5d1965071fd5
+[03:52:21.001 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 80b33ff4-05a6-4c1d-9ac5-5d1965071fd5
+    ├ total_bytes: 0
+    └ msg_count: 22
+[03:52:21.001 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 80b33ff4-05a6-4c1d-9ac5-5d1965071fd5
+    ├ total_bytes: 0
+    └ msg_count: 22
+[03:52:21.003 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: fe8f9236-7b26-4ef3-a9d6-d3d70b2ac688
+[03:52:21.003 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: fe8f9236-7b26-4ef3-a9d6-d3d70b2ac688
+    ├ total_bytes: 0
+    └ msg_count: 22
+[03:52:21.003 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: fe8f9236-7b26-4ef3-a9d6-d3d70b2ac688
+    ├ total_bytes: 0
+    └ msg_count: 22
+[03:52:21.386 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: d85df1d0-d6c5-4f27-9657-bb70678cfcf5
+    └ dir: read
+[03:52:21.386 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: d85df1d0-d6c5-4f27-9657-bb70678cfcf5
+    └ dir: read
+[03:52:21.386 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: d85df1d0-d6c5-4f27-9657-bb70678cfcf5
+[03:52:21.387 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 6e8fee0e-0903-4ed6-a92d-184bf4598539
+    └ dir: read
+[03:52:21.387 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 6e8fee0e-0903-4ed6-a92d-184bf4598539
+    └ dir: read
+[03:52:21.387 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 6e8fee0e-0903-4ed6-a92d-184bf4598539
+[03:52:22.205 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 6e8fee0e-0903-4ed6-a92d-184bf4598539
+    └ dir: write
+[03:52:22.205 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 6e8fee0e-0903-4ed6-a92d-184bf4598539
+    └ dir: write
+[03:52:22.205 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 6e8fee0e-0903-4ed6-a92d-184bf4598539
+[03:52:22.206 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: d85df1d0-d6c5-4f27-9657-bb70678cfcf5
+    └ dir: write
+[03:52:22.206 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: d85df1d0-d6c5-4f27-9657-bb70678cfcf5
+    └ dir: write
+[03:52:22.206 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: d85df1d0-d6c5-4f27-9657-bb70678cfcf5
+[03:52:24.063 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 6e8fee0e-0903-4ed6-a92d-184bf4598539
+[03:52:24.063 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 6e8fee0e-0903-4ed6-a92d-184bf4598539
+    ├ total_bytes: 0
+    └ msg_count: 16
+[03:52:24.063 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 6e8fee0e-0903-4ed6-a92d-184bf4598539
+    ├ total_bytes: 0
+    └ msg_count: 16
+[03:52:24.063 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: d85df1d0-d6c5-4f27-9657-bb70678cfcf5
+[03:52:24.063 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: d85df1d0-d6c5-4f27-9657-bb70678cfcf5
+    ├ total_bytes: 0
+    └ msg_count: 16
+[03:52:24.063 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: d85df1d0-d6c5-4f27-9657-bb70678cfcf5
+    ├ total_bytes: 0
+    └ msg_count: 16
+[03:52:24.575 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 494f79fa-df65-4f13-8bca-94237c930153
+    └ dir: read
+[03:52:24.575 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 494f79fa-df65-4f13-8bca-94237c930153
+    └ dir: read
+[03:52:24.575 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 494f79fa-df65-4f13-8bca-94237c930153
+[03:52:24.577 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 86db817c-70bf-437f-a2f6-7cf7134086ca
+    └ dir: read
+[03:52:24.577 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 86db817c-70bf-437f-a2f6-7cf7134086ca
+    └ dir: read
+[03:52:24.577 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 86db817c-70bf-437f-a2f6-7cf7134086ca
+[03:52:25.319 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 86db817c-70bf-437f-a2f6-7cf7134086ca
+    └ dir: write
+[03:52:25.319 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 86db817c-70bf-437f-a2f6-7cf7134086ca
+    └ dir: write
+[03:52:25.319 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 86db817c-70bf-437f-a2f6-7cf7134086ca
+[03:52:25.319 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 494f79fa-df65-4f13-8bca-94237c930153
+    └ dir: write
+[03:52:25.319 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 494f79fa-df65-4f13-8bca-94237c930153
+    └ dir: write
+[03:52:25.319 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 494f79fa-df65-4f13-8bca-94237c930153
+[03:52:34.802 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 494f79fa-df65-4f13-8bca-94237c930153
+[03:52:34.802 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 86db817c-70bf-437f-a2f6-7cf7134086ca
+[03:52:34.802 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 494f79fa-df65-4f13-8bca-94237c930153
+    ├ total_bytes: 0
+    └ msg_count: 30
+[03:52:34.802 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 86db817c-70bf-437f-a2f6-7cf7134086ca
+    ├ total_bytes: 0
+    └ msg_count: 30
+[03:52:34.802 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 494f79fa-df65-4f13-8bca-94237c930153
+    ├ total_bytes: 0
+    └ msg_count: 30
+[03:52:34.802 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 86db817c-70bf-437f-a2f6-7cf7134086ca
+    ├ total_bytes: 0
+    └ msg_count: 30
+[03:52:35.170 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 6d6701b6-374e-4062-a8b7-92ced15b3864
+    └ dir: read
+[03:52:35.170 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 6d6701b6-374e-4062-a8b7-92ced15b3864
+    └ dir: read
+[03:52:35.170 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 6d6701b6-374e-4062-a8b7-92ced15b3864
+[03:52:35.171 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 2f8c9934-905f-46b0-8dfc-69458f7ad589
+    └ dir: read
+[03:52:35.171 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 2f8c9934-905f-46b0-8dfc-69458f7ad589
+    └ dir: read
+[03:52:35.171 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 2f8c9934-905f-46b0-8dfc-69458f7ad589
+[03:52:35.927 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 2f8c9934-905f-46b0-8dfc-69458f7ad589
+    └ dir: write
+[03:52:35.927 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 2f8c9934-905f-46b0-8dfc-69458f7ad589
+    └ dir: write
+[03:52:35.927 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 2f8c9934-905f-46b0-8dfc-69458f7ad589
+[03:52:35.928 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 6d6701b6-374e-4062-a8b7-92ced15b3864
+    └ dir: write
+[03:52:35.928 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 6d6701b6-374e-4062-a8b7-92ced15b3864
+    └ dir: write
+[03:52:35.928 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 6d6701b6-374e-4062-a8b7-92ced15b3864
+[03:52:37.709 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: e13abb90-9151-4980-86dd-eef1cb001da0
+    └ ip_address: Some("127.0.0.1")
+[03:52:37.711 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: e13abb90-9151-4980-86dd-eef1cb001da0
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(9373)
+[03:52:39.505 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 2f8c9934-905f-46b0-8dfc-69458f7ad589
+[03:52:39.506 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 2f8c9934-905f-46b0-8dfc-69458f7ad589
+    ├ total_bytes: 0
+    └ msg_count: 20
+[03:52:39.506 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 2f8c9934-905f-46b0-8dfc-69458f7ad589
+    ├ total_bytes: 0
+    └ msg_count: 20
+[03:52:39.506 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 6d6701b6-374e-4062-a8b7-92ced15b3864
+[03:52:39.506 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 6d6701b6-374e-4062-a8b7-92ced15b3864
+    ├ total_bytes: 0
+    └ msg_count: 20
+[03:52:39.506 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 6d6701b6-374e-4062-a8b7-92ced15b3864
+    ├ total_bytes: 0
+    └ msg_count: 20
+[03:52:39.920 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 6ebdb63b-8b88-40b6-b8ed-d9241b2b77fc
+    └ dir: read
+[03:52:39.920 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 6ebdb63b-8b88-40b6-b8ed-d9241b2b77fc
+    └ dir: read
+[03:52:39.920 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 6ebdb63b-8b88-40b6-b8ed-d9241b2b77fc
+[03:52:39.922 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: e8ca2a98-3cc4-48b7-a7a1-b806f26f1d11
+    └ dir: read
+[03:52:39.922 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: e8ca2a98-3cc4-48b7-a7a1-b806f26f1d11
+    └ dir: read
+[03:52:39.922 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: e8ca2a98-3cc4-48b7-a7a1-b806f26f1d11
+[03:52:40.609 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: e8ca2a98-3cc4-48b7-a7a1-b806f26f1d11
+    └ dir: write
+[03:52:40.609 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: e8ca2a98-3cc4-48b7-a7a1-b806f26f1d11
+    └ dir: write
+[03:52:40.609 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: e8ca2a98-3cc4-48b7-a7a1-b806f26f1d11
+[03:52:40.610 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 6ebdb63b-8b88-40b6-b8ed-d9241b2b77fc
+    └ dir: write
+[03:52:40.610 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 6ebdb63b-8b88-40b6-b8ed-d9241b2b77fc
+    └ dir: write
+[03:52:40.610 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 6ebdb63b-8b88-40b6-b8ed-d9241b2b77fc
+[03:52:49.545 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 6ebdb63b-8b88-40b6-b8ed-d9241b2b77fc
+[03:52:49.545 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 6ebdb63b-8b88-40b6-b8ed-d9241b2b77fc
+    ├ total_bytes: 0
+    └ msg_count: 25
+[03:52:49.545 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 6ebdb63b-8b88-40b6-b8ed-d9241b2b77fc
+    ├ total_bytes: 0
+    └ msg_count: 25
+[03:52:49.546 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: e8ca2a98-3cc4-48b7-a7a1-b806f26f1d11
+[03:52:49.546 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: e8ca2a98-3cc4-48b7-a7a1-b806f26f1d11
+    ├ total_bytes: 0
+    └ msg_count: 25
+[03:52:49.546 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: e8ca2a98-3cc4-48b7-a7a1-b806f26f1d11
+    ├ total_bytes: 0
+    └ msg_count: 25
+[03:52:49.582 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 54166254-9622-4a98-a142-dfd1ff5afebe
+    └ dir: read
+[03:52:49.582 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 54166254-9622-4a98-a142-dfd1ff5afebe
+    └ dir: read
+[03:52:49.582 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 54166254-9622-4a98-a142-dfd1ff5afebe
+[03:52:49.582 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 1eaf9306-de6c-4390-982b-b801ea581515
+    └ dir: read
+[03:52:49.582 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 1eaf9306-de6c-4390-982b-b801ea581515
+    └ dir: read
+[03:52:49.583 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 1eaf9306-de6c-4390-982b-b801ea581515
+[03:52:49.802 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 1eaf9306-de6c-4390-982b-b801ea581515
+    └ dir: write
+[03:52:49.802 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 1eaf9306-de6c-4390-982b-b801ea581515
+    └ dir: write
+[03:52:49.802 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 1eaf9306-de6c-4390-982b-b801ea581515
+[03:52:49.803 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 54166254-9622-4a98-a142-dfd1ff5afebe
+    └ dir: write
+[03:52:49.803 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 54166254-9622-4a98-a142-dfd1ff5afebe
+    └ dir: write
+[03:52:49.803 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 54166254-9622-4a98-a142-dfd1ff5afebe
+[03:52:49.814 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 1eaf9306-de6c-4390-982b-b801ea581515
+[03:52:49.814 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 1eaf9306-de6c-4390-982b-b801ea581515
+    ├ total_bytes: 0
+    └ msg_count: 1
+[03:52:49.815 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 1eaf9306-de6c-4390-982b-b801ea581515
+    ├ total_bytes: 0
+    └ msg_count: 1
+[03:52:49.815 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 54166254-9622-4a98-a142-dfd1ff5afebe
+[03:52:49.815 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 54166254-9622-4a98-a142-dfd1ff5afebe
+    ├ total_bytes: 0
+    └ msg_count: 1
+[03:52:49.815 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 54166254-9622-4a98-a142-dfd1ff5afebe
+    ├ total_bytes: 0
+    └ msg_count: 1
+[03:52:49.971 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: b67920a6-f4b5-42ae-8d1c-a50d26b08fc3
+    └ dir: read
+[03:52:49.971 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: b67920a6-f4b5-42ae-8d1c-a50d26b08fc3
+    └ dir: read
+[03:52:49.971 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: b67920a6-f4b5-42ae-8d1c-a50d26b08fc3
+[03:52:49.972 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: d831b3aa-a214-4ba4-941c-8c0e3580766c
+    └ dir: read
+[03:52:49.972 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: d831b3aa-a214-4ba4-941c-8c0e3580766c
+    └ dir: read
+[03:52:49.972 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: d831b3aa-a214-4ba4-941c-8c0e3580766c
+[03:52:50.673 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: d831b3aa-a214-4ba4-941c-8c0e3580766c
+    └ dir: write
+[03:52:50.673 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: d831b3aa-a214-4ba4-941c-8c0e3580766c
+    └ dir: write
+[03:52:50.673 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: d831b3aa-a214-4ba4-941c-8c0e3580766c
+[03:52:50.674 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: b67920a6-f4b5-42ae-8d1c-a50d26b08fc3
+    └ dir: write
+[03:52:50.674 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: b67920a6-f4b5-42ae-8d1c-a50d26b08fc3
+    └ dir: write
+[03:52:50.674 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: b67920a6-f4b5-42ae-8d1c-a50d26b08fc3
+[03:52:54.148 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: b67920a6-f4b5-42ae-8d1c-a50d26b08fc3
+[03:52:54.148 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: b67920a6-f4b5-42ae-8d1c-a50d26b08fc3
+    ├ total_bytes: 0
+    └ msg_count: 27
+[03:52:54.148 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: b67920a6-f4b5-42ae-8d1c-a50d26b08fc3
+    ├ total_bytes: 0
+    └ msg_count: 27
+[03:52:54.148 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: d831b3aa-a214-4ba4-941c-8c0e3580766c
+[03:52:54.148 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: d831b3aa-a214-4ba4-941c-8c0e3580766c
+    ├ total_bytes: 0
+    └ msg_count: 27
+[03:52:54.148 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: d831b3aa-a214-4ba4-941c-8c0e3580766c
+    ├ total_bytes: 0
+    └ msg_count: 27
+[03:52:54.412 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 25756ac6-fc92-4789-84fb-c0adc5fc5787
+    └ dir: read
+[03:52:54.412 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 25756ac6-fc92-4789-84fb-c0adc5fc5787
+    └ dir: read
+[03:52:54.412 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 25756ac6-fc92-4789-84fb-c0adc5fc5787
+[03:52:54.413 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: a8b3711c-5890-469b-8c7b-ac08dde7fb64
+    └ dir: read
+[03:52:54.413 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: a8b3711c-5890-469b-8c7b-ac08dde7fb64
+    └ dir: read
+[03:52:54.413 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: a8b3711c-5890-469b-8c7b-ac08dde7fb64
+[03:52:55.076 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: a8b3711c-5890-469b-8c7b-ac08dde7fb64
+    └ dir: write
+[03:52:55.076 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: a8b3711c-5890-469b-8c7b-ac08dde7fb64
+    └ dir: write
+[03:52:55.076 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: a8b3711c-5890-469b-8c7b-ac08dde7fb64
+[03:52:55.077 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 25756ac6-fc92-4789-84fb-c0adc5fc5787
+    └ dir: write
+[03:52:55.077 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 25756ac6-fc92-4789-84fb-c0adc5fc5787
+    └ dir: write
+[03:52:55.077 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 25756ac6-fc92-4789-84fb-c0adc5fc5787
+[03:52:57.725 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: a8b3711c-5890-469b-8c7b-ac08dde7fb64
+[03:52:57.725 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: a8b3711c-5890-469b-8c7b-ac08dde7fb64
+    ├ total_bytes: 0
+    └ msg_count: 19
+[03:52:57.726 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: a8b3711c-5890-469b-8c7b-ac08dde7fb64
+    ├ total_bytes: 0
+    └ msg_count: 19
+[03:52:57.726 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 25756ac6-fc92-4789-84fb-c0adc5fc5787
+[03:52:57.726 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 25756ac6-fc92-4789-84fb-c0adc5fc5787
+    ├ total_bytes: 0
+    └ msg_count: 19
+[03:52:57.726 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 25756ac6-fc92-4789-84fb-c0adc5fc5787
+    ├ total_bytes: 0
+    └ msg_count: 19
+[03:52:57.778 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: ed6c76c8-69a0-47ff-a72d-f0b074351f9b
+    └ ip_address: Some("127.0.0.1")
+[03:52:57.779 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: ed6c76c8-69a0-47ff-a72d-f0b074351f9b
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(9482)
+[03:52:58.089 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 12ffdd6f-54e3-4847-b7fb-cb1e2153416f
+    └ dir: read
+[03:52:58.089 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 12ffdd6f-54e3-4847-b7fb-cb1e2153416f
+    └ dir: read
+[03:52:58.089 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 12ffdd6f-54e3-4847-b7fb-cb1e2153416f
+[03:52:58.090 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 4b29fb61-b61f-401d-9bf1-9684b39f2274
+    └ dir: read
+[03:52:58.090 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 4b29fb61-b61f-401d-9bf1-9684b39f2274
+    └ dir: read
+[03:52:58.090 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 4b29fb61-b61f-401d-9bf1-9684b39f2274
+[03:52:58.848 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 4b29fb61-b61f-401d-9bf1-9684b39f2274
+    └ dir: write
+[03:52:58.848 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 4b29fb61-b61f-401d-9bf1-9684b39f2274
+    └ dir: write
+[03:52:58.848 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 4b29fb61-b61f-401d-9bf1-9684b39f2274
+[03:52:58.848 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 12ffdd6f-54e3-4847-b7fb-cb1e2153416f
+    └ dir: write
+[03:52:58.848 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 12ffdd6f-54e3-4847-b7fb-cb1e2153416f
+    └ dir: write
+[03:52:58.848 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 12ffdd6f-54e3-4847-b7fb-cb1e2153416f
+[03:53:00.174 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 4b29fb61-b61f-401d-9bf1-9684b39f2274
+[03:53:00.174 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 4b29fb61-b61f-401d-9bf1-9684b39f2274
+    ├ total_bytes: 0
+    └ msg_count: 17
+[03:53:00.174 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 4b29fb61-b61f-401d-9bf1-9684b39f2274
+    ├ total_bytes: 0
+    └ msg_count: 17
+[03:53:00.174 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 12ffdd6f-54e3-4847-b7fb-cb1e2153416f
+[03:53:00.175 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 12ffdd6f-54e3-4847-b7fb-cb1e2153416f
+    ├ total_bytes: 0
+    └ msg_count: 17
+[03:53:00.175 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 12ffdd6f-54e3-4847-b7fb-cb1e2153416f
+    ├ total_bytes: 0
+    └ msg_count: 17
+[03:53:00.518 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 64aabd75-386e-47f6-9015-bb5f57f56034
+    └ dir: read
+[03:53:00.518 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 64aabd75-386e-47f6-9015-bb5f57f56034
+    └ dir: read
+[03:53:00.518 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 64aabd75-386e-47f6-9015-bb5f57f56034
+[03:53:00.520 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: eab6db14-5c2d-4b41-b9f9-68d16c31f478
+    └ dir: read
+[03:53:00.520 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: eab6db14-5c2d-4b41-b9f9-68d16c31f478
+    └ dir: read
+[03:53:00.520 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: eab6db14-5c2d-4b41-b9f9-68d16c31f478
+[03:53:01.220 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: eab6db14-5c2d-4b41-b9f9-68d16c31f478
+    └ dir: write
+[03:53:01.220 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: eab6db14-5c2d-4b41-b9f9-68d16c31f478
+    └ dir: write
+[03:53:01.220 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: eab6db14-5c2d-4b41-b9f9-68d16c31f478
+[03:53:01.221 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 64aabd75-386e-47f6-9015-bb5f57f56034
+    └ dir: write
+[03:53:01.221 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 64aabd75-386e-47f6-9015-bb5f57f56034
+    └ dir: write
+[03:53:01.221 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 64aabd75-386e-47f6-9015-bb5f57f56034
+[03:53:17.896 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 7708e64f-d6d7-4a2c-8b08-9ad6ad4396ab
+    └ ip_address: Some("127.0.0.1")
+[03:53:17.897 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 7708e64f-d6d7-4a2c-8b08-9ad6ad4396ab
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(9547)
+[03:53:26.046 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: eab6db14-5c2d-4b41-b9f9-68d16c31f478
+[03:53:26.047 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: eab6db14-5c2d-4b41-b9f9-68d16c31f478
+    ├ total_bytes: 0
+    └ msg_count: 40
+[03:53:26.047 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: eab6db14-5c2d-4b41-b9f9-68d16c31f478
+    ├ total_bytes: 0
+    └ msg_count: 40
+[03:53:26.048 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 64aabd75-386e-47f6-9015-bb5f57f56034
+[03:53:26.048 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 64aabd75-386e-47f6-9015-bb5f57f56034
+    ├ total_bytes: 0
+    └ msg_count: 40
+[03:53:26.048 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 64aabd75-386e-47f6-9015-bb5f57f56034
+    ├ total_bytes: 0
+    └ msg_count: 40
+[03:53:26.543 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 559f014d-418d-40b6-bd61-813566e473a4
+    └ dir: read
+[03:53:26.543 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 559f014d-418d-40b6-bd61-813566e473a4
+    └ dir: read
+[03:53:26.543 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 559f014d-418d-40b6-bd61-813566e473a4
+[03:53:26.546 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 08c520ae-6af0-4038-a45c-afcfce3e433b
+    └ dir: read
+[03:53:26.546 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 08c520ae-6af0-4038-a45c-afcfce3e433b
+    └ dir: read
+[03:53:26.546 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 08c520ae-6af0-4038-a45c-afcfce3e433b
+[03:53:27.258 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 08c520ae-6af0-4038-a45c-afcfce3e433b
+    └ dir: write
+[03:53:27.258 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 08c520ae-6af0-4038-a45c-afcfce3e433b
+    └ dir: write
+[03:53:27.258 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 08c520ae-6af0-4038-a45c-afcfce3e433b
+[03:53:27.259 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 559f014d-418d-40b6-bd61-813566e473a4
+    └ dir: write
+[03:53:27.259 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 559f014d-418d-40b6-bd61-813566e473a4
+    └ dir: write
+[03:53:27.259 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 559f014d-418d-40b6-bd61-813566e473a4
+[03:53:37.999 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 01421448-d27f-4ae1-bb61-fe9147fed1ea
+    └ ip_address: Some("127.0.0.1")
+[03:53:38.001 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 01421448-d27f-4ae1-bb61-fe9147fed1ea
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(9580)
+[03:53:52.974 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 08c520ae-6af0-4038-a45c-afcfce3e433b
+[03:53:52.974 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 08c520ae-6af0-4038-a45c-afcfce3e433b
+    ├ total_bytes: 0
+    └ msg_count: 45
+[03:53:52.974 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 08c520ae-6af0-4038-a45c-afcfce3e433b
+    ├ total_bytes: 0
+    └ msg_count: 45
+[03:53:52.974 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 559f014d-418d-40b6-bd61-813566e473a4
+[03:53:52.974 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 559f014d-418d-40b6-bd61-813566e473a4
+    ├ total_bytes: 0
+    └ msg_count: 45
+[03:53:52.974 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 559f014d-418d-40b6-bd61-813566e473a4
+    ├ total_bytes: 0
+    └ msg_count: 45
+[03:53:53.502 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 6331c569-3926-41a9-a73f-a5576212f4fe
+    └ dir: read
+[03:53:53.502 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 6331c569-3926-41a9-a73f-a5576212f4fe
+    └ dir: read
+[03:53:53.502 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 6331c569-3926-41a9-a73f-a5576212f4fe
+[03:53:53.505 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: d0ac598c-4f72-4199-96eb-5f23d1edae9a
+    └ dir: read
+[03:53:53.505 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: d0ac598c-4f72-4199-96eb-5f23d1edae9a
+    └ dir: read
+[03:53:53.505 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: d0ac598c-4f72-4199-96eb-5f23d1edae9a
+[03:53:54.353 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: d0ac598c-4f72-4199-96eb-5f23d1edae9a
+    └ dir: write
+[03:53:54.353 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: d0ac598c-4f72-4199-96eb-5f23d1edae9a
+    └ dir: write
+[03:53:54.353 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: d0ac598c-4f72-4199-96eb-5f23d1edae9a
+[03:53:54.353 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 6331c569-3926-41a9-a73f-a5576212f4fe
+    └ dir: write
+[03:53:54.353 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 6331c569-3926-41a9-a73f-a5576212f4fe
+    └ dir: write
+[03:53:54.353 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 6331c569-3926-41a9-a73f-a5576212f4fe
+[03:53:58.109 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: b05a61cf-34ff-4d9c-89e3-c8f1ea5a3fd5
+    └ ip_address: Some("127.0.0.1")
+[03:53:58.110 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: b05a61cf-34ff-4d9c-89e3-c8f1ea5a3fd5
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(9627)
+[03:54:03.051 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: d0ac598c-4f72-4199-96eb-5f23d1edae9a
+[03:54:03.051 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: d0ac598c-4f72-4199-96eb-5f23d1edae9a
+    ├ total_bytes: 0
+    └ msg_count: 25
+[03:54:03.051 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: d0ac598c-4f72-4199-96eb-5f23d1edae9a
+    ├ total_bytes: 0
+    └ msg_count: 25
+[03:54:03.051 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 6331c569-3926-41a9-a73f-a5576212f4fe
+[03:54:03.051 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 6331c569-3926-41a9-a73f-a5576212f4fe
+    ├ total_bytes: 0
+    └ msg_count: 25
+[03:54:03.051 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 6331c569-3926-41a9-a73f-a5576212f4fe
+    ├ total_bytes: 0
+    └ msg_count: 25
+[03:54:03.145 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 94c881b1-f384-49ad-9576-1e538f11988e
+    └ dir: read
+[03:54:03.145 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 94c881b1-f384-49ad-9576-1e538f11988e
+    └ dir: read
+[03:54:03.145 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 94c881b1-f384-49ad-9576-1e538f11988e
+[03:54:03.145 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 59f3e7a4-2ffd-4527-944b-f9d2ebf1c65a
+    └ dir: read
+[03:54:03.145 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 59f3e7a4-2ffd-4527-944b-f9d2ebf1c65a
+    └ dir: read
+[03:54:03.145 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 59f3e7a4-2ffd-4527-944b-f9d2ebf1c65a
+[03:54:03.446 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 59f3e7a4-2ffd-4527-944b-f9d2ebf1c65a
+    └ dir: write
+[03:54:03.446 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 59f3e7a4-2ffd-4527-944b-f9d2ebf1c65a
+    └ dir: write
+[03:54:03.446 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 59f3e7a4-2ffd-4527-944b-f9d2ebf1c65a
+[03:54:03.446 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 94c881b1-f384-49ad-9576-1e538f11988e
+    └ dir: write
+[03:54:03.446 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 94c881b1-f384-49ad-9576-1e538f11988e
+    └ dir: write
+[03:54:03.446 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 94c881b1-f384-49ad-9576-1e538f11988e
+[03:54:03.458 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 59f3e7a4-2ffd-4527-944b-f9d2ebf1c65a
+[03:54:03.458 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 59f3e7a4-2ffd-4527-944b-f9d2ebf1c65a
+    ├ total_bytes: 0
+    └ msg_count: 1
+[03:54:03.458 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 59f3e7a4-2ffd-4527-944b-f9d2ebf1c65a
+    ├ total_bytes: 0
+    └ msg_count: 1
+[03:54:03.458 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 94c881b1-f384-49ad-9576-1e538f11988e
+[03:54:03.458 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 94c881b1-f384-49ad-9576-1e538f11988e
+    ├ total_bytes: 0
+    └ msg_count: 1
+[03:54:03.458 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 94c881b1-f384-49ad-9576-1e538f11988e
+    ├ total_bytes: 0
+    └ msg_count: 1
+[03:54:18.193 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: baa84a73-2ad2-4231-8d46-60383d4a086f
+    └ ip_address: Some("127.0.0.1")
+[03:54:18.196 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: baa84a73-2ad2-4231-8d46-60383d4a086f
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(9882)
+[03:55:48.416 PM] [INFO] iii::function [UNREGISTERED] Function ghola::turn-completed
+[03:55:48.416 PM] [INFO] iii::function [UNREGISTERED] Function ghola::pipeline
+[03:55:48.416 PM] [INFO] iii::function [UNREGISTERED] Function ghola::submit
+[03:55:48.416 PM] [INFO] iii::function [UNREGISTERED] Function ghola::jobs
+[03:55:48.416 PM] [INFO] iii::function [UNREGISTERED] Function ghola::job
+[03:55:48.416 PM] [INFO] iii::function [UNREGISTERED] Function ghola::step
+[03:55:48.416 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 4a279928-aedd-4148-863a-a97be8454385
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(8048)
+[03:55:49.644 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: e1bd55df-0625-4d07-b8ab-1ad5bbec8c63
+    └ ip_address: Some("127.0.0.1")
+[03:55:49.646 PM] [INFO] iii::function [REGISTERED] Function ghola::submit
+[03:55:49.646 PM] [INFO] iii::function [REGISTERED] Function ghola::jobs
+[03:55:49.646 PM] [INFO] iii::function [REGISTERED] Function ghola::job
+[03:55:49.647 PM] [INFO] iii::function [REGISTERED] Function ghola::pipeline
+[03:55:49.647 PM] [INFO] iii::function [REGISTERED] Function ghola::step
+[03:55:49.647 PM] [INFO] iii::function [REGISTERED] Function ghola::turn-completed
+[03:55:56.496 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: d65452e4-ffa5-4175-9c6d-636718c3d414
+    └ ip_address: Some("127.0.0.1")
+[03:55:57.967 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: d65452e4-ffa5-4175-9c6d-636718c3d414
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(10382)
+[03:57:07.455 PM] [INFO] iii::workers::reload reload: config changed, reloading from config.yaml
+[03:57:07.463 PM] [INFO] iii::workers::reload reload: diff +0 added, -0 removed, ~0 changed (0 revived), =36 unchanged
+[03:57:07.463 PM] [INFO] iii::workers::reload reload: success

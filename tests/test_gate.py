@@ -111,5 +111,58 @@ class EveryOutcomeIsAGraphEdge(unittest.TestCase):
                           "edge for it, so a job would sit in `waiting` forever")
 
 
+
+
+class TheCommitMessage(unittest.TestCase):
+    """No AI attribution, and it is a rule rather than a preference."""
+
+    def test_it_carries_no_tool_attribution(self):
+        # The operator is the author. Not adding it here means rung 4 never has
+        # to remove it.
+        message = actions.commit_message({"title": "add a --version flag"})
+        for tell in ("Co-Authored-By", "Generated with", "claude", "Claude", "ghola-bot"):
+            self.assertNotIn(tell, message)
+
+    def test_it_is_one_line_and_bounded(self):
+        message = actions.commit_message({"title": "x" * 200 + "\nsecond line"})
+        self.assertNotIn("\n", message)
+        self.assertLessEqual(len(message), 72)
+
+    def test_a_job_with_no_title_still_commits(self):
+        self.assertTrue(actions.commit_message({}))
+
+
+
+class BranchNaming(unittest.TestCase):
+    """The repository's convention, not the worktree worker's default."""
+
+    def test_it_uses_the_repos_prefix(self):
+        name = actions.branch_name({"title": "Document the make targets",
+                                    "id": "abcdef123456"},
+                                   {"branch_prefix": "feature/"})
+        self.assertTrue(name.startswith("feature/document-the-make-targets"))
+
+    def test_a_title_becomes_a_readable_slug(self):
+        # A person reading a list of branches should be able to tell which is
+        # which, which `iii/wt_ab12cd` does not allow.
+        name = actions.branch_name({"title": "Add a --version flag!",
+                                    "id": "abcdef123456"}, {})
+        self.assertEqual(name, "ghola/add-a-version-flag-abcdef12")
+
+    def test_two_jobs_from_one_spec_do_not_collide(self):
+        # Without the suffix the second run of any spec fails at
+        # worktree::create with `W120: branch already exists`.
+        first = actions.branch_name({"title": "same spec", "id": "aaaaaaaa1111"}, {})
+        second = actions.branch_name({"title": "same spec", "id": "bbbbbbbb2222"}, {})
+        self.assertNotEqual(first, second)
+
+    def test_a_job_with_no_title_falls_back_to_its_id(self):
+        name = actions.branch_name({"id": "abcdef123456"}, {})
+        self.assertEqual(name, "ghola/abcdef12")
+
+    def test_a_long_title_is_bounded(self):
+        name = actions.branch_name({"title": "x " * 200}, {"branch_prefix": "p/"})
+        self.assertLessEqual(len(name), 55)
+
 if __name__ == "__main__":
     unittest.main()

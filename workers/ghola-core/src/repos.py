@@ -26,6 +26,10 @@ from pathlib import Path
 # Built in, and every one of them is overridable. An empty `base` means "ask the
 # forge", which is the honest default: this machine does not know.
 BUILT_IN = {
+    # `owner/name` on the forge. Empty means ghola cannot open a pull request
+    # for this repository and will say so rather than guessing from a remote
+    # URL, which is a parse that gets SSH aliases and self-hosted hosts wrong.
+    "slug": "",
     "base": "",
     "branch_prefix": "ghola/",
     "prepare": "",
@@ -53,6 +57,7 @@ class Repo:
     """The resolved settings for one repository, ready to copy onto a job."""
 
     path: str
+    slug: str = ""
     base: str = ""
     branch_prefix: str = "ghola/"
     prepare: str = ""

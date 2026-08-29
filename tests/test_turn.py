@@ -20,10 +20,16 @@ class SessionNames(unittest.TestCase):
     def test_a_session_carries_the_job_and_the_phase(self):
         self.assertEqual(turn.session_for("abc123", "plan"), "s_abc123_plan")
 
-    def test_a_uuid_survives_the_round_trip(self):
-        job = "4d7541a2-beba-4a05-ad6a-2b9be4894e6d"
-        session = turn.session_for(job, "run")
-        self.assertEqual(turn.phase_of({"session_id": session}), (job, "run"))
+    def test_a_dashed_id_does_not_survive_and_that_is_why_ids_are_hex(self):
+        # A session name strips everything that is not hex, so a dashed uuid
+        # cannot come back out of one. `jobs.new_id` mints `uuid4().hex` for
+        # exactly this reason: the session name and the record's filename have
+        # to be the same string.
+        dashed = "4d7541a2-beba-4a05-ad6a-2b9be4894e6d"
+        recovered, phase = turn.phase_of({"session_id": turn.session_for(dashed, "run")})
+        self.assertEqual(phase, "run")
+        self.assertNotEqual(recovered, dashed)
+        self.assertEqual(recovered, dashed.replace("-", ""))
 
     def test_a_session_from_another_project_is_not_claimed(self):
         # A hook of ours is asked about every turn on this engine. Guessing which
@@ -97,6 +103,58 @@ class ReadingACompletion(unittest.TestCase):
     def test_a_foreign_session_returns_nothing_to_act_on(self):
         self.assertEqual(turn.outcome({"session_id": "whatever"}), ("", "", {}))
 
+
+
+
+class TheFilesystemScope(unittest.TestCase):
+    """Without this a turn reads the target repo and edits ghola's own files.
+
+    The first real job caught it: the plan turn refused to touch anything
+    because the repository it could see was not the one its instructions
+    described. It was right, and it was the harness defaulting the scope to the
+    engine's working directory.
+    """
+
+    def test_the_workspace_becomes_the_filesystem_root(self):
+        payload = turn.payload_for("run", "go", workspace="/repo/worktree",
+                                   config=defaults.config())
+        self.assertEqual(
+            payload["options"]["metadata"]["fs_scope"]["root"], "/repo/worktree")
+
+    def test_it_travels_as_an_option_too(self):
+        payload = turn.payload_for("run", "go", workspace="/repo/worktree",
+                                   config=defaults.config())
+        self.assertEqual(payload["options"]["fs_scope"]["root"], "/repo/worktree")
+
+    def test_no_workspace_sets_no_scope_rather_than_an_empty_one(self):
+        # An empty root would be worse than none: it reads as "everywhere".
+        payload = turn.payload_for("plan", "go", config=defaults.config())
+        self.assertNotIn("fs_scope", payload["options"]["metadata"])
+
+
+
+class TheSessionNameAndTheRecordMustAgree(unittest.TestCase):
+    """The bug this file exists to prevent recurring.
+
+    `as_id` used to re-insert UUID dashes on a 32-character id. Every completion
+    for a real job then looked up an id no file was named after, found nothing,
+    and returned quietly: the turn finished, the job never advanced, and nothing
+    said why.
+    """
+
+    def test_a_hex_job_id_round_trips_unchanged(self):
+        import uuid
+        job_id = uuid.uuid4().hex
+        session = turn.session_for(job_id, "plan")
+        self.assertEqual(turn.phase_of({"session_id": session}), (job_id, "plan"))
+
+    def test_the_round_trip_matches_what_the_store_names_a_file(self):
+        import jobs
+        job_id = jobs.new_id()
+        recovered, _phase = turn.phase_of({"session_id": turn.session_for(job_id, "run")})
+        self.assertEqual(recovered, job_id)
+        # And the store can actually build a path from it.
+        self.assertTrue(str(jobs.Store("/tmp").path(recovered)).endswith(f"{job_id}.json"))
 
 if __name__ == "__main__":
     unittest.main()

@@ -36,13 +36,17 @@ def session_for(job_id: str, phase: str) -> str:
 def as_id(hexed: str) -> str:
     """The job id back out of a session name.
 
-    Every id ghola mints is a uuid4, so the dashes are a format rather than
-    information: 32 hex characters go back to `8-4-4-4-12`, and anything else is
-    returned as it came.
+    Identity, because `jobs.new_id` mints `uuid4().hex` — no dashes — and a job
+    record is a file named after exactly that string.
+
+    This function used to re-insert UUID dashes on a 32-character id, inherited
+    from a design whose ids carried them. The result was that every completion
+    for a real job looked up `a48bf8ec-92ac-...`, found no file, and returned
+    quietly: the turn finished, the job never advanced, and nothing said why.
+    The session name and the record's filename have to agree, and this is the
+    one place that can make them disagree.
     """
-    if len(hexed) != 32:
-        return hexed
-    return "-".join((hexed[:8], hexed[8:12], hexed[12:16], hexed[16:20], hexed[20:]))
+    return hexed
 
 
 def phase_of(event: dict) -> tuple[str, str]:
@@ -125,6 +129,19 @@ def payload_for(phase: str, prompt: str, *, job_id: str = "", workspace: str = "
         # told nothing else that would let it find out.
         "session_id": session_id,
     }
+
+    # **The turn's filesystem scope.** Without this the harness defaults it to
+    # the engine's own working directory, so a turn reads the target
+    # repository's charter and then edits ghola's files. The first real job
+    # caught it: the plan turn refused to touch anything because the repository
+    # it could see was not the one its instructions described.
+    #
+    # This is how the `worktree` worker isolates parallel agents — they work
+    # inside a minted worktree through this root — so it is also what makes two
+    # jobs on one repository safe.
+    if workspace:
+        options["metadata"]["fs_scope"] = {"root": workspace}
+        options.setdefault("fs_scope", {"root": workspace})
     return {
         "session_id": session_id,
         "message": {

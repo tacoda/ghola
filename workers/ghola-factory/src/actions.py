@@ -81,9 +81,14 @@ def prepare_workspace(worker, job: dict, settings: dict) -> dict:
                                           f"{claimed.get('error')}"}
         path = job.get("workspace", "")
     else:
+        # The branch name is ghola's, from `repos.toml`. Without it the
+        # worktree worker names the branch `<its own prefix><worktree_id>`, and
+        # a repository whose CONTRIBUTING says `feature/` gets `iii/wt_ab12cd`
+        # with nothing reporting that its convention was ignored.
         made = call(worker, "worktree::create", {
             "repo_path": job.get("repo") or repo.get("path"),
             "session_id": job["id"],
+            "branch": branch_name(job, repo),
             **({"base_ref": repo["base"]} if repo.get("base") else {}),
         })
         if not made["ok"]:
@@ -104,6 +109,124 @@ def prepare_workspace(worker, job: dict, settings: dict) -> dict:
         return {"ok": False, "error": f"prepare failed: {prepared.get('error')}"}
 
     return {"ok": True, "workspace": path, "worktree_id": job.get("worktree_id")}
+
+
+def branch_name(job: dict, repo: dict) -> str:
+    """The branch this job works on, from the repository's own convention.
+
+    A slug from the spec's title, so a person reading a list of branches on the
+    forge can tell which is which, **and a short job id so re-running the same
+    spec does not collide**. Without the suffix the second run of any spec fails
+    at `worktree::create` with `W120: branch already exists`, which is a real
+    failure wearing a confusing message.
+
+    A rework reuses the worktree it already has, so this runs once per job and
+    uniqueness per job is the right grain.
+    """
+    import re
+    title = str(job.get("title") or "").lower()
+    slug = re.sub(r"[^a-z0-9]+", "-", title).strip("-")[:40].strip("-")
+    prefix = str(repo.get("branch_prefix") or "ghola/")
+    short = str(job.get("id", ""))[:8] or "job"
+    return f"{prefix}{slug}-{short}" if slug else f"{prefix}{short}"
+
+
+def commit_and_push(worker, job: dict, settings: dict) -> dict:
+    """Rung 4, then the commit, then the branch. Nothing merges.
+
+    Three things happen here and the order is the point.
+
+    **The delivery gate first.** Rung 4 sees two things no other rung can: the
+    finished diff, and *what the job is about to publish*. A commit message and
+    a pull request body are neither written by a tool nor part of any diff, so
+    nothing below rung 4 has ever seen them.
+
+    **Then the repository's own commit hook**, which runs inside `git commit`
+    and is the target repository's say. Its refusal becomes the brief for
+    another turn, verbatim rather than summarised, because the gate's own words
+    are the most useful thing anyone has said about the work.
+
+    **Then the push.** `worktree::land` is deliberately not used: it
+    fast-forwards the target branch, and ghola opens a pull request and stops.
+    """
+    workspace = str(job.get("workspace") or "")
+    branch = str(job.get("branch") or "")
+    if not workspace or not branch:
+        return {"ok": False, "error": "no worktree to commit from"}
+
+    status = call(worker, "worktree::status", {"worktree_id": job.get("worktree_id")})
+    if status["ok"]:
+        state = status["value"].get("value") or status["value"]
+        if state.get("clean", False) and not state.get("ahead"):
+            # A run that changed nothing is not a failure, but it is not a pull
+            # request either. Saying so beats opening an empty one.
+            return {"ok": False, "error": (
+                "the turn finished and the worktree is unchanged, so there is "
+                "nothing to publish")}
+
+    message = commit_message(job)
+
+    refused = rung_four(worker, job, workspace, message)
+    if refused:
+        return {"ok": True, "refused": True, "refusal": refused}
+
+    committed = call(worker, "shell::exec", {
+        "command": f"git add -A && git commit -m {shlex.quote(message)}",
+        "cwd": workspace}, timeout_ms=300000)
+    if not committed["ok"]:
+        # The repository's own hook refused. Verbatim, because summarising it
+        # would throw away the only specific thing anybody said.
+        return {"ok": True, "refused": True,
+                "refusal": str(committed.get("error") or "")[:4000]}
+
+    pushed = call(worker, "shell::exec", {
+        "command": f"git push -u origin {shlex.quote(branch)}",
+        "cwd": workspace}, timeout_ms=300000)
+    if not pushed["ok"]:
+        return {"ok": False, "error": f"push failed: {pushed.get('error')}"}
+
+    return {"ok": True, "committed": True, "branch": branch}
+
+
+def commit_message(job: dict) -> str:
+    """What the commit says.
+
+    No AI attribution, and that is a rule rather than a preference: this
+    repository's operator is the author, and a trailer naming a tool is
+    something rung 4 refuses. It is not added here so it never has to be
+    removed there.
+    """
+    title = str(job.get("title") or "").strip() or "ghola"
+    return title.splitlines()[0][:72]
+
+
+def rung_four(worker, job: dict, workspace: str, publishing: str) -> str:
+    """The delivery gate, over the finished diff and the text about to ship.
+
+    Asked of the `ladder` worker rather than reimplemented, so the same
+    predicate that refuses a write at rung 3 refuses the finished file here.
+    A ladder that is unreachable does not wave the commit through silently: it
+    says so, and the caller records it.
+    """
+    diff = call(worker, "shell::exec",
+                {"command": "git add -A && git diff --cached --unified=0",
+                 "cwd": workspace}, timeout_ms=120000)
+    changed = ""
+    if diff["ok"]:
+        changed = str((diff["value"].get("stdout") or ""))[:200000]
+
+    answer = call(worker, "ladder::evaluate", {
+        "repo": workspace,
+        "path": "",
+        "content": changed,
+        "publishing": publishing,
+        "rung": 4,
+    }, timeout_ms=60000)
+
+    if not answer["ok"]:
+        return ""
+    body = answer["value"]
+    return "" if body.get("allowed", True) else str(body.get("reason") or "refused")
 
 
 def open_pull_request(worker, job: dict, settings: dict) -> dict:
@@ -215,6 +338,7 @@ def derive_outcome(job: dict, pr: dict) -> dict:
 
 BUILT_IN = {
     "prepare_workspace": prepare_workspace,
+    "commit_and_push": commit_and_push,
     "open_pull_request": open_pull_request,
     "watch_pull_request": watch_pull_request,
     "teardown": teardown,
