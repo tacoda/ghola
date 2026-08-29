@@ -18,3 +18,6 @@ __pycache__/
 
 .DS_Store
 audit/
+
+# Worker logs. Useful locally, noise in a diff.
+.logs/
