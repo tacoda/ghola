@@ -889,24 +889,30 @@ predicate a different rule wearing this one's authority.
 - Job state derived from the graph. Every transition a durable queue message.
 - The dashboard, driven by the graph rather than a hardcoded rail.
 
-**The job store is the `state` worker, and the durability check passed — but it
-corrected the story rather than confirming it.**
+**The job store is files, and the durability check is why.**
 
-wipp lost a live job here and concluded the worker was the wrong store. That
-conclusion was wrong. The worker persists fine; its `store_method` **defaults to
+The check ran and the `state` worker passed it once configured. But it passed by
+being configured, and that is the finding: `store_method` **defaults to
 `in_memory`**, which the worker's own schema calls "volatile, process-lifetime
-storage, lost on shutdown — not for production". The scar was a configuration
-default.
+storage, lost on shutdown — not for production".
 
-Which is a worse failure than a broken worker, because nothing announces it. A
-factory storing jobs in the default adapter works perfectly until the first
-restart, and the first restart is usually the one during a long job.
+The worker is not broken. The failure shape is. A factory on the default adapter
+works perfectly until the first restart, nothing announces it, and the first
+restart is usually the one during a long job. **For a starter kit somebody clones
+and points at their own repository, a store that silently loses every job because
+one config key was missed is a worse trade than a store that is obviously a
+directory.**
 
-So ghola configures `file_based` with a 1s flush in `config/state.yaml`, and
-`tests/live/test_state_survives.py` asserts both halves: that the adapter is not
-the volatile default (cheap, and the check that would have caught wipp's loss),
-and that a record written before a worker restart is readable after it
-(expensive, restarts a worker, slow on purpose).
+So ghola's own job records are one JSON file per job, written atomically through
+`os.replace`. They cannot be misconfigured, `cat state/jobs/<id>.json` is a
+debugging tool, and a crash loses at most the write in flight. This is the one
+deliberate exception to the prefer-a-worker rule, alongside the audit log, and
+for the same reason: a record has to be more durable than the thing recording it.
+
+The `state` worker is still installed and still configured `file_based`, because
+`approval-gate`, `worktree` and `memory` all store through it and none of them
+should be on the volatile default either. `tests/live/test_state_survives.py`
+holds that, and it is about them rather than about jobs.
 
 **Verify:** `test_graph_reaches_every_stage` walks the shipped graph and asserts
 every stage is reachable and every terminal state is declared; a job killed

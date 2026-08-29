@@ -1,22 +1,19 @@
-"""The job store has to survive the worker that holds it.
+"""The `state` worker has to survive a restart, because other workers trust it.
 
-This is M4's gate, and it exists because the repository ghola is rebuilt from
-lost a live job here: it used the `state` worker, the worker restarted mid-run,
-and the job went with it. That repository concluded the worker was the wrong
-store and moved to files.
+**ghola's own job records are files** — see `ghola-core/jobs.py` for why. This
+test is not about them. It is about `approval-gate`, `worktree` and `memory`,
+which all store through the `state` worker and would each lose their data on the
+default adapter.
 
-**That conclusion was wrong, and this test is the correction.** The worker
-persists fine. Its `store_method` DEFAULTS to `in_memory`, which the worker's own
-schema describes as "volatile, process-lifetime storage, lost on shutdown — not
-for production". The scar was a configuration default, not a defect.
+The default is `in_memory`, which the worker's own schema calls "volatile,
+process-lifetime storage, lost on shutdown — not for production". It persists
+correctly once configured; the danger is the shape of the failure. A stack on the
+default works perfectly until the first restart, nothing announces it, and the
+first restart is usually the one during a long job.
 
-Which is a worse failure than a broken worker, because nothing announces it. A
-factory storing jobs in a default in-memory adapter works perfectly until the
-first restart, and the first restart is usually the one during a long job.
-
-So the check is not "does the store work" but "is it configured to survive",
-and it runs against the real engine because that is the only place the answer
-is real.
+That silence is exactly why ghola's job records are not here. What IS here still
+has to survive, so this checks it, against the real engine because that is the
+only place the answer is real.
 """
 
 import json
@@ -57,7 +54,7 @@ if not ENGINE and not os.environ.get("GHOLA_LIVE_OPTIONAL"):
 
 @unittest.skipUnless(ENGINE, "no engine, and GHOLA_LIVE_OPTIONAL is set")
 class TheStoreIsConfiguredToSurvive(unittest.TestCase):
-    """The cheap check, and the one that would have caught wipp's loss."""
+    """The cheap check, and the one that names what would be lost."""
 
     def test_the_adapter_is_not_the_volatile_default(self):
         config = trigger("configuration::get", {"id": "state"}).get("value") or {}
@@ -65,8 +62,9 @@ class TheStoreIsConfiguredToSurvive(unittest.TestCase):
         self.assertEqual(
             method, "file_based",
             "the state worker is on its in_memory default, which the worker's own "
-            "schema calls 'not for production'. Every job record is lost on the "
-            "next restart, and nothing will say so until it happens")
+            "schema calls 'not for production'. Every held approval, worktree "
+            "claim and memory is lost on the next restart, and nothing will say "
+            "so until it happens")
 
     def test_a_flush_cadence_is_set(self):
         config = trigger("configuration::get", {"id": "state"}).get("value") or {}
@@ -107,9 +105,9 @@ class TheStoreActuallySurvives(unittest.TestCase):
             time.sleep(1)
 
         self.assertEqual(found.get("stage"), "run",
-                         "the job record did not survive a restart of the worker "
-                         "holding it. This is the failure that made wipp move to "
-                         "files; if it is back, do the same and say why")
+                         "a record did not survive a restart of the worker holding "
+                         "it. ghola's own jobs are files and are unaffected, but "
+                         "approval-gate, worktree and memory all store here")
 
 
 if __name__ == "__main__":
