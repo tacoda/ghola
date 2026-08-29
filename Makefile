@@ -84,19 +84,25 @@ doctor:
 	@printf '  %-9s ' ".env"; \
 		{ [ -f .env ] && grep -q '^ANTHROPIC_API_KEY=.\+' .env && echo "ANTHROPIC_API_KEY set"; } \
 		|| echo "no ANTHROPIC_API_KEY yet"
-	@printf '  %-9s ' "gh auth"; \
-		gh auth status >/dev/null 2>&1 && echo "logged in as $$(gh api user --jq .login 2>/dev/null)" \
-		|| echo "not logged in — run: gh auth login"
+	@# The WORKER's identity, not this shell's. They are routinely different:
+	@# the shell has a keyring login and the engine has whatever GH_TOKEN was in
+	@# its environment, and only the worker's one opens pull requests.
+	@printf '  %-9s ' "gh (worker)"; \
+		iii trigger github::exec --json '{"args":["api","user","--jq",".login"]}' \
+			--port $(MGR_PORT) 2>/dev/null \
+			| python3 -c 'import json,sys; d=json.load(sys.stdin); print((d.get("stdout") or "").strip() or "unknown")' \
+		2>/dev/null || echo "engine not running"
 	@# The identity that PUSHES and the identity that opens a PULL REQUEST are
 	@# not the same thing. git may use an ssh host alias while gh uses a token
 	@# from the environment, and the mismatch fails only at `pr create`, after a
 	@# job has paid for a worktree, a plan, a run and two checks.
 	@for slug in $$(grep -oE 'slug *= *"[^"]+"' repos.toml 2>/dev/null | grep -oE '"[^"]+"' | tr -d '"'); do \
 		printf '  %-9s ' "$$slug"; \
-		if gh api "repos/$$slug" --jq '.permissions.push' 2>/dev/null | grep -q true; then \
-			echo "can push and open pull requests"; \
+		if iii trigger github::exec --json "{\"args\":[\"api\",\"repos/$$slug\",\"--jq\",\".permissions.push\"]}" \
+			--port $(MGR_PORT) 2>/dev/null | grep -q true; then \
+			echo "the worker can open pull requests here"; \
 		else \
-			echo "NO PR ACCESS as $$(gh api user --jq .login 2>/dev/null). git may still push over ssh; the API is what opens the PR"; \
+			echo "NO PR ACCESS. git may still push over ssh; the API is what opens the PR"; \
 		fi; \
 	done
 

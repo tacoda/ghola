@@ -941,7 +941,27 @@ holds that, and it is about them rather than about jobs.
 every stage is reachable and every terminal state is declared; a job killed
 between two stages resumes on restart; a stage delivered twice does the work once.
 
-### M5. Delivery (rung 4, the PR, the gate)
+### M5. Delivery (rung 4, the PR, the gate) — **the happy path is proven**
+
+A spec went in and https://github.com/tacoda/fawlty/pull/1 came out, through
+prepare, plan, run, prove, review, commit, publish. The diff was `README.md`
+alone, 66 insertions, exactly what the spec allowed. The job sits at `waiting`
+and nothing merged itself.
+
+What is done: rung 4 over the finished diff and the text about to be published,
+the repository's own commit hook, the push, `github::pr::create`, and the
+`waiting` state. What is **not** yet exercised: the reconciler that turns a
+merge, a close or a comment into the next transition. `derive_outcome` is pure
+and fully tested, but no real human has acted on a real pull request yet.
+
+The forge identity is worth its own line, because it cost the first run. **The
+identity that pushes and the identity that opens a pull request are not the
+same thing.** git authenticated over an ssh host alias as one account while
+`gh` used an ambient `GITHUB_TOKEN` belonging to another; the push succeeded
+and `pr create` failed with "must be a collaborator" after the job had paid for
+a worktree, a plan, a run and two checks. `make doctor` now asks the WORKER
+which account it is, not this shell, and checks push permission per configured
+slug.
 
 - The commit gate: rung-4 predicates over the finished diff **and over what the
   job is about to publish**, which is neither written by a tool nor part of any
