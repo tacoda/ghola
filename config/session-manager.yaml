@@ -1,0 +1,10 @@
+id: session-manager
+name: Session Manager
+description: 'Durable conversation store settings: the storage adapter (fs / bridge) and its config, plus the default and maximum page sizes for session::list / session::messages.'
+value:
+  adapter:
+    config:
+      data_dir: ~/.iii/data/session-manager
+    name: fs
+  default_list_limit: 50
+  max_list_limit: 500

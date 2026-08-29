@@ -1,0 +1,45 @@
+# iii engine configuration — ghola
+#
+# Stock infrastructure workers only. ghola's own three workers (core, factory,
+# policy) self-connect as local host processes: they need git, a forge CLI, and
+# the host's credentials, which a managed microVM does not have.
+#
+# Ports are 3131 (http), 3133 (console) and 49154 (worker manager) rather than
+# iii's stock 3111/3113/49134, so a ghola engine runs beside another project's.
+#
+# Docs: https://iii.dev/docs/how-to/configure-engine
+workers:
+  # The turn loop. Pinned to 1.8.7 in iii.lock, and the pin is load-bearing:
+  # on 1.8.1 a `pre-trigger` hook fired and its `deny` was IGNORED, so the call
+  # ran anyway. A ladder mounted there looks wired and enforces nothing.
+  - name: harness
+  - name: session-manager
+  - name: context-manager
+  - name: llm-router
+  - name: provider-anthropic
+  - name: provider-openai
+  - name: provider-openai-codex
+
+  # The listener ghola's own workers connect to.
+  - name: iii-worker-manager
+    config:
+      port: 49154
+
+  # Serves the dashboard and the JSON endpoints.
+  - name: http
+
+  # iii's own console: functions, triggers, queue depth, DLQ, trace waterfalls.
+  - name: console
+    # 'console': value now lives in the configuration worker at ./config/console.yaml. Edit at runtime via 'iii config set console' (or 'configuration::set'); this block is no longer read.
+
+  - name: queue
+    # 'queue': value now lives in the configuration worker at ./config/queue.yaml. Edit at runtime via 'iii config set queue' (or 'configuration::set'); this block is no longer read.
+
+  - name: state
+  - name: cron
+  - name: shell
+  - name: configuration
+  - name: iii-directory
+  - name: iii-stream
+  - name: iii-observability
+    # 'iii-observability': value now lives in the configuration worker at ./config/iii-observability.yaml. Edit at runtime via 'iii config set iii-observability' (or 'configuration::set'); this block is no longer read.

@@ -1,0 +1,19 @@
+# Credentials. Providers read these from the engine's environment; nothing is
+# written into config/, which is tracked.
+.env
+
+# Runtime state, owned by the factory.
+state/
+runs/
+
+# The engine's own scratch. `iii.lock` is NOT here: it pins the harness version,
+# and a ladder mounted on harness 1.8.1 looks wired and enforces nothing.
+.iii/
+
+# Python
+.venv/
+__pycache__/
+*.egg-info/
+*.py[cod]
+
+.DS_Store

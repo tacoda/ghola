@@ -1,0 +1,4 @@
+id: cron
+name: Cron
+description: Cron scheduler settings - lock backend for multi-instance mutual exclusion (local or redis).
+value: {}

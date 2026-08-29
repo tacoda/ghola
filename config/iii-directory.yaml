@@ -1,0 +1,15 @@
+id: iii-directory
+name: iii-directory
+description: Skills/prompts folders, workers-registry URL, download timeouts, skill-visibility filters, and the function-search knobs (inject_hint, hint_min_workers, registry_search) for the iii-directory worker.
+value:
+  agents_skills_folder: ~/.agents/skills
+  auto_download: true
+  download_timeout_ms: 60000
+  filter_unregistered: true
+  hint_min_workers: 2
+  inject_hint: true
+  local_skills_folder: ./.iii/skills
+  registry_cache_ttl_ms: 60000
+  registry_search: true
+  registry_url: https://api.workers.iii.dev
+  skills_folder: ~/.iii/skills

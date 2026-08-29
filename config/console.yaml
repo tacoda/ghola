@@ -1,0 +1,24 @@
+id: console
+name: Console
+description: Console UI preferences — Traces V2 saved views (grouping, filters, display settings, hidden functions), the selected view, and the per-worker injectable-UI toggles.
+value:
+  injectableUi:
+    disabledWorkers: []
+  traces:
+    activeViewId: view-sessions
+    followTurns: true
+    spanFilters:
+      hiddenGroups:
+      - harness::send
+      hiddenWorkers:
+      - context-manager
+      - session-manager
+    views:
+    - filters: {}
+      groupBy: iii.session.id
+      hiddenFunctions: []
+      id: view-sessions
+      label:
+        attribute: iii.tag.message
+        mode: attribute
+      name: sessions

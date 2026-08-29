@@ -1,0 +1,512 @@
+version: 1
+workers:
+  configuration:
+    version: 0.22.1
+    type: engine
+    dependencies: {}
+  console:
+    version: 1.9.14
+    type: binary
+    dependencies: {}
+    source:
+      kind: binary
+      artifacts:
+        aarch64-apple-darwin:
+          url: https://github.com/iii-hq/workers/releases/download/console/v1.9.14/console-aarch64-apple-darwin.tar.gz
+          sha256: 9159e3965ca7c4f55958baee6f47089bb8f4e88a7965c58dca7ef7fe52c5019f
+        aarch64-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/console/v1.9.14/console-aarch64-pc-windows-msvc.zip
+          sha256: b9a673f3a56c4626fa49b88ad00314a52ac28be8fae73f8c8dda2efb00478302
+        aarch64-unknown-linux-gnu:
+          url: https://github.com/iii-hq/workers/releases/download/console/v1.9.14/console-aarch64-unknown-linux-gnu.tar.gz
+          sha256: 01847a9d31e80ab7b328e05a8d50b85f793376a9701c0b97bd740de20c11a92d
+        armv7-unknown-linux-gnueabihf:
+          url: https://github.com/iii-hq/workers/releases/download/console/v1.9.14/console-armv7-unknown-linux-gnueabihf.tar.gz
+          sha256: 187a7e5ba05a2bc71fea878005da38fb7e9f54d57d3fc27c3e4128c809fe0691
+        i686-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/console/v1.9.14/console-i686-pc-windows-msvc.zip
+          sha256: ba4e044db0e702da1b840994c9cbec7d0b2109d09f40aac3823de88ba54c7d7d
+        x86_64-apple-darwin:
+          url: https://github.com/iii-hq/workers/releases/download/console/v1.9.14/console-x86_64-apple-darwin.tar.gz
+          sha256: 25ba6b76b339fe0177ae76a47a5cf8ffe2f9cde36f1872c6dad9205813686487
+        x86_64-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/console/v1.9.14/console-x86_64-pc-windows-msvc.zip
+          sha256: f99927176480c8b3f7d1ba96d696048ebe1065cc4edc8f6467bd0c6a9fc4c7b2
+        x86_64-unknown-linux-gnu:
+          url: https://github.com/iii-hq/workers/releases/download/console/v1.9.14/console-x86_64-unknown-linux-gnu.tar.gz
+          sha256: eea903e958e6dc69e57d313a1b7f960ed1a773611bdfe0edfd519163f29ca6e2
+        x86_64-unknown-linux-musl:
+          url: https://github.com/iii-hq/workers/releases/download/console/v1.9.14/console-x86_64-unknown-linux-musl.tar.gz
+          sha256: dc89ed8ff4eea048da49f5c504602147a6ae2de85d64d2c43dbd3d0646d3e151
+  context-manager:
+    version: 1.1.3
+    type: binary
+    dependencies:
+      configuration: 0.x
+      llm-router: ^1.4.12
+    source:
+      kind: binary
+      artifacts:
+        aarch64-apple-darwin:
+          url: https://github.com/iii-hq/workers/releases/download/context-manager/v1.1.3/context-manager-aarch64-apple-darwin.tar.gz
+          sha256: 918678edb84b0dae0910ce29edf95da617b4448858c0db8629636a622b57bcd6
+        aarch64-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/context-manager/v1.1.3/context-manager-aarch64-pc-windows-msvc.zip
+          sha256: a3c7e9797096e917f0958a8ce65469067248283c14e2d46feae5ca64145f0b8b
+        aarch64-unknown-linux-gnu:
+          url: https://github.com/iii-hq/workers/releases/download/context-manager/v1.1.3/context-manager-aarch64-unknown-linux-gnu.tar.gz
+          sha256: daa5b0ba52d7b9e6bc81a845f825570401af19a3861d16bbacae1f74ac636d17
+        armv7-unknown-linux-gnueabihf:
+          url: https://github.com/iii-hq/workers/releases/download/context-manager/v1.1.3/context-manager-armv7-unknown-linux-gnueabihf.tar.gz
+          sha256: 8cdad56bcc6dc7044bd08c993e626d1fb5545003083418cf3370138611ba4c8a
+        i686-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/context-manager/v1.1.3/context-manager-i686-pc-windows-msvc.zip
+          sha256: 8f5c20b5cc899969025cf520b10b4aafd1dafb9b55874cbf9d02a985d4b4895d
+        x86_64-apple-darwin:
+          url: https://github.com/iii-hq/workers/releases/download/context-manager/v1.1.3/context-manager-x86_64-apple-darwin.tar.gz
+          sha256: 0aa245f9ec62fbbe2d668945535c90ddd543c1fea41d501acfd7524b43cc91fe
+        x86_64-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/context-manager/v1.1.3/context-manager-x86_64-pc-windows-msvc.zip
+          sha256: 51c6c6f8d54fb1e8c722e89b0a6ab37ca6e7e2c092950e838efe5776011f4f46
+        x86_64-unknown-linux-gnu:
+          url: https://github.com/iii-hq/workers/releases/download/context-manager/v1.1.3/context-manager-x86_64-unknown-linux-gnu.tar.gz
+          sha256: e78cfbcc6960440b521b15ad4cc106534b3a3214367b9345ea28321be19f60d1
+        x86_64-unknown-linux-musl:
+          url: https://github.com/iii-hq/workers/releases/download/context-manager/v1.1.3/context-manager-x86_64-unknown-linux-musl.tar.gz
+          sha256: 62c8741261c2c614d1405a48ae54c56a296432dd249355d54f8f949f69be919b
+  cron:
+    version: 0.21.10
+    type: binary
+    dependencies:
+      configuration: 0.x
+    source:
+      kind: binary
+      artifacts:
+        aarch64-apple-darwin:
+          url: https://github.com/iii-hq/workers/releases/download/cron/v0.21.10/cron-aarch64-apple-darwin.tar.gz
+          sha256: 5fb89690c78128c611df68393323b71e78efc61f7088360f5bfc7c9d7ee381b2
+        aarch64-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/cron/v0.21.10/cron-aarch64-pc-windows-msvc.zip
+          sha256: 5ccb601e98a6ea1b638a7c76779d4c4d9c94e80d2b0b53ca099a45f21553c8a3
+        aarch64-unknown-linux-gnu:
+          url: https://github.com/iii-hq/workers/releases/download/cron/v0.21.10/cron-aarch64-unknown-linux-gnu.tar.gz
+          sha256: 41c0d488941ee4998eecfa479642041a7129f18df99a25342d0c4df73b88bdba
+        armv7-unknown-linux-gnueabihf:
+          url: https://github.com/iii-hq/workers/releases/download/cron/v0.21.10/cron-armv7-unknown-linux-gnueabihf.tar.gz
+          sha256: 92d275e354b2fabbb7c47628d18e4168eb01c3becf77073beaa4cf4759df8aff
+        i686-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/cron/v0.21.10/cron-i686-pc-windows-msvc.zip
+          sha256: 3d0b231092a2f046e7959bba6caaafee59bcd9b6dd38b75be9b810888ad9d6d9
+        x86_64-apple-darwin:
+          url: https://github.com/iii-hq/workers/releases/download/cron/v0.21.10/cron-x86_64-apple-darwin.tar.gz
+          sha256: f4c6ceec2a0fc94ca9de2ae9b7c1d8bac2f5589b8633d77085cd57f576780466
+        x86_64-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/cron/v0.21.10/cron-x86_64-pc-windows-msvc.zip
+          sha256: 3466ca604069d2d1e52c73d03455d90a05aeee0c1eaa514cc917e4b03a296a05
+        x86_64-unknown-linux-gnu:
+          url: https://github.com/iii-hq/workers/releases/download/cron/v0.21.10/cron-x86_64-unknown-linux-gnu.tar.gz
+          sha256: 5864042328281332a80801cf4bf557c960b26de792d4000eb00e7ac96e72342b
+        x86_64-unknown-linux-musl:
+          url: https://github.com/iii-hq/workers/releases/download/cron/v0.21.10/cron-x86_64-unknown-linux-musl.tar.gz
+          sha256: c536ae8d06d02cd6ac95c8699b6777571bfd617d1ad5003331816e68c1aaa349
+  harness:
+    version: 1.8.7
+    type: binary
+    dependencies:
+      configuration: 0.x
+      console: ^1.9.11
+      context-manager: ^1.1.3
+      cron: ^0.21.9
+      iii-directory: ^1.2.3
+      iii-observability: 0.x
+      iii-stream: 0.x
+      llm-router: ^1.4.12
+      provider-anthropic: ^1.2.8
+      provider-openai: ^1.2.7
+      provider-openai-codex: ^0.4.4
+      queue: ^0.21.5
+      session-manager: ^1.0.13
+      shell: ^0.11.9
+      state: ^0.22.2
+    source:
+      kind: binary
+      artifacts:
+        aarch64-apple-darwin:
+          url: https://github.com/iii-hq/workers/releases/download/harness/v1.8.7/harness-aarch64-apple-darwin.tar.gz
+          sha256: eae405f7db0862e177c49c47472934dfc99889571e18340b3dd719fd7d7f299c
+        aarch64-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/harness/v1.8.7/harness-aarch64-pc-windows-msvc.zip
+          sha256: f63382d3f7cfb2a2ff20a7e370c28756b20c3e7d8896cbf9fba22f560a4f9e95
+        aarch64-unknown-linux-gnu:
+          url: https://github.com/iii-hq/workers/releases/download/harness/v1.8.7/harness-aarch64-unknown-linux-gnu.tar.gz
+          sha256: e0379b2c47803fb5ffa75e209daf99cd203de1f1f7e66cb7dbe4ae5911923b94
+        armv7-unknown-linux-gnueabihf:
+          url: https://github.com/iii-hq/workers/releases/download/harness/v1.8.7/harness-armv7-unknown-linux-gnueabihf.tar.gz
+          sha256: 531559cda114fb71db8db85a57ce34861a55688630b059ebd10be146375627c1
+        i686-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/harness/v1.8.7/harness-i686-pc-windows-msvc.zip
+          sha256: 39712bac3232592f8fde93c6a753bd301582e3d29e3380c2695baa45c322b185
+        x86_64-apple-darwin:
+          url: https://github.com/iii-hq/workers/releases/download/harness/v1.8.7/harness-x86_64-apple-darwin.tar.gz
+          sha256: 48c4f5dbfe46622fb5d734269534e472f8eb0558efa0ba1fe1e29f2aed47e3f4
+        x86_64-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/harness/v1.8.7/harness-x86_64-pc-windows-msvc.zip
+          sha256: 07cd3407076e2ff1b7ca6553b8d224a743c89aa8cb0c65f644c20e400d3c5011
+        x86_64-unknown-linux-gnu:
+          url: https://github.com/iii-hq/workers/releases/download/harness/v1.8.7/harness-x86_64-unknown-linux-gnu.tar.gz
+          sha256: 0862262e6ca75f11d4dd966a7e79a4181b4170cb8cac84326812c6b95ec51ce6
+        x86_64-unknown-linux-musl:
+          url: https://github.com/iii-hq/workers/releases/download/harness/v1.8.7/harness-x86_64-unknown-linux-musl.tar.gz
+          sha256: 3647dbcd611978bebf61f23aa1568ef569a0d704ace91c3d5021f224fa484bd7
+  http:
+    version: 0.21.4
+    type: binary
+    dependencies:
+      configuration: 0.x
+    source:
+      kind: binary
+      artifacts:
+        aarch64-apple-darwin:
+          url: https://github.com/iii-hq/workers/releases/download/http/v0.21.4/http-aarch64-apple-darwin.tar.gz
+          sha256: c9ad2cbe300582a482ae74bee522161c3a79ca8c096c36fbed29dc5398fb65c5
+        aarch64-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/http/v0.21.4/http-aarch64-pc-windows-msvc.zip
+          sha256: 5c3beac4d2bd77e817fbf94975fd145b68624f2e8861b0ada6465065716c8cc5
+        aarch64-unknown-linux-gnu:
+          url: https://github.com/iii-hq/workers/releases/download/http/v0.21.4/http-aarch64-unknown-linux-gnu.tar.gz
+          sha256: 6d2d49d61f18098fd6f843d9ccadf52808d0b6b50980e405344fbbba83467580
+        armv7-unknown-linux-gnueabihf:
+          url: https://github.com/iii-hq/workers/releases/download/http/v0.21.4/http-armv7-unknown-linux-gnueabihf.tar.gz
+          sha256: 75658f0e71e573985aac1ad1f7e0ef6104540cb0d8d4d9eb9a3e1a0b644ca8b7
+        i686-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/http/v0.21.4/http-i686-pc-windows-msvc.zip
+          sha256: 985f7bd63faf7dc05937a0f5151142c8ff9b9e1d206ebd65a81d689152682934
+        x86_64-apple-darwin:
+          url: https://github.com/iii-hq/workers/releases/download/http/v0.21.4/http-x86_64-apple-darwin.tar.gz
+          sha256: d2e061acd721ad0620592a6f72e9cbf0de7b9ae60151b7c692ff291a9e916a33
+        x86_64-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/http/v0.21.4/http-x86_64-pc-windows-msvc.zip
+          sha256: 2495df75475cbb13da768765e1d5a385400f868554090728db217598f3963aaf
+        x86_64-unknown-linux-gnu:
+          url: https://github.com/iii-hq/workers/releases/download/http/v0.21.4/http-x86_64-unknown-linux-gnu.tar.gz
+          sha256: e0420bc80f5b5dd9aba18e3da04464d50f548f3adc29694bf02c69f82c990e59
+        x86_64-unknown-linux-musl:
+          url: https://github.com/iii-hq/workers/releases/download/http/v0.21.4/http-x86_64-unknown-linux-musl.tar.gz
+          sha256: 1343eebc88f652481a0b9a4e67fd21ba8e5e1f445e60cefd89ae537182fd5d12
+  iii-directory:
+    version: 1.2.4
+    type: binary
+    dependencies:
+      configuration: 0.x
+    source:
+      kind: binary
+      artifacts:
+        aarch64-apple-darwin:
+          url: https://github.com/iii-hq/workers/releases/download/iii-directory/v1.2.4/iii-directory-aarch64-apple-darwin.tar.gz
+          sha256: 6317e76e1e2d33d408230052f55ad3fe8e5d16676f15de7e771f1146b5ea2750
+        aarch64-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/iii-directory/v1.2.4/iii-directory-aarch64-pc-windows-msvc.zip
+          sha256: 335a6d561405ae3c12d7a196a990017af59b32bf34768215b3f2145b5b44aeda
+        aarch64-unknown-linux-gnu:
+          url: https://github.com/iii-hq/workers/releases/download/iii-directory/v1.2.4/iii-directory-aarch64-unknown-linux-gnu.tar.gz
+          sha256: ea1acdbcf61c706a6e924dc7b9e03172b063eccecfca7f71165afbb998a65e61
+        armv7-unknown-linux-gnueabihf:
+          url: https://github.com/iii-hq/workers/releases/download/iii-directory/v1.2.4/iii-directory-armv7-unknown-linux-gnueabihf.tar.gz
+          sha256: 31c43baed810c174a489bb9e87cb250717d9eaa9feaf215da6ba289461d6d3c0
+        i686-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/iii-directory/v1.2.4/iii-directory-i686-pc-windows-msvc.zip
+          sha256: cb14e7f668f03355aebbf9fc643113486ec16179747282e87261f8825446e0fe
+        x86_64-apple-darwin:
+          url: https://github.com/iii-hq/workers/releases/download/iii-directory/v1.2.4/iii-directory-x86_64-apple-darwin.tar.gz
+          sha256: beec5a25375b08c794980e048b4207c0324b68a37a4f5c48f4ffa1653ad21351
+        x86_64-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/iii-directory/v1.2.4/iii-directory-x86_64-pc-windows-msvc.zip
+          sha256: 675d1cb43e4230e6a942c1b6035dea3f791576ab0b6721063acb4b6f5c50c2f1
+        x86_64-unknown-linux-gnu:
+          url: https://github.com/iii-hq/workers/releases/download/iii-directory/v1.2.4/iii-directory-x86_64-unknown-linux-gnu.tar.gz
+          sha256: 064858b78e233009244d42a4f7e15859cb2899c30ff79884ffa19bca7ee90322
+        x86_64-unknown-linux-musl:
+          url: https://github.com/iii-hq/workers/releases/download/iii-directory/v1.2.4/iii-directory-x86_64-unknown-linux-musl.tar.gz
+          sha256: 8884c88bdc9157ac7b36ae751396dfee1efd448e1299c5897c3e926e70c23b75
+  iii-observability:
+    version: 0.22.1
+    type: engine
+    dependencies: {}
+  iii-stream:
+    version: 0.22.1
+    type: engine
+    dependencies: {}
+  llm-router:
+    version: 1.4.14
+    type: binary
+    dependencies:
+      configuration: 0.x
+      state: ^0.22.2
+    source:
+      kind: binary
+      artifacts:
+        aarch64-apple-darwin:
+          url: https://github.com/iii-hq/workers/releases/download/llm-router/v1.4.14/llm-router-aarch64-apple-darwin.tar.gz
+          sha256: 1ceb8c0ed1f01eb815a370967c7e8419e68fe9e110efa839b546784741ab7d1e
+        aarch64-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/llm-router/v1.4.14/llm-router-aarch64-pc-windows-msvc.zip
+          sha256: c3bb64f367be8694d1a53b7f4f497f596846e17d74417b4178344c124f8a17ec
+        aarch64-unknown-linux-gnu:
+          url: https://github.com/iii-hq/workers/releases/download/llm-router/v1.4.14/llm-router-aarch64-unknown-linux-gnu.tar.gz
+          sha256: d403afd2f85638daa9b18e6ae47477ed3ba531065dca7a45f9e1020dc242c5d7
+        armv7-unknown-linux-gnueabihf:
+          url: https://github.com/iii-hq/workers/releases/download/llm-router/v1.4.14/llm-router-armv7-unknown-linux-gnueabihf.tar.gz
+          sha256: 51f0acf3cf8c098b23912b8e0e15cd21feb5f21540136c24fdb6676473c1f240
+        i686-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/llm-router/v1.4.14/llm-router-i686-pc-windows-msvc.zip
+          sha256: 7dee351eb64058c90fd8e6ac01394ce1c270451b57081fa3d1bab1fd91a9ccc8
+        x86_64-apple-darwin:
+          url: https://github.com/iii-hq/workers/releases/download/llm-router/v1.4.14/llm-router-x86_64-apple-darwin.tar.gz
+          sha256: 55d331d66205cf75b32c25d704e0fd3dd4da9b9ff0fd9252ebe1d3c78bb1896c
+        x86_64-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/llm-router/v1.4.14/llm-router-x86_64-pc-windows-msvc.zip
+          sha256: 0862c339d338e8af098ea59a5e31f860cd6e86d7e6becf66c9521d0a9f98048c
+        x86_64-unknown-linux-gnu:
+          url: https://github.com/iii-hq/workers/releases/download/llm-router/v1.4.14/llm-router-x86_64-unknown-linux-gnu.tar.gz
+          sha256: 09fa1a66f69a139c63a6e8be152bc9fe4fcf60016d86d68aaf1994717ffd32f0
+        x86_64-unknown-linux-musl:
+          url: https://github.com/iii-hq/workers/releases/download/llm-router/v1.4.14/llm-router-x86_64-unknown-linux-musl.tar.gz
+          sha256: 9d853faeb9ed0aa48157ccd6afa1d88fc87d6a8bf37baa049da5b7d834807714
+  provider-anthropic:
+    version: 1.2.10
+    type: binary
+    dependencies:
+      llm-router: ^1.4.12
+      state: ^0.22.2
+    source:
+      kind: binary
+      artifacts:
+        aarch64-apple-darwin:
+          url: https://github.com/iii-hq/workers/releases/download/provider-anthropic/v1.2.10/provider-anthropic-aarch64-apple-darwin.tar.gz
+          sha256: b04937130cb1700e1955929a347cc8db5b3c40ab0ae76bb93b856c9716914578
+        aarch64-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/provider-anthropic/v1.2.10/provider-anthropic-aarch64-pc-windows-msvc.zip
+          sha256: 2ca91a9880afb232cea4524a50068181cdcfa07be634d94a8b782329a72c0141
+        aarch64-unknown-linux-gnu:
+          url: https://github.com/iii-hq/workers/releases/download/provider-anthropic/v1.2.10/provider-anthropic-aarch64-unknown-linux-gnu.tar.gz
+          sha256: d431c695de2a264cc369ec0ceca1537ac732c9014cafb0827dc8321dbc9c802b
+        armv7-unknown-linux-gnueabihf:
+          url: https://github.com/iii-hq/workers/releases/download/provider-anthropic/v1.2.10/provider-anthropic-armv7-unknown-linux-gnueabihf.tar.gz
+          sha256: 9dc632bec046314bbd1d0108f9b04a64734c7032cb2ae4a1cbab367c60204f1e
+        i686-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/provider-anthropic/v1.2.10/provider-anthropic-i686-pc-windows-msvc.zip
+          sha256: c8d2a85c99e5834957a8860e3f2e725921e7f44179439fc4a1c155a43dc2e279
+        x86_64-apple-darwin:
+          url: https://github.com/iii-hq/workers/releases/download/provider-anthropic/v1.2.10/provider-anthropic-x86_64-apple-darwin.tar.gz
+          sha256: 0c4985445aef27bfb65261868062d8d7e5e3a3aa4f719032d3bea65bc56af5e1
+        x86_64-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/provider-anthropic/v1.2.10/provider-anthropic-x86_64-pc-windows-msvc.zip
+          sha256: 087a48ea62eec5e48ee35e9a76cad0b51ef94a018e525089cbb51925883f417c
+        x86_64-unknown-linux-gnu:
+          url: https://github.com/iii-hq/workers/releases/download/provider-anthropic/v1.2.10/provider-anthropic-x86_64-unknown-linux-gnu.tar.gz
+          sha256: 2274bbf80cafbe300894cb5f0efd4a8b56dd864e9558c2251f06c6d4775f0cc5
+        x86_64-unknown-linux-musl:
+          url: https://github.com/iii-hq/workers/releases/download/provider-anthropic/v1.2.10/provider-anthropic-x86_64-unknown-linux-musl.tar.gz
+          sha256: 6d260b3fb4b4840ab347787d68b89384951808eed81b16c91898643eeed67457
+  provider-openai:
+    version: 1.2.8
+    type: binary
+    dependencies:
+      llm-router: ^1.4.12
+      state: ^0.22.2
+    source:
+      kind: binary
+      artifacts:
+        aarch64-apple-darwin:
+          url: https://github.com/iii-hq/workers/releases/download/provider-openai/v1.2.8/provider-openai-aarch64-apple-darwin.tar.gz
+          sha256: 580847b65bc941cc46fcbbbba5ce799088e56a06d387d28e34913b31cea34fee
+        aarch64-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/provider-openai/v1.2.8/provider-openai-aarch64-pc-windows-msvc.zip
+          sha256: 48966a55e114b7b598bb3e08f139120af2cfbd0298d3ebf92e4375a41b058cc3
+        aarch64-unknown-linux-gnu:
+          url: https://github.com/iii-hq/workers/releases/download/provider-openai/v1.2.8/provider-openai-aarch64-unknown-linux-gnu.tar.gz
+          sha256: 1b37bcf245ef626df1d0c2cfdce0931a71b8c92e8e4941b5590c96c9cee8b09e
+        armv7-unknown-linux-gnueabihf:
+          url: https://github.com/iii-hq/workers/releases/download/provider-openai/v1.2.8/provider-openai-armv7-unknown-linux-gnueabihf.tar.gz
+          sha256: 5faab1a90e91c7c5d2c67c06dfa0920c80799f8f03f8dc734e6178284e697f48
+        i686-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/provider-openai/v1.2.8/provider-openai-i686-pc-windows-msvc.zip
+          sha256: ac997ae81eb1257fb854958018529abcb3e1aba02bbb13a5154c8cda8a484c97
+        x86_64-apple-darwin:
+          url: https://github.com/iii-hq/workers/releases/download/provider-openai/v1.2.8/provider-openai-x86_64-apple-darwin.tar.gz
+          sha256: 260caf2a90dc9c1e1fced4c4cc1cc50e5eb645ddbd482fb59b0fde1c1099aead
+        x86_64-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/provider-openai/v1.2.8/provider-openai-x86_64-pc-windows-msvc.zip
+          sha256: 39ab27b8fb8bc71f60f549c304451cf809a5cd9c80ccfb682fcc6ada7d66d031
+        x86_64-unknown-linux-gnu:
+          url: https://github.com/iii-hq/workers/releases/download/provider-openai/v1.2.8/provider-openai-x86_64-unknown-linux-gnu.tar.gz
+          sha256: 86d1aef094d4a52911c0814126b2744f004eab63163ec888d5ed6d6e0908c008
+        x86_64-unknown-linux-musl:
+          url: https://github.com/iii-hq/workers/releases/download/provider-openai/v1.2.8/provider-openai-x86_64-unknown-linux-musl.tar.gz
+          sha256: 2d954f8e842e8e3cd0eeb017a42e2e96468787149c1171674864cee8b2661594
+  provider-openai-codex:
+    version: 0.4.5
+    type: binary
+    dependencies:
+      llm-router: ^1.4.12
+      state: ^0.22.2
+    source:
+      kind: binary
+      artifacts:
+        aarch64-apple-darwin:
+          url: https://github.com/iii-hq/workers/releases/download/provider-openai-codex/v0.4.5/provider-openai-codex-aarch64-apple-darwin.tar.gz
+          sha256: 35c8f848429a85dc6005b55cc0b029ec89180b249abac37cd95f2357cb49c256
+        aarch64-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/provider-openai-codex/v0.4.5/provider-openai-codex-aarch64-pc-windows-msvc.zip
+          sha256: 4d8f62fb7d720b1311334d7d13ffa65728576d86a577fa2493759c95144e6547
+        aarch64-unknown-linux-gnu:
+          url: https://github.com/iii-hq/workers/releases/download/provider-openai-codex/v0.4.5/provider-openai-codex-aarch64-unknown-linux-gnu.tar.gz
+          sha256: 7fba5e19de4ba2366717a6c975ca6b0fbd56f70ee1a0180c7c87ba1b48b84471
+        armv7-unknown-linux-gnueabihf:
+          url: https://github.com/iii-hq/workers/releases/download/provider-openai-codex/v0.4.5/provider-openai-codex-armv7-unknown-linux-gnueabihf.tar.gz
+          sha256: d18249965be6df2e63b129c263482e07079530f0c1d1791e94990d7e557fd50d
+        i686-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/provider-openai-codex/v0.4.5/provider-openai-codex-i686-pc-windows-msvc.zip
+          sha256: 9493c476de57b9810d7e809f5074647c66bc3bea4d8de2381190ad879745da2e
+        x86_64-apple-darwin:
+          url: https://github.com/iii-hq/workers/releases/download/provider-openai-codex/v0.4.5/provider-openai-codex-x86_64-apple-darwin.tar.gz
+          sha256: 0695ba19b94640d530608121160b9bbc51e7cb25a0c894ca73c2e0d10f512e7c
+        x86_64-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/provider-openai-codex/v0.4.5/provider-openai-codex-x86_64-pc-windows-msvc.zip
+          sha256: 068a1ca47a35f9dbc0a39ecf6b678428617de15cd4033ca8400e6f2aedc73e64
+        x86_64-unknown-linux-gnu:
+          url: https://github.com/iii-hq/workers/releases/download/provider-openai-codex/v0.4.5/provider-openai-codex-x86_64-unknown-linux-gnu.tar.gz
+          sha256: 2942944e6cfcf8cb1082341a2ee8b8d365e006071f3fb9c5f648c118e284a2ab
+        x86_64-unknown-linux-musl:
+          url: https://github.com/iii-hq/workers/releases/download/provider-openai-codex/v0.4.5/provider-openai-codex-x86_64-unknown-linux-musl.tar.gz
+          sha256: a2ea8e4a239551082e5a0816cc984f468afd6aee7b6cf828e2fb3859080bf70a
+  queue:
+    version: 0.21.6
+    type: binary
+    dependencies:
+      configuration: 0.x
+    source:
+      kind: binary
+      artifacts:
+        aarch64-apple-darwin:
+          url: https://github.com/iii-hq/workers/releases/download/queue/v0.21.6/queue-aarch64-apple-darwin.tar.gz
+          sha256: ed517a823b018f99633e7a5064b9072512590a1b80e86e4e02b496f65d43e4f6
+        aarch64-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/queue/v0.21.6/queue-aarch64-pc-windows-msvc.zip
+          sha256: 3f091c32cc6525550e00624aa0cc27fbb1ad91d623183e34af9a7f98f9fe0631
+        aarch64-unknown-linux-gnu:
+          url: https://github.com/iii-hq/workers/releases/download/queue/v0.21.6/queue-aarch64-unknown-linux-gnu.tar.gz
+          sha256: 4846e2b3a05f97414f2df951a1156a304ef9a2374c0a48c89ebb63dd0891b535
+        armv7-unknown-linux-gnueabihf:
+          url: https://github.com/iii-hq/workers/releases/download/queue/v0.21.6/queue-armv7-unknown-linux-gnueabihf.tar.gz
+          sha256: 777b346611fdfb7d22af055a2195620fd0ee900c583630b25fe85d3affed23e0
+        i686-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/queue/v0.21.6/queue-i686-pc-windows-msvc.zip
+          sha256: bcef8fe609bac7c65ad042b3f7d9aa46125dd01642ac330e25c04db5e0a9ca26
+        x86_64-apple-darwin:
+          url: https://github.com/iii-hq/workers/releases/download/queue/v0.21.6/queue-x86_64-apple-darwin.tar.gz
+          sha256: c90d07edf233e8cc4b09ac77adef979a299710c25b0491f558d08edd10c95a3d
+        x86_64-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/queue/v0.21.6/queue-x86_64-pc-windows-msvc.zip
+          sha256: 9bfc35c95f5fb85cb1e1e6924824d29e851749a4908fef4b7e665d712133de1b
+        x86_64-unknown-linux-gnu:
+          url: https://github.com/iii-hq/workers/releases/download/queue/v0.21.6/queue-x86_64-unknown-linux-gnu.tar.gz
+          sha256: ac13536586da4d2f7d1eed7eac151def79f33e2b621a4b4480bd1a76322592f9
+        x86_64-unknown-linux-musl:
+          url: https://github.com/iii-hq/workers/releases/download/queue/v0.21.6/queue-x86_64-unknown-linux-musl.tar.gz
+          sha256: 1d4af4fd797db8461bb08953840d8055899ab338b65cadcf3174ba53077e83dd
+  session-manager:
+    version: 1.0.13
+    type: binary
+    dependencies:
+      configuration: 0.x
+    source:
+      kind: binary
+      artifacts:
+        aarch64-apple-darwin:
+          url: https://github.com/iii-hq/workers/releases/download/session-manager/v1.0.13/session-manager-aarch64-apple-darwin.tar.gz
+          sha256: 72ae18b99f2fe8cb5c348cfd20496ce597107a968a20fd7b736c66eee9ca9fc6
+        aarch64-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/session-manager/v1.0.13/session-manager-aarch64-pc-windows-msvc.zip
+          sha256: 2eabff6bb1553a43893f657d8533e159fb5283eae56b18a1498700822fe790b6
+        aarch64-unknown-linux-gnu:
+          url: https://github.com/iii-hq/workers/releases/download/session-manager/v1.0.13/session-manager-aarch64-unknown-linux-gnu.tar.gz
+          sha256: 5f2fcdfb2e0e73ce6a64d480258c0d48b54164e2a9adc24e203b4a002afdae20
+        armv7-unknown-linux-gnueabihf:
+          url: https://github.com/iii-hq/workers/releases/download/session-manager/v1.0.13/session-manager-armv7-unknown-linux-gnueabihf.tar.gz
+          sha256: 9ca397f5724f65091132ce9d5945eb76481c9328cb4e402ac67653346442f7a6
+        i686-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/session-manager/v1.0.13/session-manager-i686-pc-windows-msvc.zip
+          sha256: aee094c7b6fdd43b9ed724b54a7369119382c19769a1391d55bc8567deb3daf5
+        x86_64-apple-darwin:
+          url: https://github.com/iii-hq/workers/releases/download/session-manager/v1.0.13/session-manager-x86_64-apple-darwin.tar.gz
+          sha256: 063e5ebc4bb3497a24a9b271609bf294fde369d3a690c3e82d36b511fe662e3f
+        x86_64-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/session-manager/v1.0.13/session-manager-x86_64-pc-windows-msvc.zip
+          sha256: 4f7f8c03ece819a13a292631e1c097636a9bc50624904ad2c29c098ec8adcd49
+        x86_64-unknown-linux-gnu:
+          url: https://github.com/iii-hq/workers/releases/download/session-manager/v1.0.13/session-manager-x86_64-unknown-linux-gnu.tar.gz
+          sha256: c6a8ba020b419033e49763829abddff740235d292edfceacc7ab32c11e4629a1
+        x86_64-unknown-linux-musl:
+          url: https://github.com/iii-hq/workers/releases/download/session-manager/v1.0.13/session-manager-x86_64-unknown-linux-musl.tar.gz
+          sha256: d25058c5c6b818f2ed4095686fb1d1123dd1f838b0cdfe96a3089fedb1c26ca0
+  shell:
+    version: 0.11.12
+    type: binary
+    dependencies: {}
+    source:
+      kind: binary
+      artifacts:
+        aarch64-apple-darwin:
+          url: https://github.com/iii-hq/workers/releases/download/shell/v0.11.12/shell-aarch64-apple-darwin.tar.gz
+          sha256: f40ef21605d1510238f3b73f810a7a31aa11cd7595246992cdbb2fe956d3b70a
+        aarch64-unknown-linux-gnu:
+          url: https://github.com/iii-hq/workers/releases/download/shell/v0.11.12/shell-aarch64-unknown-linux-gnu.tar.gz
+          sha256: a37c1ca97330daf5447f025b54a1cb157a10d8894e87408de0aa0c9f2edc32a6
+        armv7-unknown-linux-gnueabihf:
+          url: https://github.com/iii-hq/workers/releases/download/shell/v0.11.12/shell-armv7-unknown-linux-gnueabihf.tar.gz
+          sha256: dfbc2d7ef8485a4f5df164dcbee438774ed2dcc03e89b63316961bed84bf2488
+        x86_64-apple-darwin:
+          url: https://github.com/iii-hq/workers/releases/download/shell/v0.11.12/shell-x86_64-apple-darwin.tar.gz
+          sha256: 3030a3c4fbe50f58680e7c89abf8ffe96d5f9f57e884d2c844eded5e8dae124b
+        x86_64-unknown-linux-gnu:
+          url: https://github.com/iii-hq/workers/releases/download/shell/v0.11.12/shell-x86_64-unknown-linux-gnu.tar.gz
+          sha256: 1f017f88f7da17b7c5f7c204ab11fef586dbd6185902fa532f81f31034624b9f
+        x86_64-unknown-linux-musl:
+          url: https://github.com/iii-hq/workers/releases/download/shell/v0.11.12/shell-x86_64-unknown-linux-musl.tar.gz
+          sha256: 1ae3c6095b98ebf21193f950ab7e68ad6f1ca896110fa0f206191a77db2678ae
+  state:
+    version: 0.22.2
+    type: binary
+    dependencies:
+      configuration: 0.x
+    source:
+      kind: binary
+      artifacts:
+        aarch64-apple-darwin:
+          url: https://github.com/iii-hq/workers/releases/download/state/v0.22.2/state-aarch64-apple-darwin.tar.gz
+          sha256: 4b3ce34ffa551eec18904fd01a117f4dd9ad78e1a18a65bc0b6cbfb5ed662392
+        aarch64-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/state/v0.22.2/state-aarch64-pc-windows-msvc.zip
+          sha256: 0a5e8d3780f9250e55ee7e91bb2d0c2200195f969cc2222baeefbb5d51a4a089
+        aarch64-unknown-linux-gnu:
+          url: https://github.com/iii-hq/workers/releases/download/state/v0.22.2/state-aarch64-unknown-linux-gnu.tar.gz
+          sha256: ac9ec6620c87ade1362b4d202b89916a949cb688a31f2383e6e3fd097018a25e
+        armv7-unknown-linux-gnueabihf:
+          url: https://github.com/iii-hq/workers/releases/download/state/v0.22.2/state-armv7-unknown-linux-gnueabihf.tar.gz
+          sha256: 84189a66d40e7ddc8c0bc9e11a1e0586b73f79f7a8c98aaa826d7aa52c8d3cf4
+        i686-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/state/v0.22.2/state-i686-pc-windows-msvc.zip
+          sha256: eacaa22d0725f047d3a8e930a4bcffb95dd544eb4f6eac337b8d352770bf50d0
+        x86_64-apple-darwin:
+          url: https://github.com/iii-hq/workers/releases/download/state/v0.22.2/state-x86_64-apple-darwin.tar.gz
+          sha256: 67a96b4ec798ef7a64f1052ab74d7e21c59184260a627010b921949712a7568e
+        x86_64-pc-windows-msvc:
+          url: https://github.com/iii-hq/workers/releases/download/state/v0.22.2/state-x86_64-pc-windows-msvc.zip
+          sha256: a7773320f9c812e51c289598deb3ece938e723180ad54d9dd9bfe61087739ab0
+        x86_64-unknown-linux-gnu:
+          url: https://github.com/iii-hq/workers/releases/download/state/v0.22.2/state-x86_64-unknown-linux-gnu.tar.gz
+          sha256: 6be1b307c1902178c685abdd65778268eff85e4d98c2f16c9e1dec8f7885bb58
+        x86_64-unknown-linux-musl:
+          url: https://github.com/iii-hq/workers/releases/download/state/v0.22.2/state-x86_64-unknown-linux-musl.tar.gz
+          sha256: fd836912b79990ae76a04778b61b7f96a5d4554f5b9f44776aef73e407c68988

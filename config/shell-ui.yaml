@@ -1,0 +1,4 @@
+id: shell-ui
+name: Shell UI
+description: Per-console-tab state for the shell explorer page (open files, expanded folders). Managed by the page; not intended for hand-editing.
+value: {}
