@@ -17,8 +17,6 @@ That symmetry is what keeps the state machine a pure function of two dicts.
 
 from __future__ import annotations
 
-import shlex
-
 import governance
 import jobs
 import publishing
@@ -44,18 +42,48 @@ def call(worker, function_id: str, payload: dict, timeout_ms: int = 120000) -> d
         return {"ok": False, "error": f"{function_id}: {type(exc).__name__}: {exc}"}
 
 
+def run(worker, program: str, args: list[str], cwd: str, env: dict | None = None,
+        timeout_ms: int = 300000) -> dict:
+    """One program, with its arguments. **`shell::exec` is not a shell.**
+
+    It spawns a program directly: `command` is the program name and `args` is a
+    list. Passing `git add -A && git commit -m x` as `command` tries to spawn a
+    program with that literal name, which fails with S216 and — because the
+    caller was only catching exceptions — looked like a commit that worked. The
+    first job through the rework test pushed a branch with no commits on it.
+
+    **A non-zero exit is a failure.** `shell::exec` returns `exit_code` in its
+    payload rather than raising, so a command that ran and failed comes back
+    `ok`. That is the shape the repository's own commit hook refusing takes, and
+    reading it as success would silently disable the whole revision loop.
+    """
+    answer = call(worker, "shell::exec",
+                  {"command": program, "args": list(args), "cwd": cwd,
+                   "env": env or {}}, timeout_ms=timeout_ms)
+    if not answer["ok"]:
+        return answer
+
+    value = answer["value"]
+    code = int(value.get("exit_code") or 0)
+    output = f"{value.get('stdout') or ''}{value.get('stderr') or ''}".strip()
+    if code != 0:
+        return {"ok": False, "exit_code": code, "output": output,
+                "error": output or f"`{program}` exited {code}"}
+    return {"ok": True, "output": output, "value": value}
+
+
 def run_command(worker, command: str, cwd: str, env: dict | None = None,
                 timeout_ms: int = 600000) -> dict:
-    """A repository's own command, through the `shell` worker.
+    """A repository's own command line, which may use shell syntax.
 
-    Used for `prepare` and `cleanup`. An empty command is a success rather than
-    a no-op error: most repositories need neither.
+    `prepare = "make up && make migrate"` is a shell string a person wrote, so
+    it gets a shell — explicitly, through `sh -c`, rather than by hoping the
+    exec surface provides one. An empty command is a success rather than a no-op
+    error: most repositories need neither.
     """
     if not command.strip():
         return {"ok": True, "value": {"skipped": "no command configured"}}
-    return call(worker, "shell::exec",
-                {"command": command, "cwd": cwd, "env": env or {}},
-                timeout_ms=timeout_ms)
+    return run(worker, "sh", ["-c", command], cwd, env, timeout_ms)
 
 
 # ------------------------------------------------------------ the actions
@@ -155,34 +183,37 @@ def commit_and_push(worker, job: dict, settings: dict) -> dict:
     if not workspace or not branch:
         return {"ok": False, "error": "no worktree to commit from"}
 
-    status = call(worker, "worktree::status", {"worktree_id": job.get("worktree_id")})
-    if status["ok"]:
-        state = status["value"].get("value") or status["value"]
-        if state.get("clean", False) and not state.get("ahead"):
-            # A run that changed nothing is not a failure, but it is not a pull
-            # request either. Saying so beats opening an empty one.
-            return {"ok": False, "error": (
-                "the turn finished and the worktree is unchanged, so there is "
-                "nothing to publish")}
-
+    base = str((settings.get("repo_settings") or {}).get("base") or "") or "HEAD"
     message = commit_message(job)
 
-    refused = rung_four(worker, job, workspace, message)
+    # Stage whatever is loose, so the gate sees it whether the turn committed or
+    # not. **The run phase can commit by itself**: it has `shell::exec` and
+    # nothing withholds git from it, and the first rework run did exactly that.
+    # A gate that only looked at staged changes would then see an empty diff and
+    # wave through work it never read.
+    run(worker, "git", ["add", "-A"], workspace)
+
+    refused = rung_four(worker, job, workspace, message, base)
     if refused:
         return {"ok": True, "refused": True, "refusal": refused}
 
-    committed = call(worker, "shell::exec", {
-        "command": f"git add -A && git commit -m {shlex.quote(message)}",
-        "cwd": workspace}, timeout_ms=300000)
-    if not committed["ok"]:
+    committed = run(worker, "git", ["commit", "-m", message], workspace)
+    already = "nothing to commit" in str(committed.get("output") or "")
+    if not committed["ok"] and not already:
         # The repository's own hook refused. Verbatim, because summarising it
-        # would throw away the only specific thing anybody said.
+        # would throw away the only specific thing anybody said about the work.
         return {"ok": True, "refused": True,
-                "refusal": str(committed.get("error") or "")[:4000]}
+                "refusal": str(committed.get("output") or "")[:4000]}
 
-    pushed = call(worker, "shell::exec", {
-        "command": f"git push -u origin {shlex.quote(branch)}",
-        "cwd": workspace}, timeout_ms=300000)
+    # Nothing loose to commit is fine IF the turn already committed. What is not
+    # fine is a branch with nothing on it at all.
+    ahead = run(worker, "git", ["log", "--oneline", f"origin/{base}..HEAD"], workspace)
+    if ahead["ok"] and not str(ahead.get("output") or "").strip():
+        return {"ok": False, "error": (
+            "the turn finished and the branch has no commits on it, so there is "
+            "nothing to publish")}
+
+    pushed = run(worker, "git", ["push", "-u", "origin", branch], workspace)
     if not pushed["ok"]:
         return {"ok": False, "error": f"push failed: {pushed.get('error')}"}
 
@@ -211,7 +242,8 @@ def commit_message(job: dict) -> str:
     return title.splitlines()[0][:72]
 
 
-def rung_four(worker, job: dict, workspace: str, publishing: str) -> str:
+def rung_four(worker, job: dict, workspace: str, publishing: str,
+              base: str = "HEAD") -> str:
     """The delivery gate, over the finished diff and the text about to ship.
 
     Asked of the `ladder` worker rather than reimplemented, so the same
@@ -219,12 +251,14 @@ def rung_four(worker, job: dict, workspace: str, publishing: str) -> str:
     A ladder that is unreachable does not wave the commit through silently: it
     says so, and the caller records it.
     """
-    diff = call(worker, "shell::exec",
-                {"command": "git add -A && git diff --cached --unified=0",
-                 "cwd": workspace}, timeout_ms=120000)
-    changed = ""
-    if diff["ok"]:
-        changed = str((diff["value"].get("stdout") or ""))[:200000]
+    # Everything not yet on the remote, committed or not. `--cached` alone
+    # would miss work the turn committed itself, which is the hole that let a
+    # diff reach a branch without the delivery gate reading it.
+    diff = run(worker, "git", ["diff", f"origin/{base}...HEAD", "--unified=0"],
+               workspace)
+    changed = str(diff.get("output") or "") if diff["ok"] else ""
+    staged = run(worker, "git", ["diff", "--cached", "--unified=0"], workspace)
+    changed = (changed + "\n" + str(staged.get("output") or ""))[:200000]
 
     answer = call(worker, "ladder::evaluate", {
         "repo": workspace,
@@ -241,9 +275,23 @@ def rung_four(worker, job: dict, workspace: str, publishing: str) -> str:
 
 
 def open_pull_request(worker, job: dict, settings: dict) -> dict:
-    """Publish the work for a human to decide on. ghola never merges."""
+    """Publish the work for a human to decide on. ghola never merges.
+
+    **Idempotent.** A rework pushes to the same branch, so the pull request that
+    already exists updates itself and there is nothing to open. The first rework
+    ran the whole loop correctly and then tried to create a second pull request
+    for a branch that already had one.
+    """
     repo = settings.get("repo_settings") or {}
     slug = str(job.get("repo_slug") or "")
+
+    if job.get("pr_number"):
+        # Already open. Say on it that the answer has been pushed, so a reviewer
+        # is not left watching a branch change with no explanation.
+        answered = answer_pushed(worker, job)
+        return {"ok": True, "pull_request": job.get("pull_request"),
+                "pr_number": job["pr_number"],
+                "reopened": False, "commented": answered["ok"]}
     if not slug:
         return {"ok": False, "error": (
             "no `owner/name` for this repository, so there is nothing to open a "
@@ -297,8 +345,54 @@ def watch_pull_request(worker, job: dict, settings: dict) -> dict:
     if not seen["ok"]:
         return seen
 
-    pr = seen["value"].get("value") or seen["value"]
+    pr = dict(seen["value"].get("value") or seen["value"])
+    pr["comments"] = comments_on(worker, slug, number)
     return {"ok": True, **derive_outcome(job, pr)}
+
+
+def comments_on(worker, slug: str, number: int) -> list[dict]:
+    """Every comment on a pull request, from the endpoints `pr::view` omits.
+
+    **`github::pr::view` returns no comments.** It carries the body,
+    mergeability, review decision and diff stats, and a reconciler reading it
+    alone sees a card nobody has ever commented on — which is exactly what a
+    card nobody has commented on looks like. The first rework test waited three
+    minutes on a comment that was already there.
+
+    Two endpoints, because GitHub keeps them apart: issue comments are the
+    conversation, and pull comments are the ones anchored to a line. A reviewer
+    does not distinguish them and neither does this.
+    """
+    found = []
+    for path in (f"repos/{slug}/issues/{number}/comments",
+                 f"repos/{slug}/pulls/{number}/comments"):
+        answer = call(worker, "github::api", {"path": path, "method": "GET"})
+        if not answer["ok"]:
+            continue
+        value = answer["value"]
+        items = value.get("value") or value.get("data") or value
+        if isinstance(items, str):
+            try:
+                import json as _json
+                items = _json.loads(items)
+            except ValueError:
+                continue
+        if isinstance(items, list):
+            for item in items:
+                if isinstance(item, dict):
+                    # A line comment carries its file and line; keeping them
+                    # means the brief can say WHERE, which is most of what makes
+                    # a review comment actionable.
+                    where = (f"{item.get('path')}:{item.get('line')} — "
+                             if item.get("path") else "")
+                    found.append({
+                        "id": str(item.get("id") or ""),
+                        "body": where + str(item.get("body") or ""),
+                        "createdAt": str(item.get("created_at")
+                                         or item.get("createdAt") or ""),
+                    })
+
+    return sorted(found, key=lambda c: c["createdAt"])
 
 
 def teardown(worker, job: dict, settings: dict) -> dict:
@@ -348,6 +442,15 @@ def announce_landing(worker, job: dict) -> dict:
     return call(worker, "github::pr::comment", {
         "repo": job["repo_slug"], "number": job["pr_number"],
         "body": publishing.landed_note(job)})
+
+
+def answer_pushed(worker, job: dict) -> dict:
+    """Say on the pull request that the reworked answer is on the branch."""
+    if not job.get("repo_slug") or not job.get("pr_number"):
+        return {"ok": True}
+    return call(worker, "github::pr::comment", {
+        "repo": job["repo_slug"], "number": job["pr_number"],
+        "body": publishing.answer_note(job)})
 
 
 def acknowledge(worker, job: dict, brief: str) -> dict:

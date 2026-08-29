@@ -14,6 +14,9 @@ max_revisions = 2
 
 [repos."/Users/tacoda/tacoda/fawlty"]
 slug = "tacoda/fawlty"
+# Named rather than discovered, so `origin/<base>` in the delivery gate always
+# resolves. Discovery from the forge arrives with the draft phase.
+base = "main"
 # Left empty on purpose for the first run. fawlty's stack is docker-compose and
 # bringing it up costs minutes per job; a spec that does not need the app
 # running does not need the app running. A spec that DOES needs:

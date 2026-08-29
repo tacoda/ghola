@@ -191,5 +191,92 @@ class ThePullRequestNumber(unittest.TestCase):
         self.assertFalse(result["ok"])
         self.assertIn("owner/name", result["error"])
 
+
+
+class ShellExecIsNotAShell(unittest.TestCase):
+    """The bug that pushed a branch with no commits on it.
+
+    `shell::exec` spawns a program directly: `command` is the program name and
+    `args` is a list. Passing `git add -A && git commit -m x` as `command` tries
+    to spawn a program with that literal name.
+
+    And `exit_code` comes back in the payload rather than raising, so a command
+    that ran and FAILED reads as ok — which is the exact shape the repository's
+    own commit hook refusing takes.
+    """
+
+    class Shell:
+        """Records what it was asked to run, and fails only the command named.
+
+        Per-command rather than blanket, because `commit_and_push` runs several
+        and a fake that fails all of them never reaches the one under test.
+        """
+
+        def __init__(self, fails="", code=0, stdout="", stderr=""):
+            self.calls = []
+            self.fails, self.code = fails, code
+            self.stdout, self.stderr = stdout, stderr
+
+        def trigger(self, request):
+            payload = request.get("payload") or {}
+            function_id = request.get("function_id", "")
+
+            if function_id != "shell::exec":
+                # worktree::status, ladder::evaluate and friends: unremarkable.
+                return {}
+
+            self.calls.append(payload)
+            args = payload.get("args") or []
+            if self.fails and args and args[0] == self.fails:
+                return {"exit_code": self.code or 1, "stdout": self.stdout,
+                        "stderr": self.stderr}
+            return {"exit_code": 0, "stdout": "", "stderr": ""}
+
+    def test_the_program_and_its_arguments_are_separate(self):
+        shell = self.Shell()
+        actions.run(shell, "git", ["add", "-A"], "/w")
+        self.assertEqual(shell.calls[0]["command"], "git")
+        self.assertEqual(shell.calls[0]["args"], ["add", "-A"])
+
+    def test_no_shell_operators_are_ever_put_in_command(self):
+        shell = self.Shell()
+        actions.run(shell, "git", ["commit", "-m", "a && b"], "/w")
+        self.assertNotIn("&&", shell.calls[0]["command"])
+
+    def test_a_non_zero_exit_is_a_failure(self):
+        shell = self.Shell(fails="commit", stderr="hook refused: no secrets")
+        result = actions.run(shell, "git", ["commit"], "/w")
+        self.assertFalse(result["ok"])
+        self.assertIn("hook refused", result["error"])
+
+    def test_the_repositorys_own_hook_refusal_becomes_a_refusal(self):
+        # Verbatim, because summarising it throws away the only specific thing
+        # anybody said about the work.
+        shell = self.Shell(fails="commit",
+                           stderr="pre-commit: line 4 has a bare except")
+        result = actions.commit_and_push(
+            shell, {"id": "j", "workspace": "/w", "branch": "b", "title": "t"}, {})
+        self.assertTrue(result.get("refused"))
+        self.assertIn("bare except", result["refusal"])
+
+    def test_committing_nothing_is_not_a_refusal(self):
+        # A branch with no commits cannot become a pull request, and sending it
+        # back to `run` would loop on a turn that had nothing to do.
+        shell = self.Shell(fails="commit",
+                           stdout="nothing to commit, working tree clean")
+        result = actions.commit_and_push(
+            shell, {"id": "j", "workspace": "/w", "branch": "b", "title": "t"}, {})
+        self.assertFalse(result["ok"])
+        self.assertFalse(result.get("refused"))
+        self.assertIn("nothing to publish", result["error"])
+
+    def test_a_repo_command_line_gets_an_explicit_shell(self):
+        # `prepare = "make up && make migrate"` is a shell string a person
+        # wrote, so it gets `sh -c` explicitly rather than by hoping.
+        shell = self.Shell()
+        actions.run_command(shell, "make up && make migrate", "/w")
+        self.assertEqual(shell.calls[0]["command"], "sh")
+        self.assertEqual(shell.calls[0]["args"][0], "-c")
+
 if __name__ == "__main__":
     unittest.main()

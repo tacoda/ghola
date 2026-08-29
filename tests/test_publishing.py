@@ -161,5 +161,53 @@ class TheBodyIsTheDocument(unittest.TestCase):
         self.assertIn("the ask", body)
         self.assertTrue(body.strip())
 
+
+
+class PublishingTwiceOpensOnePullRequest(unittest.TestCase):
+    """A rework pushes to the same branch, so the existing pull request updates
+    itself. The first rework ran the whole loop and then tried to open a second
+    one for a branch that already had one."""
+
+    class Forge:
+        def __init__(self):
+            self.created = 0
+            self.commented = 0
+
+        def trigger(self, request):
+            fid = request.get("function_id", "")
+            if fid == "github::pr::create":
+                self.created += 1
+                return {"output": "https://github.com/o/r/pull/7"}
+            if fid == "github::pr::comment":
+                self.commented += 1
+            return {}
+
+    def test_a_job_with_no_pull_request_opens_one(self):
+        forge = self.Forge()
+        result = actions.open_pull_request(
+            forge, {"repo_slug": "o/r", "branch": "b", "title": "t"}, {})
+        self.assertEqual(forge.created, 1)
+        self.assertEqual(result["pr_number"], 7)
+
+    def test_a_job_that_already_has_one_does_not_open_another(self):
+        forge = self.Forge()
+        result = actions.open_pull_request(
+            forge, {"repo_slug": "o/r", "branch": "b", "title": "t",
+                    "pr_number": 7, "pull_request": "u"}, {})
+        self.assertEqual(forge.created, 0)
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["pr_number"], 7)
+
+    def test_it_says_on_the_pull_request_that_the_answer_is_pushed(self):
+        # Or a reviewer watches the branch change with no explanation.
+        forge = self.Forge()
+        actions.open_pull_request(
+            forge, {"repo_slug": "o/r", "branch": "b", "pr_number": 7}, {})
+        self.assertEqual(forge.commented, 1)
+
+    def test_the_answer_note_carries_the_marker(self):
+        # Or the next poll reads it as new feedback and reworks forever.
+        self.assertIn(publishing.MARKER, publishing.answer_note({}))
+
 if __name__ == "__main__":
     unittest.main()

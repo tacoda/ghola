@@ -1,7 +1,7 @@
 ladder ready on ws://localhost:49154
-  ladder::refused -> ghola::record::ladder-refused  constraints  : 1
-
+  constraints  : 1
   capabilities : 0
   measured     : 100% runs, the rest is hoped for
   bound        : harness::hook::pre-trigger -> ladder::gate
   emits        : ladder::refused
+  ladder::refused -> ghola::record::ladder-refused

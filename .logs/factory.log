@@ -5,4 +5,3 @@ ghola-factory started on ws://localhost:49154
   queue  : ghola.stage -> ghola::step
   poll   : 0 * * * * * -> ghola::tick (0 waiting)
   the console is the UI: invoke ghola::submit from it
-turn completed for `f3cda70682d94bedb0dca59f04bdb830` (prove) and no such job record

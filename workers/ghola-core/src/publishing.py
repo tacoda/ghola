@@ -110,6 +110,18 @@ def reply_to(job: dict, brief: str) -> str:
             "answer.\n")
 
 
+def answer_note(job: dict) -> str:
+    """What ghola says when a rework has been pushed to the same branch.
+
+    Carries the marker, so the next poll does not read ghola's own note as new
+    feedback and rework forever.
+    """
+    checks = check_lines(job)
+    tail = ("\n\n" + "\n".join(checks)) if checks else ""
+    return (f"{MARKER}\n\nPushed the answer to this branch. The diff above is "
+            f"updated.{tail}\n")
+
+
 def landed_note(job: dict) -> str:
     """What ghola says when a job it opened has been merged."""
     return (f"{MARKER}\n\nMerged. The worktree has been torn down and the job is "
