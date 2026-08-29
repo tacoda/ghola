@@ -2,4 +2,10 @@ id: state
 name: State
 description: State store settings — storage adapter (kv/redis), trigger fan-out gate, max value size, and file-store flush cadence.
 value:
+  adapter:
+    config:
+      file_path: ./state/kv_store_data.db
+      save_interval_ms: 1000
+      store_method: file_based
+    name: kv
   triggers_enabled: true

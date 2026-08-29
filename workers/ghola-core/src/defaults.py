@@ -104,3 +104,84 @@ def config() -> dict:
         "defaults": {**DEFAULTS, "functions": {"allow": list(READ_ONLY)}},
         "phases": {name: dict(block) for name, block in PHASES.items()},
     }
+
+
+# --------------------------------------------------------------- the pipeline
+
+# The stage graph a factory runs when `settings/pipeline.yaml` is absent. A team
+# that wants a different flow of work edits that file; this is what they are
+# editing a copy of.
+#
+# The shape is wipp's, which earned it against three real repositories: plan on
+# a thinking model, run on a cheap one, prove that it works, review the diff,
+# publish, and then wait for a person. Nothing merges itself.
+PIPELINE = {
+    "first": "prepare",
+    "terminal": ["landed", "closed", "failed"],
+    "stages": {
+        "prepare": {
+            "action": "prepare_workspace",
+            "next": "plan",
+        },
+        # Deciding what to build and building it are separate turns on different
+        # models. The strong model is spent once, on the decision with the
+        # largest blast radius, and spent AFTER reading the repository so the
+        # plan names real files rather than plausible ones.
+        "plan": {
+            "phase": "plan",
+            # A gate's complaint and a reviewer's comment are already briefs.
+            # Re-planning would only blur them.
+            "skip_when": ["revision", "rework"],
+            # A plan turn that fails does not fail the job; it hands over an
+            # empty plan.
+            "on_error": "continue",
+            "next": "run",
+        },
+        "run": {
+            "phase": "run",
+            "on_refusal": {"goto": "run", "max": 2, "stop_when_identical": True},
+            "next": "prove",
+        },
+        # Runs the software against the spec while the environment is still up.
+        # The worktree is checked afterwards and anything a check changed is
+        # reverted, because a shell can write whatever its tool list says.
+        "prove": {
+            "phase": "prove",
+            "optional": True,
+            "contract": "proven",
+            "revert_worktree_changes": True,
+            "next": "review",
+        },
+        # Handed the spec and the diff, and nothing else. Never the executor's
+        # summary of its own work: a check fed the work's own account of itself
+        # is grading a story.
+        "review": {
+            "phase": "review",
+            "optional": True,
+            "contract": "verdict",
+            "next": "publish",
+        },
+        "publish": {
+            "action": "open_pull_request",
+            "next": "waiting",
+        },
+        # ghola opens a pull request and stops. A human merges, and what they
+        # do is the edge out of here.
+        "waiting": {
+            "action": "watch_pull_request",
+            "on_merge": "landed",
+            "on_close": "closed",
+            "on_comment": "rework",
+        },
+        "rework": {
+            "action": "prepare_workspace",
+            "next": "run",
+        },
+    },
+}
+
+
+def pipeline() -> dict:
+    """The built-in stage graph, as a fresh copy."""
+    import copy
+    return copy.deepcopy(PIPELINE)

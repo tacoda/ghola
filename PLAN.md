@@ -889,11 +889,24 @@ predicate a different rule wearing this one's authority.
 - Job state derived from the graph. Every transition a durable queue message.
 - The dashboard, driven by the graph rather than a hardcoded rail.
 
-**The job store is the `state` worker, on probation.** wipp used it until it
-restarted mid-run and took a live job with it, and moved to JSON files. The
-worker has moved on since (compare-and-set, barriers, private namespaces), so
-ghola uses it and proves the durability rather than inheriting the scar. The
-check above is that proof, and it runs before M4 closes.
+**The job store is the `state` worker, and the durability check passed — but it
+corrected the story rather than confirming it.**
+
+wipp lost a live job here and concluded the worker was the wrong store. That
+conclusion was wrong. The worker persists fine; its `store_method` **defaults to
+`in_memory`**, which the worker's own schema calls "volatile, process-lifetime
+storage, lost on shutdown — not for production". The scar was a configuration
+default.
+
+Which is a worse failure than a broken worker, because nothing announces it. A
+factory storing jobs in the default adapter works perfectly until the first
+restart, and the first restart is usually the one during a long job.
+
+So ghola configures `file_based` with a 1s flush in `config/state.yaml`, and
+`tests/live/test_state_survives.py` asserts both halves: that the adapter is not
+the volatile default (cheap, and the check that would have caught wipp's loss),
+and that a record written before a worker restart is readable after it
+(expensive, restarts a worker, slow on purpose).
 
 **Verify:** `test_graph_reaches_every_stage` walks the shipped graph and asserts
 every stage is reachable and every terminal state is declared; a job killed
