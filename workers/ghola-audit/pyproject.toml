@@ -1,0 +1,14 @@
+[project]
+name = "ghola-audit"
+version = "0.1.0"
+description = "One process owns the append-only, hash-chained record, so the chain cannot interleave"
+requires-python = ">=3.11"
+dependencies = ["iii-sdk==0.22.1", "iii-helpers==0.22.1", "ghola-core"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+only-include = ["src"]
+sources = ["src"]

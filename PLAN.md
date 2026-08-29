@@ -241,6 +241,7 @@ rather than this plan being wrong.
 |---|---|
 | `workers/ghola-factory` | The stage graph, the job record, and the briefs. Calls `worktree::*` and `github::*` rather than running git. Starts turns; never runs one. **Serves no HTTP: the console is the UI.** |
 | `workers/ghola-policy` | What this repository contributes to a turn: the four callbacks carrying the ladder, and the evaluator functions. **Registers no tools.** Holds no session state. |
+| `workers/ghola-audit` | Owns the append-only, hash-chained record. **One writer, by construction.** Everything else records through `audit::append`. |
 
 `ghola-core` is not a worker. It is a plain Python package both workers import:
 the pure decisions, with no I/O and no engine. The graph transition, the gate

@@ -164,5 +164,32 @@ class BranchNaming(unittest.TestCase):
         name = actions.branch_name({"title": "x " * 200}, {"branch_prefix": "p/"})
         self.assertLessEqual(len(name), 55)
 
+
+
+class ThePullRequestNumber(unittest.TestCase):
+    """Without it the reconciler answers "no pull request to watch" forever,
+    which looks exactly like a card nobody has acted on."""
+
+    def test_it_is_parsed_from_the_url_gh_prints(self):
+        class Forge:
+            def trigger(self, req):
+                return {"output": "https://github.com/o/r/pull/42"}
+        result = actions.open_pull_request(
+            Forge(), {"repo_slug": "o/r", "branch": "b", "title": "t"}, {})
+        self.assertEqual(result["pr_number"], 42)
+
+    def test_a_url_with_no_number_does_not_invent_one(self):
+        class Forge:
+            def trigger(self, req):
+                return {"output": "https://github.com/o/r/pull/"}
+        result = actions.open_pull_request(
+            Forge(), {"repo_slug": "o/r", "branch": "b", "title": "t"}, {})
+        self.assertIsNone(result["pr_number"])
+
+    def test_no_slug_is_refused_with_a_reason(self):
+        result = actions.open_pull_request(object(), {"branch": "b"}, {})
+        self.assertFalse(result["ok"])
+        self.assertIn("owner/name", result["error"])
+
 if __name__ == "__main__":
     unittest.main()

@@ -18,6 +18,7 @@ history.
 
 from __future__ import annotations
 
+import fcntl
 import json
 import os
 import threading
@@ -26,10 +27,20 @@ from pathlib import Path
 
 import audit
 
-# One writer per process. Two threads appending to one chain would interleave
-# `prev` hashes and produce a log that fails its own verification, which is the
-# worst possible bug in this file: it looks exactly like tampering.
+# A thread lock is NOT enough, and assuming it was is what broke the first real
+# log this repository produced.
+#
+# Two WORKERS append here — the policy worker records what the ladder and the
+# approval gate decided, the factory records stage transitions — and they are
+# separate processes. Each held its own in-memory tail, so their `prev` hashes
+# interleaved and the chain failed its own verification. Multi-writer is the
+# normal case here, not an edge case.
+#
+# So: a thread lock for threads, and an `flock` on a lock file for processes.
+# The tail is re-read from disk INSIDE the lock, because another process may
+# have appended since this one last looked.
 _LOCK = threading.Lock()
+LOCK_NAME = ".audit.lock"
 
 # 64 MB, then seal and start another. Chosen so a file stays greppable and loads
 # into memory for verification, not for any storage reason.
@@ -51,7 +62,7 @@ class AuditLog:
         """Every log file, oldest first. The names sort chronologically."""
         if not self.folder.is_dir():
             return []
-        return sorted(self.folder.glob("audit-*.jsonl"))
+        return sorted(self.folder.glob("audit-*.jsonl"))  # the lock file is not one
 
     def current(self) -> Path:
         """The file being appended to, creating the directory if needed."""
@@ -100,25 +111,39 @@ class AuditLog:
                detail: dict | None = None, at: int | None = None) -> dict:
         """Add one entry. Returns it, chained and hashed.
 
+        Held under a cross-process lock, and the tail is re-read from disk
+        inside it: another worker may have appended since this one last looked,
+        and chaining onto a stale tail is how two correct writers produce one
+        broken log.
+
         The write is flushed and fsynced before returning, because an entry lost
         in a page cache during a crash is an entry that never existed, and the
         caller has already acted on the decision it records.
         """
         with _LOCK:
-            item = audit.next_entry(
-                self._tail(), kind,
-                at if at is not None else int(time.time() * 1000),
-                actor=actor, subject=subject, detail=detail or {})
+            self.folder.mkdir(parents=True, exist_ok=True)
+            with (self.folder / LOCK_NAME).open("a+") as guard:
+                fcntl.flock(guard.fileno(), fcntl.LOCK_EX)
+                try:
+                    # Always from disk. The in-memory tail is an optimisation
+                    # that is wrong the moment a second writer exists.
+                    self._loaded = False
+                    item = audit.next_entry(
+                        self._tail(), kind,
+                        at if at is not None else int(time.time() * 1000),
+                        actor=actor, subject=subject, detail=detail or {})
 
-            path = self.current()
-            with path.open("a", encoding="utf-8") as handle:
-                handle.write(audit.as_line(item))
-                handle.flush()
-                os.fsync(handle.fileno())
+                    path = self.current()
+                    with path.open("a", encoding="utf-8") as handle:
+                        handle.write(audit.as_line(item))
+                        handle.flush()
+                        os.fsync(handle.fileno())
 
-            self._last = item
-            self._loaded = True
-            return item
+                    self._last = item
+                    self._loaded = True
+                    return item
+                finally:
+                    fcntl.flock(guard.fileno(), fcntl.LOCK_UN)
 
 
 def summary(folder: str | Path) -> dict:

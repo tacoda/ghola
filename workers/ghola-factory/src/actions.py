@@ -250,8 +250,17 @@ def open_pull_request(worker, job: dict, settings: dict) -> dict:
         return made
 
     value = made["value"]
-    return {"ok": True, "pull_request": value.get("output") or value.get("url") or "",
-            "number": value.get("number")}
+    url = str(value.get("output") or value.get("url") or "").strip()
+    # `gh pr create` prints the URL and the number is the last path segment.
+    # Without this the record has no `pr_number` and `watch_pull_request`
+    # answers "no pull request to watch" forever, which looks exactly like a
+    # card nobody has acted on.
+    number = value.get("number")
+    if not number and url:
+        tail = url.rstrip("/").rsplit("/", 1)[-1]
+        number = int(tail) if tail.isdigit() else None
+
+    return {"ok": True, "pull_request": url, "pr_number": number}
 
 
 def watch_pull_request(worker, job: dict, settings: dict) -> dict:

@@ -1,0 +1,4 @@
+ghola-audit started on ws://localhost:49154
+  log     : /Users/tacoda/tacoda/ghola/audit
+  entries : 0 (intact)
+  one writer, by construction: this process owns the chain

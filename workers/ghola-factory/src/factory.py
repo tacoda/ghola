@@ -31,7 +31,6 @@ import actions as builtin_actions
 ROOT = Path(os.environ.get("GHOLA_ROOT", Path(__file__).resolve().parents[3]))
 sys.path.insert(0, str(ROOT / "workers" / "ghola-core" / "src"))
 
-import audit_log  # noqa: E402
 import contracts as contractslib  # noqa: E402
 import defaults  # noqa: E402
 import extensions  # noqa: E402
@@ -46,22 +45,29 @@ import yaml  # noqa: E402
 
 NAME = "ghola"
 QUEUE = "ghola.stage"
+# Six-field cron: once a minute. A card that waits a minute longer than it had
+# to has cost nothing; one that waits forever is the reconciler not existing.
+POLL = "0 * * * * *"
 
 WORKER = None
 STORE = jobslib.Store(ROOT / "state" / "jobs")
-AUDIT = audit_log.AuditLog(os.environ.get("GHOLA_AUDIT_DIR") or ROOT / "audit")
 
 
 def record(kind: str, actor: str = "", subject: str = "", **detail) -> None:
-    """Append to the audit log. Never raises, never silent.
+    """Append to the audit log, through the worker that owns the chain.
 
-    `actor` and `subject` are the entry's own fields; everything else is
-    `detail`. The first version splatted every keyword into `append()` and every
-    write failed with a TypeError — which the log printed on every transition,
-    loudly, which is why this was a five-minute bug rather than a silent one.
+    **Not written directly.** A hash chain has exactly one writer or it has
+    none: this worker and the policy worker both record, they are separate
+    processes, and appending from both produced a log that failed its own
+    verification while nothing had tampered with it.
     """
+    if WORKER is None:
+        print(f"AUDIT NOT RECORDED ({kind}): no engine connection")
+        return
     try:
-        AUDIT.append(kind, actor=actor, subject=subject, detail=detail)
+        WORKER.trigger({"function_id": "audit::append", "timeout_ms": 10000,
+                        "payload": {"kind": kind, "actor": actor,
+                                    "subject": subject, "detail": detail}})
     except Exception as exc:  # noqa: BLE001
         print(f"AUDIT WRITE FAILED ({kind}): {type(exc).__name__}: {exc}")
 
@@ -174,6 +180,24 @@ def fn_pipeline(payload: dict) -> dict:
         "problems": problems,
         "runnable": not problems,
     }
+
+
+def fn_tick(payload: dict) -> dict:
+    """Look at every job waiting on a human. Bound to cron.
+
+    **Without this the reconciler is dead.** A job reaches `waiting` and stays
+    there: the stage exists, its outcomes are declared, `derive_outcome` is
+    tested, and nothing ever calls it. That is the exact failure this repository
+    keeps finding in other clothes — a mechanism that is written, correct, and
+    connected to nothing.
+
+    A tick enqueues rather than acting, so the same stage guard and the same
+    at-least-once handling apply to a poll as to a transition.
+    """
+    waiting = STORE.waiting()
+    for job in waiting:
+        enqueue(job["id"], "waiting")
+    return {"ticked": len(waiting)}
 
 
 # ------------------------------------------------------------- the dispatch
@@ -300,12 +324,25 @@ def brief_for(job: dict, stage: graphlib.Stage) -> str:
 
 
 def advance(job: dict, graph: graphlib.Graph, result: dict) -> dict:
-    """Apply the transition the graph decided, and enqueue the next step."""
+    """Apply the transition the graph decided, and enqueue the next step.
+
+    **A transition to the same stage is not a transition.** `waiting -> waiting`
+    is the normal answer when nobody has acted on a pull request yet, and
+    treating it as movement re-enqueues immediately: the first version spun 2020
+    history entries in 75 seconds, burning a queue message and a forge call on
+    each one. A card that waits is a card that does nothing, including nothing
+    to its own record.
+    """
     move = graphlib.next_stage(job, graph, result)
+
+    if move.to == job.get("stage"):
+        # Stay put, silently. The next tick will look again.
+        return {"job": job["id"], "stage": move.to, "why": move.why, "waiting": True}
     moved = jobslib.advance(job, move.to, move.why, revision=move.revision,
                             **{k: v for k, v in result.items()
                                if k in ("workspace", "worktree_id", "pull_request",
-                                        "brief", "plan", "last_refusal")})
+                                        "pr_number", "brief", "plan", "last_refusal",
+                                        "answered_comment", "verdict")})
     STORE.write(moved)
 
     record("stage.left", actor="ghola::step", subject=job["id"],
@@ -374,6 +411,8 @@ def main() -> None:
         (f"{NAME}::pipeline", fn_pipeline,
          "The stage graph as it will run, and anything wrong with it."),
         (f"{NAME}::step", fn_step, "Internal: run one stage. Bound to the queue."),
+        (f"{NAME}::tick", fn_tick,
+         "Look at every job waiting on a human. Bound to cron."),
         (f"{NAME}::turn-completed", fn_turn_completed, "Internal: a phase finished."),
     ):
         WORKER.register_function(function_id, handler, description=description)
@@ -389,12 +428,19 @@ def main() -> None:
                              "function_id": f"{NAME}::step",
                              "config": {"queue": QUEUE, "max_retries": 3}})
 
+    # Every minute, six-field cron. A pull request can be merged at any time and
+    # nothing tells ghola; the only way to find out is to look.
+    WORKER.register_trigger({"type": "cron",
+                             "function_id": f"{NAME}::tick",
+                             "config": {"expression": POLL}})
+
     graph = pipeline()
     print(f"ghola-factory started on {url}")
     print(f"  jobs   : {STORE.folder}")
     print(f"  stages : {' -> '.join(graph.stages) or 'none'}")
-    print(f"  audit  : {AUDIT.folder}")
+    print("  audit  : through ghola-audit, which owns the chain")
     print(f"  queue  : {QUEUE} -> {NAME}::step")
+    print(f"  poll   : {POLL} -> {NAME}::tick ({len(STORE.waiting())} waiting)")
     print("  the console is the UI: invoke ghola::submit from it")
     for problem in graph.problems:
         print(f"  PIPELINE PROBLEM: {problem}")

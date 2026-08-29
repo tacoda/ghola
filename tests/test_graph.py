@@ -227,5 +227,26 @@ class ATeamsOwnPipeline(unittest.TestCase):
         self.assertIn("shipped", custom.states)
 
 
+
+
+class ANoOpIsNotATransition(unittest.TestCase):
+    """`waiting -> waiting` is the normal answer when nobody has acted.
+
+    Treating it as movement re-enqueues immediately: the first version of the
+    reconciler spun 2020 history entries in 75 seconds, burning a queue message
+    and a forge call on each one.
+    """
+
+    def test_an_unacted_pull_request_stays_where_it_is(self):
+        move = g.next_stage(job("waiting"), built_in(), {})
+        self.assertEqual(move.to, "waiting")
+
+    def test_the_caller_can_tell_it_did_not_move(self):
+        # The factory checks `move.to == job["stage"]` and stops there, so this
+        # equality is the contract rather than an accident.
+        state = job("waiting")
+        move = g.next_stage(state, built_in(), {})
+        self.assertEqual(move.to, state["stage"])
+
 if __name__ == "__main__":
     unittest.main()

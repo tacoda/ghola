@@ -67,29 +67,26 @@ def of(payload: dict) -> Call:
 # connection, not a memory of which job is running.
 WORKER = None
 
-# The append-only record. Files rather than a worker, deliberately: an audit log
-# has to survive the thing it audits, and a worker whose retention policy the
-# same operator can change is not an independent record.
-import os as _os  # noqa: E402
-from pathlib import Path as _Path  # noqa: E402
-
-import audit_log as _audit_log  # noqa: E402
-
-AUDIT = _audit_log.AuditLog(
-    _os.environ.get("GHOLA_AUDIT_DIR")
-    or _Path(_os.environ.get("GHOLA_ROOT", ".")) / "audit")
-
-
 def record(kind: str, actor: str = "", subject: str = "", **detail) -> None:
-    """Append one audit entry. Never raises.
+    """Append one audit entry, through the worker that owns the chain.
+
+    **Not written directly.** A hash chain has exactly one writer or it has
+    none: this worker and the factory both record, they are separate processes,
+    and appending from both produced a log that failed its own verification
+    while nothing had tampered with it. `ghola-audit` owns the file.
 
     A failed write must not fail a turn, but it must not be silent either: an
     audit log that quietly stops recording is worse than none, because the
     absence of an entry then means nothing. So the failure is printed, which is
     the loudest thing available from inside a callback.
     """
+    if WORKER is None:
+        print(f"AUDIT NOT RECORDED ({kind}): no engine connection")
+        return
     try:
-        AUDIT.append(kind, actor=actor, subject=subject, detail=detail)
+        WORKER.trigger({"function_id": "audit::append", "timeout_ms": 10000,
+                        "payload": {"kind": kind, "actor": actor,
+                                    "subject": subject, "detail": detail}})
     except Exception as exc:  # noqa: BLE001
         print(f"AUDIT WRITE FAILED ({kind}): {type(exc).__name__}: {exc}")
 

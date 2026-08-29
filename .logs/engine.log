@@ -3,1114 +3,1536 @@ Parsed config file: config.yaml
 Using persisted iii-observability configuration entry (config.yaml block is seed-only)
 Log level from config: info, Log format: default, OTel enabled: true
 OpenTelemetry initialized: exporter=memory (max_spans=10000), service_name=ghola, sampling_ratio=1
-[04:08:11.420 PM] [INFO] opentelemetry Global meter provider is set. Meters can now be created using global::meter() or global::meter_with_scope().
+[04:20:26.888 PM] [INFO] opentelemetry Global meter provider is set. Meters can now be created using global::meter() or global::meter_with_scope().
     └ name: "MeterProvider.GlobalSet"
-[04:08:11.420 PM] [INFO] iii::workers::config Building engine with 34 workers
-[04:08:11.420 PM] [INFO] iii::workers::config Starting external worker via iii-worker
+[04:20:26.888 PM] [INFO] iii::workers::config Building engine with 34 workers
+[04:20:26.888 PM] [INFO] iii::workers::config Starting external worker via iii-worker
     ├ worker: harness
     └ port: 49154
-[04:08:11.421 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs harness`)
+[04:20:26.889 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs harness`)
     ├ worker: harness
-    ├ pid: Some(20711)
+    ├ pid: Some(31448)
     ├ port: 49154
     └ config: None
-[04:08:11.421 PM] [INFO] iii::workers::config Starting external worker via iii-worker
+[04:20:26.889 PM] [INFO] iii::workers::config Starting external worker via iii-worker
     ├ worker: session-manager
     └ port: 49154
-[04:08:11.421 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs session-manager`)
+[04:20:26.889 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs session-manager`)
     ├ worker: session-manager
-    ├ pid: Some(20712)
+    ├ pid: Some(31449)
     ├ port: 49154
     └ config: None
-[04:08:11.421 PM] [INFO] iii::workers::config Starting external worker via iii-worker
+[04:20:26.889 PM] [INFO] iii::workers::config Starting external worker via iii-worker
     ├ worker: context-manager
     └ port: 49154
-[04:08:11.421 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs context-manager`)
+[04:20:26.890 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs context-manager`)
     ├ worker: context-manager
-    ├ pid: Some(20713)
+    ├ pid: Some(31450)
     ├ port: 49154
     └ config: None
-[04:08:11.421 PM] [INFO] iii::workers::config Starting external worker via iii-worker
+[04:20:26.890 PM] [INFO] iii::workers::config Starting external worker via iii-worker
     ├ worker: llm-router
     └ port: 49154
-[04:08:11.422 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs llm-router`)
+[04:20:26.890 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs llm-router`)
     ├ worker: llm-router
-    ├ pid: Some(20714)
+    ├ pid: Some(31451)
     ├ port: 49154
     └ config: None
-[04:08:11.422 PM] [INFO] iii::workers::config Starting external worker via iii-worker
+[04:20:26.890 PM] [INFO] iii::workers::config Starting external worker via iii-worker
     ├ worker: provider-anthropic
     └ port: 49154
-[04:08:11.422 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs provider-anthropic`)
+[04:20:26.890 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs provider-anthropic`)
     ├ worker: provider-anthropic
-    ├ pid: Some(20715)
+    ├ pid: Some(31452)
     ├ port: 49154
     └ config: None
-[04:08:11.422 PM] [INFO] iii::workers::config Starting external worker via iii-worker
+[04:20:26.890 PM] [INFO] iii::workers::config Starting external worker via iii-worker
     ├ worker: provider-openai
     └ port: 49154
-[04:08:11.422 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs provider-openai`)
+[04:20:26.890 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs provider-openai`)
     ├ worker: provider-openai
-    ├ pid: Some(20716)
+    ├ pid: Some(31453)
     ├ port: 49154
     └ config: None
-[04:08:11.422 PM] [INFO] iii::workers::config Starting external worker via iii-worker
+[04:20:26.891 PM] [INFO] iii::workers::config Starting external worker via iii-worker
     ├ worker: provider-openai-codex
     └ port: 49154
-[04:08:11.423 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs provider-openai-codex`)
+[04:20:26.891 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs provider-openai-codex`)
     ├ worker: provider-openai-codex
-    ├ pid: Some(20717)
+    ├ pid: Some(31454)
     ├ port: 49154
     └ config: None
-[04:08:11.423 PM] [INFO] iii::workers::worker Initializing WorkerManager
-[04:08:11.423 PM] [INFO] iii::workers::worker Initializing WorkerManager
-[04:08:11.423 PM] [INFO] iii::workers::config Starting external worker via iii-worker
+[04:20:26.891 PM] [INFO] iii::workers::worker Initializing WorkerManager
+[04:20:26.891 PM] [INFO] iii::workers::worker Initializing WorkerManager
+[04:20:26.891 PM] [INFO] iii::workers::config Starting external worker via iii-worker
     ├ worker: opengantry
     └ port: 49154
-[04:08:11.423 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs opengantry`)
+[04:20:26.891 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs opengantry`)
     ├ worker: opengantry
-    ├ pid: Some(20718)
+    ├ pid: Some(31455)
     ├ port: 49154
     └ config: None
-[04:08:11.423 PM] [INFO] iii::workers::config Starting external worker via iii-worker
+[04:20:26.892 PM] [INFO] iii::workers::config Starting external worker via iii-worker
     ├ worker: http
     └ port: 49154
-[04:08:11.424 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs http`)
+[04:20:26.893 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs http`)
     ├ worker: http
-    ├ pid: Some(20719)
+    ├ pid: Some(31456)
     ├ port: 49154
     └ config: None
-[04:08:11.424 PM] [INFO] iii::workers::config Starting external worker via iii-worker
+[04:20:26.893 PM] [INFO] iii::workers::config Starting external worker via iii-worker
     ├ worker: console
     └ port: 49154
-[04:08:11.425 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs console`)
+[04:20:26.894 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs console`)
     ├ worker: console
-    ├ pid: Some(20721)
+    ├ pid: Some(31463)
     ├ port: 49154
-    └ config: Some("/var/folders/bg/527zdl4d5f1dhztg77ybmt180000gn/T/iii-console-20706-config.yaml")
-[04:08:11.425 PM] [INFO] iii::workers::config Starting external worker via iii-worker
+    └ config: Some("/var/folders/bg/527zdl4d5f1dhztg77ybmt180000gn/T/iii-console-31443-config.yaml")
+[04:20:26.894 PM] [INFO] iii::workers::config Starting external worker via iii-worker
     ├ worker: queue
     └ port: 49154
-[04:08:11.425 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs queue`)
+[04:20:26.896 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs queue`)
     ├ worker: queue
-    ├ pid: Some(20724)
+    ├ pid: Some(31473)
     ├ port: 49154
     └ config: None
-[04:08:11.425 PM] [INFO] iii::workers::config Starting external worker via iii-worker
+[04:20:26.896 PM] [INFO] iii::workers::config Starting external worker via iii-worker
     ├ worker: state
     └ port: 49154
-[04:08:11.425 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs state`)
+[04:20:26.897 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs state`)
     ├ worker: state
-    ├ pid: Some(20725)
+    ├ pid: Some(31488)
     ├ port: 49154
     └ config: None
-[04:08:11.426 PM] [INFO] iii::workers::config Starting external worker via iii-worker
+[04:20:26.897 PM] [INFO] iii::workers::config Starting external worker via iii-worker
     ├ worker: cron
     └ port: 49154
-[04:08:11.427 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs cron`)
+[04:20:26.897 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs cron`)
     ├ worker: cron
-    ├ pid: Some(20726)
+    ├ pid: Some(31491)
     ├ port: 49154
     └ config: None
-[04:08:11.427 PM] [INFO] iii::workers::config Starting external worker via iii-worker
+[04:20:26.897 PM] [INFO] iii::workers::config Starting external worker via iii-worker
     ├ worker: shell
     └ port: 49154
-[04:08:11.429 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs shell`)
+[04:20:26.897 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs shell`)
     ├ worker: shell
-    ├ pid: Some(20733)
+    ├ pid: Some(31498)
     ├ port: 49154
     └ config: None
-[04:08:11.429 PM] [INFO] iii::workers::config Starting external worker via iii-worker
+[04:20:26.897 PM] [INFO] iii::workers::config Starting external worker via iii-worker
     ├ worker: iii-directory
     └ port: 49154
-[04:08:11.430 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs iii-directory`)
+[04:20:26.898 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs iii-directory`)
     ├ worker: iii-directory
-    ├ pid: Some(20758)
+    ├ pid: Some(31507)
     ├ port: 49154
     └ config: None
-[04:08:11.430 PM] [INFO] iii::workers::config Starting external worker via iii-worker
+[04:20:26.898 PM] [INFO] iii::workers::config Starting external worker via iii-worker
     ├ worker: worktree
     └ port: 49154
-[04:08:11.431 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs worktree`)
+[04:20:26.898 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs worktree`)
     ├ worker: worktree
-    ├ pid: Some(20761)
+    ├ pid: Some(31512)
     ├ port: 49154
     └ config: None
-[04:08:11.431 PM] [INFO] iii::workers::config Starting external worker via iii-worker
+[04:20:26.898 PM] [INFO] iii::workers::config Starting external worker via iii-worker
     ├ worker: github
     └ port: 49154
-[04:08:11.433 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs github`)
+[04:20:26.900 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs github`)
     ├ worker: github
-    ├ pid: Some(20783)
+    ├ pid: Some(31517)
     ├ port: 49154
     └ config: None
-[04:08:11.433 PM] [INFO] opentelemetry_sdk Last reference of MeterProvider dropped, initiating shutdown.
+[04:20:26.900 PM] [INFO] opentelemetry_sdk Last reference of MeterProvider dropped, initiating shutdown.
     └ name: "MeterProvider.Drop"
-[04:08:11.433 PM] [INFO] opentelemetry Global meter provider is set. Meters can now be created using global::meter() or global::meter_with_scope().
+[04:20:26.900 PM] [INFO] opentelemetry Global meter provider is set. Meters can now be created using global::meter() or global::meter_with_scope().
     └ name: "MeterProvider.GlobalSet"
 [Metrics] OpenTelemetry metrics initialized: exporter=memory (in-memory only), service_name=ghola
-[04:08:11.433 PM] [INFO] iii::workers::observability [ROLLUPS] Rollup storage initialized with 3 levels (1m, 5m, 1h)
-[04:08:11.433 PM] [INFO] iii::trigger [REGISTERED] Trigger Type log
-[04:08:11.433 PM] [INFO] iii::trigger [REGISTERED] Trigger Type trace
-[04:08:11.433 PM] [INFO] iii::workers::observability [READY] OpenTelemetry module initialized (log, trace, traces, metrics, logs, rollups functions available)
-[04:08:11.433 PM] [INFO] iii::function [REGISTERED] Function engine::log::info
-[04:08:11.433 PM] [INFO] iii::function [REGISTERED] Function engine::log::warn
-[04:08:11.433 PM] [INFO] iii::function [REGISTERED] Function engine::log::error
-[04:08:11.433 PM] [INFO] iii::function [REGISTERED] Function engine::log::debug
-[04:08:11.433 PM] [INFO] iii::function [REGISTERED] Function engine::log::trace
-[04:08:11.433 PM] [INFO] iii::function [REGISTERED] Function engine::baggage::get
-[04:08:11.433 PM] [INFO] iii::function [REGISTERED] Function engine::baggage::set
-[04:08:11.433 PM] [INFO] iii::function [REGISTERED] Function engine::baggage::get_all
-[04:08:11.433 PM] [INFO] iii::function [REGISTERED] Function engine::traces::list
-[04:08:11.433 PM] [INFO] iii::function [REGISTERED] Function engine::traces::tree
-[04:08:11.433 PM] [INFO] iii::function [REGISTERED] Function engine::traces::clear
-[04:08:11.433 PM] [INFO] iii::function [REGISTERED] Function engine::traces::group_by
-[04:08:11.433 PM] [INFO] iii::function [REGISTERED] Function engine::metrics::list
-[04:08:11.434 PM] [INFO] iii::function [REGISTERED] Function engine::logs::list
-[04:08:11.434 PM] [INFO] iii::function [REGISTERED] Function engine::logs::clear
-[04:08:11.434 PM] [INFO] iii::function [REGISTERED] Function engine::sampling::rules
-[04:08:11.434 PM] [INFO] iii::function [REGISTERED] Function engine::health::check
-[04:08:11.434 PM] [INFO] iii::function [REGISTERED] Function engine::alerts::list
-[04:08:11.434 PM] [INFO] iii::function [REGISTERED] Function engine::alerts::evaluate
-[04:08:11.434 PM] [INFO] iii::function [REGISTERED] Function engine::rollups::list
-[04:08:11.434 PM] [INFO] iii::function [REGISTERED] Function iii-observability::on-config-change
-[04:08:11.434 PM] [INFO] iii::workers::config Starting external worker via iii-worker
+[04:20:26.900 PM] [INFO] iii::workers::observability [ROLLUPS] Rollup storage initialized with 3 levels (1m, 5m, 1h)
+[04:20:26.900 PM] [INFO] iii::trigger [REGISTERED] Trigger Type log
+[04:20:26.900 PM] [INFO] iii::trigger [REGISTERED] Trigger Type trace
+[04:20:26.900 PM] [INFO] iii::workers::observability [READY] OpenTelemetry module initialized (log, trace, traces, metrics, logs, rollups functions available)
+[04:20:26.900 PM] [INFO] iii::function [REGISTERED] Function engine::log::info
+[04:20:26.900 PM] [INFO] iii::function [REGISTERED] Function engine::log::warn
+[04:20:26.900 PM] [INFO] iii::function [REGISTERED] Function engine::log::error
+[04:20:26.900 PM] [INFO] iii::function [REGISTERED] Function engine::log::debug
+[04:20:26.900 PM] [INFO] iii::function [REGISTERED] Function engine::log::trace
+[04:20:26.900 PM] [INFO] iii::function [REGISTERED] Function engine::baggage::get
+[04:20:26.900 PM] [INFO] iii::function [REGISTERED] Function engine::baggage::set
+[04:20:26.900 PM] [INFO] iii::function [REGISTERED] Function engine::baggage::get_all
+[04:20:26.901 PM] [INFO] iii::function [REGISTERED] Function engine::traces::list
+[04:20:26.901 PM] [INFO] iii::function [REGISTERED] Function engine::traces::tree
+[04:20:26.901 PM] [INFO] iii::function [REGISTERED] Function engine::traces::clear
+[04:20:26.901 PM] [INFO] iii::function [REGISTERED] Function engine::traces::group_by
+[04:20:26.901 PM] [INFO] iii::function [REGISTERED] Function engine::metrics::list
+[04:20:26.901 PM] [INFO] iii::function [REGISTERED] Function engine::logs::list
+[04:20:26.901 PM] [INFO] iii::function [REGISTERED] Function engine::logs::clear
+[04:20:26.901 PM] [INFO] iii::function [REGISTERED] Function engine::sampling::rules
+[04:20:26.901 PM] [INFO] iii::function [REGISTERED] Function engine::health::check
+[04:20:26.901 PM] [INFO] iii::function [REGISTERED] Function engine::alerts::list
+[04:20:26.901 PM] [INFO] iii::function [REGISTERED] Function engine::alerts::evaluate
+[04:20:26.901 PM] [INFO] iii::function [REGISTERED] Function engine::rollups::list
+[04:20:26.901 PM] [INFO] iii::function [REGISTERED] Function iii-observability::on-config-change
+[04:20:26.901 PM] [INFO] iii::workers::config Starting external worker via iii-worker
     ├ worker: eval
     └ port: 49154
-[04:08:11.436 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs eval`)
+[04:20:26.902 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs eval`)
     ├ worker: eval
-    ├ pid: Some(20826)
+    ├ pid: Some(31553)
     ├ port: 49154
     └ config: None
-[04:08:11.436 PM] [INFO] iii::workers::config Starting external worker via iii-worker
+[04:20:26.902 PM] [INFO] iii::workers::config Starting external worker via iii-worker
     ├ worker: approval-gate
     └ port: 49154
-[04:08:11.436 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs approval-gate`)
+[04:20:26.902 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs approval-gate`)
     ├ worker: approval-gate
-    ├ pid: Some(20874)
+    ├ pid: Some(31563)
     ├ port: 49154
     └ config: None
-[04:08:11.436 PM] [INFO] iii::workers::config Resolved 'iii-sandbox' as external worker 'iii-sandbox' (/Users/tacoda/.local/bin/iii-worker)
-[04:08:11.436 PM] [INFO] iii::workers::external External worker 'iii-sandbox' initialized (binary: /Users/tacoda/.local/bin/iii-worker)
-[04:08:11.436 PM] [INFO] iii::workers::config Starting external worker via iii-worker
+[04:20:26.902 PM] [INFO] iii::workers::config Resolved 'iii-sandbox' as external worker 'iii-sandbox' (/Users/tacoda/.local/bin/iii-worker)
+[04:20:26.902 PM] [INFO] iii::workers::external External worker 'iii-sandbox' initialized (binary: /Users/tacoda/.local/bin/iii-worker)
+[04:20:26.902 PM] [INFO] iii::workers::config Starting external worker via iii-worker
     ├ worker: document
     └ port: 49154
-[04:08:11.437 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs document`)
+[04:20:26.903 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs document`)
     ├ worker: document
-    ├ pid: Some(20890)
+    ├ pid: Some(31582)
     ├ port: 49154
     └ config: None
-[04:08:11.437 PM] [INFO] iii::workers::config Starting external worker via iii-worker
+[04:20:26.903 PM] [INFO] iii::workers::config Starting external worker via iii-worker
     ├ worker: pdf
     └ port: 49154
-[04:08:11.437 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs pdf`)
+[04:20:26.904 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs pdf`)
     ├ worker: pdf
-    ├ pid: Some(20908)
+    ├ pid: Some(31588)
     ├ port: 49154
     └ config: None
-[04:08:11.437 PM] [INFO] iii::workers::config Starting external worker via iii-worker
+[04:20:26.904 PM] [INFO] iii::workers::config Starting external worker via iii-worker
     ├ worker: storage
     └ port: 49154
-[04:08:11.437 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs storage`)
+[04:20:26.904 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs storage`)
     ├ worker: storage
-    ├ pid: Some(20915)
+    ├ pid: Some(31607)
     ├ port: 49154
     └ config: None
-[04:08:11.438 PM] [INFO] iii::workers::config Starting external worker via iii-worker
+[04:20:26.904 PM] [INFO] iii::workers::config Starting external worker via iii-worker
     ├ worker: fp
     └ port: 49154
-[04:08:11.439 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs fp`)
+[04:20:26.906 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs fp`)
     ├ worker: fp
-    ├ pid: Some(20918)
+    ├ pid: Some(31612)
     ├ port: 49154
     └ config: None
-[04:08:11.439 PM] [INFO] iii::workers::config Starting external worker via iii-worker
+[04:20:26.906 PM] [INFO] iii::workers::config Starting external worker via iii-worker
     ├ worker: memory
     └ port: 49154
-[04:08:11.442 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs memory`)
+[04:20:26.907 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs memory`)
     ├ worker: memory
-    ├ pid: Some(20947)
+    ├ pid: Some(31658)
     ├ port: 49154
     └ config: None
-[04:08:11.442 PM] [INFO] iii::workers::config Starting external worker via iii-worker
+[04:20:26.907 PM] [INFO] iii::workers::config Starting external worker via iii-worker
     ├ worker: claude-code
     └ port: 49154
-[04:08:11.442 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs claude-code`)
+[04:20:26.909 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs claude-code`)
     ├ worker: claude-code
-    ├ pid: Some(20967)
+    ├ pid: Some(31664)
     ├ port: 49154
     └ config: None
-[04:08:11.442 PM] [INFO] iii::workers::config Starting external worker via iii-worker
+[04:20:26.909 PM] [INFO] iii::workers::config Starting external worker via iii-worker
     ├ worker: codex
     └ port: 49154
-[04:08:11.445 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs codex`)
+[04:20:26.914 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs codex`)
     ├ worker: codex
-    ├ pid: Some(20970)
+    ├ pid: Some(31695)
     ├ port: 49154
     └ config: None
-[04:08:11.445 PM] [WARN] iii::builtins::kv DO NOT USE IN_MEMORY STORE_METHOD IN PRODUCTION - DATA WILL BE LOST ON SHUTDOWN
-[04:08:11.445 PM] [INFO] iii::workers::stream::stream Initializing StreamWorker
-[04:08:11.446 PM] [INFO] iii::trigger [REGISTERED] Trigger Type stream:join
-[04:08:11.446 PM] [INFO] iii::trigger [REGISTERED] Trigger Type stream:leave
-[04:08:11.446 PM] [INFO] iii::trigger [REGISTERED] Trigger Type stream
-[04:08:11.446 PM] [INFO] iii::function [REGISTERED] Function iii-stream::on-config-change
-[04:08:11.446 PM] [INFO] iii::function [REGISTERED] Function stream::set
-[04:08:11.446 PM] [INFO] iii::function [REGISTERED] Function stream::get
-[04:08:11.446 PM] [INFO] iii::function [REGISTERED] Function stream::delete
-[04:08:11.446 PM] [INFO] iii::function [REGISTERED] Function stream::list
-[04:08:11.446 PM] [INFO] iii::function [REGISTERED] Function stream::list_groups
-[04:08:11.446 PM] [INFO] iii::function [REGISTERED] Function stream::list_all
-[04:08:11.446 PM] [INFO] iii::function [REGISTERED] Function stream::send
-[04:08:11.446 PM] [INFO] iii::function [REGISTERED] Function stream::update
-[04:08:11.483 PM] [INFO] iii::workers::configuration::adapters::fs FsAdapter initialised
+[04:20:26.914 PM] [WARN] iii::builtins::kv DO NOT USE IN_MEMORY STORE_METHOD IN PRODUCTION - DATA WILL BE LOST ON SHUTDOWN
+[04:20:26.914 PM] [INFO] iii::workers::stream::stream Initializing StreamWorker
+[04:20:26.914 PM] [INFO] iii::trigger [REGISTERED] Trigger Type stream:join
+[04:20:26.914 PM] [INFO] iii::trigger [REGISTERED] Trigger Type stream:leave
+[04:20:26.914 PM] [INFO] iii::trigger [REGISTERED] Trigger Type stream
+[04:20:26.914 PM] [INFO] iii::function [REGISTERED] Function iii-stream::on-config-change
+[04:20:26.914 PM] [INFO] iii::function [REGISTERED] Function stream::set
+[04:20:26.914 PM] [INFO] iii::function [REGISTERED] Function stream::get
+[04:20:26.914 PM] [INFO] iii::function [REGISTERED] Function stream::delete
+[04:20:26.914 PM] [INFO] iii::function [REGISTERED] Function stream::list
+[04:20:26.914 PM] [INFO] iii::function [REGISTERED] Function stream::list_groups
+[04:20:26.914 PM] [INFO] iii::function [REGISTERED] Function stream::list_all
+[04:20:26.915 PM] [INFO] iii::function [REGISTERED] Function stream::send
+[04:20:26.915 PM] [INFO] iii::function [REGISTERED] Function stream::update
+[04:20:26.953 PM] [INFO] iii::workers::configuration::adapters::fs FsAdapter initialised
     ├ directory: ./config
     └ entries: 25
-[04:08:11.483 PM] [INFO] iii::workers::configuration::configuration Initializing ConfigurationWorker
-[04:08:11.483 PM] [INFO] iii::trigger [REGISTERED] Trigger Type configuration
-[04:08:11.485 PM] [INFO] iii::workers::configuration::adapters::fs Watching configuration directory for external edits (hot-reload enabled)
+[04:20:26.953 PM] [INFO] iii::workers::configuration::configuration Initializing ConfigurationWorker
+[04:20:26.953 PM] [INFO] iii::trigger [REGISTERED] Trigger Type configuration
+[04:20:26.955 PM] [INFO] iii::workers::configuration::adapters::fs Watching configuration directory for external edits (hot-reload enabled)
     └ directory: /Users/tacoda/tacoda/ghola/config
-[04:08:11.485 PM] [INFO] iii::function [REGISTERED] Function configuration::register
-[04:08:11.485 PM] [INFO] iii::function [REGISTERED] Function configuration::set
-[04:08:11.485 PM] [INFO] iii::function [REGISTERED] Function configuration::get
-[04:08:11.485 PM] [INFO] iii::function [REGISTERED] Function configuration::list
-[04:08:11.485 PM] [INFO] iii::function [REGISTERED] Function configuration::schema
-[04:08:11.485 PM] [INFO] iii::workers::config Starting external worker via iii-worker
+[04:20:26.955 PM] [INFO] iii::function [REGISTERED] Function configuration::register
+[04:20:26.955 PM] [INFO] iii::function [REGISTERED] Function configuration::set
+[04:20:26.955 PM] [INFO] iii::function [REGISTERED] Function configuration::get
+[04:20:26.955 PM] [INFO] iii::function [REGISTERED] Function configuration::list
+[04:20:26.955 PM] [INFO] iii::function [REGISTERED] Function configuration::schema
+[04:20:26.955 PM] [INFO] iii::workers::config Starting external worker via iii-worker
     ├ worker: opengantry
     └ port: 49154
-[04:08:11.486 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs opengantry`)
+[04:20:26.956 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs opengantry`)
     ├ worker: opengantry
-    ├ pid: Some(21063)
+    ├ pid: Some(31894)
     ├ port: 49154
     └ config: None
-[04:08:11.487 PM] [INFO] iii::workers::config Resolved 'iii-worker-ops' as external worker 'iii-worker-ops' (/Users/tacoda/.local/bin/iii-worker)
-[04:08:11.487 PM] [INFO] iii::workers::external External worker 'iii-worker-ops' initialized (binary: /Users/tacoda/.local/bin/iii-worker)
-[04:08:11.487 PM] [INFO] iii::workers::telemetry Anonymous telemetry enabled. Set III_TELEMETRY_ENABLED=false to disable.
-[04:08:11.487 PM] [INFO] iii::workers::engine_fn Initializing EngineFunctionsWorker
-[04:08:11.487 PM] [INFO] iii::trigger [REGISTERED] Trigger Type engine::functions-available
-[04:08:11.487 PM] [INFO] iii::trigger [REGISTERED] Trigger Type engine::workers-available
-[04:08:11.487 PM] [INFO] iii::function [REGISTERED] Function engine::channels::create
-[04:08:11.487 PM] [INFO] iii::function [REGISTERED] Function engine::functions::list
-[04:08:11.488 PM] [INFO] iii::function [REGISTERED] Function engine::functions::info
-[04:08:11.488 PM] [INFO] iii::function [REGISTERED] Function engine::triggers::list
-[04:08:11.488 PM] [INFO] iii::function [REGISTERED] Function engine::triggers::info
-[04:08:11.488 PM] [INFO] iii::function [REGISTERED] Function engine::registered-triggers::list
-[04:08:11.488 PM] [INFO] iii::function [REGISTERED] Function engine::registered-triggers::info
-[04:08:11.488 PM] [INFO] iii::function [REGISTERED] Function engine::workers::list
-[04:08:11.488 PM] [INFO] iii::function [REGISTERED] Function engine::workers::info
-[04:08:11.488 PM] [INFO] iii::function [REGISTERED] Function engine::workers::register
-[04:08:11.488 PM] [INFO] iii::function [REGISTERED] Function engine::register_trigger
-[04:08:11.488 PM] [INFO] iii::function [REGISTERED] Function engine::unregister_trigger
-[04:08:11.488 PM] [INFO] iii::workers::worker Engine listening on address: 0.0.0.0:49154
-[04:08:11.488 PM] [INFO] iii::workers::worker Engine listening on address: 127.0.0.1:49155
-[04:08:11.493 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: 8870949e-e6cc-4951-bf9c-03a0d681eca1
-    └ ip_address: Some("127.0.0.1")
-[04:08:11.493 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: e806b066-53c6-4ea5-9958-6260ca82a425
-    └ ip_address: Some("127.0.0.1")
-[04:08:11.494 PM] [ERROR] iii::engine Function not found
-    └ function_id: state::get
-[04:08:11.494 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: 2476b2af-fc3c-487c-9a15-a513802e1bd2
-    └ ip_address: Some("127.0.0.1")
-[04:08:11.495 PM] [ERROR] iii::engine Function not found
-    └ function_id: state::get
-[04:08:11.496 PM] [INFO] iii::function [REGISTERED] Function provider::openai::stream
-[04:08:11.496 PM] [INFO] iii::function [REGISTERED] Function provider::openai::abort
-[04:08:11.496 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
+[04:20:26.957 PM] [INFO] iii::workers::config Resolved 'iii-worker-ops' as external worker 'iii-worker-ops' (/Users/tacoda/.local/bin/iii-worker)
+[04:20:26.957 PM] [INFO] iii::workers::external External worker 'iii-worker-ops' initialized (binary: /Users/tacoda/.local/bin/iii-worker)
+[04:20:26.957 PM] [INFO] iii::workers::telemetry Anonymous telemetry enabled. Set III_TELEMETRY_ENABLED=false to disable.
+[04:20:26.957 PM] [INFO] iii::workers::engine_fn Initializing EngineFunctionsWorker
+[04:20:26.957 PM] [INFO] iii::trigger [REGISTERED] Trigger Type engine::functions-available
+[04:20:26.957 PM] [INFO] iii::trigger [REGISTERED] Trigger Type engine::workers-available
+[04:20:26.957 PM] [INFO] iii::function [REGISTERED] Function engine::channels::create
+[04:20:26.957 PM] [INFO] iii::function [REGISTERED] Function engine::functions::list
+[04:20:26.957 PM] [INFO] iii::function [REGISTERED] Function engine::functions::info
+[04:20:26.957 PM] [INFO] iii::function [REGISTERED] Function engine::triggers::list
+[04:20:26.957 PM] [INFO] iii::function [REGISTERED] Function engine::triggers::info
+[04:20:26.957 PM] [INFO] iii::function [REGISTERED] Function engine::registered-triggers::list
+[04:20:26.957 PM] [INFO] iii::function [REGISTERED] Function engine::registered-triggers::info
+[04:20:26.957 PM] [INFO] iii::function [REGISTERED] Function engine::workers::list
+[04:20:26.957 PM] [INFO] iii::function [REGISTERED] Function engine::workers::info
+[04:20:26.957 PM] [INFO] iii::function [REGISTERED] Function engine::workers::register
+[04:20:26.957 PM] [INFO] iii::function [REGISTERED] Function engine::register_trigger
+[04:20:26.957 PM] [INFO] iii::function [REGISTERED] Function engine::unregister_trigger
+[04:20:26.957 PM] [INFO] iii::workers::worker Engine listening on address: 0.0.0.0:49154
+[04:20:26.957 PM] [INFO] iii::workers::worker Engine listening on address: 127.0.0.1:49155
+[04:20:26.963 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
     ├ trigger_id: iii-observability::config-watch
     ├ configuration_id: Some("iii-observability")
     └ event_types: Some(["configuration:updated"])
-[04:08:11.496 PM] [INFO] iii::function [REGISTERED] Function provider::openai::on_router_ready
-[04:08:11.496 PM] [INFO] iii::function [REGISTERED] Function provider::openai::refresh_models
-[04:08:11.496 PM] [INFO] iii::function [REGISTERED] Function provider::openai::embed
-[04:08:11.496 PM] [INFO] iii::workers::observability::configuration iii-observability configuration re-applied after change
-[04:08:11.496 PM] [INFO] iii::function [REGISTERED] Function provider::openai::count_tokens
-[04:08:11.496 PM] [WARN] iii::trigger [PENDING] Trigger c347b7d0-e043-43d2-b39e-b5a3c6f37450 (function provider::openai::on_router_ready) was NOT activated: trigger type router::ready is not registered. It will be registered automatically when the trigger type becomes available. If this persists, search for a worker that provides this trigger type at https://workers.iii.dev/
-[04:08:11.496 PM] [ERROR] iii::engine Function not found
+[04:20:26.964 PM] [INFO] iii::workers::observability::configuration iii-observability configuration re-applied after change
+[04:20:27.000 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 38fb6c81-a5a1-4f0a-b7cb-bd7facfaf0bb
+    └ ip_address: Some("127.0.0.1")
+[04:20:27.000 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: c4e1af00-e52e-4e0e-89d9-8d81d2e28793
+    └ ip_address: Some("127.0.0.1")
+[04:20:27.001 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: ea48d7db-c37c-4afc-96c4-fe0a24466288
+    └ ip_address: Some("127.0.0.1")
+[04:20:27.001 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: dab2afd0-6923-478d-a1a0-d4b233872968
+    └ ip_address: Some("127.0.0.1")
+[04:20:27.001 PM] [ERROR] iii::engine Function not found
     └ function_id: state::get
-[04:08:11.497 PM] [ERROR] iii::engine Function not found
+[04:20:27.001 PM] [INFO] iii::function [REGISTERED] Function provider::anthropic::refresh_models
+[04:20:27.001 PM] [INFO] iii::function [REGISTERED] Function provider::openai::count_tokens
+[04:20:27.001 PM] [INFO] iii::function [REGISTERED] Function provider::openai::on_router_ready
+[04:20:27.001 PM] [INFO] iii::function [REGISTERED] Function provider::openai::abort
+[04:20:27.001 PM] [INFO] iii::function [REGISTERED] Function provider::openai::refresh_models
+[04:20:27.001 PM] [ERROR] iii::engine Function not found
+    └ function_id: state::get
+[04:20:27.001 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: d5adf780-3b60-45a5-ae9c-f3b5107c9dbc
+    └ ip_address: Some("127.0.0.1")
+[04:20:27.001 PM] [INFO] iii::function [REGISTERED] Function provider::anthropic::stream
+[04:20:27.001 PM] [INFO] iii::function [REGISTERED] Function provider::openai::stream
+[04:20:27.002 PM] [INFO] iii::function [REGISTERED] Function provider::openai::embed
+[04:20:27.002 PM] [WARN] iii::trigger [PENDING] Trigger 906e5060-b1bb-419c-b1e2-798824d6a105 (function provider::openai::on_router_ready) was NOT activated: trigger type router::ready is not registered. It will be registered automatically when the trigger type becomes available. If this persists, search for a worker that provides this trigger type at https://workers.iii.dev/
+[04:20:27.002 PM] [INFO] iii::function [REGISTERED] Function provider::anthropic::count_tokens
+[04:20:27.002 PM] [ERROR] iii::engine Function not found
+    └ function_id: state::get
+[04:20:27.002 PM] [INFO] iii::function [REGISTERED] Function provider::anthropic::on_router_ready
+[04:20:27.002 PM] [INFO] iii::function [REGISTERED] Function provider::anthropic::abort
+[04:20:27.002 PM] [WARN] iii::trigger [PENDING] Trigger 49f7df6f-5774-40e6-955c-e341dcb9aeae (function provider::anthropic::on_router_ready) was NOT activated: trigger type router::ready is not registered. It will be registered automatically when the trigger type becomes available. If this persists, search for a worker that provides this trigger type at https://workers.iii.dev/
+[04:20:27.002 PM] [INFO] iii::function [REGISTERED] Function provider::openai-codex::on_router_ready
+[04:20:27.002 PM] [ERROR] iii::engine Function not found
+    └ function_id: state::get
+[04:20:27.002 PM] [INFO] iii::function [REGISTERED] Function provider::openai-codex::abort
+[04:20:27.002 PM] [INFO] iii::function [REGISTERED] Function provider-openai-codex::ui-content
+[04:20:27.002 PM] [ERROR] iii::engine Function not found
     └ function_id: router::provider::register
-[04:08:11.519 PM] [INFO] iii::trigger [REGISTERED] Trigger Type router::ready
-[04:08:11.520 PM] [INFO] iii::trigger [REGISTERED] Trigger c347b7d0-e043-43d2-b39e-b5a3c6f37450 (type router::ready, function provider::openai::on_router_ready) recovered from pending
-[04:08:11.520 PM] [INFO] iii::trigger [REGISTERED] Trigger Type router::models::changed
-[04:08:11.520 PM] [INFO] iii::trigger [REGISTERED] Trigger Type router::provider::changed
-[04:08:11.520 PM] [INFO] iii::function [REGISTERED] Function router::chat
-[04:08:11.520 PM] [INFO] iii::function [REGISTERED] Function router::complete
-[04:08:11.520 PM] [INFO] iii::function [REGISTERED] Function router::abort
-[04:08:11.520 PM] [INFO] iii::function [REGISTERED] Function router::embed
-[04:08:11.520 PM] [INFO] iii::function [REGISTERED] Function router::count_tokens
-[04:08:11.520 PM] [INFO] iii::function [REGISTERED] Function router::models::list
-[04:08:11.520 PM] [INFO] iii::function [REGISTERED] Function router::models::get
-[04:08:11.520 PM] [INFO] iii::function [REGISTERED] Function router::models::budget
-[04:08:11.520 PM] [INFO] iii::function [REGISTERED] Function router::models::supports
-[04:08:11.520 PM] [INFO] iii::function [REGISTERED] Function router::provider::list
-[04:08:11.520 PM] [INFO] iii::function [REGISTERED] Function router::route
-[04:08:11.520 PM] [INFO] iii::function [REGISTERED] Function router::provider::register
-[04:08:11.520 PM] [INFO] iii::function [REGISTERED] Function router::provider::resolve
-[04:08:11.520 PM] [INFO] iii::function [REGISTERED] Function router::provider::update_credential
-[04:08:11.520 PM] [INFO] iii::function [REGISTERED] Function router::models::reconcile
-[04:08:11.522 PM] [INFO] iii::function [REGISTERED] Function router::on_config_changed
-[04:08:11.522 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
-    ├ trigger_id: 4b882df1-f48d-45f0-b038-064a3d606409
+[04:20:27.002 PM] [ERROR] iii::engine Function not found
+    └ function_id: router::provider::register
+[04:20:27.002 PM] [INFO] iii::function [REGISTERED] Function provider::openai-codex::stream
+[04:20:27.002 PM] [INFO] iii::function [REGISTERED] Function provider::openai-codex::refresh_models
+[04:20:27.002 PM] [INFO] iii::function [REGISTERED] Function provider::openai-codex::count_tokens
+[04:20:27.002 PM] [WARN] iii::trigger [PENDING] Trigger fcf1ee19-e65b-4c93-a1b4-d23373bd1f90 (function provider-openai-codex::ui-content) was NOT activated: trigger type console:style is not registered. It will be registered automatically when the trigger type becomes available. If this persists, search for a worker that provides this trigger type at https://workers.iii.dev/
+[04:20:27.002 PM] [WARN] iii::trigger [PENDING] Trigger ade99afa-a2ce-46de-a084-bf75d8ae6ea9 (function provider::openai-codex::on_router_ready) was NOT activated: trigger type router::ready is not registered. It will be registered automatically when the trigger type becomes available. If this persists, search for a worker that provides this trigger type at https://workers.iii.dev/
+[04:20:27.002 PM] [WARN] iii::trigger [PENDING] Trigger 4b062669-2caa-417c-b92a-f251b72fef8d (function provider-openai-codex::ui-content) was NOT activated: trigger type console:script is not registered. It will be registered automatically when the trigger type becomes available. If this persists, search for a worker that provides this trigger type at https://workers.iii.dev/
+[04:20:27.002 PM] [ERROR] iii::engine Function not found
+    └ function_id: state::get
+[04:20:27.003 PM] [ERROR] iii::engine Function not found
+    └ function_id: router::provider::register
+[04:20:27.008 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 0123156f-e28f-4721-b124-37fe2d8a5f51
+    └ ip_address: Some("127.0.0.1")
+[04:20:27.009 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: cdfef7af-0ba8-4825-beaa-30131c8f8966
+    └ ip_address: Some("127.0.0.1")
+[04:20:27.012 PM] [INFO] iii::trigger [REGISTERED] Trigger Type console:assets
+[04:20:27.012 PM] [INFO] iii::trigger [REGISTERED] Trigger Type console:style
+[04:20:27.012 PM] [INFO] iii::trigger [REGISTERED] Trigger fcf1ee19-e65b-4c93-a1b4-d23373bd1f90 (type console:style, function provider-openai-codex::ui-content) recovered from pending
+[04:20:27.012 PM] [INFO] iii::trigger [REGISTERED] Trigger Type console:script
+[04:20:27.012 PM] [INFO] iii::trigger [REGISTERED] Trigger 4b062669-2caa-417c-b92a-f251b72fef8d (type console:script, function provider-openai-codex::ui-content) recovered from pending
+[04:20:27.012 PM] [INFO] iii::function [REGISTERED] Function console::ui-manifest
+[04:20:27.012 PM] [INFO] iii::function [REGISTERED] Function console::workspace::open
+[04:20:27.012 PM] [INFO] iii::function [REGISTERED] Function console::workspace::list
+[04:20:27.012 PM] [INFO] iii::function [REGISTERED] Function console::workspace::close
+[04:20:27.012 PM] [INFO] iii::function [REGISTERED] Function console::status
+[04:20:27.012 PM] [INFO] iii::function [REGISTERED] Function console::ui-content
+[04:20:27.013 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: e5727cef-2ec0-4247-9935-430959f94ee9
+    └ ip_address: Some("127.0.0.1")
+[04:20:27.013 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 555c2a67-0fb8-48e8-8294-08a8a6433d19
+    └ ip_address: Some("127.0.0.1")
+[04:20:27.017 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: deaf5887-b714-4082-b270-fec9d0b87b79
+    └ ip_address: Some("127.0.0.1")
+[04:20:27.017 PM] [INFO] iii::trigger [REGISTERED] Trigger Type router::ready
+[04:20:27.017 PM] [INFO] iii::trigger [REGISTERED] Trigger ade99afa-a2ce-46de-a084-bf75d8ae6ea9 (type router::ready, function provider::openai-codex::on_router_ready) recovered from pending
+[04:20:27.017 PM] [INFO] iii::trigger [REGISTERED] Trigger 49f7df6f-5774-40e6-955c-e341dcb9aeae (type router::ready, function provider::anthropic::on_router_ready) recovered from pending
+[04:20:27.017 PM] [INFO] iii::trigger [REGISTERED] Trigger 906e5060-b1bb-419c-b1e2-798824d6a105 (type router::ready, function provider::openai::on_router_ready) recovered from pending
+[04:20:27.017 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 9d30d328-7cba-4980-be7e-7b5493782ce8
+    └ ip_address: Some("127.0.0.1")
+[04:20:27.020 PM] [INFO] iii::function [REGISTERED] Function engine::queue::enqueue
+[04:20:27.020 PM] [INFO] iii::function [REGISTERED] Function engine::queue::list_topics
+[04:20:27.020 PM] [INFO] iii::function [REGISTERED] Function engine::queue::topic_stats
+[04:20:27.020 PM] [INFO] iii::function [REGISTERED] Function engine::queue::dlq_topics
+[04:20:27.020 PM] [INFO] iii::function [REGISTERED] Function engine::queue::dlq_messages
+[04:20:27.020 PM] [INFO] iii::trigger [REGISTERED] Trigger Type router::models::changed
+[04:20:27.020 PM] [INFO] iii::trigger [REGISTERED] Trigger Type router::provider::changed
+[04:20:27.020 PM] [INFO] iii::function [REGISTERED] Function router::chat
+[04:20:27.020 PM] [INFO] iii::function [REGISTERED] Function router::complete
+[04:20:27.020 PM] [INFO] iii::function [REGISTERED] Function router::abort
+[04:20:27.020 PM] [INFO] iii::function [REGISTERED] Function router::embed
+[04:20:27.020 PM] [INFO] iii::function [REGISTERED] Function router::count_tokens
+[04:20:27.020 PM] [INFO] iii::function [REGISTERED] Function router::models::list
+[04:20:27.020 PM] [INFO] iii::function [REGISTERED] Function router::models::get
+[04:20:27.020 PM] [INFO] iii::function [REGISTERED] Function router::models::budget
+[04:20:27.020 PM] [INFO] iii::function [REGISTERED] Function router::models::supports
+[04:20:27.020 PM] [INFO] iii::function [REGISTERED] Function router::provider::list
+[04:20:27.020 PM] [INFO] iii::function [REGISTERED] Function router::route
+[04:20:27.020 PM] [INFO] iii::function [REGISTERED] Function router::provider::register
+[04:20:27.020 PM] [INFO] iii::function [REGISTERED] Function router::provider::resolve
+[04:20:27.020 PM] [INFO] iii::function [REGISTERED] Function router::provider::update_credential
+[04:20:27.020 PM] [INFO] iii::function [REGISTERED] Function router::models::reconcile
+[04:20:27.020 PM] [INFO] iii::function [REGISTERED] Function router::on_config_changed
+[04:20:27.020 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
+    ├ trigger_id: a572bb7b-d3dc-4e02-ac00-d955f8bb66a4
     ├ configuration_id: Some("llm-router")
     └ event_types: Some(["configuration:updated"])
-[04:08:11.523 PM] [INFO] iii::function [REGISTERED] Function router::on_functions_changed
-[04:08:11.523 PM] [INFO] iii::function [REGISTERED] Function llm-router::ui-content
-[04:08:11.523 PM] [WARN] iii::trigger [PENDING] Trigger de9f23db-fa86-49aa-9242-11bacca33b89 (function llm-router::ui-content) was NOT activated: trigger type console:script is not registered. It will be registered automatically when the trigger type becomes available. If this persists, search for a worker that provides this trigger type at https://workers.iii.dev/
-[04:08:11.523 PM] [WARN] iii::trigger [PENDING] Trigger 0545575b-fdb3-4eb9-9bc2-2efa8dfde310 (function llm-router::ui-content) was NOT activated: trigger type console:style is not registered. It will be registered automatically when the trigger type becomes available. If this persists, search for a worker that provides this trigger type at https://workers.iii.dev/
-[04:08:11.523 PM] [ERROR] iii::engine Function not found
-    └ function_id: state::get
-[04:08:11.524 PM] [ERROR] iii::engine Function not found
-    └ function_id: state::get
-[04:08:11.526 PM] [ERROR] iii::engine Function not found
-    └ function_id: state::set
-[04:08:11.529 PM] [INFO] iii::trigger [REGISTERED] Trigger Type harness::ready
-[04:08:11.529 PM] [INFO] iii::trigger [REGISTERED] Trigger Type harness::turn-started
-[04:08:11.529 PM] [INFO] iii::trigger [REGISTERED] Trigger Type harness::turn-completed
-[04:08:11.529 PM] [INFO] iii::trigger [REGISTERED] Trigger Type harness::message-queued
-[04:08:11.529 PM] [INFO] iii::trigger [REGISTERED] Trigger Type harness::triggers-changed
-[04:08:11.529 PM] [INFO] iii::trigger [REGISTERED] Trigger Type harness::hook::pre-turn
-[04:08:11.529 PM] [INFO] iii::trigger [REGISTERED] Trigger Type harness::hook::pre-generate
-[04:08:11.529 PM] [INFO] iii::trigger [REGISTERED] Trigger Type harness::hook::post-generate
-[04:08:11.529 PM] [INFO] iii::trigger [REGISTERED] Trigger Type harness::hook::pre-trigger
-[04:08:11.529 PM] [INFO] iii::trigger [REGISTERED] Trigger Type harness::hook::post-trigger
-[04:08:11.529 PM] [INFO] iii::trigger [REGISTERED] Trigger Type harness::hook::post-turn
-[04:08:11.534 PM] [INFO] iii::function [REGISTERED] Function harness::on-functions-change
-[04:08:11.535 PM] [INFO] iii::function [REGISTERED] Function harness::send
-[04:08:11.535 PM] [INFO] iii::function [REGISTERED] Function harness::spawn
-[04:08:11.535 PM] [INFO] iii::function [REGISTERED] Function harness::trigger::deliver
-[04:08:11.535 PM] [INFO] iii::function [REGISTERED] Function harness::turn
-[04:08:11.535 PM] [INFO] iii::function [REGISTERED] Function harness::function::trigger
-[04:08:11.535 PM] [INFO] iii::function [REGISTERED] Function harness::function::resolve
-[04:08:11.535 PM] [INFO] iii::function [REGISTERED] Function harness::stop
-[04:08:11.535 PM] [INFO] iii::function [REGISTERED] Function harness::status
-[04:08:11.535 PM] [INFO] iii::function [REGISTERED] Function harness::system-prompt::get
-[04:08:11.535 PM] [INFO] iii::function [REGISTERED] Function harness::session-tree
-[04:08:11.535 PM] [INFO] iii::function [REGISTERED] Function harness::metrics
-[04:08:11.535 PM] [INFO] iii::function [REGISTERED] Function harness::teardown
-[04:08:11.535 PM] [INFO] iii::function [REGISTERED] Function harness::triggers::list
-[04:08:11.535 PM] [INFO] iii::function [REGISTERED] Function harness::triggers::unregister
-[04:08:11.535 PM] [INFO] iii::function [REGISTERED] Function harness::unqueue
-[04:08:11.535 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: 45edda81-7f95-49a7-8a1d-525ac95ce1ae
-    └ ip_address: Some("127.0.0.1")
-[04:08:11.535 PM] [INFO] iii::function [REGISTERED] Function harness::edit_queued
-[04:08:11.536 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: 23dd5dc4-d81f-4ca5-ba18-994b77e7aded
-    └ ip_address: Some("127.0.0.1")
-[04:08:11.536 PM] [INFO] iii::function [REGISTERED] Function harness::filesystem::grant
-[04:08:11.536 PM] [INFO] iii::function [REGISTERED] Function harness::filesystem::grants
-[04:08:11.536 PM] [INFO] iii::function [REGISTERED] Function harness::filesystem::revoke
-[04:08:11.536 PM] [INFO] iii::function [REGISTERED] Function harness::filesystem::info
-[04:08:11.536 PM] [INFO] iii::function [REGISTERED] Function harness::sweep-pending
-[04:08:11.536 PM] [INFO] iii::function [REGISTERED] Function harness::on-session-deleted
-[04:08:11.536 PM] [INFO] iii::function [REGISTERED] Function harness::ui-content
-[04:08:11.536 PM] [WARN] iii::trigger [PENDING] Trigger 4b4b040a-e84d-4125-8790-32e3803819b4 (function harness::ui-content) was NOT activated: trigger type console:script is not registered. It will be registered automatically when the trigger type becomes available. If this persists, search for a worker that provides this trigger type at https://workers.iii.dev/
-[04:08:11.536 PM] [WARN] iii::trigger [PENDING] Trigger 4720f86f-fe88-4201-b69d-cf5d33e9bf9d (function harness::ui-content) was NOT activated: trigger type console:style is not registered. It will be registered automatically when the trigger type becomes available. If this persists, search for a worker that provides this trigger type at https://workers.iii.dev/
-[04:08:11.536 PM] [INFO] iii::trigger [REGISTERED] Trigger Type timer
-[04:08:11.536 PM] [ERROR] iii::engine Function not found
-    └ function_id: queue::define
-[04:08:11.536 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: 98919899-310c-4ab2-885a-1d4ecd457a1d
-    └ ip_address: Some("127.0.0.1")
-[04:08:11.536 PM] [INFO] iii::function [REGISTERED] Function provider::openai-codex::refresh_models
-[04:08:11.536 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: 44bd1051-078f-4b16-b7f9-7d2d45e74b18
-    └ ip_address: Some("127.0.0.1")
-[04:08:11.536 PM] [INFO] iii::function [REGISTERED] Function provider::openai-codex::stream
-[04:08:11.536 PM] [ERROR] iii::engine Function not found
-    └ function_id: state::set
-[04:08:11.536 PM] [INFO] iii::function [REGISTERED] Function provider::openai-codex::count_tokens
-[04:08:11.536 PM] [INFO] iii::function [REGISTERED] Function provider::openai-codex::on_router_ready
-[04:08:11.536 PM] [INFO] iii::function [REGISTERED] Function provider-openai-codex::ui-content
-[04:08:11.536 PM] [INFO] iii::function [REGISTERED] Function provider::openai-codex::abort
-[04:08:11.536 PM] [WARN] iii::trigger [PENDING] Trigger cb211f0d-0dc8-4eb6-821a-feb5ea0c181f (function provider-openai-codex::ui-content) was NOT activated: trigger type console:style is not registered. It will be registered automatically when the trigger type becomes available. If this persists, search for a worker that provides this trigger type at https://workers.iii.dev/
-[04:08:11.536 PM] [WARN] iii::trigger [PENDING] Trigger e0fb1b3f-d9a8-432b-b493-bda5f55789c4 (function provider-openai-codex::ui-content) was NOT activated: trigger type console:script is not registered. It will be registered automatically when the trigger type becomes available. If this persists, search for a worker that provides this trigger type at https://workers.iii.dev/
-[04:08:11.536 PM] [INFO] iii::trigger [REGISTERED] Trigger Type console:style
-[04:08:11.536 PM] [ERROR] iii::engine Function not found
-    └ function_id: state::get
-[04:08:11.536 PM] [INFO] iii::trigger [REGISTERED] Trigger 0545575b-fdb3-4eb9-9bc2-2efa8dfde310 (type console:style, function llm-router::ui-content) recovered from pending
-[04:08:11.536 PM] [INFO] iii::trigger [REGISTERED] Trigger cb211f0d-0dc8-4eb6-821a-feb5ea0c181f (type console:style, function provider-openai-codex::ui-content) recovered from pending
-[04:08:11.536 PM] [INFO] iii::trigger [REGISTERED] Trigger 4720f86f-fe88-4201-b69d-cf5d33e9bf9d (type console:style, function harness::ui-content) recovered from pending
-[04:08:11.536 PM] [INFO] iii::trigger [REGISTERED] Trigger Type console:assets
-[04:08:11.536 PM] [INFO] iii::trigger [REGISTERED] Trigger Type console:script
-[04:08:11.537 PM] [INFO] iii::trigger [REGISTERED] Trigger e0fb1b3f-d9a8-432b-b493-bda5f55789c4 (type console:script, function provider-openai-codex::ui-content) recovered from pending
-[04:08:11.537 PM] [INFO] iii::trigger [REGISTERED] Trigger de9f23db-fa86-49aa-9242-11bacca33b89 (type console:script, function llm-router::ui-content) recovered from pending
-[04:08:11.537 PM] [INFO] iii::trigger [REGISTERED] Trigger 4b4b040a-e84d-4125-8790-32e3803819b4 (type console:script, function harness::ui-content) recovered from pending
-[04:08:11.537 PM] [INFO] iii::function [REGISTERED] Function console::workspace::open
-[04:08:11.537 PM] [INFO] iii::function [REGISTERED] Function console::workspace::close
-[04:08:11.537 PM] [INFO] iii::function [REGISTERED] Function console::ui-content
-[04:08:11.537 PM] [INFO] iii::function [REGISTERED] Function console::workspace::list
-[04:08:11.537 PM] [INFO] iii::function [REGISTERED] Function console::status
-[04:08:11.537 PM] [INFO] iii::function [REGISTERED] Function console::ui-manifest
-[04:08:11.538 PM] [INFO] iii::function [REGISTERED] Function context::assemble
-[04:08:11.538 PM] [INFO] iii::function [REGISTERED] Function context::compact
-[04:08:11.539 PM] [INFO] iii::function [REGISTERED] Function context::prune
-[04:08:11.539 PM] [INFO] iii::function [REGISTERED] Function context::count-tokens
-[04:08:11.539 PM] [INFO] iii::function [REGISTERED] Function context::on-models-changed
-[04:08:11.539 PM] [INFO] iii::function [REGISTERED] Function context-manager::ui-content
-[04:08:11.539 PM] [INFO] iii::function [REGISTERED] Function context::on-config-change
-[04:08:11.539 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
-    ├ trigger_id: 0bde869a-54fe-4b01-9f10-f8f2fcbafd1b
-    ├ configuration_id: Some("context-manager")
-    └ event_types: Some(["configuration:updated"])
-[04:08:11.540 PM] [INFO] iii::trigger [REGISTERED] Trigger Type http
-[04:08:11.540 PM] [INFO] iii::function [REGISTERED] Function http::on-config-change
-[04:08:11.541 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
-    ├ trigger_id: 73e5f141-78d4-4987-9cc5-7da8a2729afc
-    ├ configuration_id: Some("http")
-    └ event_types: Some(["configuration:updated"])
-[04:08:11.542 PM] [ERROR] iii::engine Function not found
-    └ function_id: state::set
-[04:08:11.543 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: 927255d9-512b-469c-a9ba-241009ed79ff
-    └ ip_address: Some("127.0.0.1")
-[04:08:11.544 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: 14be2545-d84f-480b-90ab-b1f4cba51916
-    └ ip_address: Some("127.0.0.1")
-[04:08:11.545 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: 03543644-5c0d-4191-b402-d890672be645
-    └ ip_address: Some("127.0.0.1")
-[04:08:11.545 PM] [INFO] iii::function [REGISTERED] Function provider::anthropic::refresh_models
-[04:08:11.545 PM] [INFO] iii::function [REGISTERED] Function provider::anthropic::abort
-[04:08:11.545 PM] [INFO] iii::function [REGISTERED] Function provider::anthropic::count_tokens
-[04:08:11.545 PM] [INFO] iii::function [REGISTERED] Function provider::anthropic::stream
-[04:08:11.545 PM] [INFO] iii::function [REGISTERED] Function provider::anthropic::on_router_ready
-[04:08:11.545 PM] [ERROR] iii::engine Function not found
-    └ function_id: state::get
-[04:08:11.546 PM] [INFO] iii::function [REGISTERED] Function console::on-config-change
-[04:08:11.546 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
-    ├ trigger_id: 7a4fd020-9d1b-4bf2-b2fe-c8b667d05f4c
-    ├ configuration_id: Some("console")
-    └ event_types: Some(["configuration:updated"])
-[04:08:11.547 PM] [ERROR] iii::engine Function not found
-    └ function_id: state::set
-[04:08:11.550 PM] [INFO] iii::trigger [REGISTERED] Trigger Type state
-[04:08:11.550 PM] [INFO] iii::function [REGISTERED] Function harness::state::get
-[04:08:11.550 PM] [INFO] iii::function [REGISTERED] Function harness::state::list
-[04:08:11.550 PM] [INFO] iii::function [REGISTERED] Function harness::state::compare-and-set
-[04:08:11.550 PM] [INFO] iii::function [REGISTERED] Function state::claim-namespace
-[04:08:11.550 PM] [INFO] iii::function [REGISTERED] Function state::set
-[04:08:11.550 PM] [INFO] iii::function [REGISTERED] Function state::compare-and-set
-[04:08:11.550 PM] [INFO] iii::function [REGISTERED] Function state::barrier
-[04:08:11.550 PM] [INFO] iii::function [REGISTERED] Function state::get
-[04:08:11.550 PM] [INFO] iii::function [REGISTERED] Function state::delete
-[04:08:11.550 PM] [INFO] iii::function [REGISTERED] Function state::update
-[04:08:11.551 PM] [INFO] iii::function [REGISTERED] Function state::list
-[04:08:11.551 PM] [INFO] iii::function [REGISTERED] Function state::list_keys
-[04:08:11.551 PM] [INFO] iii::function [REGISTERED] Function state::list_groups
-[04:08:11.551 PM] [INFO] iii::function [REGISTERED] Function state::ui-content
-[04:08:11.551 PM] [INFO] iii::function [REGISTERED] Function state::on-config-change
-[04:08:11.551 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
-    ├ trigger_id: eb9d4978-029c-4a8f-8f01-619ba37daed4
-    ├ configuration_id: Some("state")
-    └ event_types: Some(["configuration:updated"])
-[04:08:11.552 PM] [INFO] iii::trigger [REGISTERED] Trigger Type session::created
-[04:08:11.553 PM] [INFO] iii::trigger [REGISTERED] Trigger Type session::message-added
-[04:08:11.553 PM] [INFO] iii::trigger [REGISTERED] Trigger Type session::message-updated
-[04:08:11.553 PM] [INFO] iii::trigger [REGISTERED] Trigger Type session::status-changed
-[04:08:11.553 PM] [INFO] iii::trigger [REGISTERED] Trigger Type session::meta-updated
-[04:08:11.553 PM] [INFO] iii::trigger [REGISTERED] Trigger Type session::deleted
-[04:08:11.553 PM] [INFO] iii::trigger [REGISTERED] Trigger Type session::store::events
-[04:08:11.553 PM] [INFO] iii::function [REGISTERED] Function session::store::get-meta
-[04:08:11.553 PM] [INFO] iii::function [REGISTERED] Function session::store::put-meta
-[04:08:11.553 PM] [INFO] iii::function [REGISTERED] Function session::store::delete-meta
-[04:08:11.553 PM] [INFO] iii::function [REGISTERED] Function session::store::list-metas
-[04:08:11.553 PM] [INFO] iii::function [REGISTERED] Function session::store::get-entry
-[04:08:11.553 PM] [INFO] iii::function [REGISTERED] Function session::store::put-entry
-[04:08:11.553 PM] [INFO] iii::function [REGISTERED] Function session::store::list-entries
-[04:08:11.553 PM] [INFO] iii::function [REGISTERED] Function session::store::delete-entries
-[04:08:11.553 PM] [INFO] iii::function [REGISTERED] Function session::store::get-active-leaf
-[04:08:11.553 PM] [INFO] iii::function [REGISTERED] Function session::store::set-active-leaf
-[04:08:11.553 PM] [INFO] iii::function [REGISTERED] Function session::store::delete-active-leaf
-[04:08:11.553 PM] [INFO] iii::function [REGISTERED] Function session::store::publish-events
-[04:08:11.553 PM] [INFO] iii::function [REGISTERED] Function session::create
-[04:08:11.553 PM] [INFO] iii::function [REGISTERED] Function session::ensure
-[04:08:11.554 PM] [INFO] iii::function [REGISTERED] Function session::get
-[04:08:11.554 PM] [INFO] iii::function [REGISTERED] Function session::list
-[04:08:11.554 PM] [INFO] iii::function [REGISTERED] Function session::set-meta
-[04:08:11.554 PM] [INFO] iii::function [REGISTERED] Function session::set-draft
-[04:08:11.554 PM] [INFO] iii::function [REGISTERED] Function session::set-status
-[04:08:11.554 PM] [INFO] iii::function [REGISTERED] Function session::delete
-[04:08:11.554 PM] [INFO] iii::function [REGISTERED] Function session::append
-[04:08:11.554 PM] [INFO] iii::function [REGISTERED] Function session::append-many
-[04:08:11.554 PM] [INFO] iii::function [REGISTERED] Function session::update-message
-[04:08:11.554 PM] [INFO] iii::function [REGISTERED] Function session::messages
-[04:08:11.554 PM] [INFO] iii::function [REGISTERED] Function session::get-message
-[04:08:11.554 PM] [INFO] iii::function [REGISTERED] Function session::fork
-[04:08:11.554 PM] [INFO] iii::function [REGISTERED] Function session::set-active-leaf
-[04:08:11.554 PM] [INFO] iii::function [REGISTERED] Function session::on-config-change
-[04:08:11.554 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
-    ├ trigger_id: 1d47eb33-5031-47fb-b89b-602c4a29d5b8
-    ├ configuration_id: Some("session-manager")
-    └ event_types: Some(["configuration:updated"])
-[04:08:11.554 PM] [INFO] iii::function [REGISTERED] Function session::config-status
-[04:08:11.787 PM] [ERROR] iii::engine Function not found
-    └ function_id: queue::define
-[04:08:11.878 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: 7c2aa1f9-fb04-4902-a279-e1269108d998
-    └ ip_address: Some("127.0.0.1")
-[04:08:11.953 PM] [INFO] iii::function [REGISTERED] Function claude::on-config-change
-[04:08:11.953 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
-    ├ trigger_id: 9ae29ecc-6946-4e99-88bd-8c97fd452d12
-    ├ configuration_id: Some("claude-code")
-    └ event_types: Some(["configuration:updated"])
-[04:08:11.953 PM] [INFO] iii::function [REGISTERED] Function claude::run
-[04:08:11.953 PM] [INFO] iii::function [REGISTERED] Function claude::start
-[04:08:11.953 PM] [INFO] iii::function [REGISTERED] Function claude::stop
-[04:08:11.953 PM] [INFO] iii::function [REGISTERED] Function claude::status
-[04:08:11.953 PM] [INFO] iii::function [REGISTERED] Function claude::sessions::list
-[04:08:11.953 PM] [INFO] iii::function [REGISTERED] Function run::start_and_wait
-[04:08:11.971 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: 59f932aa-ca63-4b7c-83ce-113d2547f8af
-    └ ip_address: Some("127.0.0.1")
-[04:08:11.973 PM] [INFO] iii::trigger [REGISTERED] Trigger Type directory::skills::on-change
-[04:08:11.973 PM] [INFO] iii::trigger [REGISTERED] Trigger Type directory::prompts::on-change
-[04:08:11.973 PM] [INFO] iii::trigger [REGISTERED] Trigger Type directory::system-prompts::on-change
-[04:08:11.973 PM] [INFO] iii::function [REGISTERED] Function directory::skills::list
-[04:08:11.973 PM] [INFO] iii::function [REGISTERED] Function directory::skills::get
-[04:08:11.973 PM] [INFO] iii::function [REGISTERED] Function directory::skills::index
-[04:08:11.973 PM] [INFO] iii::function [REGISTERED] Function directory::prompts::list
-[04:08:11.973 PM] [INFO] iii::function [REGISTERED] Function directory::system-prompts::list
-[04:08:11.973 PM] [INFO] iii::function [REGISTERED] Function directory::prompts::get
-[04:08:11.973 PM] [INFO] iii::function [REGISTERED] Function directory::system-prompts::get
-[04:08:11.973 PM] [INFO] iii::function [REGISTERED] Function directory::skills::download
-[04:08:11.973 PM] [INFO] iii::function [REGISTERED] Function directory::skills::download_from_registry
-[04:08:11.973 PM] [INFO] iii::function [REGISTERED] Function directory::skills::download_from_repo
-[04:08:11.973 PM] [INFO] iii::function [REGISTERED] Function directory::skills::update
-[04:08:11.973 PM] [INFO] iii::function [REGISTERED] Function directory::skills::create
-[04:08:11.973 PM] [INFO] iii::function [REGISTERED] Function directory::skills::delete
-[04:08:11.973 PM] [INFO] iii::function [REGISTERED] Function directory::prompts::update
-[04:08:11.973 PM] [INFO] iii::function [REGISTERED] Function directory::system-prompts::update
-[04:08:11.973 PM] [INFO] iii::function [REGISTERED] Function directory::prompts::create
-[04:08:11.973 PM] [INFO] iii::function [REGISTERED] Function directory::system-prompts::create
-[04:08:11.973 PM] [INFO] iii::function [REGISTERED] Function directory::prompts::delete
-[04:08:11.973 PM] [INFO] iii::function [REGISTERED] Function directory::system-prompts::delete
-[04:08:11.973 PM] [INFO] iii::function [REGISTERED] Function directory::registry::workers::list
-[04:08:11.974 PM] [INFO] iii::function [REGISTERED] Function directory::registry::workers::info
-[04:08:11.974 PM] [INFO] iii::function [REGISTERED] Function directory::engine::functions::info
-[04:08:11.975 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: 744d04a9-feb5-4ba0-bbbb-52d12ef11333
-    └ ip_address: Some("127.0.0.1")
-[04:08:11.980 PM] [INFO] iii::function [REGISTERED] Function shell::on-config-change
-[04:08:11.980 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
-    ├ trigger_id: 91a84b4c-4b35-478f-8ed9-81f825c77ea5
-    ├ configuration_id: Some("shell")
-    └ event_types: Some(["configuration:updated"])
-[04:08:11.982 PM] [INFO] iii::function [REGISTERED] Function coder::info
-[04:08:11.982 PM] [INFO] iii::function [REGISTERED] Function coder::read-file
-[04:08:11.983 PM] [INFO] iii::function [REGISTERED] Function coder::search
-[04:08:11.983 PM] [INFO] iii::function [REGISTERED] Function coder::update-file
-[04:08:11.983 PM] [INFO] iii::function [REGISTERED] Function coder::create-file
-[04:08:11.983 PM] [INFO] iii::function [REGISTERED] Function coder::delete-file
-[04:08:11.983 PM] [INFO] iii::function [REGISTERED] Function coder::change-diff
-[04:08:11.983 PM] [INFO] iii::function [REGISTERED] Function coder::list-folder
-[04:08:11.983 PM] [INFO] iii::function [REGISTERED] Function coder::tree
-[04:08:11.983 PM] [INFO] iii::function [REGISTERED] Function coder::move
-[04:08:11.983 PM] [INFO] iii::function [REGISTERED] Function shell::exec
-[04:08:11.983 PM] [INFO] iii::function [REGISTERED] Function shell::exec_bg
-[04:08:11.983 PM] [INFO] iii::function [REGISTERED] Function shell::kill
-[04:08:11.983 PM] [INFO] iii::function [REGISTERED] Function shell::status
-[04:08:11.983 PM] [INFO] iii::function [REGISTERED] Function shell::list
-[04:08:11.983 PM] [INFO] iii::function [REGISTERED] Function shell::config-status
-[04:08:11.983 PM] [INFO] iii::function [REGISTERED] Function shell::pty::open
-[04:08:11.983 PM] [INFO] iii::function [REGISTERED] Function shell::pty::write
-[04:08:11.983 PM] [INFO] iii::function [REGISTERED] Function shell::pty::resize
-[04:08:11.983 PM] [INFO] iii::function [REGISTERED] Function shell::pty::detach
-[04:08:11.983 PM] [INFO] iii::function [REGISTERED] Function shell::pty::attach
-[04:08:11.983 PM] [INFO] iii::function [REGISTERED] Function shell::pty::close
-[04:08:11.983 PM] [INFO] iii::function [REGISTERED] Function shell::workspace::roots
-[04:08:11.983 PM] [INFO] iii::function [REGISTERED] Function shell::workspace::validate
-[04:08:11.983 PM] [INFO] iii::function [REGISTERED] Function shell::workspace::list
-[04:08:11.984 PM] [INFO] iii::function [REGISTERED] Function shell::fs::ls
-[04:08:11.984 PM] [INFO] iii::function [REGISTERED] Function shell::fs::stat
-[04:08:11.984 PM] [INFO] iii::function [REGISTERED] Function shell::fs::mkdir
-[04:08:11.984 PM] [INFO] iii::function [REGISTERED] Function shell::fs::rm
-[04:08:11.984 PM] [INFO] iii::function [REGISTERED] Function shell::fs::chmod
-[04:08:11.984 PM] [INFO] iii::function [REGISTERED] Function shell::fs::mv
-[04:08:11.984 PM] [INFO] iii::function [REGISTERED] Function shell::fs::grep
-[04:08:11.984 PM] [INFO] iii::function [REGISTERED] Function shell::fs::sed
-[04:08:11.984 PM] [INFO] iii::function [REGISTERED] Function shell::fs::write
-[04:08:11.984 PM] [INFO] iii::function [REGISTERED] Function shell::fs::read
-[04:08:11.984 PM] [INFO] iii::function [REGISTERED] Function shell::ui-content
-[04:08:11.984 PM] [INFO] iii::trigger [REGISTERED] Trigger Type shell::changed
-[04:08:11.984 PM] [INFO] iii::function [REGISTERED] Function shell::turns::on-pre-trigger
-[04:08:11.984 PM] [INFO] iii::function [REGISTERED] Function shell::turns::on-post-trigger
-[04:08:11.984 PM] [INFO] iii::function [REGISTERED] Function shell::turns::on-turn-started
-[04:08:11.984 PM] [INFO] iii::function [REGISTERED] Function shell::turns::on-turn-completed
-[04:08:11.984 PM] [INFO] iii::function [REGISTERED] Function shell::turns::list
-[04:08:11.984 PM] [INFO] iii::function [REGISTERED] Function shell::turns::get
-[04:08:11.988 PM] [INFO] iii::function [REGISTERED] Function directory::search_functions
-[04:08:11.988 PM] [INFO] iii::function [REGISTERED] Function directory::pre-generate
-[04:08:11.988 PM] [INFO] iii::function [REGISTERED] Function directory::hint-preview
-[04:08:11.988 PM] [INFO] iii::function [REGISTERED] Function directory::on-functions-change
-[04:08:11.989 PM] [INFO] iii::function [REGISTERED] Function iii-directory::ui-content
-[04:08:11.989 PM] [INFO] iii::function [REGISTERED] Function directory::__on_worker_added
-[04:08:11.989 PM] [INFO] iii::function [REGISTERED] Function directory::on-config-change
-[04:08:11.989 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
-    ├ trigger_id: b0a407b5-b413-4a07-bbf8-8ef9a033855b
-    ├ configuration_id: Some("iii-directory")
-    └ event_types: Some(["configuration:updated"])
-[04:08:11.989 PM] [WARN] iii::trigger [PENDING] Trigger 7cd78e08-d801-4a3c-b400-c757f4084b0c (function directory::__on_worker_added) was NOT activated: trigger type worker is not registered. It will be registered automatically when the trigger type becomes available. If this persists, search for a worker that provides this trigger type at https://workers.iii.dev/
-[04:08:11.990 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: 91394fe9-520c-4389-8b81-407ed51ea4c6
-    └ ip_address: Some("127.0.0.1")
-[04:08:11.994 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: 247e224a-dfcb-4b69-96ee-c867ba402b52
-    └ ip_address: Some("127.0.0.1")
-[04:08:11.994 PM] [INFO] iii::function [REGISTERED] Function engine::queue::enqueue
-[04:08:11.994 PM] [INFO] iii::function [REGISTERED] Function queue::define
-[04:08:11.994 PM] [INFO] iii::function [REGISTERED] Function iii::durable::publish
-[04:08:11.994 PM] [INFO] iii::function [REGISTERED] Function engine::queue::list_topics
-[04:08:11.994 PM] [INFO] iii::function [REGISTERED] Function iii::queue::redrive
-[04:08:11.995 PM] [INFO] iii::function [REGISTERED] Function engine::queue::topic_stats
-[04:08:11.995 PM] [INFO] iii::function [REGISTERED] Function iii::queue::redrive_message
-[04:08:11.995 PM] [INFO] iii::function [REGISTERED] Function engine::queue::dlq_topics
-[04:08:11.995 PM] [INFO] iii::function [REGISTERED] Function iii::queue::discard_message
-[04:08:11.995 PM] [INFO] iii::function [REGISTERED] Function engine::queue::dlq_messages
-[04:08:11.995 PM] [INFO] iii::trigger [REGISTERED] Trigger Type durable:subscriber
-[04:08:11.995 PM] [INFO] iii::function [REGISTERED] Function queue::on-config-change
-[04:08:11.995 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
-    ├ trigger_id: 976a3196-0c3f-402f-a94d-dfe13ad97b87
+[04:20:27.020 PM] [INFO] iii::function [REGISTERED] Function queue::define
+[04:20:27.021 PM] [INFO] iii::function [REGISTERED] Function iii::durable::publish
+[04:20:27.021 PM] [INFO] iii::function [REGISTERED] Function iii::queue::redrive
+[04:20:27.021 PM] [INFO] iii::function [REGISTERED] Function iii::queue::redrive_message
+[04:20:27.021 PM] [INFO] iii::function [REGISTERED] Function iii::queue::discard_message
+[04:20:27.021 PM] [INFO] iii::trigger [REGISTERED] Trigger Type durable:subscriber
+[04:20:27.021 PM] [INFO] iii::function [REGISTERED] Function queue::on-config-change
+[04:20:27.021 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
+    ├ trigger_id: 0d80b311-fd08-4c23-aadd-8d3a3cf8f0aa
     ├ configuration_id: Some("queue")
     └ event_types: Some(["configuration:updated"])
-[04:08:12.013 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: 54c62470-8900-41db-a53a-083230881ba6
-    └ ip_address: Some("127.0.0.1")
-[04:08:12.013 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: e985bd94-85ce-4f0d-8f1d-dc877a35b8d0
-    └ ip_address: Some("127.0.0.1")
-[04:08:12.016 PM] [INFO] iii::trigger [REGISTERED] Trigger Type cron
-[04:08:12.016 PM] [INFO] iii::function [REGISTERED] Function cron::ui-content
-[04:08:12.016 PM] [INFO] iii::function [REGISTERED] Function cron::on-config-change
-[04:08:12.016 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
-    ├ trigger_id: 2e02a682-5f6c-456e-8817-ee92e63d2519
-    ├ configuration_id: Some("cron")
+[04:20:27.022 PM] [INFO] iii::function [REGISTERED] Function context::assemble
+[04:20:27.022 PM] [INFO] iii::function [REGISTERED] Function context::compact
+[04:20:27.023 PM] [ERROR] iii::engine Function not found
+    └ function_id: state::get
+[04:20:27.023 PM] [INFO] iii::function [REGISTERED] Function context::prune
+[04:20:27.023 PM] [INFO] iii::function [REGISTERED] Function context::count-tokens
+[04:20:27.023 PM] [INFO] iii::function [REGISTERED] Function context::on-models-changed
+[04:20:27.023 PM] [INFO] iii::function [REGISTERED] Function context-manager::ui-content
+[04:20:27.023 PM] [INFO] iii::function [REGISTERED] Function context::on-config-change
+[04:20:27.023 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
+    ├ trigger_id: 63ef3e88-eb75-4a05-b562-a26ea619667d
+    ├ configuration_id: Some("context-manager")
     └ event_types: Some(["configuration:updated"])
-[04:08:12.025 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: f2aa23b1-b2bc-481b-89d3-db3d055ab63f
-    └ ip_address: Some("127.0.0.1")
-[04:08:12.027 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: f87adea2-e0d1-4c7c-a867-d374e8751340
-    └ ip_address: Some("127.0.0.1")
-[04:08:12.027 PM] [INFO] iii::function [REGISTERED] Function github::on-config-change
-[04:08:12.027 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
-    ├ trigger_id: 2d24b262-9e0c-452c-9f43-b6ad7e755d91
-    ├ configuration_id: Some("github")
+[04:20:27.023 PM] [INFO] iii::function [REGISTERED] Function router::on_functions_changed
+[04:20:27.023 PM] [INFO] iii::function [REGISTERED] Function llm-router::ui-content
+[04:20:27.024 PM] [ERROR] iii::engine Function not found
+    └ function_id: state::get
+[04:20:27.024 PM] [ERROR] iii::engine Function not found
+    └ function_id: state::get
+[04:20:27.026 PM] [ERROR] iii::engine Function not found
+    └ function_id: state::get
+[04:20:27.027 PM] [ERROR] iii::engine Function not found
+    └ function_id: state::get
+[04:20:27.027 PM] [ERROR] iii::engine Function not found
+    └ function_id: state::set
+[04:20:27.028 PM] [ERROR] iii::engine Function not found
+    └ function_id: state::get
+[04:20:27.028 PM] [INFO] iii::trigger [REGISTERED] Trigger Type http
+[04:20:27.029 PM] [INFO] iii::function [REGISTERED] Function http::on-config-change
+[04:20:27.029 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
+    ├ trigger_id: 75935987-27a1-46cc-bda5-00d5ff1375ee
+    ├ configuration_id: Some("http")
     └ event_types: Some(["configuration:updated"])
-[04:08:12.027 PM] [INFO] iii::trigger [REGISTERED] Trigger Type github::called
-[04:08:12.027 PM] [INFO] iii::function [REGISTERED] Function github::pr::list
-[04:08:12.027 PM] [INFO] iii::function [REGISTERED] Function github::pr::view
-[04:08:12.027 PM] [INFO] iii::function [REGISTERED] Function github::pr::create
-[04:08:12.027 PM] [INFO] iii::function [REGISTERED] Function github::pr::edit
-[04:08:12.027 PM] [INFO] iii::trigger [REGISTERED] Trigger Type eval::completed
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function github::pr::merge
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function github::pr::comment
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function github::pr::review
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function github::pr::diff
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function github::pr::checks
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function github::issue::list
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function eval::compare-sessions
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function github::issue::view
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function github::issue::create
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function eval::start
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function github::issue::edit
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function eval::rerun
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function github::issue::comment
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function eval::status
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function github::issue::close
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function eval::list
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function github::repo::view
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function github::repo::list
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function github::run::list
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function github::run::view
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function github::run::rerun
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function github::run::cancel
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function github::workflow::list
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function eval::result
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function github::workflow::run
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function github::release::list
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function eval::cancel
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function eval::delete
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function github::release::view
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function github::release::create
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function eval::assert::exact
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function github::search::repos
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function github::search::issues
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function github::search::prs
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function eval::assert::normalized_text
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function github::search::code
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function eval::step
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function eval::on-turn-completed
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function eval::sweep
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function github::exec
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function eval::ui-content
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function github::api
-[04:08:12.028 PM] [INFO] iii::function [REGISTERED] Function github::ui-content
-[04:08:12.037 PM] [INFO] iii::trigger [REGISTERED] Trigger Type worktree::created
-[04:08:12.037 PM] [INFO] iii::trigger [REGISTERED] Trigger Type worktree::claimed
-[04:08:12.037 PM] [INFO] iii::trigger [REGISTERED] Trigger Type worktree::released
-[04:08:12.037 PM] [INFO] iii::trigger [REGISTERED] Trigger Type worktree::removed
-[04:08:12.037 PM] [INFO] iii::trigger [REGISTERED] Trigger Type worktree::landed
-[04:08:12.037 PM] [INFO] iii::trigger [REGISTERED] Trigger Type worktree::land-blocked
-[04:08:12.037 PM] [INFO] iii::function [REGISTERED] Function worktree::create
-[04:08:12.038 PM] [INFO] iii::function [REGISTERED] Function worktree::list
-[04:08:12.038 PM] [INFO] iii::function [REGISTERED] Function worktree::get
-[04:08:12.038 PM] [INFO] iii::function [REGISTERED] Function worktree::validate
-[04:08:12.038 PM] [INFO] iii::function [REGISTERED] Function worktree::claim
-[04:08:12.038 PM] [INFO] iii::function [REGISTERED] Function worktree::release
-[04:08:12.038 PM] [INFO] iii::function [REGISTERED] Function worktree::status
-[04:08:12.038 PM] [INFO] iii::function [REGISTERED] Function worktree::remove
-[04:08:12.038 PM] [INFO] iii::function [REGISTERED] Function worktree::prune
-[04:08:12.038 PM] [INFO] iii::function [REGISTERED] Function worktree::land
-[04:08:12.038 PM] [INFO] iii::function [REGISTERED] Function worktree::land-step
-[04:08:12.038 PM] [INFO] iii::function [REGISTERED] Function worktree::ui-content
-[04:08:12.038 PM] [INFO] iii::function [REGISTERED] Function worktree::on-config-change
-[04:08:12.038 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
-    ├ trigger_id: 88486046-192a-418b-a001-0ab5293b53c1
-    ├ configuration_id: Some("worktree")
+[04:20:27.033 PM] [INFO] iii::trigger [REGISTERED] Trigger Type harness::ready
+[04:20:27.033 PM] [INFO] iii::trigger [REGISTERED] Trigger Type harness::turn-started
+[04:20:27.033 PM] [INFO] iii::trigger [REGISTERED] Trigger Type harness::turn-completed
+[04:20:27.033 PM] [INFO] iii::trigger [REGISTERED] Trigger Type harness::message-queued
+[04:20:27.033 PM] [INFO] iii::trigger [REGISTERED] Trigger Type harness::triggers-changed
+[04:20:27.033 PM] [INFO] iii::trigger [REGISTERED] Trigger Type harness::hook::pre-turn
+[04:20:27.033 PM] [INFO] iii::trigger [REGISTERED] Trigger Type harness::hook::pre-generate
+[04:20:27.033 PM] [INFO] iii::trigger [REGISTERED] Trigger Type harness::hook::post-generate
+[04:20:27.033 PM] [INFO] iii::trigger [REGISTERED] Trigger Type harness::hook::pre-trigger
+[04:20:27.033 PM] [INFO] iii::trigger [REGISTERED] Trigger Type harness::hook::post-trigger
+[04:20:27.033 PM] [INFO] iii::trigger [REGISTERED] Trigger Type harness::hook::post-turn
+[04:20:27.034 PM] [INFO] iii::trigger [REGISTERED] Trigger Type session::created
+[04:20:27.034 PM] [INFO] iii::trigger [REGISTERED] Trigger Type session::message-added
+[04:20:27.034 PM] [INFO] iii::trigger [REGISTERED] Trigger Type session::message-updated
+[04:20:27.034 PM] [INFO] iii::trigger [REGISTERED] Trigger Type session::status-changed
+[04:20:27.034 PM] [INFO] iii::trigger [REGISTERED] Trigger Type session::meta-updated
+[04:20:27.034 PM] [INFO] iii::trigger [REGISTERED] Trigger Type session::deleted
+[04:20:27.034 PM] [INFO] iii::trigger [REGISTERED] Trigger Type session::store::events
+[04:20:27.034 PM] [INFO] iii::function [REGISTERED] Function console::on-config-change
+[04:20:27.034 PM] [INFO] iii::function [REGISTERED] Function session::store::get-meta
+[04:20:27.034 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
+    ├ trigger_id: 88ff3da0-d274-4704-ba76-8e2ecef3f19a
+    ├ configuration_id: Some("console")
     └ event_types: Some(["configuration:updated"])
-[04:08:12.040 PM] [INFO] iii::function [REGISTERED] Function harness::on-config-change
-[04:08:12.040 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
-    ├ trigger_id: bac462d7-d885-4df1-bc0f-2d303362f396
+[04:20:27.034 PM] [INFO] iii::function [REGISTERED] Function session::store::put-meta
+[04:20:27.034 PM] [INFO] iii::function [REGISTERED] Function session::store::delete-meta
+[04:20:27.034 PM] [INFO] iii::function [REGISTERED] Function session::store::list-metas
+[04:20:27.034 PM] [ERROR] iii::engine Function not found
+    └ function_id: state::set
+[04:20:27.034 PM] [INFO] iii::function [REGISTERED] Function session::store::get-entry
+[04:20:27.035 PM] [INFO] iii::function [REGISTERED] Function session::store::put-entry
+[04:20:27.035 PM] [INFO] iii::function [REGISTERED] Function session::store::list-entries
+[04:20:27.035 PM] [INFO] iii::function [REGISTERED] Function session::store::delete-entries
+[04:20:27.035 PM] [INFO] iii::function [REGISTERED] Function session::store::get-active-leaf
+[04:20:27.035 PM] [INFO] iii::function [REGISTERED] Function session::store::set-active-leaf
+[04:20:27.035 PM] [INFO] iii::function [REGISTERED] Function session::store::delete-active-leaf
+[04:20:27.035 PM] [INFO] iii::function [REGISTERED] Function session::store::publish-events
+[04:20:27.035 PM] [INFO] iii::function [REGISTERED] Function session::create
+[04:20:27.035 PM] [INFO] iii::function [REGISTERED] Function session::ensure
+[04:20:27.035 PM] [INFO] iii::function [REGISTERED] Function session::get
+[04:20:27.035 PM] [INFO] iii::function [REGISTERED] Function session::list
+[04:20:27.035 PM] [INFO] iii::function [REGISTERED] Function session::set-meta
+[04:20:27.035 PM] [INFO] iii::function [REGISTERED] Function session::set-draft
+[04:20:27.035 PM] [INFO] iii::function [REGISTERED] Function session::set-status
+[04:20:27.035 PM] [INFO] iii::function [REGISTERED] Function session::delete
+[04:20:27.035 PM] [INFO] iii::function [REGISTERED] Function session::append
+[04:20:27.035 PM] [INFO] iii::function [REGISTERED] Function session::append-many
+[04:20:27.035 PM] [INFO] iii::function [REGISTERED] Function session::update-message
+[04:20:27.035 PM] [INFO] iii::function [REGISTERED] Function session::messages
+[04:20:27.035 PM] [INFO] iii::function [REGISTERED] Function session::get-message
+[04:20:27.035 PM] [INFO] iii::function [REGISTERED] Function session::fork
+[04:20:27.035 PM] [INFO] iii::function [REGISTERED] Function session::set-active-leaf
+[04:20:27.035 PM] [INFO] iii::function [REGISTERED] Function session::on-config-change
+[04:20:27.035 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
+    ├ trigger_id: fce29b90-e9d5-485d-9b21-d72d28c3f1e2
+    ├ configuration_id: Some("session-manager")
+    └ event_types: Some(["configuration:updated"])
+[04:20:27.035 PM] [INFO] iii::function [REGISTERED] Function session::config-status
+[04:20:27.036 PM] [INFO] iii::function [REGISTERED] Function harness::on-functions-change
+[04:20:27.036 PM] [ERROR] iii::engine Function not found
+    └ function_id: state::set
+[04:20:27.036 PM] [INFO] iii::function [REGISTERED] Function harness::send
+[04:20:27.036 PM] [INFO] iii::function [REGISTERED] Function harness::spawn
+[04:20:27.036 PM] [INFO] iii::function [REGISTERED] Function harness::trigger::deliver
+[04:20:27.037 PM] [INFO] iii::function [REGISTERED] Function harness::turn
+[04:20:27.037 PM] [INFO] iii::function [REGISTERED] Function harness::function::trigger
+[04:20:27.037 PM] [INFO] iii::function [REGISTERED] Function harness::function::resolve
+[04:20:27.037 PM] [INFO] iii::function [REGISTERED] Function harness::stop
+[04:20:27.037 PM] [INFO] iii::function [REGISTERED] Function harness::status
+[04:20:27.037 PM] [INFO] iii::function [REGISTERED] Function harness::system-prompt::get
+[04:20:27.037 PM] [INFO] iii::function [REGISTERED] Function harness::session-tree
+[04:20:27.037 PM] [INFO] iii::function [REGISTERED] Function harness::metrics
+[04:20:27.037 PM] [INFO] iii::function [REGISTERED] Function harness::teardown
+[04:20:27.037 PM] [INFO] iii::function [REGISTERED] Function harness::triggers::list
+[04:20:27.037 PM] [INFO] iii::function [REGISTERED] Function harness::triggers::unregister
+[04:20:27.037 PM] [INFO] iii::function [REGISTERED] Function harness::unqueue
+[04:20:27.037 PM] [INFO] iii::function [REGISTERED] Function harness::edit_queued
+[04:20:27.037 PM] [ERROR] iii::engine Function not found
+    └ function_id: state::set
+[04:20:27.037 PM] [INFO] iii::function [REGISTERED] Function harness::filesystem::grant
+[04:20:27.037 PM] [INFO] iii::function [REGISTERED] Function harness::filesystem::grants
+[04:20:27.037 PM] [INFO] iii::function [REGISTERED] Function harness::filesystem::revoke
+[04:20:27.037 PM] [INFO] iii::function [REGISTERED] Function harness::filesystem::info
+[04:20:27.037 PM] [INFO] iii::function [REGISTERED] Function harness::sweep-pending
+[04:20:27.037 PM] [INFO] iii::function [REGISTERED] Function harness::on-session-deleted
+[04:20:27.038 PM] [INFO] iii::function [REGISTERED] Function harness::ui-content
+[04:20:27.038 PM] [INFO] iii::trigger [REGISTERED] Trigger Type timer
+[04:20:27.038 PM] [ERROR] iii::engine Function not found
+    └ function_id: state::set
+[04:20:27.038 PM] [WARN] iii::trigger [PENDING] Trigger 6aa54d74-9915-404b-ab85-196192e3b62e (function harness::sweep-pending) was NOT activated: trigger type cron is not registered. It will be registered automatically when the trigger type becomes available. If this persists, the cron worker is missing — run: iii worker add cron
+[04:20:27.038 PM] [INFO] iii::function [REGISTERED] Function harness::on-config-change
+[04:20:27.038 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
+    ├ trigger_id: af3e369e-8d3a-4909-962d-e82d47e21268
     ├ configuration_id: Some("harness")
     └ event_types: Some(["configuration:updated"])
-[04:08:12.046 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: 5cb8a4b4-5545-498e-9234-721d4b253e0a
+[04:20:27.038 PM] [ERROR] iii::engine Function not found
+    └ function_id: harness::state::list
+[04:20:27.039 PM] [ERROR] iii::engine Function not found
+    └ function_id: state::claim-namespace
+[04:20:27.039 PM] [ERROR] iii::engine Function not found
+    └ function_id: state::set
+[04:20:27.362 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: d3cf9894-461a-45fb-acbc-5a8cd6e59dd7
     └ ip_address: Some("127.0.0.1")
-[04:08:12.047 PM] [INFO] iii::trigger [REGISTERED] Trigger Type approval::pending-created
-[04:08:12.047 PM] [INFO] iii::trigger [REGISTERED] Trigger Type approval::pending-resolved
-[04:08:12.047 PM] [INFO] iii::function [REGISTERED] Function approval::gate
-[04:08:12.047 PM] [INFO] iii::function [REGISTERED] Function approval::filesystem-access-watch
-[04:08:12.047 PM] [INFO] iii::function [REGISTERED] Function approval::resolve
-[04:08:12.047 PM] [INFO] iii::function [REGISTERED] Function approval::evaluate
-[04:08:12.047 PM] [INFO] iii::function [REGISTERED] Function approval::list-pending
-[04:08:12.047 PM] [INFO] iii::function [REGISTERED] Function approval::get-pending
-[04:08:12.048 PM] [INFO] iii::function [REGISTERED] Function approval::set-mode
-[04:08:12.048 PM] [INFO] iii::function [REGISTERED] Function approval::add-always-allow
-[04:08:12.048 PM] [INFO] iii::function [REGISTERED] Function approval::remove-always-allow
-[04:08:12.048 PM] [INFO] iii::function [REGISTERED] Function approval::approve-always
-[04:08:12.048 PM] [INFO] iii::function [REGISTERED] Function approval::get-settings
-[04:08:12.048 PM] [INFO] iii::function [REGISTERED] Function approval::clear-settings
-[04:08:12.048 PM] [INFO] iii::function [REGISTERED] Function approval::on-session-deleted
-[04:08:12.048 PM] [INFO] iii::function [REGISTERED] Function approval::on-turn-completed
-[04:08:12.048 PM] [INFO] iii::function [REGISTERED] Function approval::on-config-change
-[04:08:12.048 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
-    ├ trigger_id: 688ecfd4-ed22-4efe-a107-433f2ec27550
+[04:20:27.422 PM] [INFO] iii::function [REGISTERED] Function claude::on-config-change
+[04:20:27.422 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
+    ├ trigger_id: 1aacd7d1-be83-469e-a7ca-0292452924bc
+    ├ configuration_id: Some("claude-code")
+    └ event_types: Some(["configuration:updated"])
+[04:20:27.422 PM] [INFO] iii::function [REGISTERED] Function claude::run
+[04:20:27.422 PM] [INFO] iii::function [REGISTERED] Function claude::start
+[04:20:27.422 PM] [INFO] iii::function [REGISTERED] Function claude::stop
+[04:20:27.422 PM] [INFO] iii::function [REGISTERED] Function claude::status
+[04:20:27.422 PM] [INFO] iii::function [REGISTERED] Function claude::sessions::list
+[04:20:27.423 PM] [INFO] iii::function [REGISTERED] Function run::start_and_wait
+[04:20:27.452 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: bc56c1a1-c0ed-408c-aba7-65aad1820e89
+    └ ip_address: Some("127.0.0.1")
+[04:20:27.453 PM] [INFO] iii::trigger [REGISTERED] Trigger Type cron
+[04:20:27.454 PM] [INFO] iii::trigger [REGISTERED] Trigger 6aa54d74-9915-404b-ab85-196192e3b62e (type cron, function harness::sweep-pending) recovered from pending
+[04:20:27.454 PM] [INFO] iii::function [REGISTERED] Function cron::ui-content
+[04:20:27.454 PM] [INFO] iii::function [REGISTERED] Function cron::on-config-change
+[04:20:27.454 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
+    ├ trigger_id: c14d4a03-a161-43c9-a3d7-b291b08b168c
+    ├ configuration_id: Some("cron")
+    └ event_types: Some(["configuration:updated"])
+[04:20:27.476 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 41d7a515-745b-47b3-856d-00bcc6fc3c91
+    └ ip_address: Some("127.0.0.1")
+[04:20:27.485 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 38e34cc7-bcdd-4df7-a520-238080f6b720
+    └ ip_address: Some("127.0.0.1")
+[04:20:27.485 PM] [INFO] iii::trigger [REGISTERED] Trigger Type state
+[04:20:27.485 PM] [INFO] iii::function [REGISTERED] Function harness::state::get
+[04:20:27.485 PM] [INFO] iii::function [REGISTERED] Function harness::state::list
+[04:20:27.485 PM] [INFO] iii::function [REGISTERED] Function harness::state::compare-and-set
+[04:20:27.485 PM] [INFO] iii::function [REGISTERED] Function state::claim-namespace
+[04:20:27.485 PM] [INFO] iii::function [REGISTERED] Function state::set
+[04:20:27.485 PM] [INFO] iii::function [REGISTERED] Function state::compare-and-set
+[04:20:27.485 PM] [INFO] iii::function [REGISTERED] Function state::barrier
+[04:20:27.485 PM] [INFO] iii::function [REGISTERED] Function state::get
+[04:20:27.485 PM] [INFO] iii::function [REGISTERED] Function state::delete
+[04:20:27.485 PM] [INFO] iii::function [REGISTERED] Function state::update
+[04:20:27.486 PM] [INFO] iii::function [REGISTERED] Function state::list
+[04:20:27.486 PM] [INFO] iii::function [REGISTERED] Function state::list_keys
+[04:20:27.486 PM] [INFO] iii::function [REGISTERED] Function state::list_groups
+[04:20:27.486 PM] [INFO] iii::function [REGISTERED] Function state::ui-content
+[04:20:27.486 PM] [INFO] iii::function [REGISTERED] Function state::on-config-change
+[04:20:27.486 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
+    ├ trigger_id: ab6d2322-8b95-47b2-96d9-3b270e09d7df
+    ├ configuration_id: Some("state")
+    └ event_types: Some(["configuration:updated"])
+[04:20:27.489 PM] [INFO] iii::trigger [REGISTERED] Trigger Type directory::skills::on-change
+[04:20:27.489 PM] [INFO] iii::trigger [REGISTERED] Trigger Type directory::prompts::on-change
+[04:20:27.489 PM] [INFO] iii::trigger [REGISTERED] Trigger Type directory::system-prompts::on-change
+[04:20:27.489 PM] [INFO] iii::function [REGISTERED] Function directory::skills::list
+[04:20:27.489 PM] [INFO] iii::function [REGISTERED] Function directory::skills::get
+[04:20:27.489 PM] [INFO] iii::function [REGISTERED] Function directory::skills::index
+[04:20:27.489 PM] [INFO] iii::function [REGISTERED] Function directory::prompts::list
+[04:20:27.489 PM] [INFO] iii::function [REGISTERED] Function directory::system-prompts::list
+[04:20:27.489 PM] [INFO] iii::function [REGISTERED] Function directory::prompts::get
+[04:20:27.489 PM] [INFO] iii::function [REGISTERED] Function directory::system-prompts::get
+[04:20:27.489 PM] [INFO] iii::function [REGISTERED] Function directory::skills::download
+[04:20:27.489 PM] [INFO] iii::function [REGISTERED] Function directory::skills::download_from_registry
+[04:20:27.489 PM] [INFO] iii::function [REGISTERED] Function directory::skills::download_from_repo
+[04:20:27.489 PM] [INFO] iii::function [REGISTERED] Function directory::skills::update
+[04:20:27.489 PM] [INFO] iii::function [REGISTERED] Function directory::skills::create
+[04:20:27.489 PM] [INFO] iii::function [REGISTERED] Function directory::skills::delete
+[04:20:27.489 PM] [INFO] iii::function [REGISTERED] Function directory::prompts::update
+[04:20:27.489 PM] [INFO] iii::function [REGISTERED] Function directory::system-prompts::update
+[04:20:27.489 PM] [INFO] iii::function [REGISTERED] Function directory::prompts::create
+[04:20:27.489 PM] [INFO] iii::function [REGISTERED] Function directory::system-prompts::create
+[04:20:27.489 PM] [INFO] iii::function [REGISTERED] Function directory::prompts::delete
+[04:20:27.489 PM] [INFO] iii::function [REGISTERED] Function directory::system-prompts::delete
+[04:20:27.490 PM] [INFO] iii::function [REGISTERED] Function directory::registry::workers::list
+[04:20:27.490 PM] [INFO] iii::function [REGISTERED] Function directory::registry::workers::info
+[04:20:27.490 PM] [INFO] iii::function [REGISTERED] Function directory::engine::functions::info
+[04:20:27.506 PM] [INFO] iii::function [REGISTERED] Function directory::search_functions
+[04:20:27.506 PM] [INFO] iii::function [REGISTERED] Function directory::pre-generate
+[04:20:27.506 PM] [INFO] iii::function [REGISTERED] Function directory::hint-preview
+[04:20:27.506 PM] [INFO] iii::function [REGISTERED] Function directory::on-functions-change
+[04:20:27.506 PM] [INFO] iii::function [REGISTERED] Function iii-directory::ui-content
+[04:20:27.507 PM] [INFO] iii::function [REGISTERED] Function directory::__on_worker_added
+[04:20:27.508 PM] [INFO] iii::function [REGISTERED] Function directory::on-config-change
+[04:20:27.508 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
+    ├ trigger_id: 0b789f6a-90c8-490f-aa12-c5049d151dac
+    ├ configuration_id: Some("iii-directory")
+    └ event_types: Some(["configuration:updated"])
+[04:20:27.508 PM] [WARN] iii::trigger [PENDING] Trigger 74c0ac1f-233f-4efb-a810-11507136f764 (function directory::__on_worker_added) was NOT activated: trigger type worker is not registered. It will be registered automatically when the trigger type becomes available. If this persists, search for a worker that provides this trigger type at https://workers.iii.dev/
+[04:20:27.541 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: acde348b-80e5-43a5-9bd2-31e77d4a0e8c
+    └ ip_address: Some("127.0.0.1")
+[04:20:27.541 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 2a648062-a381-40bb-8f1b-e119c0ad256f
+    └ ip_address: Some("127.0.0.1")
+[04:20:27.541 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 2f31db8f-b825-404c-bf6b-5ed826256c7b
+    └ ip_address: Some("127.0.0.1")
+[04:20:27.541 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 684bfeec-44c4-420c-8798-8f4be02dc65c
+    └ ip_address: Some("127.0.0.1")
+[04:20:27.543 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 8383aa7c-88a3-48b9-a597-26c13c673f9e
+    └ ip_address: Some("127.0.0.1")
+[04:20:27.545 PM] [INFO] iii::trigger [REGISTERED] Trigger Type eval::completed
+[04:20:27.545 PM] [INFO] iii::function [REGISTERED] Function eval::cancel
+[04:20:27.545 PM] [INFO] iii::function [REGISTERED] Function eval::on-turn-completed
+[04:20:27.545 PM] [INFO] iii::function [REGISTERED] Function eval::sweep
+[04:20:27.545 PM] [INFO] iii::function [REGISTERED] Function eval::compare-sessions
+[04:20:27.546 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 882e0323-51d2-4e5e-bda6-85272cd151ae
+    └ ip_address: Some("127.0.0.1")
+[04:20:27.546 PM] [INFO] iii::function [REGISTERED] Function eval::assert::normalized_text
+[04:20:27.546 PM] [INFO] iii::function [REGISTERED] Function eval::result
+[04:20:27.546 PM] [INFO] iii::function [REGISTERED] Function eval::step
+[04:20:27.546 PM] [INFO] iii::function [REGISTERED] Function eval::ui-content
+[04:20:27.546 PM] [INFO] iii::function [REGISTERED] Function eval::start
+[04:20:27.546 PM] [INFO] iii::function [REGISTERED] Function eval::rerun
+[04:20:27.547 PM] [INFO] iii::function [REGISTERED] Function eval::list
+[04:20:27.547 PM] [INFO] iii::function [REGISTERED] Function eval::status
+[04:20:27.547 PM] [INFO] iii::function [REGISTERED] Function eval::delete
+[04:20:27.547 PM] [INFO] iii::function [REGISTERED] Function eval::assert::exact
+[04:20:27.548 PM] [INFO] iii::function [REGISTERED] Function github::on-config-change
+[04:20:27.548 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
+    ├ trigger_id: 680d2765-673e-4afd-aaff-fc134e552ae8
+    ├ configuration_id: Some("github")
+    └ event_types: Some(["configuration:updated"])
+[04:20:27.549 PM] [INFO] iii::trigger [REGISTERED] Trigger Type github::called
+[04:20:27.549 PM] [INFO] iii::function [REGISTERED] Function github::pr::list
+[04:20:27.549 PM] [INFO] iii::function [REGISTERED] Function github::pr::view
+[04:20:27.549 PM] [INFO] iii::function [REGISTERED] Function github::pr::create
+[04:20:27.549 PM] [INFO] iii::function [REGISTERED] Function github::pr::edit
+[04:20:27.549 PM] [INFO] iii::function [REGISTERED] Function github::pr::merge
+[04:20:27.549 PM] [INFO] iii::function [REGISTERED] Function github::pr::comment
+[04:20:27.549 PM] [INFO] iii::function [REGISTERED] Function github::pr::review
+[04:20:27.549 PM] [INFO] iii::function [REGISTERED] Function github::pr::diff
+[04:20:27.549 PM] [INFO] iii::function [REGISTERED] Function github::pr::checks
+[04:20:27.549 PM] [INFO] iii::function [REGISTERED] Function github::issue::list
+[04:20:27.549 PM] [INFO] iii::function [REGISTERED] Function github::issue::view
+[04:20:27.549 PM] [INFO] iii::function [REGISTERED] Function github::issue::create
+[04:20:27.549 PM] [INFO] iii::function [REGISTERED] Function github::issue::edit
+[04:20:27.549 PM] [INFO] iii::function [REGISTERED] Function github::issue::comment
+[04:20:27.549 PM] [INFO] iii::function [REGISTERED] Function github::issue::close
+[04:20:27.549 PM] [INFO] iii::function [REGISTERED] Function github::repo::view
+[04:20:27.549 PM] [INFO] iii::function [REGISTERED] Function github::repo::list
+[04:20:27.549 PM] [INFO] iii::function [REGISTERED] Function github::run::list
+[04:20:27.550 PM] [INFO] iii::function [REGISTERED] Function github::run::view
+[04:20:27.550 PM] [INFO] iii::function [REGISTERED] Function github::run::rerun
+[04:20:27.550 PM] [INFO] iii::function [REGISTERED] Function github::run::cancel
+[04:20:27.550 PM] [INFO] iii::function [REGISTERED] Function github::workflow::list
+[04:20:27.550 PM] [INFO] iii::function [REGISTERED] Function github::workflow::run
+[04:20:27.550 PM] [INFO] iii::function [REGISTERED] Function github::release::list
+[04:20:27.550 PM] [INFO] iii::function [REGISTERED] Function github::release::view
+[04:20:27.550 PM] [INFO] iii::function [REGISTERED] Function github::release::create
+[04:20:27.550 PM] [INFO] iii::function [REGISTERED] Function github::search::repos
+[04:20:27.550 PM] [INFO] iii::function [REGISTERED] Function github::search::issues
+[04:20:27.550 PM] [INFO] iii::function [REGISTERED] Function github::search::prs
+[04:20:27.550 PM] [INFO] iii::function [REGISTERED] Function github::search::code
+[04:20:27.550 PM] [INFO] iii::function [REGISTERED] Function github::exec
+[04:20:27.550 PM] [INFO] iii::function [REGISTERED] Function github::api
+[04:20:27.550 PM] [INFO] iii::function [REGISTERED] Function github::ui-content
+[04:20:27.555 PM] [INFO] iii::trigger [REGISTERED] Trigger Type approval::pending-created
+[04:20:27.555 PM] [INFO] iii::trigger [REGISTERED] Trigger Type approval::pending-resolved
+[04:20:27.555 PM] [INFO] iii::function [REGISTERED] Function approval::gate
+[04:20:27.555 PM] [INFO] iii::function [REGISTERED] Function shell::on-config-change
+[04:20:27.556 PM] [INFO] iii::function [REGISTERED] Function approval::filesystem-access-watch
+[04:20:27.556 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
+    ├ trigger_id: 714dce02-c6f4-4f30-ba51-c9b188149ae4
+    ├ configuration_id: Some("shell")
+    └ event_types: Some(["configuration:updated"])
+[04:20:27.556 PM] [INFO] iii::function [REGISTERED] Function approval::resolve
+[04:20:27.556 PM] [INFO] iii::function [REGISTERED] Function approval::evaluate
+[04:20:27.556 PM] [INFO] iii::function [REGISTERED] Function approval::list-pending
+[04:20:27.556 PM] [INFO] iii::function [REGISTERED] Function approval::get-pending
+[04:20:27.556 PM] [INFO] iii::function [REGISTERED] Function approval::set-mode
+[04:20:27.556 PM] [INFO] iii::function [REGISTERED] Function approval::add-always-allow
+[04:20:27.556 PM] [INFO] iii::function [REGISTERED] Function approval::remove-always-allow
+[04:20:27.556 PM] [INFO] iii::function [REGISTERED] Function approval::approve-always
+[04:20:27.556 PM] [INFO] iii::function [REGISTERED] Function approval::get-settings
+[04:20:27.556 PM] [INFO] iii::function [REGISTERED] Function approval::clear-settings
+[04:20:27.556 PM] [INFO] iii::function [REGISTERED] Function approval::on-session-deleted
+[04:20:27.556 PM] [INFO] iii::function [REGISTERED] Function approval::on-turn-completed
+[04:20:27.556 PM] [INFO] iii::function [REGISTERED] Function approval::on-config-change
+[04:20:27.556 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
+    ├ trigger_id: af8a61d2-c1c7-41bd-a73b-164877ec2ad5
     ├ configuration_id: Some("approval-gate")
     └ event_types: Some(["configuration:updated"])
-[04:08:12.088 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: 1d0b9bba-1f6b-4cbb-88f8-6a5e9fbc39ab
-    └ ip_address: Some("127.0.0.1")
-[04:08:12.092 PM] [INFO] iii::function [REGISTERED] Function document::detect
-[04:08:12.092 PM] [INFO] iii::function [REGISTERED] Function document::to-markdown
-[04:08:12.092 PM] [INFO] iii::function [REGISTERED] Function document::extract-assets
-[04:08:12.092 PM] [INFO] iii::function [REGISTERED] Function document::ocr
-[04:08:12.092 PM] [INFO] iii::function [REGISTERED] Function document::on-config-change
-[04:08:12.092 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
-    ├ trigger_id: dd58b522-cad1-46d9-95f3-0b881afcca2e
+[04:20:27.557 PM] [INFO] iii::function [REGISTERED] Function document::detect
+[04:20:27.557 PM] [INFO] iii::function [REGISTERED] Function document::to-markdown
+[04:20:27.557 PM] [INFO] iii::function [REGISTERED] Function document::extract-assets
+[04:20:27.557 PM] [INFO] iii::function [REGISTERED] Function document::ocr
+[04:20:27.557 PM] [INFO] iii::function [REGISTERED] Function document::on-config-change
+[04:20:27.557 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
+    ├ trigger_id: ce0d11db-f0c3-402a-a5bb-1de130aa8fd5
     ├ configuration_id: Some("document")
     └ event_types: Some(["configuration:updated"])
-[04:08:12.101 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: 1f9119b2-d666-411a-a5fe-bb206a65a5a7
+[04:20:27.558 PM] [INFO] iii::function [REGISTERED] Function coder::info
+[04:20:27.559 PM] [INFO] iii::function [REGISTERED] Function coder::read-file
+[04:20:27.559 PM] [INFO] iii::function [REGISTERED] Function coder::search
+[04:20:27.559 PM] [INFO] iii::function [REGISTERED] Function coder::update-file
+[04:20:27.559 PM] [INFO] iii::function [REGISTERED] Function coder::create-file
+[04:20:27.559 PM] [INFO] iii::function [REGISTERED] Function coder::delete-file
+[04:20:27.559 PM] [INFO] iii::function [REGISTERED] Function coder::change-diff
+[04:20:27.559 PM] [INFO] iii::function [REGISTERED] Function coder::list-folder
+[04:20:27.559 PM] [INFO] iii::function [REGISTERED] Function coder::tree
+[04:20:27.560 PM] [INFO] iii::function [REGISTERED] Function coder::move
+[04:20:27.560 PM] [INFO] iii::function [REGISTERED] Function shell::exec
+[04:20:27.560 PM] [INFO] iii::function [REGISTERED] Function shell::exec_bg
+[04:20:27.560 PM] [INFO] iii::function [REGISTERED] Function shell::kill
+[04:20:27.560 PM] [INFO] iii::function [REGISTERED] Function shell::status
+[04:20:27.560 PM] [INFO] iii::function [REGISTERED] Function shell::list
+[04:20:27.560 PM] [INFO] iii::function [REGISTERED] Function shell::config-status
+[04:20:27.560 PM] [INFO] iii::function [REGISTERED] Function shell::pty::open
+[04:20:27.560 PM] [INFO] iii::function [REGISTERED] Function shell::pty::write
+[04:20:27.560 PM] [INFO] iii::function [REGISTERED] Function shell::pty::resize
+[04:20:27.560 PM] [INFO] iii::function [REGISTERED] Function shell::pty::detach
+[04:20:27.560 PM] [INFO] iii::function [REGISTERED] Function shell::pty::attach
+[04:20:27.560 PM] [INFO] iii::function [REGISTERED] Function shell::pty::close
+[04:20:27.560 PM] [INFO] iii::function [REGISTERED] Function shell::workspace::roots
+[04:20:27.560 PM] [INFO] iii::function [REGISTERED] Function shell::workspace::validate
+[04:20:27.560 PM] [INFO] iii::function [REGISTERED] Function shell::workspace::list
+[04:20:27.560 PM] [INFO] iii::function [REGISTERED] Function shell::fs::ls
+[04:20:27.560 PM] [INFO] iii::function [REGISTERED] Function shell::fs::stat
+[04:20:27.560 PM] [INFO] iii::function [REGISTERED] Function shell::fs::mkdir
+[04:20:27.560 PM] [INFO] iii::function [REGISTERED] Function shell::fs::rm
+[04:20:27.560 PM] [INFO] iii::function [REGISTERED] Function shell::fs::chmod
+[04:20:27.561 PM] [INFO] iii::function [REGISTERED] Function shell::fs::mv
+[04:20:27.561 PM] [INFO] iii::function [REGISTERED] Function shell::fs::grep
+[04:20:27.561 PM] [INFO] iii::function [REGISTERED] Function shell::fs::sed
+[04:20:27.561 PM] [INFO] iii::function [REGISTERED] Function shell::fs::write
+[04:20:27.561 PM] [INFO] iii::function [REGISTERED] Function shell::fs::read
+[04:20:27.561 PM] [INFO] iii::function [REGISTERED] Function shell::ui-content
+[04:20:27.561 PM] [INFO] iii::trigger [REGISTERED] Trigger Type shell::changed
+[04:20:27.561 PM] [INFO] iii::function [REGISTERED] Function shell::turns::on-pre-trigger
+[04:20:27.561 PM] [INFO] iii::function [REGISTERED] Function shell::turns::on-post-trigger
+[04:20:27.561 PM] [INFO] iii::function [REGISTERED] Function shell::turns::on-turn-started
+[04:20:27.561 PM] [INFO] iii::function [REGISTERED] Function shell::turns::on-turn-completed
+[04:20:27.561 PM] [INFO] iii::function [REGISTERED] Function shell::turns::list
+[04:20:27.561 PM] [INFO] iii::function [REGISTERED] Function shell::turns::get
+[04:20:27.583 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 85337d38-35d6-411c-8725-77150f9bdb65
     └ ip_address: Some("127.0.0.1")
-[04:08:12.101 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: 92a6a3c1-bf18-4380-bc8e-f8280ba6558b
-    └ ip_address: Some("127.0.0.1")
-[04:08:12.101 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: 3ca9c90b-27d4-41e4-9d6d-8f1ed5039987
-    └ ip_address: Some("127.0.0.1")
-[04:08:12.102 PM] [INFO] iii::function [REGISTERED] Function fp::join
-[04:08:12.102 PM] [INFO] iii::function [REGISTERED] Function fp::countBy
-[04:08:12.102 PM] [INFO] iii::function [REGISTERED] Function fp::condition
-[04:08:12.102 PM] [INFO] iii::function [REGISTERED] Function fp::omit
-[04:08:12.102 PM] [INFO] iii::function [REGISTERED] Function fp::sortBy
-[04:08:12.102 PM] [INFO] iii::function [REGISTERED] Function fp::compact
-[04:08:12.102 PM] [INFO] iii::function [REGISTERED] Function fp::inject-guidance
-[04:08:12.102 PM] [INFO] iii::function [REGISTERED] Function fp::nth
-[04:08:12.102 PM] [INFO] iii::function [REGISTERED] Function fp::when
-[04:08:12.102 PM] [INFO] iii::function [REGISTERED] Function fp::split
-[04:08:12.102 PM] [INFO] iii::function [REGISTERED] Function fp::reverse
-[04:08:12.102 PM] [INFO] iii::function [REGISTERED] Function fp::uniq
-[04:08:12.102 PM] [INFO] iii::function [REGISTERED] Function fp::pipe
-[04:08:12.102 PM] [INFO] iii::function [REGISTERED] Function fp::drop
-[04:08:12.102 PM] [INFO] iii::function [REGISTERED] Function fp::get
-[04:08:12.103 PM] [INFO] iii::function [REGISTERED] Function fp::sum
-[04:08:12.103 PM] [INFO] iii::function [REGISTERED] Function fp::pick
-[04:08:12.103 PM] [INFO] iii::function [REGISTERED] Function fp::take
-[04:08:12.103 PM] [INFO] iii::function [REGISTERED] Function fp::getOr
-[04:08:12.103 PM] [INFO] iii::function [REGISTERED] Function fp::size
-[04:08:12.103 PM] [INFO] iii::function [REGISTERED] Function fp::mean
-[04:08:12.103 PM] [INFO] iii::function [REGISTERED] Function fp::min
-[04:08:12.103 PM] [INFO] iii::function [REGISTERED] Function fp::groupBy
-[04:08:12.103 PM] [INFO] iii::function [REGISTERED] Function fp::filter
-[04:08:12.103 PM] [INFO] iii::function [REGISTERED] Function fp::max
-[04:08:12.103 PM] [INFO] iii::function [REGISTERED] Function fp::map
-[04:08:12.103 PM] [INFO] iii::function [REGISTERED] Function fp::flatten
-[04:08:12.110 PM] [INFO] iii::trigger [REGISTERED] Trigger Type memory::item-changed
-[04:08:12.110 PM] [INFO] iii::trigger [REGISTERED] Trigger Type memory::bank-changed
-[04:08:12.110 PM] [INFO] iii::function [REGISTERED] Function memory::bank::create
-[04:08:12.110 PM] [INFO] iii::function [REGISTERED] Function memory::bank::list
-[04:08:12.110 PM] [INFO] iii::function [REGISTERED] Function memory::bank::delete
-[04:08:12.110 PM] [INFO] iii::function [REGISTERED] Function memory::save
-[04:08:12.111 PM] [INFO] iii::function [REGISTERED] Function memory::get
-[04:08:12.111 PM] [INFO] iii::function [REGISTERED] Function memory::list
-[04:08:12.111 PM] [INFO] iii::function [REGISTERED] Function memory::update
-[04:08:12.111 PM] [INFO] iii::function [REGISTERED] Function memory::delete
-[04:08:12.111 PM] [INFO] iii::function [REGISTERED] Function memory::pin
-[04:08:12.111 PM] [INFO] iii::function [REGISTERED] Function memory::supersede
-[04:08:12.111 PM] [INFO] iii::function [REGISTERED] Function memory::tags
-[04:08:12.111 PM] [INFO] iii::function [REGISTERED] Function memory::preview
-[04:08:12.111 PM] [INFO] iii::function [REGISTERED] Function memory::recall
-[04:08:12.111 PM] [INFO] iii::function [REGISTERED] Function memory::rule::list
-[04:08:12.111 PM] [INFO] iii::function [REGISTERED] Function memory::rule::set
-[04:08:12.111 PM] [INFO] iii::function [REGISTERED] Function memory::doctor
-[04:08:12.111 PM] [INFO] iii::function [REGISTERED] Function memory::reload
-[04:08:12.111 PM] [INFO] iii::function [REGISTERED] Function memory::hook::pre-generate
-[04:08:12.111 PM] [INFO] iii::function [REGISTERED] Function memory::on-turn-completed
-[04:08:12.111 PM] [INFO] iii::function [REGISTERED] Function memory::extract-job
-[04:08:12.111 PM] [INFO] iii::function [REGISTERED] Function memory::on-session-deleted
-[04:08:12.111 PM] [INFO] iii::function [REGISTERED] Function memory::ui-content
-[04:08:12.111 PM] [INFO] iii::function [REGISTERED] Function memory::on-config-change
-[04:08:12.111 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
-    ├ trigger_id: 67ce12ea-c4ba-464d-90f2-be9185bec755
-    ├ configuration_id: Some("memory")
-    └ event_types: Some(["configuration:updated"])
-[04:08:12.114 PM] [INFO] iii::function [REGISTERED] Function storage::putObject
-[04:08:12.114 PM] [INFO] iii::function [REGISTERED] Function storage::getObject
-[04:08:12.114 PM] [INFO] iii::function [REGISTERED] Function storage::presignPost
-[04:08:12.115 PM] [INFO] iii::function [REGISTERED] Function storage::deleteObject
-[04:08:12.115 PM] [INFO] iii::function [REGISTERED] Function storage::listBuckets
-[04:08:12.115 PM] [INFO] iii::function [REGISTERED] Function storage::listObjects
-[04:08:12.115 PM] [INFO] iii::function [REGISTERED] Function storage::presignUrl
-[04:08:12.115 PM] [INFO] iii::function [REGISTERED] Function storage::headObject
-[04:08:12.115 PM] [INFO] iii::trigger [REGISTERED] Trigger Type storage::object-created
-[04:08:12.115 PM] [INFO] iii::trigger [REGISTERED] Trigger Type storage::object-deleted
-[04:08:12.115 PM] [INFO] iii::function [REGISTERED] Function storage::on-config-change
-[04:08:12.115 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
-    ├ trigger_id: 71006189-4660-4071-bd37-96ddf8794c24
-    ├ configuration_id: Some("storage")
-    └ event_types: Some(["configuration:updated"])
-[04:08:12.115 PM] [INFO] iii::function [REGISTERED] Function storage::ui-content
-[04:08:12.130 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: 9ebb8a0c-461b-4e36-bde9-03a04ed1f50a
-    └ ip_address: Some("127.0.0.1")
-[04:08:12.130 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: a6da02e0-fedc-4f0f-b806-2e7f590744a9
-    └ ip_address: Some("127.0.0.1")
-[04:08:12.132 PM] [INFO] iii::function [REGISTERED] Function codex::on-config-change
-[04:08:12.132 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
-    ├ trigger_id: 90a7ff95-5858-4a19-83e8-68373aa90c33
-    ├ configuration_id: Some("codex")
-    └ event_types: Some(["configuration:updated"])
-[04:08:12.132 PM] [INFO] iii::function [REGISTERED] Function codex::run
-[04:08:12.132 PM] [INFO] iii::function [REGISTERED] Function pdf::classify
-[04:08:12.132 PM] [INFO] iii::function [REGISTERED] Function codex::start
-[04:08:12.132 PM] [INFO] iii::function [REGISTERED] Function codex::stop
-[04:08:12.132 PM] [INFO] iii::function [REGISTERED] Function codex::status
-[04:08:12.132 PM] [INFO] iii::function [REGISTERED] Function codex::sessions::list
-[04:08:12.133 PM] [INFO] iii::function [REGISTERED] Function pdf::to-markdown
-[04:08:12.133 PM] [INFO] iii::function [REGISTERED] Function pdf::extract-text
-[04:08:12.133 PM] [INFO] iii::function [REGISTERED] Function pdf::extract-items
-[04:08:12.133 PM] [INFO] iii::function [REGISTERED] Function pdf::extract-regions
-[04:08:12.133 PM] [INFO] iii::function [REGISTERED] Function pdf::ui-content
-[04:08:12.133 PM] [INFO] iii::function [REGISTERED] Function pdf::on-config-change
-[04:08:12.133 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
-    ├ trigger_id: 0bdce0ce-0f46-4c8d-a42c-70f28cda942f
+[04:20:27.586 PM] [INFO] iii::function [REGISTERED] Function pdf::classify
+[04:20:27.587 PM] [INFO] iii::function [REGISTERED] Function pdf::to-markdown
+[04:20:27.587 PM] [INFO] iii::function [REGISTERED] Function pdf::extract-text
+[04:20:27.587 PM] [INFO] iii::function [REGISTERED] Function pdf::extract-items
+[04:20:27.587 PM] [INFO] iii::function [REGISTERED] Function pdf::extract-regions
+[04:20:27.587 PM] [INFO] iii::function [REGISTERED] Function pdf::ui-content
+[04:20:27.587 PM] [INFO] iii::function [REGISTERED] Function pdf::on-config-change
+[04:20:27.587 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
+    ├ trigger_id: 3889a2f9-8845-46b6-a1ea-06a8dc7080f0
     ├ configuration_id: Some("pdf")
     └ event_types: Some(["configuration:updated"])
-[04:08:12.473 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: 47aaa918-0b5f-4809-ab07-81cfaa54f442
+[04:20:27.595 PM] [INFO] iii::trigger [REGISTERED] Trigger Type worktree::created
+[04:20:27.595 PM] [INFO] iii::trigger [REGISTERED] Trigger Type worktree::claimed
+[04:20:27.595 PM] [INFO] iii::trigger [REGISTERED] Trigger Type worktree::released
+[04:20:27.595 PM] [INFO] iii::trigger [REGISTERED] Trigger Type worktree::removed
+[04:20:27.595 PM] [INFO] iii::trigger [REGISTERED] Trigger Type worktree::landed
+[04:20:27.595 PM] [INFO] iii::trigger [REGISTERED] Trigger Type worktree::land-blocked
+[04:20:27.595 PM] [INFO] iii::function [REGISTERED] Function worktree::create
+[04:20:27.596 PM] [INFO] iii::function [REGISTERED] Function worktree::list
+[04:20:27.596 PM] [INFO] iii::function [REGISTERED] Function worktree::get
+[04:20:27.596 PM] [INFO] iii::function [REGISTERED] Function worktree::validate
+[04:20:27.596 PM] [INFO] iii::function [REGISTERED] Function worktree::claim
+[04:20:27.596 PM] [INFO] iii::function [REGISTERED] Function worktree::release
+[04:20:27.596 PM] [INFO] iii::function [REGISTERED] Function worktree::status
+[04:20:27.596 PM] [INFO] iii::function [REGISTERED] Function worktree::remove
+[04:20:27.596 PM] [INFO] iii::function [REGISTERED] Function worktree::prune
+[04:20:27.596 PM] [INFO] iii::function [REGISTERED] Function worktree::land
+[04:20:27.596 PM] [INFO] iii::function [REGISTERED] Function worktree::land-step
+[04:20:27.596 PM] [INFO] iii::function [REGISTERED] Function worktree::ui-content
+[04:20:27.596 PM] [INFO] iii::function [REGISTERED] Function worktree::on-config-change
+[04:20:27.596 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
+    ├ trigger_id: 4d074f3d-abdc-463d-8624-4302cfbdddef
+    ├ configuration_id: Some("worktree")
+    └ event_types: Some(["configuration:updated"])
+[04:20:27.597 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 16d3d332-5e62-447d-b22d-0d069b72c34e
     └ ip_address: Some("127.0.0.1")
-[04:08:12.485 PM] [INFO] iii::trigger [REGISTERED] Trigger Type gantry::verdict
-[04:08:12.485 PM] [INFO] iii::function [REGISTERED] Function gantry::middleware
-[04:08:12.486 PM] [INFO] iii::function [REGISTERED] Function gantry::verify
-[04:08:12.486 PM] [INFO] iii::function [REGISTERED] Function gantry::on-function-registration
-[04:08:12.486 PM] [INFO] iii::function [REGISTERED] Function gantry::on-trigger-registration
-[04:08:12.486 PM] [INFO] iii::function [REGISTERED] Function gantry::on-trigger-type-registration
-[04:08:12.543 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: 78cf5680-424b-4846-8f82-c36ee071c365
+[04:20:27.603 PM] [INFO] iii::trigger [REGISTERED] Trigger Type memory::item-changed
+[04:20:27.603 PM] [INFO] iii::trigger [REGISTERED] Trigger Type memory::bank-changed
+[04:20:27.603 PM] [INFO] iii::function [REGISTERED] Function memory::bank::create
+[04:20:27.603 PM] [INFO] iii::function [REGISTERED] Function memory::bank::list
+[04:20:27.603 PM] [INFO] iii::function [REGISTERED] Function memory::bank::delete
+[04:20:27.603 PM] [INFO] iii::function [REGISTERED] Function memory::save
+[04:20:27.603 PM] [INFO] iii::function [REGISTERED] Function memory::get
+[04:20:27.603 PM] [INFO] iii::function [REGISTERED] Function memory::list
+[04:20:27.603 PM] [INFO] iii::function [REGISTERED] Function memory::update
+[04:20:27.603 PM] [INFO] iii::function [REGISTERED] Function memory::delete
+[04:20:27.603 PM] [INFO] iii::function [REGISTERED] Function memory::pin
+[04:20:27.603 PM] [INFO] iii::function [REGISTERED] Function memory::supersede
+[04:20:27.603 PM] [INFO] iii::function [REGISTERED] Function memory::tags
+[04:20:27.603 PM] [INFO] iii::function [REGISTERED] Function memory::preview
+[04:20:27.604 PM] [INFO] iii::function [REGISTERED] Function memory::recall
+[04:20:27.604 PM] [INFO] iii::function [REGISTERED] Function memory::rule::list
+[04:20:27.604 PM] [INFO] iii::function [REGISTERED] Function memory::rule::set
+[04:20:27.604 PM] [INFO] iii::function [REGISTERED] Function memory::doctor
+[04:20:27.604 PM] [INFO] iii::function [REGISTERED] Function memory::reload
+[04:20:27.604 PM] [INFO] iii::function [REGISTERED] Function memory::hook::pre-generate
+[04:20:27.604 PM] [INFO] iii::function [REGISTERED] Function memory::on-turn-completed
+[04:20:27.604 PM] [INFO] iii::function [REGISTERED] Function memory::extract-job
+[04:20:27.604 PM] [INFO] iii::function [REGISTERED] Function memory::on-session-deleted
+[04:20:27.604 PM] [INFO] iii::function [REGISTERED] Function memory::ui-content
+[04:20:27.604 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 48bd055c-dd14-4360-bdb7-508f88463312
     └ ip_address: Some("127.0.0.1")
-[04:08:12.544 PM] [INFO] iii::worker_connections Worker unregistered
-    ├ worker_id: 78cf5680-424b-4846-8f82-c36ee071c365
+[04:20:27.604 PM] [INFO] iii::function [REGISTERED] Function memory::on-config-change
+[04:20:27.604 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
+    ├ trigger_id: f1365373-ad35-462d-afd9-cd30529d1e5a
+    ├ configuration_id: Some("memory")
+    └ event_types: Some(["configuration:updated"])
+[04:20:27.605 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: ac1579fb-a19f-4295-9ba5-1c71cccfbbc1
+    └ ip_address: Some("127.0.0.1")
+[04:20:27.608 PM] [INFO] iii::function [REGISTERED] Function codex::on-config-change
+[04:20:27.608 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
+    ├ trigger_id: 5b87c063-01ae-4e80-b1e0-8e86c8634cae
+    ├ configuration_id: Some("codex")
+    └ event_types: Some(["configuration:updated"])
+[04:20:27.610 PM] [INFO] iii::function [REGISTERED] Function codex::run
+[04:20:27.610 PM] [INFO] iii::function [REGISTERED] Function codex::start
+[04:20:27.610 PM] [INFO] iii::function [REGISTERED] Function codex::stop
+[04:20:27.610 PM] [INFO] iii::function [REGISTERED] Function codex::status
+[04:20:27.610 PM] [INFO] iii::function [REGISTERED] Function codex::sessions::list
+[04:20:27.611 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: e320135d-ecc0-4fd1-af5f-c327a594d827
+    └ ip_address: Some("127.0.0.1")
+[04:20:27.611 PM] [INFO] iii::function [REGISTERED] Function storage::putObject
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function storage::getObject
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function storage::presignPost
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function storage::deleteObject
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function storage::listBuckets
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function fp::pick
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function storage::listObjects
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function storage::presignUrl
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function fp::filter
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function storage::headObject
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function fp::nth
+[04:20:27.612 PM] [INFO] iii::trigger [REGISTERED] Trigger Type storage::object-created
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function fp::omit
+[04:20:27.612 PM] [INFO] iii::trigger [REGISTERED] Trigger Type storage::object-deleted
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function fp::getOr
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function storage::on-config-change
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function fp::groupBy
+[04:20:27.612 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
+    ├ trigger_id: f3322793-92a0-4965-9817-85970dc5b42b
+    ├ configuration_id: Some("storage")
+    └ event_types: Some(["configuration:updated"])
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function fp::when
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function fp::map
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function storage::ui-content
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function fp::size
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function fp::sum
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function fp::mean
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function fp::min
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function fp::max
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function fp::countBy
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function fp::condition
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function fp::flatten
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function fp::get
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function fp::inject-guidance
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function fp::split
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function fp::pipe
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function fp::take
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function fp::sortBy
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function fp::drop
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function fp::compact
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function fp::uniq
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function fp::reverse
+[04:20:27.612 PM] [INFO] iii::function [REGISTERED] Function fp::join
+[04:20:27.917 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: c2b6367d-24b4-48ca-9264-66ce59bc9878
+    └ ip_address: Some("127.0.0.1")
+[04:20:27.929 PM] [INFO] iii::trigger [REGISTERED] Trigger Type gantry::verdict
+[04:20:27.929 PM] [INFO] iii::function [REGISTERED] Function gantry::middleware
+[04:20:27.929 PM] [INFO] iii::function [REGISTERED] Function gantry::verify
+[04:20:27.929 PM] [INFO] iii::function [REGISTERED] Function gantry::on-function-registration
+[04:20:27.929 PM] [INFO] iii::function [REGISTERED] Function gantry::on-trigger-registration
+[04:20:27.930 PM] [INFO] iii::function [REGISTERED] Function gantry::on-trigger-type-registration
+[04:20:28.019 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 81a84211-677d-43b5-bfb7-b1c9302bdda7
+    └ ip_address: Some("127.0.0.1")
+[04:20:28.019 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 81a84211-677d-43b5-bfb7-b1c9302bdda7
     ├ ip_address: Some("127.0.0.1")
-    └ pid: Some(22106)
-[04:08:12.779 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: 106d7a05-42c6-4147-9b76-3e188b06b4df
+    └ pid: Some(32841)
+[04:20:28.235 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 3f3606c7-4c2d-4648-82af-390fb872f7c5
     └ ip_address: Some("127.0.0.1")
-[04:08:12.782 PM] [INFO] iii::function [REGISTERED] Function ghola::hook::post_generate
-[04:08:12.782 PM] [INFO] iii::function [REGISTERED] Function ghola::hook::post_trigger
-[04:08:12.783 PM] [INFO] iii::function [REGISTERED] Function ghola::hook::pre_generate
-[04:08:12.784 PM] [INFO] iii::function [REGISTERED] Function ghola::hook::pre_trigger
-[04:08:12.784 PM] [INFO] iii::function [REGISTERED] Function ghola::record::ladder-refused
-[04:08:12.784 PM] [WARN] iii::trigger [PENDING] Trigger a6d89f42-79c8-4979-b247-8e338e9cdb26 (function ghola::record::ladder-refused) was NOT activated: trigger type ladder::refused is not registered. It will be registered automatically when the trigger type becomes available. If this persists, search for a worker that provides this trigger type at https://workers.iii.dev/
-[04:08:12.785 PM] [INFO] iii::function [REGISTERED] Function ghola::record::approval-held
-[04:08:12.785 PM] [INFO] iii::function [REGISTERED] Function ghola::record::approval-resolved
-[04:08:12.785 PM] [INFO] iii::function [REGISTERED] Function ghola::record::verdict
-[04:08:12.785 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: 010a49f9-5091-471e-9538-5903d3020b86
-    └ ip_address: Some("127.0.0.1")
-[04:08:12.785 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: f589d66e-c107-4664-8be1-3ad0050a5587
-    └ ip_address: Some("127.0.0.1")
-[04:08:12.787 PM] [INFO] iii::function [REGISTERED] Function ghola::submit
-[04:08:12.787 PM] [INFO] iii::function [REGISTERED] Function ghola::jobs
-[04:08:12.787 PM] [INFO] iii::function [REGISTERED] Function ghola::job
-[04:08:12.787 PM] [INFO] iii::function [REGISTERED] Function ghola::pipeline
-[04:08:12.787 PM] [INFO] iii::function [REGISTERED] Function ghola::step
-[04:08:12.787 PM] [INFO] iii::function [REGISTERED] Function ghola::turn-completed
-[04:08:12.787 PM] [INFO] iii::function [REGISTERED] Function ladder::gate
-[04:08:12.787 PM] [INFO] iii::function [REGISTERED] Function ladder::list
-[04:08:12.787 PM] [INFO] iii::function [REGISTERED] Function ladder::explain
-[04:08:12.787 PM] [INFO] iii::function [REGISTERED] Function ladder::evaluate
-[04:08:12.787 PM] [INFO] iii::function [REGISTERED] Function ladder::move
-[04:08:12.787 PM] [INFO] iii::function [REGISTERED] Function ladder::add
-[04:08:12.787 PM] [INFO] iii::trigger [REGISTERED] Trigger Type ladder::refused
-[04:08:12.787 PM] [INFO] iii::trigger [REGISTERED] Trigger a6d89f42-79c8-4979-b247-8e338e9cdb26 (type ladder::refused, function ghola::record::ladder-refused) recovered from pending
-[04:08:13.522 PM] [INFO] iii::workers::external Spawned external worker 'iii-sandbox' (pid: Some(22135))
-[04:08:13.524 PM] [INFO] iii::workers::stream::stream Starting StreamWorker on 0.0.0.0:3132
-[04:08:13.524 PM] [INFO] iii::workers::stream::stream Stream API listening on address: 0.0.0.0:3132
-[04:08:13.524 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
+[04:20:28.238 PM] [INFO] iii::function [REGISTERED] Function audit::append
+[04:20:28.238 PM] [INFO] iii::function [REGISTERED] Function audit::verify
+[04:20:28.238 PM] [INFO] iii::function [REGISTERED] Function audit::summary
+[04:20:28.239 PM] [INFO] iii::function [REGISTERED] Function audit::read
+[04:20:28.988 PM] [INFO] iii::workers::external Spawned external worker 'iii-sandbox' (pid: Some(32867))
+[04:20:28.990 PM] [INFO] iii::workers::stream::stream Starting StreamWorker on 0.0.0.0:3132
+[04:20:28.990 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
     ├ trigger_id: iii-stream::config-watch
     ├ configuration_id: Some("iii-stream")
     └ event_types: Some(["configuration:updated"])
-[04:08:13.524 PM] [INFO] iii::workers::stream::configuration iii-stream configuration re-applied after change
-[04:08:13.532 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: 37940116-3c51-49f3-8e98-a6a33be24db9
+[04:20:28.990 PM] [INFO] iii::workers::stream::stream Stream API listening on address: 0.0.0.0:3132
+[04:20:28.990 PM] [INFO] iii::workers::stream::configuration iii-stream configuration re-applied after change
+[04:20:28.996 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 859131cb-631b-4397-a628-443c207834f3
     └ ip_address: Some("127.0.0.1")
-[04:08:13.533 PM] [INFO] iii::function [REGISTERED] Function sandbox::create
-[04:08:13.533 PM] [INFO] iii::function [REGISTERED] Function sandbox::fs::mv
-[04:08:13.533 PM] [INFO] iii::function [REGISTERED] Function sandbox::run
-[04:08:13.533 PM] [INFO] iii::function [REGISTERED] Function sandbox::fs::sed
-[04:08:13.533 PM] [INFO] iii::function [REGISTERED] Function sandbox::fs::grep
-[04:08:13.533 PM] [INFO] iii::function [REGISTERED] Function sandbox::list
-[04:08:13.533 PM] [INFO] iii::function [REGISTERED] Function sandbox::catalog::list
-[04:08:13.533 PM] [INFO] iii::function [REGISTERED] Function sandbox::fs::write
-[04:08:13.533 PM] [INFO] iii::function [REGISTERED] Function sandbox::fs::ls
-[04:08:13.533 PM] [INFO] iii::function [REGISTERED] Function sandbox::fs::rm
-[04:08:13.533 PM] [INFO] iii::function [REGISTERED] Function sandbox::fs::read
-[04:08:13.533 PM] [INFO] iii::function [REGISTERED] Function sandbox::stop
-[04:08:13.533 PM] [INFO] iii::function [REGISTERED] Function sandbox::fs::stat
-[04:08:13.533 PM] [INFO] iii::function [REGISTERED] Function sandbox::fs::chmod
-[04:08:13.533 PM] [INFO] iii::function [REGISTERED] Function sandbox::fs::mkdir
-[04:08:13.533 PM] [INFO] iii::function [REGISTERED] Function sandbox::exec
-[04:08:13.991 PM] [ERROR] iii::engine Function not found
+[04:20:28.996 PM] [INFO] iii::function [REGISTERED] Function sandbox::fs::read
+[04:20:28.996 PM] [INFO] iii::function [REGISTERED] Function sandbox::fs::rm
+[04:20:28.996 PM] [INFO] iii::function [REGISTERED] Function sandbox::stop
+[04:20:28.996 PM] [INFO] iii::function [REGISTERED] Function sandbox::fs::grep
+[04:20:28.996 PM] [INFO] iii::function [REGISTERED] Function sandbox::fs::chmod
+[04:20:28.996 PM] [INFO] iii::function [REGISTERED] Function sandbox::exec
+[04:20:28.996 PM] [INFO] iii::function [REGISTERED] Function sandbox::fs::stat
+[04:20:28.996 PM] [INFO] iii::function [REGISTERED] Function sandbox::create
+[04:20:28.997 PM] [INFO] iii::function [REGISTERED] Function sandbox::fs::ls
+[04:20:28.997 PM] [INFO] iii::function [REGISTERED] Function sandbox::fs::write
+[04:20:28.997 PM] [INFO] iii::function [REGISTERED] Function sandbox::list
+[04:20:28.997 PM] [INFO] iii::function [REGISTERED] Function sandbox::catalog::list
+[04:20:28.997 PM] [INFO] iii::function [REGISTERED] Function sandbox::run
+[04:20:28.997 PM] [INFO] iii::function [REGISTERED] Function sandbox::fs::mv
+[04:20:28.997 PM] [INFO] iii::function [REGISTERED] Function sandbox::fs::mkdir
+[04:20:28.997 PM] [INFO] iii::function [REGISTERED] Function sandbox::fs::sed
+[04:20:29.509 PM] [ERROR] iii::engine Function not found
     └ function_id: worker::list
-[04:08:15.545 PM] [INFO] iii::workers::external Spawned external worker 'iii-worker-ops' (pid: Some(22160))
-[04:08:15.547 PM] [INFO] iii::workers::config_rewrite stripped seeded config block from config.yaml; value now lives in the configuration worker
+[04:20:30.220 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: a5467b4d-3053-4c89-b55c-2f2126dedcbc
+    └ ip_address: Some("127.0.0.1")
+[04:20:30.222 PM] [INFO] iii::function [REGISTERED] Function ghola::hook::post_generate
+[04:20:30.222 PM] [INFO] iii::function [REGISTERED] Function ghola::hook::post_trigger
+[04:20:30.224 PM] [INFO] iii::function [REGISTERED] Function ghola::hook::pre_generate
+[04:20:30.224 PM] [INFO] iii::function [REGISTERED] Function ghola::hook::pre_trigger
+[04:20:30.224 PM] [INFO] iii::function [REGISTERED] Function ghola::record::ladder-refused
+[04:20:30.224 PM] [WARN] iii::trigger [PENDING] Trigger 059607e0-0a2b-47dd-9a75-8ec4e830335b (function ghola::record::ladder-refused) was NOT activated: trigger type ladder::refused is not registered. It will be registered automatically when the trigger type becomes available. If this persists, search for a worker that provides this trigger type at https://workers.iii.dev/
+[04:20:30.224 PM] [INFO] iii::function [REGISTERED] Function ghola::record::approval-held
+[04:20:30.224 PM] [INFO] iii::function [REGISTERED] Function ghola::record::approval-resolved
+[04:20:30.224 PM] [INFO] iii::function [REGISTERED] Function ghola::record::verdict
+[04:20:30.250 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 59e5742b-b231-4775-ba6e-d373f0cb5c28
+    └ ip_address: Some("127.0.0.1")
+[04:20:30.251 PM] [INFO] iii::function [REGISTERED] Function ghola::submit
+[04:20:30.251 PM] [INFO] iii::function [REGISTERED] Function ghola::jobs
+[04:20:30.251 PM] [INFO] iii::function [REGISTERED] Function ghola::job
+[04:20:30.251 PM] [INFO] iii::function [REGISTERED] Function ghola::pipeline
+[04:20:30.251 PM] [INFO] iii::function [REGISTERED] Function ghola::step
+[04:20:30.251 PM] [INFO] iii::function [REGISTERED] Function ghola::tick
+[04:20:30.251 PM] [INFO] iii::function [REGISTERED] Function ghola::turn-completed
+[04:20:30.299 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 666ed14f-1ef9-431d-a781-90b0bd95f93f
+    └ ip_address: Some("127.0.0.1")
+[04:20:30.301 PM] [INFO] iii::function [REGISTERED] Function ladder::gate
+[04:20:30.301 PM] [INFO] iii::function [REGISTERED] Function ladder::list
+[04:20:30.301 PM] [INFO] iii::function [REGISTERED] Function ladder::explain
+[04:20:30.301 PM] [INFO] iii::function [REGISTERED] Function ladder::evaluate
+[04:20:30.301 PM] [INFO] iii::function [REGISTERED] Function ladder::move
+[04:20:30.301 PM] [INFO] iii::function [REGISTERED] Function ladder::add
+[04:20:30.301 PM] [INFO] iii::trigger [REGISTERED] Trigger Type ladder::refused
+[04:20:30.301 PM] [INFO] iii::trigger [REGISTERED] Trigger 059607e0-0a2b-47dd-9a75-8ec4e830335b (type ladder::refused, function ghola::record::ladder-refused) recovered from pending
+[04:20:31.010 PM] [INFO] iii::workers::external Spawned external worker 'iii-worker-ops' (pid: Some(32901))
+[04:20:31.011 PM] [INFO] iii::workers::config_rewrite stripped seeded config block from config.yaml; value now lives in the configuration worker
     ├ config_id: "console"
     └ path: "config.yaml"
-[04:08:15.549 PM] [INFO] iii::workers::config reload: watching config.yaml for changes
-[04:08:15.556 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: d5db6225-b502-4c63-9f21-5f6f60233da1
+[04:20:31.012 PM] [INFO] iii::workers::config reload: watching config.yaml for changes
+[04:20:31.019 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 7d300df6-c71c-4889-ac9a-07c6728f45c0
     └ ip_address: Some("127.0.0.1")
-[04:08:15.556 PM] [INFO] iii::trigger [REGISTERED] Trigger Type worker
-[04:08:15.556 PM] [INFO] iii::trigger [REGISTERED] Trigger 7cd78e08-d801-4a3c-b400-c757f4084b0c (type worker, function directory::__on_worker_added) recovered from pending
-[04:08:15.556 PM] [INFO] iii::function [REGISTERED] Function worker::start
-[04:08:15.556 PM] [INFO] iii::function [REGISTERED] Function worker::clear
-[04:08:15.557 PM] [INFO] iii::function [REGISTERED] Function worker::list
-[04:08:15.557 PM] [INFO] iii::function [REGISTERED] Function worker::add
-[04:08:15.557 PM] [INFO] iii::function [REGISTERED] Function worker::remove
-[04:08:15.557 PM] [INFO] iii::function [REGISTERED] Function worker::stop
-[04:08:15.557 PM] [INFO] iii::function [REGISTERED] Function worker::update
-[04:08:15.557 PM] [INFO] iii::function [REGISTERED] Function worker::logs
-[04:08:15.557 PM] [INFO] iii::function [REGISTERED] Function worker::schema
-[04:08:15.557 PM] [INFO] iii::function [REGISTERED] Function worker::status
-[04:08:15.557 PM] [INFO] iii::function [REGISTERED] Function worker::validate
-[04:08:16.024 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: 654cd450-b7be-4c9c-87c4-65e5f311a237
+[04:20:31.020 PM] [INFO] iii::trigger [REGISTERED] Trigger Type worker
+[04:20:31.020 PM] [INFO] iii::trigger [REGISTERED] Trigger 74c0ac1f-233f-4efb-a810-11507136f764 (type worker, function directory::__on_worker_added) recovered from pending
+[04:20:31.020 PM] [INFO] iii::function [REGISTERED] Function worker::update
+[04:20:31.020 PM] [INFO] iii::function [REGISTERED] Function worker::add
+[04:20:31.020 PM] [INFO] iii::function [REGISTERED] Function worker::start
+[04:20:31.020 PM] [INFO] iii::function [REGISTERED] Function worker::logs
+[04:20:31.020 PM] [INFO] iii::function [REGISTERED] Function worker::list
+[04:20:31.020 PM] [INFO] iii::function [REGISTERED] Function worker::schema
+[04:20:31.020 PM] [INFO] iii::function [REGISTERED] Function worker::stop
+[04:20:31.020 PM] [INFO] iii::function [REGISTERED] Function worker::clear
+[04:20:31.020 PM] [INFO] iii::function [REGISTERED] Function worker::status
+[04:20:31.020 PM] [INFO] iii::function [REGISTERED] Function worker::validate
+[04:20:31.020 PM] [INFO] iii::function [REGISTERED] Function worker::remove
+[04:20:31.525 PM] [INFO] iii::workers::reload reload: config changed, reloading from config.yaml
+[04:20:31.526 PM] [WARN] iii::workers::reload reload: tracked worker is dead, promoting to CHANGED for restart
+    └ worker: queue
+[04:20:31.526 PM] [INFO] iii::workers::reload reload: diff +0 added, -0 removed, ~1 changed (1 revived), =35 unchanged
+[04:20:31.543 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: e0cb58f4-21d3-4eda-83a9-ead535b79008
     └ ip_address: Some("127.0.0.1")
-[04:08:16.024 PM] [INFO] iii::worker_connections Worker unregistered
-    ├ worker_id: 654cd450-b7be-4c9c-87c4-65e5f311a237
+[04:20:31.544 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: e0cb58f4-21d3-4eda-83a9-ead535b79008
     ├ ip_address: Some("127.0.0.1")
-    └ pid: Some(22160)
-[04:08:16.060 PM] [INFO] iii::workers::reload reload: config changed, reloading from config.yaml
-[04:08:16.061 PM] [WARN] iii::workers::reload reload: tracked worker is dead, promoting to CHANGED for restart
-    └ worker: state
-[04:08:16.061 PM] [INFO] iii::workers::reload reload: diff +0 added, -0 removed, ~1 changed (1 revived), =35 unchanged
-[04:08:16.088 PM] [INFO] iii::function [UNREGISTERED] Function harness::state::get
-[04:08:16.088 PM] [INFO] iii::function [UNREGISTERED] Function state::list
-[04:08:16.088 PM] [INFO] iii::function [UNREGISTERED] Function state::ui-content
-[04:08:16.088 PM] [INFO] iii::function [UNREGISTERED] Function state::list_groups
-[04:08:16.088 PM] [INFO] iii::function [UNREGISTERED] Function state::claim-namespace
-[04:08:16.088 PM] [INFO] iii::function [UNREGISTERED] Function state::compare-and-set
-[04:08:16.088 PM] [INFO] iii::function [UNREGISTERED] Function state::get
-[04:08:16.088 PM] [INFO] iii::function [UNREGISTERED] Function state::barrier
-[04:08:16.088 PM] [INFO] iii::function [UNREGISTERED] Function state::on-config-change
-[04:08:16.088 PM] [INFO] iii::function [UNREGISTERED] Function state::update
-[04:08:16.088 PM] [INFO] iii::function [UNREGISTERED] Function state::list_keys
-[04:08:16.088 PM] [INFO] iii::function [UNREGISTERED] Function state::delete
-[04:08:16.088 PM] [INFO] iii::function [UNREGISTERED] Function harness::state::compare-and-set
-[04:08:16.088 PM] [INFO] iii::function [UNREGISTERED] Function harness::state::list
-[04:08:16.088 PM] [INFO] iii::function [UNREGISTERED] Function state::set
-[04:08:16.088 PM] [INFO] iii::worker_connections Worker unregistered
-    ├ worker_id: 03543644-5c0d-4191-b402-d890672be645
+    └ pid: Some(32901)
+[04:20:31.557 PM] [INFO] iii::function [UNREGISTERED] Function engine::queue::list_topics
+[04:20:31.557 PM] [INFO] iii::function [UNREGISTERED] Function queue::on-config-change
+[04:20:31.557 PM] [INFO] iii::function [UNREGISTERED] Function engine::queue::topic_stats
+[04:20:31.557 PM] [INFO] iii::function [UNREGISTERED] Function iii::queue::redrive_message
+[04:20:31.557 PM] [INFO] iii::function [UNREGISTERED] Function engine::queue::dlq_topics
+[04:20:31.557 PM] [INFO] iii::function [UNREGISTERED] Function engine::queue::dlq_messages
+[04:20:31.557 PM] [INFO] iii::function [UNREGISTERED] Function queue::define
+[04:20:31.557 PM] [INFO] iii::function [UNREGISTERED] Function engine::queue::enqueue
+[04:20:31.557 PM] [INFO] iii::function [UNREGISTERED] Function iii::durable::publish
+[04:20:31.557 PM] [INFO] iii::function [UNREGISTERED] Function iii::queue::redrive
+[04:20:31.557 PM] [INFO] iii::function [UNREGISTERED] Function iii::queue::discard_message
+[04:20:31.557 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: deaf5887-b714-4082-b270-fec9d0b87b79
     ├ ip_address: Some("127.0.0.1")
-    └ pid: Some(21135)
-[04:08:19.091 PM] [INFO] iii::workers::registry_worker Worker stopped via iii-worker
-    └ worker: state
-[04:08:19.091 PM] [INFO] iii::workers::config Starting external worker via iii-worker
-    ├ worker: state
+    └ pid: Some(31919)
+[04:20:31.557 PM] [WARN] iii::trigger [DISABLED] Trigger 265f23cd-f9e3-4c21-b9f4-c1463f71fef9 (type durable:subscriber, function memory::extract-job) is disabled: its trigger type was unregistered. It will be re-registered automatically when the trigger type returns.
+[04:20:31.557 PM] [WARN] iii::trigger [DISABLED] Trigger ce408cd0-488f-4619-8554-f5922f1d1414 (type durable:subscriber, function ghola::step) is disabled: its trigger type was unregistered. It will be re-registered automatically when the trigger type returns.
+[04:20:31.557 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 0123156f-e28f-4721-b124-37fe2d8a5f51
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(31919)
+[04:20:34.559 PM] [INFO] iii::workers::registry_worker Worker stopped via iii-worker
+    └ worker: queue
+[04:20:34.560 PM] [INFO] iii::workers::config Starting external worker via iii-worker
+    ├ worker: queue
     └ port: 49154
-[04:08:19.092 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs state`)
-    ├ worker: state
-    ├ pid: Some(23115)
+[04:20:34.560 PM] [INFO] iii::workers::registry_worker Worker starting via iii-worker (logs: `iii worker logs queue`)
+    ├ worker: queue
+    ├ pid: Some(33862)
     ├ port: 49154
     └ config: None
-[04:08:19.092 PM] [INFO] iii::workers::reload reload: success
-[04:08:19.131 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: dea66203-f521-4c14-b629-875298fe0294
+[04:20:34.560 PM] [INFO] iii::workers::reload reload: success
+[04:20:34.592 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 346f1529-4c9c-45d5-814e-9c9e617ea260
     └ ip_address: Some("127.0.0.1")
-[04:08:19.133 PM] [INFO] iii::trigger [REGISTERED] Trigger Type state
-[04:08:19.133 PM] [INFO] iii::function [REGISTERED] Function harness::state::get
-[04:08:19.133 PM] [INFO] iii::function [REGISTERED] Function harness::state::list
-[04:08:19.133 PM] [INFO] iii::function [REGISTERED] Function harness::state::compare-and-set
-[04:08:19.133 PM] [INFO] iii::function [REGISTERED] Function state::claim-namespace
-[04:08:19.133 PM] [INFO] iii::function [REGISTERED] Function state::set
-[04:08:19.133 PM] [INFO] iii::function [REGISTERED] Function state::compare-and-set
-[04:08:19.133 PM] [INFO] iii::function [REGISTERED] Function state::barrier
-[04:08:19.133 PM] [INFO] iii::function [REGISTERED] Function state::get
-[04:08:19.133 PM] [INFO] iii::function [REGISTERED] Function state::delete
-[04:08:19.133 PM] [INFO] iii::function [REGISTERED] Function state::update
-[04:08:19.133 PM] [INFO] iii::function [REGISTERED] Function state::list
-[04:08:19.133 PM] [INFO] iii::function [REGISTERED] Function state::list_keys
-[04:08:19.133 PM] [INFO] iii::function [REGISTERED] Function state::list_groups
-[04:08:19.133 PM] [INFO] iii::function [REGISTERED] Function state::ui-content
-[04:08:19.133 PM] [INFO] iii::function [REGISTERED] Function state::on-config-change
-[04:08:19.133 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
-    ├ trigger_id: 0a9bf8d2-90ad-40df-9e6d-7da531bcb212
-    ├ configuration_id: Some("state")
+[04:20:34.594 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: aa787646-4bdc-4f60-bb80-0c18fefbb5cb
+    └ ip_address: Some("127.0.0.1")
+[04:20:34.594 PM] [INFO] iii::function [REGISTERED] Function engine::queue::enqueue
+[04:20:34.594 PM] [INFO] iii::function [REGISTERED] Function queue::define
+[04:20:34.594 PM] [INFO] iii::function [REGISTERED] Function iii::durable::publish
+[04:20:34.594 PM] [INFO] iii::function [REGISTERED] Function engine::queue::list_topics
+[04:20:34.594 PM] [INFO] iii::function [REGISTERED] Function iii::queue::redrive
+[04:20:34.594 PM] [INFO] iii::function [REGISTERED] Function iii::queue::redrive_message
+[04:20:34.594 PM] [INFO] iii::function [REGISTERED] Function engine::queue::topic_stats
+[04:20:34.594 PM] [INFO] iii::function [REGISTERED] Function iii::queue::discard_message
+[04:20:34.594 PM] [INFO] iii::function [REGISTERED] Function engine::queue::dlq_topics
+[04:20:34.594 PM] [INFO] iii::function [REGISTERED] Function engine::queue::dlq_messages
+[04:20:34.594 PM] [INFO] iii::trigger [REGISTERED] Trigger Type durable:subscriber
+[04:20:34.594 PM] [INFO] iii::trigger [REGISTERED] Trigger 265f23cd-f9e3-4c21-b9f4-c1463f71fef9 (type durable:subscriber, function memory::extract-job) recovered from pending
+[04:20:34.594 PM] [INFO] iii::trigger [REGISTERED] Trigger ce408cd0-488f-4619-8554-f5922f1d1414 (type durable:subscriber, function ghola::step) recovered from pending
+[04:20:34.594 PM] [INFO] iii::function [REGISTERED] Function queue::on-config-change
+[04:20:34.594 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
+    ├ trigger_id: 6a87690b-e339-4a42-ac0c-8f0e97d4a359
+    ├ configuration_id: Some("queue")
     └ event_types: Some(["configuration:updated"])
-[04:08:20.549 PM] [INFO] iii::workers::engine_fn New functions detected, firing functions-available trigger
-[04:08:21.794 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: 73217572-286a-4455-b169-464e8eb41213
+[04:20:36.013 PM] [INFO] iii::workers::engine_fn New functions detected, firing functions-available trigger
+[04:20:47.812 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: bb7c8cd6-5a29-4cff-994e-dbef69925303
     └ ip_address: Some("127.0.0.1")
-[04:08:22.327 PM] [INFO] iii::worker_connections Worker unregistered
-    ├ worker_id: 73217572-286a-4455-b169-464e8eb41213
-    ├ ip_address: Some("127.0.0.1")
-    └ pid: Some(23152)
-[04:08:44.150 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: 00c50a7f-4595-4e59-ac0c-6bdb13f707c4
+[04:20:47.812 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 39e58cae-7d8c-44b2-b861-5568a20238b4
     └ ip_address: Some("127.0.0.1")
-[04:08:46.151 PM] [INFO] iii::worker_connections Worker unregistered
-    ├ worker_id: 00c50a7f-4595-4e59-ac0c-6bdb13f707c4
+[04:20:47.815 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: bb7c8cd6-5a29-4cff-994e-dbef69925303
     ├ ip_address: Some("127.0.0.1")
-    └ pid: Some(23330)
-[04:09:42.377 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: e51d2a48-9685-4357-9be9-12c0419eb21a
+    └ pid: Some(33976)
+[04:20:47.816 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 39e58cae-7d8c-44b2-b861-5568a20238b4
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(33975)
+[04:20:47.819 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: c4dbe548-5871-4694-a2bf-d9661a0fd1ff
     └ ip_address: Some("127.0.0.1")
-[04:09:42.702 PM] [INFO] iii::workers::reload reload: config changed, reloading from config.yaml
-[04:09:42.711 PM] [INFO] iii::workers::reload reload: diff +0 added, -0 removed, ~0 changed (0 revived), =36 unchanged
-[04:09:42.711 PM] [INFO] iii::workers::reload reload: success
-[04:09:42.778 PM] [INFO] iii::worker_connections Worker unregistered
-    ├ worker_id: e51d2a48-9685-4357-9be9-12c0419eb21a
-    ├ ip_address: Some("127.0.0.1")
-    └ pid: Some(23674)
-[04:09:42.817 PM] [INFO] iii::worker_connections Worker registered
-    ├ worker_id: 2c404c13-a381-4bfa-9322-fdacad7e72d5
+[04:20:47.819 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 04c94eaa-f116-4474-9962-6feb0eff7413
     └ ip_address: Some("127.0.0.1")
-[04:09:43.197 PM] [INFO] iii::worker_connections Worker unregistered
-    ├ worker_id: 2c404c13-a381-4bfa-9322-fdacad7e72d5
+[04:20:47.820 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: d81ffb9b-9876-401d-a0d4-c048efec2bf4
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.821 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 4abf0eb9-9abf-4ba5-a2ed-6c610aa4b627
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.821 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 3cd2d9dc-7858-4e5c-b191-ce7871db3e9b
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.821 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: c4dbe548-5871-4694-a2bf-d9661a0fd1ff
     ├ ip_address: Some("127.0.0.1")
-    └ pid: Some(23695)
+    └ pid: Some(33978)
+[04:20:47.822 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: ba60d44d-1b06-41b4-8abd-73d4125bd906
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.822 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 04c94eaa-f116-4474-9962-6feb0eff7413
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(33977)
+[04:20:47.824 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: d81ffb9b-9876-401d-a0d4-c048efec2bf4
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(33979)
+[04:20:47.824 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 3cd2d9dc-7858-4e5c-b191-ce7871db3e9b
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(33980)
+[04:20:47.824 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: ba60d44d-1b06-41b4-8abd-73d4125bd906
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(33981)
+[04:20:47.825 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 4abf0eb9-9abf-4ba5-a2ed-6c610aa4b627
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(33982)
+[04:20:47.853 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: e946fb10-8db5-40e6-b507-dd7d340d2aea
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.853 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 92cca86d-ada2-4a50-ad03-135c6d7bd9da
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.856 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: e946fb10-8db5-40e6-b507-dd7d340d2aea
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(33983)
+[04:20:47.857 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 92cca86d-ada2-4a50-ad03-135c6d7bd9da
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(33984)
+[04:20:47.858 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: d25cb25e-8e93-4625-86cf-865271905d30
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.860 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: d25cb25e-8e93-4625-86cf-865271905d30
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(33985)
+[04:20:47.863 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: f613b309-d0bf-408a-bc85-d7e4397f9a8d
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.863 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 3bc606a1-bd25-4f1f-b9f2-cc7668f87524
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.864 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 55585625-e1cd-4221-a518-209e803ae5d5
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.865 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 0c3f4a0e-bad0-434c-87b0-7f1e871d6c61
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.867 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 3bc606a1-bd25-4f1f-b9f2-cc7668f87524
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(33986)
+[04:20:47.867 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 7e53f3ac-8fa8-4967-a62a-75af4bdd13ab
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.868 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: f613b309-d0bf-408a-bc85-d7e4397f9a8d
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(33987)
+[04:20:47.869 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 55585625-e1cd-4221-a518-209e803ae5d5
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(33990)
+[04:20:47.869 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 5cba88f8-016c-43dc-ba0a-862f569cfc15
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.869 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 0c3f4a0e-bad0-434c-87b0-7f1e871d6c61
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(33988)
+[04:20:47.870 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 7e53f3ac-8fa8-4967-a62a-75af4bdd13ab
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(33989)
+[04:20:47.871 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 5cba88f8-016c-43dc-ba0a-862f569cfc15
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(33991)
+[04:20:47.875 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 650f5354-c023-40a7-9c24-e5d4d58d3306
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.878 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: b780c62c-976e-4109-a50d-159afd2a7067
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.878 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 650f5354-c023-40a7-9c24-e5d4d58d3306
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(33992)
+[04:20:47.879 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 61953ca4-666c-4ba4-b8af-db6ae7200249
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.880 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: b780c62c-976e-4109-a50d-159afd2a7067
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(33993)
+[04:20:47.881 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 61953ca4-666c-4ba4-b8af-db6ae7200249
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(33994)
+[04:20:47.882 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: acaf0e9d-193b-4ccf-85a3-a56e00cfec8b
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.884 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: acaf0e9d-193b-4ccf-85a3-a56e00cfec8b
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(33995)
+[04:20:47.885 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: aeabd938-16cd-41ae-8697-dd9a14842e35
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.886 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: c7bc014e-3624-4041-bfc3-d743e7140b8f
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.888 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: aeabd938-16cd-41ae-8697-dd9a14842e35
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(33996)
+[04:20:47.888 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 978c99f7-34d5-4f9e-a2e9-583895addbfd
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.888 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: c7bc014e-3624-4041-bfc3-d743e7140b8f
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(33997)
+[04:20:47.889 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: dd2d43a2-586c-47ca-b181-bbdd3b5110fb
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.891 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 978c99f7-34d5-4f9e-a2e9-583895addbfd
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(33998)
+[04:20:47.892 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: dd2d43a2-586c-47ca-b181-bbdd3b5110fb
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(33999)
+[04:20:47.893 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: bb701a1a-d4c6-4b6f-965b-3942f5c258be
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.896 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 3986e584-be1f-4c22-ad63-b80a8d12d861
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.896 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: bb701a1a-d4c6-4b6f-965b-3942f5c258be
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(34000)
+[04:20:47.898 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 3986e584-be1f-4c22-ad63-b80a8d12d861
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(34001)
+[04:20:47.898 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 2fc730ba-a27d-46d1-a52e-2542e4b64632
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.900 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 2fc730ba-a27d-46d1-a52e-2542e4b64632
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(34002)
+[04:20:47.901 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 97d989c7-2b3e-4c7b-b5c4-90e08f7decf6
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.902 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: a65af3f2-1ca3-4dc7-8fdf-40e7085245be
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.903 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 0b58558d-4a8a-4b8e-a138-10095bad7ca6
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.903 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 97d989c7-2b3e-4c7b-b5c4-90e08f7decf6
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(34003)
+[04:20:47.904 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: a65af3f2-1ca3-4dc7-8fdf-40e7085245be
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(34004)
+[04:20:47.905 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 0b58558d-4a8a-4b8e-a138-10095bad7ca6
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(34005)
+[04:20:47.907 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 5f802828-5403-4f07-8e5a-cd2480988c48
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.909 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 5f802828-5403-4f07-8e5a-cd2480988c48
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(34006)
+[04:20:47.912 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 71068691-f7e2-44bb-94b5-e429cc7d6d40
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.914 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 71068691-f7e2-44bb-94b5-e429cc7d6d40
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(34007)
+[04:20:47.914 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: ab0cb357-b67b-48b1-b65f-a4b61c2645d8
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.916 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: ab0cb357-b67b-48b1-b65f-a4b61c2645d8
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(34008)
+[04:20:47.919 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 5319b499-926f-48b5-b809-7cd905f591e3
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.919 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: fa802a93-fbd3-47a3-ba3d-797841314914
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.919 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 2bfb4962-5713-419e-8b95-d5862bedec1f
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.921 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: fa802a93-fbd3-47a3-ba3d-797841314914
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(34009)
+[04:20:47.921 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 72567b29-fc74-4190-90c0-9ee0f56e5473
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.921 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: de19e9c7-abbb-4c5c-b6ab-31e9bc1e2dac
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.922 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 5319b499-926f-48b5-b809-7cd905f591e3
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(34010)
+[04:20:47.922 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 2bfb4962-5713-419e-8b95-d5862bedec1f
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(34011)
+[04:20:47.923 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 72567b29-fc74-4190-90c0-9ee0f56e5473
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(34012)
+[04:20:47.923 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: de19e9c7-abbb-4c5c-b6ab-31e9bc1e2dac
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(34013)
+[04:20:47.924 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 41976ead-52ff-4649-9c88-8837de8adac1
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.925 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 41976ead-52ff-4649-9c88-8837de8adac1
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(34014)
+[04:20:47.937 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 4bf00570-8690-4e68-ade6-e17981f0bdbd
+    └ ip_address: Some("127.0.0.1")
+[04:20:47.939 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 4bf00570-8690-4e68-ade6-e17981f0bdbd
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(34015)
+[04:20:48.327 PM] [INFO] iii::workers::reload reload: config changed, reloading from config.yaml
+[04:20:48.336 PM] [INFO] iii::workers::reload reload: diff +0 added, -0 removed, ~0 changed (0 revived), =36 unchanged
+[04:20:48.336 PM] [INFO] iii::workers::reload reload: success
+[04:21:00.785 PM] [INFO] iii::function [UNREGISTERED] Function audit::verify
+[04:21:00.785 PM] [INFO] iii::function [UNREGISTERED] Function audit::read
+[04:21:00.785 PM] [INFO] iii::function [UNREGISTERED] Function audit::append
+[04:21:00.785 PM] [INFO] iii::function [UNREGISTERED] Function audit::summary
+[04:21:00.785 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 3f3606c7-4c2d-4648-82af-390fb872f7c5
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(32847)
+[04:21:01.028 PM] [INFO] iii::workers::engine_fn New functions detected, firing functions-available trigger
+[04:21:01.281 PM] [INFO] iii::workers::reload reload: config changed, reloading from config.yaml
+[04:21:01.289 PM] [INFO] iii::workers::reload reload: diff +0 added, -0 removed, ~0 changed (0 revived), =36 unchanged
+[04:21:01.289 PM] [INFO] iii::workers::reload reload: success
+[04:21:01.983 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 3daaece8-bf94-4f2e-a4a6-2680dc2997d5
+    └ ip_address: Some("127.0.0.1")
+[04:21:01.985 PM] [INFO] iii::function [REGISTERED] Function audit::append
+[04:21:01.985 PM] [INFO] iii::function [REGISTERED] Function audit::verify
+[04:21:01.985 PM] [INFO] iii::function [REGISTERED] Function audit::summary
+[04:21:01.985 PM] [INFO] iii::function [REGISTERED] Function audit::read
+[04:21:06.033 PM] [INFO] iii::workers::engine_fn New functions detected, firing functions-available trigger
+[04:21:06.932 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: e612ef24-6eee-4a44-a99b-fdb60f412f15
+    └ ip_address: Some("127.0.0.1")
+[04:21:06.933 PM] [INFO] iii::function [REGISTERED] Function ghola-turn::completed
+[04:21:09.724 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 60c13380-dc5d-46f5-9dc2-5e86bcfdb9f3
+    └ dir: read
+[04:21:09.724 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 60c13380-dc5d-46f5-9dc2-5e86bcfdb9f3
+    └ dir: read
+[04:21:09.724 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 60c13380-dc5d-46f5-9dc2-5e86bcfdb9f3
+[04:21:09.726 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: afb24aeb-e6bd-423e-a0de-066ecb0e04af
+    └ dir: read
+[04:21:09.726 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: afb24aeb-e6bd-423e-a0de-066ecb0e04af
+    └ dir: read
+[04:21:09.726 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: afb24aeb-e6bd-423e-a0de-066ecb0e04af
+[04:21:10.486 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: afb24aeb-e6bd-423e-a0de-066ecb0e04af
+    └ dir: write
+[04:21:10.486 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: afb24aeb-e6bd-423e-a0de-066ecb0e04af
+    └ dir: write
+[04:21:10.486 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: afb24aeb-e6bd-423e-a0de-066ecb0e04af
+[04:21:10.488 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 60c13380-dc5d-46f5-9dc2-5e86bcfdb9f3
+    └ dir: write
+[04:21:10.488 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 60c13380-dc5d-46f5-9dc2-5e86bcfdb9f3
+    └ dir: write
+[04:21:10.488 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 60c13380-dc5d-46f5-9dc2-5e86bcfdb9f3
+[04:21:10.991 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: afb24aeb-e6bd-423e-a0de-066ecb0e04af
+[04:21:10.991 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: afb24aeb-e6bd-423e-a0de-066ecb0e04af
+    ├ total_bytes: 0
+    └ msg_count: 9
+[04:21:10.991 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: afb24aeb-e6bd-423e-a0de-066ecb0e04af
+    ├ total_bytes: 0
+    └ msg_count: 9
+[04:21:10.991 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 60c13380-dc5d-46f5-9dc2-5e86bcfdb9f3
+[04:21:10.991 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 60c13380-dc5d-46f5-9dc2-5e86bcfdb9f3
+    ├ total_bytes: 0
+    └ msg_count: 9
+[04:21:10.991 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 60c13380-dc5d-46f5-9dc2-5e86bcfdb9f3
+    ├ total_bytes: 0
+    └ msg_count: 9
+[04:21:11.039 PM] [INFO] iii::workers::engine_fn New functions detected, firing functions-available trigger
+[04:21:11.267 PM] [INFO] iii::function [UNREGISTERED] Function ghola-turn::completed
+[04:21:11.267 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: e612ef24-6eee-4a44-a99b-fdb60f412f15
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(34174)
+[04:21:11.285 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 82e913bb-d85b-446d-9891-815008a462ed
+    └ dir: read
+[04:21:11.285 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 82e913bb-d85b-446d-9891-815008a462ed
+    └ dir: read
+[04:21:11.285 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 82e913bb-d85b-446d-9891-815008a462ed
+[04:21:11.285 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 67f03d07-d8a7-434c-b25f-0fb9a506647b
+    └ dir: read
+[04:21:11.285 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 67f03d07-d8a7-434c-b25f-0fb9a506647b
+    └ dir: read
+[04:21:11.285 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 67f03d07-d8a7-434c-b25f-0fb9a506647b
+[04:21:11.760 PM] [INFO] iii::workers::reload reload: config changed, reloading from config.yaml
+[04:21:11.763 PM] [INFO] iii::workers::reload reload: diff +0 added, -0 removed, ~0 changed (0 revived), =36 unchanged
+[04:21:11.763 PM] [INFO] iii::workers::reload reload: success
+[04:21:12.934 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 67f03d07-d8a7-434c-b25f-0fb9a506647b
+    └ dir: write
+[04:21:12.934 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 67f03d07-d8a7-434c-b25f-0fb9a506647b
+    └ dir: write
+[04:21:12.934 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 67f03d07-d8a7-434c-b25f-0fb9a506647b
+[04:21:12.935 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 82e913bb-d85b-446d-9891-815008a462ed
+    └ dir: write
+[04:21:12.935 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 82e913bb-d85b-446d-9891-815008a462ed
+    └ dir: write
+[04:21:12.935 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 82e913bb-d85b-446d-9891-815008a462ed
+[04:21:14.424 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 67f03d07-d8a7-434c-b25f-0fb9a506647b
+[04:21:14.425 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 67f03d07-d8a7-434c-b25f-0fb9a506647b
+    ├ total_bytes: 0
+    └ msg_count: 13
+[04:21:14.425 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 67f03d07-d8a7-434c-b25f-0fb9a506647b
+    ├ total_bytes: 0
+    └ msg_count: 13
+[04:21:14.426 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 82e913bb-d85b-446d-9891-815008a462ed
+[04:21:14.426 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 82e913bb-d85b-446d-9891-815008a462ed
+    ├ total_bytes: 0
+    └ msg_count: 13
+[04:21:14.426 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 82e913bb-d85b-446d-9891-815008a462ed
+    ├ total_bytes: 0
+    └ msg_count: 13
+[04:21:16.045 PM] [INFO] iii::workers::engine_fn New functions detected, firing functions-available trigger

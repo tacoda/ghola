@@ -183,3 +183,56 @@ class Statistics(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TwoWritersAtOnce(unittest.TestCase):
+    """Multi-writer is the NORMAL case here, not an edge case.
+
+    The policy worker records what the ladder and the approval gate decided; the
+    factory records stage transitions. They are separate processes appending to
+    one log. The first version held only a thread lock and an in-memory tail, so
+    their `prev` hashes interleaved and the first real run produced a log that
+    failed its own verification — which is indistinguishable from tampering.
+    """
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+
+    def tearDown(self):
+        self.tmp.cleanup()
+
+    def test_two_store_objects_interleaving_keep_one_valid_chain(self):
+        # Two AuditLog objects stand in for two workers: separate tails, one
+        # directory.
+        a = audit_log.AuditLog(self.tmp.name)
+        b = audit_log.AuditLog(self.tmp.name)
+        for i in range(12):
+            (a if i % 2 == 0 else b).append("turn.completed", actor=f"w{i % 2}")
+
+        check = audit_log.AuditLog(self.tmp.name).verify()
+        self.assertTrue(check.ok, check.problems)
+        self.assertEqual(check.entries, 12)
+
+    def test_concurrent_threads_keep_one_valid_chain(self):
+        import threading
+        logs = [audit_log.AuditLog(self.tmp.name) for _ in range(4)]
+
+        def write(log, n):
+            for _ in range(8):
+                log.append("stage.left", actor=f"t{n}")
+
+        threads = [threading.Thread(target=write, args=(log, n))
+                   for n, log in enumerate(logs)]
+        for t in threads:
+            t.start()
+        for t in threads:
+            t.join()
+
+        check = audit_log.AuditLog(self.tmp.name).verify()
+        self.assertTrue(check.ok, check.problems)
+        self.assertEqual(check.entries, 32)
+
+    def test_the_lock_file_is_not_read_as_a_log(self):
+        log = audit_log.AuditLog(self.tmp.name)
+        log.append("turn.completed")
+        self.assertEqual(len(log.files()), 1)

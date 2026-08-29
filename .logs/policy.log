@@ -1,6 +1,10 @@
 ghola-policy started on ws://localhost:49154
   hooks : post_generate, post_trigger, pre_generate, pre_trigger
-  audit : /Users/tacoda/tacoda/ghola/audit
-  recording: ladder::refused, approval::pending-created, approval::pending-resolved, gantry::verdict
-  tools : none. Reading, editing and running are coder::* and shell::*
-  the turn loop is iii's harness worker; this carries the ladder
+Traceback (most recent call last):
+  File "/Users/tacoda/tacoda/ghola/workers/ghola-policy/src/boot.py", line 109, in <module>
+    main()
+    ~~~~^^
+  File "/Users/tacoda/tacoda/ghola/workers/ghola-policy/src/boot.py", line 102, in main
+    print(f"  audit : {context.AUDIT.folder}")
+                       ^^^^^^^^^^^^^
+AttributeError: module 'context' has no attribute 'AUDIT'

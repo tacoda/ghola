@@ -6,7 +6,7 @@
 #   2. add config and scripts  edit settings/, drop files in actions/
 #   3. tell it to do work      make turn  (make work, once the factory lands)
 
-.PHONY: help setup doctor install engine policy ladder factory submit up down logs status stop restart \
+.PHONY: help setup doctor install engine policy ladder factory auditd submit up down logs status stop restart \
         call schema models console config pipeline jobs turn work test test-live eval audit clean
 
 VENV := .venv
@@ -111,8 +111,8 @@ doctor:
 # fail with an error about the venv rather than doing the install.
 install:
 	@uv venv $(VENV) --allow-existing
-	@uv pip install --quiet --python $(PY) -e workers/ghola-core -e workers/ghola-policy -e workers/ghola-factory
-	@echo "  installed ghola-core, ghola-policy and ghola-factory into $(VENV)"
+	@uv pip install --quiet --python $(PY) -e workers/ghola-core -e workers/ghola-policy -e workers/ghola-factory -e workers/ghola-audit
+	@echo "  installed ghola-core, ghola-policy, ghola-factory and ghola-audit into $(VENV)"
 
 # ---------------------------------------------------------------- running
 
@@ -137,6 +137,12 @@ ladder:
 	@test -d $(LADDER) || { echo "no ladder at $(LADDER). Clone tacoda/ladder beside this repo"; exit 2; }
 	@$(ENV) PYTHONUNBUFFERED=1 III_URL=ws://localhost:$(MGR_PORT) LADDER_HOME=$(LADDER) \
 		$(LADDER)/.venv/bin/python $(LADDER)/src/main.py
+
+# One process owns the append-only chain. Two writers interleave their `prev`
+# hashes and produce a log that fails its own verification while nothing has
+# tampered with it, so this starts BEFORE the workers that record.
+auditd:
+	@$(RUN) $(PY) workers/ghola-audit/src/audit_worker.py
 
 # The pipeline. Serves no HTTP: the console is the UI.
 factory:
@@ -184,6 +190,10 @@ up:
 		printf '.'; sleep 1; \
 	done
 	@echo ""
+	@# Before the recorders, so their first entry has somewhere to go.
+	@pgrep -f '[g]hola-audit/src/audit_worker.py' >/dev/null \
+		|| ($(RUN) $(PY) workers/ghola-audit/src/audit_worker.py > $(LOGS)/audit.log 2>&1 &)
+	@sleep 2
 	@pgrep -f '[g]hola-policy/src/boot.py' >/dev/null \
 		|| ($(RUN) $(PY) workers/ghola-policy/src/boot.py > $(LOGS)/policy.log 2>&1 &)
 	@pgrep -f '[g]hola-factory/src/factory.py' >/dev/null \
@@ -221,6 +231,8 @@ work:
 
 # The append-only record: whether it is intact, and what it says.
 # `VERIFY=1` exits non-zero on a broken chain, for a cron job or a CI step.
+# Reads the log directly: a reader needs no worker, and asking the writer
+# whether its own writing is intact is the wrong shape.
 audit:
 	@$(PY) scripts/audit.py
 
@@ -274,6 +286,7 @@ status:
 	@echo "policy   : $$(pgrep -f '[g]hola-policy/src/boot.py' >/dev/null && echo up || echo down)"
 	@echo "ladder   : $$(pgrep -f '[l]adder/src/main.py' >/dev/null && echo up || echo down)"
 	@echo "factory  : $$(pgrep -f '[g]hola-factory/src/factory.py' >/dev/null && echo up || echo down)"
+	@echo "audit    : $$(pgrep -f '[g]hola-audit/src/audit_worker.py' >/dev/null && echo up || echo down)"
 	@for p in $(HTTP_PORT) $(CONSOLE_PORT) $(STREAM_PORT) $(MGR_PORT) $(GOVERNED_PORT); do \
 		printf '%-9s: %s\n' "port $$p" "$$(lsof -nP -iTCP:$$p -sTCP:LISTEN >/dev/null 2>&1 && echo listening || echo free)"; \
 	done
@@ -287,6 +300,7 @@ status:
 stop:
 	@pkill -f 'ghola-policy/src/boot.py' || true
 	@pkill -f 'ghola-factory/src/factory.py' || true
+	@pkill -f 'ghola-audit/src/audit_worker.py' || true
 	@pkill -f 'ladder/src/main.py' || true
 	@pkill -f 'iii --config config.yaml' || true
 	@# The engine's workers are its children and outlive the signal by a few

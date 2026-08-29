@@ -1,6 +1,8 @@
 ghola-factory started on ws://localhost:49154
   jobs   : /Users/tacoda/tacoda/ghola/state/jobs
   stages : prepare -> plan -> run -> prove -> review -> commit -> publish -> waiting -> rework
-  audit  : /Users/tacoda/tacoda/ghola/audit
+  audit  : through ghola-audit, which owns the chain
   queue  : ghola.stage -> ghola::step
+  poll   : 0 * * * * * -> ghola::tick (0 waiting)
   the console is the UI: invoke ghola::submit from it
+turn completed for `f3cda70682d94bedb0dca59f04bdb830` (prove) and no such job record
