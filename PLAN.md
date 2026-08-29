@@ -973,6 +973,9 @@ gate is tested without a pull request. Effects live outside it.
   withdrawn. That is not hypothetical; prove returned `no` on exactly this in wipp
   before the fix. The authored spec file is never rewritten.
 
+- Contracts: **done**, and verified live. A real `prove` turn claimed
+  `PROVEN: yes` with no command under it, the guard downgraded it to `unproven`,
+  and the audit log recorded `claimed: yes -> became: unproven` with the reason.
 - The `judge` grader, and the six phase eval suites from section 7. This is where
   the guessed thresholds in section 4.8 get replaced with measured ones.
 

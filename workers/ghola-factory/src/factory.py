@@ -32,6 +32,7 @@ ROOT = Path(os.environ.get("GHOLA_ROOT", Path(__file__).resolve().parents[3]))
 sys.path.insert(0, str(ROOT / "workers" / "ghola-core" / "src"))
 
 import audit_log  # noqa: E402
+import contracts as contractslib  # noqa: E402
 import defaults  # noqa: E402
 import extensions  # noqa: E402
 import graph as graphlib  # noqa: E402
@@ -204,6 +205,13 @@ def fn_step(payload: dict) -> dict:
     return run_action(job, graph, stage)
 
 
+def contract_for(stage: graphlib.Stage) -> dict:
+    """The output contract this stage's answer is held to, if it has one."""
+    if not stage.contract:
+        return {}
+    return contractslib.contract(stage.contract, read_yaml(f"contracts/{stage.contract}.yaml"))
+
+
 def run_action(job: dict, graph: graphlib.Graph, stage: graphlib.Stage) -> dict:
     """A stage that does something rather than asking a model to."""
     handler = builtin_actions.BUILT_IN.get(stage.action)
@@ -297,21 +305,29 @@ def fn_turn_completed(payload: dict) -> dict:
 
     record("turn.completed", actor=f"phase:{phase}", subject=job_id,
            ok=result["ok"], cost_usd=result["cost_usd"])
-    return advance(job, pipeline(), interpret(result, phase))
+
+    graph = pipeline()
+    stage = graph.get(str(job.get("stage") or ""))
+    return advance(job, graph, interpret(result, phase, contract_for(stage) if stage else {}))
 
 
-def interpret(result: dict, phase: str) -> dict:
+def interpret(result: dict, phase: str, contract: dict | None = None) -> dict:
     """What a turn's text means for the pipeline.
 
-    `INTERRUPT:` as an OPENING line is the only thing that blocks. A summary that
-    merely mentions the word is not a question, which is why the check is on the
-    first line rather than anywhere in the text.
+    Order matters. A turn that stopped to ask a question has not produced an
+    answer to grade, so the interrupt is read first and the contract never sees
+    a half-finished turn.
     """
     text = str(result.get("text") or "")
-    first = text.strip().splitlines()[0] if text.strip() else ""
 
-    if first.startswith("INTERRUPT:"):
-        return {"blocked": True, "question": first[len("INTERRUPT:"):].strip()}
+    question = contractslib.interrupt(text)
+    if question:
+        return {"blocked": True, "question": question}
+
+    if contract:
+        answer = contractslib.read(text, contract)
+        return {**result, **contractslib.as_result(answer, phase), "text": text}
+
     if phase == "plan" and result.get("ok"):
         return {**result, "plan": text}
     return result
