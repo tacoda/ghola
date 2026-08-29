@@ -1110,27 +1110,49 @@ candidate that is merely no worse is not evidence that it is better.
 Each phase suite has a case that passes and a case that fails, and `make eval`
 reports a rate and a spread rather than a color.
 
-### M7. The improve lane and the lifecycle
+### M7. The improve lane — **done, and it found a bug in itself**
 
-- `POST /improve` hands one turn everything that went wrong recently and asks
-  what would have prevented it. Trouble is read broadly: a revision, a block, a
-  `concerns` verdict, or a check touching the tree all count.
+- `ghola::improve` hands one turn everything that went wrong recently and asks
+  what would have prevented it. Not `POST /improve`: there is no HTTP surface,
+  and `make improve` is how an operator reaches it.
+- Trouble is read broadly. `trouble.py` is pure: job records and audit entries
+  in, `Signal` objects out, each naming what cost something **and what it argues
+  for**, because a count is not an argument.
 - Proposals name where, what, and what happens to it, plus the jobs they came
-  from. Lanes are charter, harness, factory. Kinds and actions as wipp defines
-  them, including `remove`, `promote`, and `demote`.
-- The lifecycle CLI: `ghola rules`, `ghola rule ID=`, `ghola promote`,
-  `ghola demote`, `ghola carry`, `ghola drop`, `ghola set-policy`,
-  `ghola add-rule`, `ghola rm-rule`, `ghola new KIND=`.
-- Every rung reachable, not only the promotion chain. Refusing to write rung 1,
-  4, or 5 was never a policy in wipp; it sent people to a text editor where the
-  generated hook does not follow the number.
+  from. Lanes are charter, harness, factory; `remove`, `promote` and `demote`
+  are first-class. **A proposal that cannot be traced to evidence is dropped
+  rather than repaired**, and the reason is kept on the run.
+- The lifecycle is the `ladder` worker's, not a CLI here. A promotion or a
+  demotion is `ladder::move`, which changes a repository and commits nothing.
 
-What it refuses: a mechanical rung with no predicate, `ask` anywhere but rung 3,
-dropping a rule's last rung, and a locked rule without `FORCE=1`.
+**Nothing is applied.** Accepting writes a spec into `specs/` and stops; that
+spec goes through the same pipeline and the same pull request as any other work.
+A clean record produces no proposals rather than inventing three.
 
-**Verify:** a promotion to rung 2 writes the hook; a promotion to a mechanical
-rung with no predicate produces a spec instead, because the missing half is the
-work.
+Three things the first live run taught, none of which a test would have:
+
+- **The lane reads two repositories.** A charter proposal is about the target
+  repo; a harness or factory one is about ghola's own prompts and pipeline.
+  Scoped to one, the turn hit the filesystem boundary on the other, the approval
+  hook parked the call for a person, and nothing told that person: it sat in
+  `awaiting_functions` for ten minutes. Fixed with
+  `harness::filesystem::grant`, the framework's own mechanism, asked for before
+  the turn starts.
+- **`on_approval_held` passed `kind=` to `record`**, which takes the audit kind
+  as its first parameter, so every approval hold this system ever recorded was
+  lost to a `TypeError` inside a trigger handler. The log looked like the log of
+  a system that never held anything.
+- **`never_fired` could not exonerate a rule carried at prose.** Rung 0 refuses
+  nothing, so a prose rule appears silent at any volume of jobs however well it
+  is working — and the signal's own "removal is half the work" made deleting it
+  the likely outcome. The improve lane found this in `trouble.py` on its first
+  run and proposed the split, against three correct rules. Now `unobservable` is
+  its own signal and says its silence is not evidence.
+
+**Verified live** against `tacoda/fawlty`: five proposals from two jobs and 110
+audit entries, all five traceable, none dropped. Accepting one wrote
+`specs/give-commits-md-a-scope-for-changes-that-are-not-a-resource.md` and
+called nothing on the bus.
 
 ### M8. Adoption
 

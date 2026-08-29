@@ -78,6 +78,16 @@ PHASES = {
         "max_turns": 50,
         "functions": {"allow": READ_ONLY + CHARTER},
     },
+    # Reads what went wrong and proposes what would have prevented it. Read-only
+    # for the same reason a check is: a lane that could edit the charter it is
+    # proposing changes to is the one thing in this system escaping the gate
+    # everything else goes through.
+    "improve": {
+        "model": "claude-opus-5",
+        "thinking_level": "high",
+        "max_turns": 50,
+        "functions": {"allow": READ_ONLY + CHARTER},
+    },
     # A vague idea becomes a spec work can begin from. Read-only against the
     # target repository: it decides what to ask for, not what to change.
     "refine": {

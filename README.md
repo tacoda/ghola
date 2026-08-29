@@ -22,7 +22,7 @@ in [PLAN.md](PLAN.md), and the walkthrough is in [docs/GUIDE.md](docs/GUIDE.md).
 ```
 1. clone the repo          git clone … && cd ghola && make setup
 2. add config and scripts  edit settings/, drop files in actions/
-3. tell it to do work      make turn PHASE=plan PROMPT="..." WORKSPACE=../repo
+3. tell it to do work      make submit SPEC=specs/x.md REPO=../repo
 ```
 
 Step 2 is optional. ghola runs on built-in defaults with an empty `settings/`,
@@ -40,10 +40,13 @@ make up         # engine, its workers, the ladder and ghola's callbacks
 make status     # what is up
 make down       # all of it, and wait for the ports to free
 
+make submit SPEC=specs/x.md REPO=../some-repo SLUG=owner/name
+make idea IDEA="a rough sentence" REPO=../some-repo   # refined into a spec first
+make jobs       # every job, newest first
 make turn PHASE=plan PROMPT="why is the queue slow?" WORKSPACE=../some-repo
 make config     # the effective settings, and where each value came from
 make models     # what the router can actually reach
-make test       # 33 tests, seconds, no engine, no money
+make test       # 436 tests, seconds, no engine, no money
 make help       # everything else
 ```
 
@@ -128,6 +131,28 @@ may override it because `run` and `review` want different answers.
 Extension is two mechanisms: drop a Python file in `actions/`, `guards/` or
 `predicates/` and it is found by filename, or name any function id on the bus and
 write it in whatever language you like.
+
+## It reads its own record
+
+```
+make improve REPO=../some-repo   # what went wrong, and what would have helped
+make proposals                   # what it staged
+make accept RUN=abc123 N=0       # one proposal becomes a spec in specs/
+```
+
+The evidence is the audit log and the job records, not anyone's memory of the
+week: a refusal, a revision, a question the spec did not answer, a check that
+objected. Every proposal names the jobs it came from, and **one that cannot be
+traced to evidence is dropped rather than repaired**. A clean record produces no
+proposals, because a lane that always finds three things is a lane nobody
+believes by the third time.
+
+**Nothing is applied.** Accepting writes a spec into `specs/`, and that spec goes
+through the same pipeline and the same pull request as any other work. The one
+exception is a promotion or a demotion, which is one number in a file, handed to
+`ladder::move` — and the ladder commits nothing either. Otherwise the lane that
+proposes changes to the charter would be the single thing here escaping the gate
+everything else goes through.
 
 ## Requirements
 

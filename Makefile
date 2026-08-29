@@ -7,7 +7,8 @@
 #   3. tell it to do work      make turn  (make work, once the factory lands)
 
 .PHONY: help setup doctor install engine policy ladder factory auditd submit up down logs status stop restart \
-        call schema models console config pipeline jobs turn idea work test test-live eval audit clean
+        call schema models console config pipeline jobs turn idea work test test-live eval audit \
+        improve proposals accept clean
 
 VENV := .venv
 PY   := $(VENV)/bin/python
@@ -46,6 +47,11 @@ help:
 	@echo "  make jobs       every job, newest first"
 	@echo "  make audit      the append-only record: intact? and what it says"
 	@echo "  make models     what the router can actually reach"
+	@echo ""
+	@echo "improving it"
+	@echo "  make improve [REPO=../repo]   read what went wrong, propose what would have helped"
+	@echo "  make proposals [RUN=abc123]   what it staged. Nothing is applied"
+	@echo "  make accept RUN=abc123 N=0    turn one proposal into a spec in specs/"
 	@echo ""
 	@echo "checking it"
 	@echo "  make test       pure and worker tests. Seconds, no engine, no money"
@@ -231,12 +237,33 @@ turn:
 	@$(RUN) $(PY) scripts/turn.py \
 		--phase '$(PHASE)' --prompt '$(PROMPT)' --workspace '$(WORKSPACE)'
 
-# Step three. The factory arrives in M4; until then this says so rather than
-# failing with an import error.
+# Step three, under whichever name you reached for. Work enters as a spec or as
+# an idea, and both are the factory.
 work:
-	@echo "the factory arrives in M4. Until then, one turn at a time:"
-	@echo '  make turn PHASE=plan PROMPT="..." WORKSPACE=../repo'
+	@echo "work enters the factory one of two ways:"
+	@echo '  make submit SPEC=specs/x.md REPO=../repo SLUG=owner/name'
+	@echo '  make idea IDEA="a rough sentence" REPO=../repo'
 	@exit 2
+
+# ---------------------------------------------------------------- improving it
+
+# Read what went wrong and propose what would have prevented it. Reads the audit
+# log and the job records, sends one turn, stages what comes back.
+#
+# **It applies nothing.** A clean record produces no proposals rather than
+# inventing three, so an empty answer here is the lane working.
+improve:
+	@$(MAKE) --no-print-directory call FN=ghola::improve JSON='{"repo":"$(REPO)"}'
+
+proposals:
+	@$(MAKE) --no-print-directory call FN=ghola::proposals JSON='{"run":"$(RUN)"}'
+
+# Writes a spec into specs/ and stops. That spec goes through the same pipeline
+# and the same pull request as any other work — `make submit SPEC=…`.
+accept:
+	@test -n "$(RUN)" || { echo 'usage: make accept RUN=abc123 N=0'; exit 2; }
+	@$(MAKE) --no-print-directory call FN=ghola::accept \
+		JSON='{"run":"$(RUN)","proposal":$(or $(N),0)}'
 
 # The append-only record: whether it is intact, and what it says.
 # `VERIFY=1` exits non-zero on a broken chain, for a cron job or a CI step.

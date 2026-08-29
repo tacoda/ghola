@@ -24,7 +24,7 @@ import paths
 # raising, because a `$` in a spec is a shell prompt far more often than it is
 # a placeholder.
 FIELDS = ("spec", "plan", "diff", "brief", "document", "repo", "branch",
-          "phase")
+          "phase", "evidence", "home")
 
 
 def path_for(phase: str, named: str = ""):

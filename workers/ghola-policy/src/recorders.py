@@ -72,7 +72,13 @@ def on_approval_held(payload: dict) -> dict:
         actor=str(data.get("function_id") or "approval-gate"),
         subject=str(data.get("session_id") or ""),
         function_call_id=data.get("function_call_id"),
-        kind=data.get("kind"),
+        # NOT `kind=`. `record` takes the audit kind as its first parameter and
+        # collects everything else as detail, so an event carrying its own
+        # `kind` raised `got multiple values for argument 'kind'` — inside a
+        # trigger handler, where nothing failed loudly. Every approval hold this
+        # system has ever recorded was lost to it, and the log looked like a log
+        # of a system that never held anything.
+        held_kind=data.get("kind"),
     )
     return {}
 

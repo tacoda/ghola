@@ -290,7 +290,72 @@ other sees, so a rule that matters names both.
 
 ---
 
-## 8. Where to go next
+## 8. Let it read its own record
+
+A factory that never learns anything is a factory you have to keep teaching. The
+improve lane reads what already happened and asks one turn what would have
+prevented it.
+
+```
+make improve REPO=../some-repo
+```
+
+The evidence is the audit log and the job records, so it is what happened rather
+than what anybody remembers: a refusal and the rung that caught it, a revision
+the commit gate forced, a question the spec did not answer, a check that came
+back `concerns`, a rule that never fired. **Trouble is read broadly.** A job that
+reached a merged pull request still counts if it cost a revision on the way,
+because a lane that only looked at outright failures would miss most of what is
+worth fixing.
+
+If nothing cost anything, no turn runs at all. That is the lane working.
+
+### Where a proposal can go
+
+| lane | what it is about | how often to expect one |
+|---|---|---|
+| `charter` | the target repo's `CLAUDE.md`, rules, hooks, skills | constantly |
+| `harness` | prompts, tool policy, phases, budgets | rarer, usually an edge case |
+| `factory` | stages, gates, guards, ordering | rarely. Process should be boring |
+
+Proposals should thin out with distance from your own code. Most of what goes
+wrong is a thing the repository wanted and never said out loud, so a run that
+proposes three factory changes and no charter ones is usually telling you the
+lane was picked wrongly.
+
+### Reading and accepting
+
+```
+make proposals                # every run, newest first
+make proposals RUN=abc123     # one run, whole, with the evidence it was given
+make accept RUN=abc123 N=0    # the first proposal becomes a spec
+```
+
+**Nothing is applied.** Accepting writes `specs/<title>.md` and stops, and you
+submit it like any other work:
+
+```
+make submit SPEC=specs/give-commits-md-a-scope.md REPO=../some-repo
+```
+
+The exception is `promote` or `demote`, which is one number in a rule's file and
+goes to `ladder::move`. That changes a file and commits nothing, so it still
+reaches you as a diff. The rule behind all of this is narrow and load-bearing:
+the lane that proposes changes to your charter may not edit your charter, or it
+would be the one thing here that never passed through a pull request.
+
+### What it will not do
+
+- Propose anything it cannot trace to a job or a signal. Those are dropped, and
+  the run records what it dropped and why, so a quiet run is distinguishable
+  from a run that found nothing.
+- Fill a quiet week. Zero proposals is an answer.
+- Argue from a silence that proves nothing. A rule carried at rung 0 refuses
+  nothing by construction, so it can never appear to have fired however well it
+  is working; it is reported as `unobservable` and explicitly not as evidence
+  for removing it.
+
+## 9. Where to go next
 
 - `make help` lists every target.
 - [PLAN.md](../PLAN.md) is the phased plan: what is built, what is next, and what
@@ -308,5 +373,6 @@ other sees, so a rule that matters names both.
 | a port is taken | another iii project's engine. `make status`, and note ghola is off the stock ports |
 | a rule seems not to fire | check the rung. Rung 0 enforces nothing by design |
 | a turn sits at `awaiting_functions` forever | `approval-gate` is holding a call. `iii trigger approval::list-pending`, then `approval::resolve`, or set the session to `full` |
+| the held call names a path outside the workspace | the turn reached past its filesystem scope and the approval hook parked it. A second root is `harness::filesystem::grant`, and the improve lane asks for one before it starts |
 | `registration token mismatch` after restarting one worker | the router and the provider disagree. Restart the whole engine (`make down && make up`), not one worker |
 | `make config` says a file is absent that you wrote | check the path. `settings/`, not `config/`, which belongs to iii |

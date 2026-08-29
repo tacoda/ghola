@@ -31,6 +31,8 @@ import actions as builtin_actions
 ROOT = Path(os.environ.get("GHOLA_ROOT", Path(__file__).resolve().parents[3]))
 sys.path.insert(0, str(ROOT / "workers" / "ghola-core" / "src"))
 
+import improve as improvelib  # noqa: E402  (needs ghola-core on the path)
+
 import contracts as contractslib  # noqa: E402
 import document as doclib  # noqa: E402
 import defaults  # noqa: E402
@@ -227,6 +229,68 @@ def fn_pipeline(payload: dict) -> dict:
         "problems": problems,
         "runnable": not problems,
     }
+
+
+def fn_improve(payload: dict) -> dict:
+    """Read what went wrong and propose what would have prevented it.
+
+    Not a stage. The pipeline delivers work; this lane reads the record of work
+    already delivered, and it runs when somebody asks rather than on every job.
+
+    **It proposes and applies nothing.** What comes back is staged, and
+    accepting one writes a spec that goes through the same pipeline and the same
+    pull request as any other change.
+    """
+    data = payload.get("payload") or payload
+    found = STORE.list()
+    if data.get("repo"):
+        found = [j for j in found if j.get("repo") == data["repo"]]
+
+    repo = str(data.get("repo") or "")
+    if not repo and found:
+        # Every proposal is about a repository's own configuration, and a turn
+        # with no workspace would be proposing changes to files it cannot read.
+        repo = str(found[0].get("repo") or "")
+
+    started = improvelib.start(WORKER, ROOT, found, repo)
+    if started.get("run"):
+        record("improve.started", actor="ghola::improve", subject=started["run"],
+               repo=repo, jobs=len(found), signals=started.get("signals", 0))
+    return started
+
+
+def fn_proposals(payload: dict) -> dict:
+    """What the improve lane has staged, newest run first."""
+    data = payload.get("payload") or payload
+    if data.get("run"):
+        run = improvelib.read(ROOT, str(data["run"]))
+        return run or {"error": f"no improve run {data['run']!r}"}
+
+    # The listing drops the evidence brief, which is thousands of words and the
+    # reason to name a run rather than read them all.
+    return {"runs": [{k: v for k, v in run.items() if k != "evidence"}
+                     for run in improvelib.runs(ROOT)]}
+
+
+def fn_accept(payload: dict) -> dict:
+    """Take one staged proposal seriously.
+
+    Writes a spec into `specs/` and stops there, except a promotion or demotion,
+    which is one number in a file and is asked of the ladder worker. Neither
+    commits anything: the change reaches a person as a diff.
+    """
+    data = payload.get("payload") or payload
+    run_id = str(data.get("run") or "")
+    if not run_id:
+        return {"error": "no run. Pass `run` and `proposal` (its index)"}
+
+    answer = improvelib.accept(WORKER, ROOT, run_id,
+                               int(data.get("proposal") or 0),
+                               repo=str(data.get("repo") or ""))
+    if answer.get("spec") and not answer.get("already"):
+        record("proposal.accepted", actor="ghola::accept", subject=run_id,
+               proposal=int(data.get("proposal") or 0), spec=answer["spec"])
+    return answer
 
 
 def fn_tick(payload: dict) -> dict:
@@ -467,6 +531,17 @@ def fn_turn_completed(payload: dict) -> dict:
     if not job_id:
         return {}                       # somebody else's turn on this engine
 
+    # The improve lane rides the same session naming and the same completion
+    # event, and its run is not a job. Checked before the store, because looking
+    # it up as a job would find nothing and report a lost turn.
+    if phase == improvelib.PHASE:
+        run = improvelib.completed(ROOT, job_id, result)
+        if run:
+            record("improve.completed", actor="phase:improve", subject=job_id,
+                   staged=len(run.get("proposals") or []),
+                   dropped=len(run.get("problems") or []))
+        return run or {}
+
     job = STORE.read(job_id)
     if job is None:
         # A completion for a job with no record. Either somebody else's turn on
@@ -540,6 +615,11 @@ def main() -> None:
         (f"{NAME}::job", fn_job, "One job, whole, including where it has been."),
         (f"{NAME}::pipeline", fn_pipeline,
          "The stage graph as it will run, and anything wrong with it."),
+        (f"{NAME}::improve", fn_improve,
+         "Read what went wrong and propose what would have prevented it."),
+        (f"{NAME}::proposals", fn_proposals, "What the improve lane has staged."),
+        (f"{NAME}::accept", fn_accept,
+         "Take one staged proposal seriously. Writes a spec; applies nothing."),
         (f"{NAME}::step", fn_step, "Internal: run one stage. Bound to the queue."),
         (f"{NAME}::tick", fn_tick,
          "Look at every job waiting on a human. Bound to cron."),
