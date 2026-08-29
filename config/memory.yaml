@@ -1,0 +1,20 @@
+id: memory
+name: Memory
+description: 'Cross-session agent memory: bank data directory, default bank, per-turn injection toggles and budgets, and the post-turn extraction model/window.'
+value:
+  data_dir: ~/.iii/data/memory
+  decay_half_life_days: 30
+  default_bank: main
+  embedding_model: ''
+  embeddings_enabled: true
+  extraction_enabled: true
+  extraction_model: ''
+  extraction_timeout_ms: 60000
+  extraction_window: 12
+  inject_memories: true
+  inject_rules: true
+  max_memories_per_turn: 8
+  max_rule_chars: 6000
+  recall_budget_tokens: 1200
+  recall_limit: 6
+  rule_learning_enabled: true

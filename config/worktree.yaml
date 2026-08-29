@@ -1,0 +1,29 @@
+id: worktree
+name: Worktree
+description: 'Git worktree lifecycle settings: the managed worktree root, branch prefix, prune schedule and expiry, land queue name, retry bound, and git/test timeouts.'
+value:
+  branch_naming: id
+  branch_prefix: iii/
+  gates:
+    allow_branch_delete: true
+    allow_force: false
+    allow_land: true
+    allow_prune: true
+    allow_remove: true
+    land_targets:
+    - '*'
+    max_worktrees_per_repo: 0
+    repos:
+    - '*'
+  git_timeout_ms: 60000
+  land_queue: worktree-land
+  max_land_retries: 3
+  provision:
+    copy_ignored: false
+    exclude: []
+    include: []
+    max_copy_bytes: 2147483648
+  prune_expire_hours: 72
+  prune_schedule: 0 0 * * * *
+  test_timeout_ms: 600000
+  worktree_root: ~/.iii/worktrees

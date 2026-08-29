@@ -1,0 +1,16 @@
+id: codex
+name: Codex
+description: 'OpenAI Codex worker: per-turn defaults (model, sandbox mode, approval policy, reasoning effort, working directory), the agent::events / codex::events stream names, the codex CLI path, an optional API base URL, and whether to inject the iii runtime context as developer_instructions.'
+value:
+  base_url: ''
+  codex_executable: ''
+  defaults:
+    approval_policy: never
+    cwd: ''
+    model: ''
+    reasoning_effort: ''
+    sandbox_mode: workspace-write
+    skip_git_repo_check: true
+  events_stream: agent::events
+  iii_context: true
+  raw_events_stream: codex::events

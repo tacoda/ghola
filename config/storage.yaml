@@ -1,0 +1,7 @@
+id: storage
+name: Storage
+description: Object storage buckets across AWS S3, GCS, Cloudflare R2, and a native local filesystem backend.
+value:
+  buckets: {}
+  providers:
+    local: null

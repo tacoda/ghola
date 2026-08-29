@@ -1,0 +1,12 @@
+id: opencode
+name: OpenCode
+description: 'OpenCode worker: per-turn defaults (model, working directory, agent), the agent::events / opencode::events stream names, the opencode CLI path, and whether to inject the iii runtime context.'
+value:
+  defaults:
+    agent: ''
+    cwd: ''
+    model: ''
+  events_stream: agent::events
+  iii_context: true
+  opencode_executable: opencode
+  raw_events_stream: opencode::events

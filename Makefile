@@ -1,39 +1,96 @@
-.PHONY: engine status stop call models console help test test-live eval
+# ghola. `make` is the whole operator surface: there is no CLI to learn.
+#
+# Three steps, and `make setup` is step one:
+#
+#   1. clone the repo          git clone … && make setup
+#   2. add config and scripts  edit settings/, drop files in actions/
+#   3. tell it to do work      make turn  (make work, once the factory lands)
+
+.PHONY: help setup doctor install engine policy up down logs status stop restart \
+        call schema models console config turn work test test-live eval clean
+
+VENV := .venv
+PY   := $(VENV)/bin/python
+LOGS := .logs
+
+HTTP_PORT    := 3131
+CONSOLE_PORT := 3133
+STREAM_PORT  := 3132
+MGR_PORT     := 49154
 
 # `.env` is sourced for the ENGINE, not only for the workers. The provider
 # workers read their credentials from the engine's own environment, so an engine
 # started without them serves a router with no models and every turn fails at
 # `router::provider::resolve` with nothing saying why.
 ENV := set -a; [ -f .env ] && . ./.env; set +a;
-
-HTTP_PORT    := 3131
-CONSOLE_PORT := 3133
-MGR_PORT     := 49154
+RUN := $(ENV) GHOLA_ROOT=$(PWD) III_URL=ws://localhost:$(MGR_PORT)
 
 help:
-	@echo "make engine    # the engine and its workers (foreground)"
-	@echo "make status    # what is up"
-	@echo "make stop      # all of it down, and wait for the ports to free"
-	@echo "make call FN=harness::status [PAYLOAD='{...}']"
-	@echo "make models    # what the router can actually reach"
-	@echo "make test      # pure and worker tests. Seconds, no engine, no money."
-	@echo "make test-live # framework contract tests. Needs a running engine."
-	@echo "make eval      # phase evals. Needs an engine, and costs money."
+	@echo "getting started"
+	@echo "  make setup      everything a fresh clone needs, then says what is next"
+	@echo "  make doctor     what is missing, before you waste a turn finding out"
+	@echo ""
+	@echo "running it"
+	@echo "  make up         engine and policy worker, in the background"
+	@echo "  make down       all of it, and wait for the ports to free"
+	@echo "  make status     what is up"
+	@echo "  make logs       tail what is running"
+	@echo ""
+	@echo "doing work"
+	@echo '  make turn PHASE=plan PROMPT="..." [WORKSPACE=../repo]'
+	@echo "  make config     the effective settings, and where each value came from"
+	@echo "  make models     what the router can actually reach"
+	@echo ""
+	@echo "checking it"
+	@echo "  make test       pure and worker tests. Seconds, no engine, no money"
+	@echo "  make test-live  framework contract tests. Needs a running engine"
+	@echo "  make eval       A/B evals through the eval worker. Costs money"
+	@echo ""
+	@echo "asking the engine"
+	@echo "  make call FN=harness::status [JSON='{...}']"
+	@echo "  make schema FN=harness::send"
 
-# Three commands rather than one, because they cost three different things.
-# Only this one is cheap enough to be a pre-commit gate; a gate nobody can
-# afford to run is a gate that gets skipped.
-test:
-	@python3 -m unittest discover -s tests -p 'test_*.py' -v
+# ---------------------------------------------------------------- step one
 
-test-live:
-	@test -d tests/live || { echo "no tests/live yet — see PLAN.md section 7"; exit 1; }
-	@python3 -m unittest discover -s tests/live -p 'test_*.py' -v
+# Everything a fresh clone needs, in the order it needs it. Idempotent: running
+# it again after adding a dependency is the supported way to install one.
+setup: doctor install
+	@[ -f .env ] || { cp .env.example .env; chmod 600 .env; echo "  wrote .env from the example"; }
+	@echo ""
+	@echo "ready. Next:"
+	@echo "  1. put your ANTHROPIC_API_KEY in .env"
+	@echo "  2. make up"
+	@echo '  3. make turn PHASE=plan PROMPT="what does this repo do?"'
 
-eval:
-	@test -d evals || { echo "no evals/ yet — see PLAN.md section 4.8"; exit 1; }
-	@$(MAKE) --no-print-directory call FN=ghola::eval::run \
-		PAYLOAD='{"case": "$(CASE)"}'
+# Named separately because the answer to "why did that fail" is usually here,
+# and finding out before a paid turn is the whole point.
+doctor:
+	@echo "checking what ghola needs:"
+	@for tool in iii uv git gh python3; do \
+		if command -v $$tool >/dev/null 2>&1; then \
+			printf '  %-9s %s\n' "$$tool" "$$($$tool --version 2>&1 | head -1 | cut -c1-46)"; \
+		else \
+			printf '  %-9s MISSING\n' "$$tool"; \
+		fi; \
+	done
+	@printf '  %-9s ' "harness"; \
+		grep -A1 '^  harness:' iii.lock 2>/dev/null | grep version | sed 's/.*version: //' \
+		|| echo "not pinned — run: iii worker add harness"
+	@printf '  %-9s ' ".env"; \
+		{ [ -f .env ] && grep -q '^ANTHROPIC_API_KEY=.\+' .env && echo "ANTHROPIC_API_KEY set"; } \
+		|| echo "no ANTHROPIC_API_KEY yet"
+	@printf '  %-9s ' "gh auth"; \
+		gh auth status >/dev/null 2>&1 && echo "logged in" || echo "not logged in — run: gh auth login"
+
+# `--allow-existing` because this runs again every time a package gains a
+# dependency, and refusing to touch an existing venv made the obvious command
+# fail with an error about the venv rather than doing the install.
+install:
+	@uv venv $(VENV) --allow-existing
+	@uv pip install --quiet --python $(PY) -e workers/ghola-core -e workers/ghola-policy
+	@echo "  installed ghola-core and ghola-policy into $(VENV)"
+
+# ---------------------------------------------------------------- running
 
 # The console's port is a startup seed the engine consumes and comments out of
 # config.yaml on every boot, so it is put back first. Without this the console
@@ -42,11 +99,89 @@ engine:
 	@python3 scripts/seed_console_port.py
 	@$(ENV) iii --config config.yaml
 
+# What this repository contributes to a turn: four callbacks and no tools. The
+# turn loop is the harness worker's, started by the engine like every other one.
+policy:
+	@$(RUN) $(PY) workers/ghola-policy/src/boot.py
+
+# Both, backgrounded, because remembering two foreground terminals is a thing to
+# remember rather than a design. `make logs` is how you watch them.
+up:
+	@mkdir -p $(LOGS)
+	@pgrep -f '[i]ii --config config.yaml' >/dev/null || { \
+		python3 scripts/seed_console_port.py; \
+		($(ENV) iii --config config.yaml > $(LOGS)/engine.log 2>&1 &); \
+		printf 'starting engine '; }
+	@for i in $$(seq 1 90); do \
+		lsof -nP -iTCP:$(MGR_PORT) -sTCP:LISTEN >/dev/null 2>&1 && break; printf '.'; sleep 1; \
+	done
+	@# The workers are the engine's children and register over the following
+	@# minute. Starting the policy worker before the harness is up binds nothing,
+	@# and a hook that is not bound looks exactly like one that is.
+	@for i in $$(seq 1 90); do \
+		iii trigger harness::status --port $(MGR_PORT) >/dev/null 2>&1 && break; printf '.'; sleep 1; \
+	done
+	@echo ""
+	@pgrep -f '[g]hola-policy/src/boot.py' >/dev/null \
+		|| ($(RUN) $(PY) workers/ghola-policy/src/boot.py > $(LOGS)/policy.log 2>&1 &)
+	@sleep 3
+	@$(MAKE) --no-print-directory status
+
+down: stop
+
+restart:
+	@$(MAKE) --no-print-directory stop
+	@$(MAKE) --no-print-directory up
+
+logs:
+	@tail -n 40 -f $(LOGS)/*.log
+
+# ---------------------------------------------------------------- doing work
+
+# One turn, with what a job's turn gets: the same settings, the same grants, the
+# same callbacks. No factory, no worktree, no pull request.
+turn:
+	@test -n "$(PHASE)" || { echo 'usage: make turn PHASE=plan PROMPT="..." [WORKSPACE=../repo]'; exit 2; }
+	@$(RUN) $(PY) scripts/turn.py \
+		--phase '$(PHASE)' --prompt '$(PROMPT)' --workspace '$(WORKSPACE)'
+
+# Step three. The factory arrives in M4; until then this says so rather than
+# failing with an import error.
+work:
+	@echo "the factory arrives in M4. Until then, one turn at a time:"
+	@echo '  make turn PHASE=plan PROMPT="..." WORKSPACE=../repo'
+	@exit 2
+
+# A default nobody can see is a magic number.
+config:
+	@GHOLA_ROOT=$(PWD) $(PY) scripts/config.py $(PHASE)
+
+# ---------------------------------------------------------------- checking
+
+test:
+	@$(PY) -m unittest discover -s tests -p 'test_*.py' -v
+
+test-live:
+	@test -d tests/live || { echo "no tests/live yet — see PLAN.md section 7"; exit 1; }
+	@$(RUN) $(PY) -m unittest discover -s tests/live -p 'test_*.py' -v
+
+eval:
+	@test -d evals || { echo "no evals/ yet — see PLAN.md section 4.8"; exit 1; }
+	@$(MAKE) --no-print-directory call FN=eval::list
+
+# ---------------------------------------------------------------- asking
+
 # A mesh function is not an HTTP endpoint, so `curl` cannot reach one. This is
-# the only way to read what the platform thinks.
+# the only way to read what the platform thinks. `iii trigger` takes `key=value`
+# tokens or `--json`, never `--payload`: the wrong spelling fails with an
+# argument error that reads like the function is missing.
 call:
-	@test -n "$(FN)" || { echo "usage: make call FN=harness::status [PAYLOAD='{...}']"; exit 2; }
-	@iii trigger $(FN) $(if $(PAYLOAD),--payload '$(PAYLOAD)',) --port $(MGR_PORT)
+	@test -n "$(FN)" || { echo "usage: make call FN=harness::status [JSON='{...}']"; exit 2; }
+	@iii trigger $(FN) $(if $(JSON),--json '$(JSON)',) --port $(MGR_PORT)
+
+schema:
+	@test -n "$(FN)" || { echo "usage: make schema FN=harness::send"; exit 2; }
+	@iii trigger $(FN) --help --port $(MGR_PORT)
 
 # The catalogue the phase settings name their models from. An empty list here
 # means the engine was started without credentials in scope.
@@ -54,7 +189,9 @@ models:
 	@$(MAKE) --no-print-directory call FN=router::models::list
 
 console:
-	@iii worker restart console
+	@echo "http://127.0.0.1:$(CONSOLE_PORT)"
+
+# ---------------------------------------------------------------- lifecycle
 
 # The bracket in `[i]ii` is load-bearing: `pgrep -f` matches on the full command
 # line, and the subshell running the pattern has the pattern in its own command
@@ -62,7 +199,8 @@ console:
 # every port free.
 status:
 	@echo "engine   : $$(pgrep -f '[i]ii --config config.yaml' >/dev/null && echo up || echo down)"
-	@for p in $(HTTP_PORT) $(CONSOLE_PORT) $(MGR_PORT); do \
+	@echo "policy   : $$(pgrep -f '[g]hola-policy/src/boot.py' >/dev/null && echo up || echo down)"
+	@for p in $(HTTP_PORT) $(CONSOLE_PORT) $(STREAM_PORT) $(MGR_PORT); do \
 		printf '%-9s: %s\n' "port $$p" "$$(lsof -nP -iTCP:$$p -sTCP:LISTEN >/dev/null 2>&1 && echo listening || echo free)"; \
 	done
 
@@ -73,12 +211,18 @@ status:
 # `|| true` because pkill exits 1 when nothing matched, and stopping what is
 # already stopped is a success here rather than an error to read past.
 stop:
+	@pkill -f 'ghola-policy/src/boot.py' || true
 	@pkill -f 'iii --config config.yaml' || true
 	@# The engine's workers are its children and outlive the signal by a few
 	@# seconds. A fixed sleep reported them still up, which is the opposite of
 	@# what this target is for, so it waits for the ports instead.
-	@for i in $$(seq 1 25); do \
+	@for i in $$(seq 1 30); do \
 		lsof -nP -iTCP:$(HTTP_PORT),$(CONSOLE_PORT),$(MGR_PORT) -sTCP:LISTEN >/dev/null 2>&1 || break; \
 		sleep 1; \
 	done
 	@$(MAKE) --no-print-directory status
+
+clean:
+	@rm -rf $(LOGS)
+	@find . -name __pycache__ -type d -prune -exec rm -rf {} + 2>/dev/null || true
+	@echo "removed $(LOGS) and __pycache__ (the venv is kept; use `rm -rf .venv`)"

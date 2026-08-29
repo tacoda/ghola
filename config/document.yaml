@@ -1,0 +1,15 @@
+id: document
+name: Document
+description: 'Limits for converting documents to markdown: the size ceiling on an accepted file, the cap on how much markdown one response returns, and how many embedded images an extraction hands back.'
+value:
+  max_asset_bytes: 8388608
+  max_assets: 24
+  max_assets_total_bytes: 33554432
+  max_chars: 40000
+  max_input_bytes: 67108864
+  max_ocr_pages: 20
+  ocr_cache: true
+  ocr_model: null
+  ocr_render_settle_ms: 2000
+  ocr_timeout_ms: 120000
+  preview_chars: 600

@@ -1,0 +1,11 @@
+id: pdf
+name: PDF
+description: 'Limits and detection thresholds for reading PDFs: the size ceiling on an accepted document, the caps on how much text, markdown and how many positioned items one response returns, and how many pages classification samples before deciding whether a document holds real text.'
+value:
+  classify_sample_pages: 8
+  max_chars: 40000
+  max_input_bytes: 268435456
+  max_items: 5000
+  min_text_ops_per_page: 3
+  preview_chars: 600
+  text_page_ratio_threshold: 0.6000000238418579

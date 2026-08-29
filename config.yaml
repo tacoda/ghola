@@ -38,8 +38,30 @@ workers:
   - name: state
   - name: cron
   - name: shell
-  - name: configuration
   - name: iii-directory
-  - name: iii-stream
+  - name: worktree
+  - name: github
   - name: iii-observability
-    # 'iii-observability': value now lives in the configuration worker at ./config/iii-observability.yaml. Edit at runtime via 'iii config set iii-observability' (or 'configuration::set'); this block is no longer read.
+  - name: eval
+  - name: approval-gate
+  - name: iii-sandbox
+    config:
+      auto_install: true
+      image_allowlist:
+        - python
+        - node
+      default_idle_timeout_secs: 300
+      max_concurrent_sandboxes: 32
+      default_cpus: 1
+      default_memory_mb: 512
+  - name: document
+  - name: pdf
+  - name: storage
+  - name: fp
+  - name: memory
+  - name: claude-code
+  - name: codex
+  - name: iii-stream
+  - name: configuration
+  - name: ladder
+    worker_path: /Users/tacoda/tacoda/ladder

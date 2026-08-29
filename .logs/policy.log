@@ -1,0 +1,4 @@
+ghola-policy started on ws://localhost:49154
+  hooks : post_generate, post_trigger, pre_generate, pre_trigger
+  tools : none. Reading, editing and running are coder::* and shell::*
+  the turn loop is iii's harness worker; this carries the ladder

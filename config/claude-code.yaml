@@ -1,0 +1,17 @@
+id: claude-code
+name: Claude Code
+description: 'Claude Code worker: per-turn defaults (model, permission mode, max turns, working directory, system-prompt append, allowed/disallowed tools), the agent::events / claude::events stream names, the approval-gate toggle, the claude CLI path, and whether to inject the iii runtime context.'
+value:
+  approval_gate: false
+  claude_executable: ''
+  defaults:
+    allowed_tools: []
+    append_system_prompt: ''
+    cwd: ''
+    disallowed_tools: []
+    max_turns: 50
+    model: ''
+    permission_mode: acceptEdits
+  events_stream: agent::events
+  iii_context: true
+  raw_events_stream: claude::events
