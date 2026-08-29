@@ -23,7 +23,8 @@ import paths
 # Everything a template may name. Anything else stays literal rather than
 # raising, because a `$` in a spec is a shell prompt far more often than it is
 # a placeholder.
-FIELDS = ("spec", "plan", "diff", "brief", "repo", "branch", "phase")
+FIELDS = ("spec", "plan", "diff", "brief", "document", "repo", "branch",
+          "phase")
 
 
 def path_for(phase: str, named: str = ""):

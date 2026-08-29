@@ -23,3 +23,9 @@ contradiction costs a turn to discover and another to undo.
 
 Do not write the change out in full. The next turn has the same repository and
 the same spec; what it does not have is the decision you just made.
+
+## When you are done
+
+This phase produces **the plan**. The stage does not finish until you have
+written one, and a turn that ends with none is reported as not having done what
+the stage is for.

@@ -1536,3 +1536,323 @@ OpenTelemetry initialized: exporter=memory (max_spans=10000), service_name=ghola
     ├ total_bytes: 0
     └ msg_count: 13
 [04:21:16.045 PM] [INFO] iii::workers::engine_fn New functions detected, firing functions-available trigger
+[04:21:32.850 PM] [INFO] iii::workers::reload reload: config changed, reloading from config.yaml
+[04:21:32.851 PM] [INFO] iii::workers::reload reload: diff +0 added, -0 removed, ~0 changed (0 revived), =36 unchanged
+[04:21:32.851 PM] [INFO] iii::workers::reload reload: success
+[04:22:37.260 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: f5bed42e-0765-430f-b718-82232c3cbc91
+    └ ip_address: Some("127.0.0.1")
+[04:22:37.263 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: f5bed42e-0765-430f-b718-82232c3cbc91
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(34615)
+[04:25:09.322 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 34b1b39f-770c-4b96-8c38-a65b487d2bef
+    └ ip_address: Some("127.0.0.1")
+[04:25:09.335 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 34b1b39f-770c-4b96-8c38-a65b487d2bef
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(35534)
+[04:25:09.342 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 4366db25-7745-4192-b80b-5ccb009cf872
+    └ ip_address: Some("127.0.0.1")
+[04:25:09.519 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 4366db25-7745-4192-b80b-5ccb009cf872
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(35540)
+[04:25:09.527 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: d1adae34-1a28-4c28-8b25-8c273365489f
+    └ ip_address: Some("127.0.0.1")
+[04:25:09.527 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: d1adae34-1a28-4c28-8b25-8c273365489f
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(35589)
+[04:25:09.534 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: d76b1af1-2853-400e-884a-897375dc5351
+    └ ip_address: Some("127.0.0.1")
+[04:25:09.635 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: d76b1af1-2853-400e-884a-897375dc5351
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(35591)
+[04:25:09.643 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 5e377a42-dc30-4641-b8d6-1d5be1ace52d
+    └ ip_address: Some("127.0.0.1")
+[04:25:09.644 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 5e377a42-dc30-4641-b8d6-1d5be1ace52d
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(35668)
+[04:25:09.651 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 3b0ee593-a22d-4803-87a7-d0740456f8b2
+    └ ip_address: Some("127.0.0.1")
+[04:25:09.652 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 3b0ee593-a22d-4803-87a7-d0740456f8b2
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(35670)
+[04:25:23.280 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: f3041377-247e-4287-a284-344a8929b769
+    └ ip_address: Some("127.0.0.1")
+[04:25:23.281 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: f3041377-247e-4287-a284-344a8929b769
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(35772)
+[04:25:23.293 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 353be7b1-88b1-402b-a24b-cd7512b1e826
+    └ ip_address: Some("127.0.0.1")
+[04:25:23.294 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 353be7b1-88b1-402b-a24b-cd7512b1e826
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(35778)
+[04:25:23.300 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 69d4f07a-2478-4837-90ff-245a7412b43e
+    └ ip_address: Some("127.0.0.1")
+[04:25:23.377 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 69d4f07a-2478-4837-90ff-245a7412b43e
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(35779)
+[04:25:23.384 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: b89108e5-c29e-42af-a68c-b34bf57120d1
+    └ ip_address: Some("127.0.0.1")
+[04:25:23.385 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: b89108e5-c29e-42af-a68c-b34bf57120d1
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(35825)
+[04:25:30.285 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 1b4859a7-a320-418c-bd8d-72dc0b580115
+    └ ip_address: Some("127.0.0.1")
+[04:25:30.287 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 1b4859a7-a320-418c-bd8d-72dc0b580115
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(35890)
+[04:25:42.705 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 81ccca21-dc7e-4aed-b801-fdd5f915df44
+    └ ip_address: Some("127.0.0.1")
+[04:25:42.811 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 81ccca21-dc7e-4aed-b801-fdd5f915df44
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(35982)
+[04:25:42.819 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 48832c6a-7fb2-4f38-b0b2-3320a06ef8c1
+    └ ip_address: Some("127.0.0.1")
+[04:25:42.895 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 48832c6a-7fb2-4f38-b0b2-3320a06ef8c1
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(36061)
+[04:25:42.903 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 67dc3969-78f5-4675-bc95-478eab95155f
+    └ ip_address: Some("127.0.0.1")
+[04:25:42.904 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 67dc3969-78f5-4675-bc95-478eab95155f
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(36110)
+[04:25:54.647 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: ae438d6d-b912-4c6c-8b34-7e3c227c2e5c
+    └ ip_address: Some("127.0.0.1")
+[04:25:54.648 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: ae438d6d-b912-4c6c-8b34-7e3c227c2e5c
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(36217)
+[04:26:03.916 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 727907ed-6afd-4682-958c-f2f323ebf42d
+    └ ip_address: Some("127.0.0.1")
+[04:26:03.917 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 727907ed-6afd-4682-958c-f2f323ebf42d
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(36289)
+[04:26:03.935 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: a1576933-bd2a-41c1-b012-0efe8d1dc38d
+    └ ip_address: Some("127.0.0.1")
+[04:26:03.963 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: a1576933-bd2a-41c1-b012-0efe8d1dc38d
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(36295)
+[04:26:03.970 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: d7c6adb7-1a27-4f59-8871-5b44583f487e
+    └ ip_address: Some("127.0.0.1")
+[04:26:03.971 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: d7c6adb7-1a27-4f59-8871-5b44583f487e
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(36327)
+[04:26:25.877 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 981f6e80-51d6-470e-a18d-f07b2702e105
+    └ ip_address: Some("127.0.0.1")
+[04:26:25.877 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 981f6e80-51d6-470e-a18d-f07b2702e105
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(36483)
+[04:26:25.933 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 5bab7d1b-98ad-4253-ac34-dbbddc85db21
+    └ ip_address: Some("127.0.0.1")
+[04:26:25.934 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 5bab7d1b-98ad-4253-ac34-dbbddc85db21
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(36484)
+[04:26:25.943 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 395332be-9496-4fd8-b6cd-29fdaf0c8a2e
+    └ ip_address: Some("127.0.0.1")
+[04:26:25.943 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 395332be-9496-4fd8-b6cd-29fdaf0c8a2e
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(36485)
+[04:26:25.952 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: a0cc91be-bdbc-42ff-9f8f-52d1fa0a355a
+    └ ip_address: Some("127.0.0.1")
+[04:26:25.952 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: a0cc91be-bdbc-42ff-9f8f-52d1fa0a355a
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(36486)
+[04:26:25.960 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: f7d348e9-3fce-47f6-9445-cba6145fe540
+    └ ip_address: Some("127.0.0.1")
+[04:26:25.964 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: f7d348e9-3fce-47f6-9445-cba6145fe540
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(36487)
+[04:26:25.971 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 86ed0984-1bd3-4d0c-a49c-ce0a9b4ffc95
+    └ ip_address: Some("127.0.0.1")
+[04:26:25.972 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 86ed0984-1bd3-4d0c-a49c-ce0a9b4ffc95
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(36488)
+[04:26:25.980 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: ab7c0b7c-48bc-404f-8306-b5279ee8860a
+    └ ip_address: Some("127.0.0.1")
+[04:26:25.981 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: ab7c0b7c-48bc-404f-8306-b5279ee8860a
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(36489)
+[04:26:25.988 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: a0663ff9-2037-4609-984f-0c446eb16aff
+    └ ip_address: Some("127.0.0.1")
+[04:26:25.990 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: a0663ff9-2037-4609-984f-0c446eb16aff
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(36490)
+[04:26:25.997 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: bc91a140-0b39-434d-94d6-2911080adf00
+    └ ip_address: Some("127.0.0.1")
+[04:26:25.997 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: bc91a140-0b39-434d-94d6-2911080adf00
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(36491)
+[04:26:26.005 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: fc0b5de1-19f9-4e7a-a0f8-3316ff7d4815
+    └ ip_address: Some("127.0.0.1")
+[04:26:26.005 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: fc0b5de1-19f9-4e7a-a0f8-3316ff7d4815
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(36492)
+[04:26:26.013 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 7ff608a3-c9d0-4a95-8836-d1631ba12777
+    └ ip_address: Some("127.0.0.1")
+[04:26:26.014 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 7ff608a3-c9d0-4a95-8836-d1631ba12777
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(36493)
+[04:26:26.021 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 314e0f6e-eb8c-4323-a5d9-f4bd07ca7579
+    └ ip_address: Some("127.0.0.1")
+[04:26:26.022 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 314e0f6e-eb8c-4323-a5d9-f4bd07ca7579
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(36494)
+[04:26:26.029 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 36bac950-c7f8-48db-9a1c-f7928d697a29
+    └ ip_address: Some("127.0.0.1")
+[04:26:26.030 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 36bac950-c7f8-48db-9a1c-f7928d697a29
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(36495)
+[04:26:26.037 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 75451589-e478-4e3a-a8f2-6fddd6af357c
+    └ ip_address: Some("127.0.0.1")
+[04:26:26.037 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 75451589-e478-4e3a-a8f2-6fddd6af357c
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(36496)
+[04:26:26.045 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: ba6117c7-8196-4f44-9920-961a469ad48d
+    └ ip_address: Some("127.0.0.1")
+[04:26:26.045 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: ba6117c7-8196-4f44-9920-961a469ad48d
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(36497)
+[04:26:28.088 PM] [INFO] iii::function [UNREGISTERED] Function harness::state::get
+[04:26:28.088 PM] [INFO] iii::function [UNREGISTERED] Function state::delete
+[04:26:28.088 PM] [INFO] iii::function [UNREGISTERED] Function state::compare-and-set
+[04:26:28.088 PM] [INFO] iii::function [UNREGISTERED] Function harness::state::list
+[04:26:28.088 PM] [INFO] iii::function [UNREGISTERED] Function state::set
+[04:26:28.088 PM] [INFO] iii::function [UNREGISTERED] Function state::claim-namespace
+[04:26:28.088 PM] [INFO] iii::function [UNREGISTERED] Function state::list
+[04:26:28.088 PM] [INFO] iii::function [UNREGISTERED] Function harness::state::compare-and-set
+[04:26:28.088 PM] [INFO] iii::function [UNREGISTERED] Function state::list_keys
+[04:26:28.089 PM] [INFO] iii::function [UNREGISTERED] Function state::list_groups
+[04:26:28.089 PM] [INFO] iii::function [UNREGISTERED] Function state::ui-content
+[04:26:28.089 PM] [INFO] iii::function [UNREGISTERED] Function state::on-config-change
+[04:26:28.089 PM] [INFO] iii::function [UNREGISTERED] Function state::barrier
+[04:26:28.089 PM] [INFO] iii::function [UNREGISTERED] Function state::get
+[04:26:28.089 PM] [INFO] iii::function [UNREGISTERED] Function state::update
+[04:26:28.089 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 41d7a515-745b-47b3-856d-00bcc6fc3c91
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(32372)
+[04:26:30.003 PM] [ERROR] iii::engine Function not found
+    └ function_id: state::list
+[04:26:31.145 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 74f42760-d440-4bd8-95e8-04391e8c8281
+    └ ip_address: Some("127.0.0.1")
+[04:26:31.146 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 076eb340-7979-45fb-92ca-27ed472d7a22
+    └ ip_address: Some("127.0.0.1")
+[04:26:31.150 PM] [INFO] iii::trigger [REGISTERED] Trigger Type state
+[04:26:31.150 PM] [INFO] iii::function [REGISTERED] Function harness::state::get
+[04:26:31.150 PM] [INFO] iii::function [REGISTERED] Function harness::state::list
+[04:26:31.150 PM] [INFO] iii::function [REGISTERED] Function harness::state::compare-and-set
+[04:26:31.150 PM] [INFO] iii::function [REGISTERED] Function state::claim-namespace
+[04:26:31.150 PM] [INFO] iii::function [REGISTERED] Function state::set
+[04:26:31.150 PM] [INFO] iii::function [REGISTERED] Function state::compare-and-set
+[04:26:31.150 PM] [INFO] iii::function [REGISTERED] Function state::barrier
+[04:26:31.150 PM] [INFO] iii::function [REGISTERED] Function state::get
+[04:26:31.150 PM] [INFO] iii::function [REGISTERED] Function state::delete
+[04:26:31.150 PM] [INFO] iii::function [REGISTERED] Function state::update
+[04:26:31.150 PM] [INFO] iii::function [REGISTERED] Function state::list
+[04:26:31.150 PM] [INFO] iii::function [REGISTERED] Function state::list_keys
+[04:26:31.150 PM] [INFO] iii::function [REGISTERED] Function state::list_groups
+[04:26:31.151 PM] [INFO] iii::function [REGISTERED] Function state::ui-content
+[04:26:31.151 PM] [INFO] iii::function [REGISTERED] Function state::on-config-change
+[04:26:31.151 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
+    ├ trigger_id: fb3bf04e-df20-4179-8afe-552b35707fe6
+    ├ configuration_id: Some("state")
+    └ event_types: Some(["configuration:updated"])
+[04:26:32.184 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 74f42760-d440-4bd8-95e8-04391e8c8281
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(36516)
+[04:26:32.204 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: c05525c3-6e88-4912-846f-68fc76cdddfa
+    └ ip_address: Some("127.0.0.1")
+[04:26:32.204 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: c05525c3-6e88-4912-846f-68fc76cdddfa
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(36637)
+[04:26:32.257 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 9dd35dd1-b27f-4fe4-b046-5d9aea076d86
+    └ ip_address: Some("127.0.0.1")
+[04:26:32.258 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 9dd35dd1-b27f-4fe4-b046-5d9aea076d86
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(36638)
+[04:26:32.273 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 690faad8-e0a5-4ae4-b0b3-ac71070bff34
+    └ ip_address: Some("127.0.0.1")
+[04:26:32.273 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 690faad8-e0a5-4ae4-b0b3-ac71070bff34
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(36639)
+[04:26:32.284 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 1d710b78-e2ff-46a5-8106-97f4e3116bc4
+    └ ip_address: Some("127.0.0.1")
+[04:26:32.285 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 1d710b78-e2ff-46a5-8106-97f4e3116bc4
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(36640)

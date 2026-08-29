@@ -21,6 +21,7 @@ import shlex
 
 import governance
 import jobs
+import publishing
 
 
 def call(worker, function_id: str, payload: dict, timeout_ms: int = 120000) -> dict:
@@ -188,6 +189,16 @@ def commit_and_push(worker, job: dict, settings: dict) -> dict:
     return {"ok": True, "committed": True, "branch": branch}
 
 
+def title_for(job: dict) -> str:
+    """The pull request's title.
+
+    The spec's first line, with its markdown heading marker stripped: `# Do the
+    thing` is a heading in a file and a stray `#` in a title.
+    """
+    first = str(job.get("title") or "").strip().lstrip("#").strip()
+    return first[:70] or "ghola"
+
+
 def commit_message(job: dict) -> str:
     """What the commit says.
 
@@ -241,8 +252,12 @@ def open_pull_request(worker, job: dict, settings: dict) -> dict:
 
     made = call(worker, "github::pr::create", {
         "repo": slug,
-        "title": job.get("title") or job.get("spec") or "ghola",
-        "body": job.get("pr_body") or "",
+        "title": title_for(job),
+        # The first real job opened a pull request with an EMPTY body, which
+        # makes a reviewer reconstruct what was asked and what was checked from
+        # the diff alone.
+        # The document the phases built, which is the account of the work.
+        "body": publishing.pull_request_body(job, job.get("document") or ""),
         "head": job.get("branch") or "",
         **({"base": repo["base"]} if repo.get("base") else {}),
     })
@@ -287,17 +302,67 @@ def watch_pull_request(worker, job: dict, settings: dict) -> dict:
 
 
 def teardown(worker, job: dict, settings: dict) -> dict:
-    """Run the repository's cleanup, then give the worktree back."""
-    repo = settings.get("repo_settings") or {}
-    workspace = str(job.get("workspace") or "")
+    """Run the repository's cleanup, then give the worktree back.
 
-    if workspace:
-        run_command(worker, str(repo.get("cleanup") or ""), workspace,
-                    dict(repo.get("env") or {}))
+    **Called when a job reaches a terminal state**, not as a stage anybody
+    routes to. A job that lands and keeps its worktree leaks one per job, and
+    the first three real runs left three behind before anything called this.
+
+    Every step is best-effort and none of them fails the job: the work has
+    already landed or been closed, and refusing to finish tidying is not a
+    reason to reopen a decision a human made.
+    """
+    repo = job.get("repo_settings") or settings.get("repo_settings") or {}
+    workspace = str(job.get("workspace") or "")
+    done = []
+
+    if workspace and repo.get("cleanup"):
+        result = run_command(worker, str(repo["cleanup"]), workspace,
+                             dict(repo.get("env") or {}))
+        done.append("cleanup" if result["ok"] else f"cleanup failed: {result.get('error')}")
+
     if job.get("worktree_id"):
-        call(worker, "worktree::release",
-             {"worktree_id": job["worktree_id"], "session_id": job["id"]})
-    return {"ok": True}
+        released = call(worker, "worktree::release",
+                        {"worktree_id": job["worktree_id"], "session_id": job["id"]})
+        done.append("released" if released["ok"] else "release failed")
+        # Removed only when it landed or closed. A FAILED job keeps its
+        # worktree on disk on purpose, because the first thing anybody wants
+        # after a failure is to look at what the turn actually left behind.
+        if str(job.get("stage")) in ("landed", "closed"):
+            # `force` because a SQUASH merge leaves the branch commit outside
+            # the target's ancestry, so git cannot see that it landed and
+            # `remove` refuses with W221. The human merged it; the commits are
+            # accounted for. Without this every squash-merged job leaks a
+            # worktree, which is how three of them accumulated here.
+            removed = call(worker, "worktree::remove",
+                           {"worktree_id": job["worktree_id"], "force": True})
+            done.append("removed" if removed["ok"] else "kept (still in use)")
+
+    return {"ok": True, "did": done}
+
+
+def announce_landing(worker, job: dict) -> dict:
+    """Say on the pull request that ghola has finished with it."""
+    if not job.get("repo_slug") or not job.get("pr_number"):
+        return {"ok": True}
+    return call(worker, "github::pr::comment", {
+        "repo": job["repo_slug"], "number": job["pr_number"],
+        "body": publishing.landed_note(job)})
+
+
+def acknowledge(worker, job: dict, brief: str) -> dict:
+    """Reply under a reviewer's comment before reworking it.
+
+    So the reviewer knows their comment was read, rather than watching a branch
+    change under them with no explanation. The reply carries the marker, so the
+    next poll does not read ghola's own acknowledgement as new feedback and
+    rework forever.
+    """
+    if not job.get("repo_slug") or not job.get("pr_number"):
+        return {"ok": True}
+    return call(worker, "github::pr::comment", {
+        "repo": job["repo_slug"], "number": job["pr_number"],
+        "body": publishing.reply_to(job, brief)})
 
 
 def stop(worker, job: dict, settings: dict) -> dict:

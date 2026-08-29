@@ -189,8 +189,6 @@ class Interrupts(unittest.TestCase):
         self.assertEqual(contracts.interrupt(""), "")
 
 
-if __name__ == "__main__":
-    unittest.main()
 
 
 class TheHookPayloadShape(unittest.TestCase):
@@ -227,3 +225,24 @@ class TheHookPayloadShape(unittest.TestCase):
     def test_an_empty_payload_extracts_nothing(self):
         self.assertEqual(self.extract({}), "")
         self.assertEqual(self.extract({"generated": {}}), "")
+
+
+class EachCheckKeepsItsOwnName(unittest.TestCase):
+    """`prove` and `review` both answer with a `verdict` key.
+
+    Stored under one name, the second check overwrites the first and the pull
+    request reports only whichever ran last.
+    """
+
+    def test_the_two_contracts_do_not_collide(self):
+        proven = contracts.as_result(contracts.read("PROVEN: no", PROVEN))
+        verdict = contracts.as_result(
+            contracts.read("VERDICT: concerns\n- a.py:1 — x", VERDICT))
+        job = {}
+        job.update({"proven": proven["verdict"]})
+        job.update({"verdict": verdict["verdict"]})
+        self.assertEqual(job["proven"], "no")
+        self.assertEqual(job["verdict"], "concerns")
+
+if __name__ == "__main__":
+    unittest.main()

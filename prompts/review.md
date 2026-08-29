@@ -4,9 +4,14 @@ You have read access so you can open the files around the change and learn this
 repository's conventions. You cannot edit, deliberately: a reviewer that fixes
 what it finds is grading a tree nobody else has seen.
 
-## The spec
+## The document so far
 
-$spec
+What was asked, what was planned, and what the
+implementer says it built. You are shown this and the diff. You are NOT shown
+the implementer's summary as an authority: judge the diff against what was
+asked.
+
+$document
 
 ## The diff
 
@@ -34,3 +39,7 @@ mood rather than a review.
 
 You are not being shown the implementer's summary of its own work, on purpose.
 Judge the diff.
+
+## When you are done
+
+This phase produces **the verdict**, in the shape above.

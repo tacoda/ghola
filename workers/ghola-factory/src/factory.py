@@ -32,6 +32,7 @@ ROOT = Path(os.environ.get("GHOLA_ROOT", Path(__file__).resolve().parents[3]))
 sys.path.insert(0, str(ROOT / "workers" / "ghola-core" / "src"))
 
 import contracts as contractslib  # noqa: E402
+import document as doclib  # noqa: E402
 import defaults  # noqa: E402
 import extensions  # noqa: E402
 import graph as graphlib  # noqa: E402
@@ -70,6 +71,34 @@ def record(kind: str, actor: str = "", subject: str = "", **detail) -> None:
                                     "subject": subject, "detail": detail}})
     except Exception as exc:  # noqa: BLE001
         print(f"AUDIT WRITE FAILED ({kind}): {type(exc).__name__}: {exc}")
+
+
+DOCS = ROOT / "state" / "documents"
+
+
+def doc_path(job_id: str) -> Path:
+    """Where a job's accumulating document lives.
+
+    Beside the job record rather than in the worktree: it outlives the worktree,
+    which is torn down when the job ends, and a reviewer asking what happened
+    should still be able to read it.
+    """
+    return DOCS / f"{job_id}.md"
+
+
+def document_of(job: dict) -> doclib.Document:
+    path = doc_path(str(job.get("id") or ""))
+    try:
+        return doclib.read(path.read_text())
+    except OSError:
+        # No document yet: start one from the authored spec, which is never
+        # rewritten and lives in specs/.
+        return doclib.start(str(job.get("spec") or ""), str(job.get("title") or ""))
+
+
+def write_document(job: dict, doc: doclib.Document) -> None:
+    DOCS.mkdir(parents=True, exist_ok=True)
+    doc_path(str(job["id"])).write_text(doc.text)
 
 
 def read_yaml(name: str) -> dict:
@@ -247,6 +276,13 @@ def fn_step(payload: dict) -> dict:
         return advance(job, graph, {"ok": False, "error": "no such stage"})
 
     if stage.runs_a_turn:
+        # Entry criteria. A phase whose inputs are missing would run on nothing
+        # and produce something confident about it, which costs a turn and
+        # reads like an answer.
+        entry = doclib.may_start(document_of(job), stage.requires)
+        if not entry.ok:
+            return advance(job, graph, {
+                "ok": False, "error": f"`{stage.name}` {entry.why}"})
         return start_turn(job, stage)
     return run_action(job, graph, stage)
 
@@ -271,7 +307,25 @@ def run_action(job: dict, graph: graphlib.Graph, stage: graphlib.Stage) -> dict:
         except extensions.ExtensionError as exc:
             return advance(job, graph, {"ok": False, "error": str(exc)})
 
+    # The publishing actions need the document, which lives beside the record
+    # rather than on it: it is a file, and a job record carrying a copy would be
+    # two of one thing.
+    job["document"] = document_of(job).text
+
     result = handler(WORKER, job, job)
+
+    # A reviewer's comment becomes the brief for the next turn, and is
+    # acknowledged on the pull request so they know it was read rather than
+    # watching a branch change under them. The comment id is recorded so the
+    # next poll does not rework the same comment forever.
+    if result.get("outcome") == "comment" and result.get("brief"):
+        builtin_actions.acknowledge(WORKER, job, str(result["brief"]))
+        job["brief"] = str(result["brief"])
+        job["answered_comment"] = str(result.get("comment_id") or "")
+        job["reason"] = "rework"
+        record("stage.entered", actor="a reviewer", subject=job["id"],
+               stage="rework", comment=str(result.get("comment_id") or ""))
+
     # An action may have learned something the record needs: a worktree id, a
     # pull request number. It mutates the job it was handed, so the write below
     # keeps it.
@@ -312,11 +366,15 @@ def brief_for(job: dict, stage: graphlib.Stage) -> str:
     A refusal or a reviewer's comment is already a brief and replaces the spec
     rather than being appended to it.
     """
+    doc = document_of(job)
     return promptslib.brief(stage.phase, {
-        "spec": job.get("spec"),
-        "plan": job.get("plan"),
+        # The document, not the raw spec: it carries what earlier phases
+        # produced, which is the whole point of the interface being a file.
+        "spec": doc.get("spec") or job.get("spec"),
+        "plan": doc.get("plan"),
         "diff": job.get("diff"),
         "brief": job.get("brief"),
+        "document": doc.text,
         "repo": job.get("repo"),
         "branch": job.get("branch"),
         "phase": stage.phase,
@@ -342,16 +400,46 @@ def advance(job: dict, graph: graphlib.Graph, result: dict) -> dict:
                             **{k: v for k, v in result.items()
                                if k in ("workspace", "worktree_id", "pull_request",
                                         "pr_number", "brief", "plan", "last_refusal",
-                                        "answered_comment", "verdict")})
+                                        "answered_comment", "verdict", "proven",
+                                        "findings", "verdict_downgraded",
+                                        "verdict_downgraded_from",
+                                        "proven_downgraded",
+                                        "proven_downgraded_from")})
     STORE.write(moved)
 
     record("stage.left", actor="ghola::step", subject=job["id"],
            **{"from": job.get("stage"), "to": move.to, "why": move.why})
 
-    if move.to in graph.terminal or move.to == graphlib.BLOCKED:
+    if move.to in graph.terminal:
+        # A job that lands and keeps its worktree leaks one per job. Nothing
+        # routes to `teardown` as a stage, because every terminal state needs it
+        # and a stage would need an edge from each of them.
+        finish(moved, move.to)
         return {"job": job["id"], "stage": move.to, "why": move.why}
+
+    if move.to == graphlib.BLOCKED:
+        return {"job": job["id"], "stage": move.to, "why": move.why}
+
     enqueue(job["id"], move.to)
     return {"job": job["id"], "stage": move.to, "why": move.why}
+
+
+def finish(job: dict, stage: str) -> None:
+    """Everything a terminal job still owes: a word on the pull request, the
+    repository's cleanup, and the worktree back.
+
+    Best-effort throughout. The work has already landed or been closed by a
+    human, and failing to tidy is not a reason to reopen their decision.
+    """
+    try:
+        if stage == "landed":
+            builtin_actions.announce_landing(WORKER, job)
+        result = builtin_actions.teardown(WORKER, job, job)
+        record("stage.left", actor="ghola::teardown", subject=job["id"],
+               to=stage, did=result.get("did"))
+    except Exception as exc:  # noqa: BLE001
+        print(f"teardown after {stage} failed for {job['id'][:8]}: "
+              f"{type(exc).__name__}: {exc}")
 
 
 def fn_turn_completed(payload: dict) -> dict:
@@ -374,7 +462,22 @@ def fn_turn_completed(payload: dict) -> dict:
 
     graph = pipeline()
     stage = graph.get(str(job.get("stage") or ""))
-    return advance(job, graph, interpret(result, phase, contract_for(stage) if stage else {}))
+    outcome = interpret(result, phase, contract_for(stage) if stage else {})
+
+    # File what the phase produced into the document, then check it actually
+    # produced it. A phase that finishes without its exit criteria has returned
+    # something nobody downstream can use.
+    if stage and stage.produces and outcome.get("ok") and not outcome.get("blocked"):
+        doc = document_of(job)
+        for name in stage.produces:
+            doc = doc.add(name, str(outcome.get("text") or ""))
+        write_document(job, doc)
+
+        finished = doclib.is_finished(doc, stage.produces)
+        if not finished.ok:
+            outcome = {"ok": False, "error": f"`{stage.name}` {finished.why}"}
+
+    return advance(job, graph, outcome)
 
 
 def interpret(result: dict, phase: str, contract: dict | None = None) -> dict:
@@ -392,7 +495,16 @@ def interpret(result: dict, phase: str, contract: dict | None = None) -> dict:
 
     if contract:
         answer = contractslib.read(text, contract)
-        return {**result, **contractslib.as_result(answer, phase), "text": text}
+        parsed = contractslib.as_result(answer, phase)
+        # Both `prove` and `review` answer with a `verdict` key, so storing it
+        # under one name means the second check overwrites the first and the
+        # pull request reports only whichever ran last. Each lands under its own
+        # contract's name.
+        name = str(contract.get("name") or ("proven" if phase == "prove" else "verdict"))
+        return {**result, **parsed, "text": text,
+                name: parsed["verdict"],
+                f"{name}_downgraded": parsed["downgraded"],
+                f"{name}_downgraded_from": parsed["downgraded_from"]}
 
     if phase == "plan" and result.get("ok"):
         return {**result, "plan": text}

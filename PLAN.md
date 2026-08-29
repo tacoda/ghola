@@ -714,6 +714,43 @@ What this costs, stated plainly: there is no remote access and no form. Both
 follow from a non-goal this plan already has (one operator, one machine), and a
 spec arrives as a file path rather than a drag-and-drop upload.
 
+### 4.8c Entry and exit criteria, and the file between phases
+
+**The interface between phases is a file.** A job starts as a copy of its spec
+and each phase appends what it produced, so by the time it reaches a human the
+document *is* the account of the work: what was asked, what was planned, what
+was built, what was proved, what review found. It becomes the pull request body
+unchanged, because nothing has to be summarised into existence.
+
+That is what makes entry and exit criteria expressible:
+
+```yaml
+plan:
+  phase: plan
+  requires: [spec]     # it cannot start without one
+  produces: [plan]     # it is not done until it wrote one
+```
+
+Both were silent before. **A phase whose entry criteria are unmet would run on
+nothing and produce something confident about it**, which costs a turn and reads
+like an answer. **A phase that finishes without its exit criteria has returned
+something nobody downstream can use**, and the next stage discovers that instead
+of the stage that caused it.
+
+The sections are a fixed vocabulary — `spec`, `plan`, `work`, `proof`,
+`review`, `answer`, `refusal` — so a `requires: [speck]` is a typo `make
+pipeline` catches rather than a criterion that can never be met.
+
+Two properties worth stating, because both were bugs waiting to happen:
+
+- **A rerun replaces its section rather than appending a second one.** A
+  revision runs the same phase again, and two `What was built` sections leave a
+  reviewer deciding which is current.
+- **The authored spec is never rewritten.** It is the input of record and lives
+  in `specs/`. The document is a working copy, which is what lets an interrupt's
+  answer amend the contract the checks are graded against without editing what a
+  person wrote.
+
 ### 4.9 Everything else
 
 `ghola.yaml` holds ports, paths, and the harness pin. Environment variables

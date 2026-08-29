@@ -3,13 +3,13 @@ Carry out this change in the repository you have been given.
 You have editing and shell functions. The working directory is an isolated
 worktree on its own branch, so you are not touching anybody's checkout.
 
-## The spec
+## The document so far
 
-$spec
+This is the job's own account of itself, and it
+grows as the work moves. What was asked is in it, and so is the plan an
+earlier turn made with this same repository in front of it.
 
-## The plan
-
-$plan
+$document
 
 ## How this is judged
 
@@ -27,3 +27,8 @@ did not authorise — reply with a single line beginning `INTERRUPT:` and the
 question. Only an opening line counts. Do not use it for preferences, for
 naming, or for anything the codebase already answers: decide those, and say
 that you decided.
+
+## When you are done
+
+This phase produces **an account of what you built**. Say what you changed and
+why, including anywhere the plan turned out to be wrong.

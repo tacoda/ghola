@@ -64,6 +64,11 @@ class Stage:
     on_error: str = "fail"
     guard: str = ""
     contract: str = ""
+    # Entry and exit criteria, against the job document. The interface between
+    # phases is a file that accumulates, so what a stage needs and what it owes
+    # are both sections of it.
+    requires: tuple[str, ...] = ()
+    produces: tuple[str, ...] = ()
     # What the human did, for a stage that watches a pull request. These are
     # edges too: `rework` is reachable only through one of them, and a walk that
     # follows `next` alone reports it unreachable.
@@ -128,6 +133,8 @@ def parse(config: dict | None) -> Graph:
             on_error=str(block.get("on_error") or "fail"),
             guard=str(block.get("guard") or ""),
             contract=str(block.get("contract") or ""),
+            requires=tuple(block.get("requires") or ()),
+            produces=tuple(block.get("produces") or ()),
             isolation=str(block.get("isolation") or ""),
             oversight=str(block.get("oversight") or ""),
             revert_worktree_changes=bool(block.get("revert_worktree_changes")),
@@ -177,6 +184,16 @@ def validate(graph: Graph) -> list[str]:
                             "what you mean")
         if stage.max_revisions < 0:
             problems.append(f"`{stage.name}.on_refusal.max` is negative")
+
+        # A criterion no phase can satisfy is a typo, and a typo here is a
+        # stage that can never start or never finish.
+        import document
+        for field_name, names in (("requires", stage.requires),
+                                  ("produces", stage.produces)):
+            for unknown in document.unknown_sections(names):
+                problems.append(
+                    f"`{stage.name}.{field_name}` names `{unknown}`, which is not "
+                    f"a section. Known: {', '.join(sorted(document.SECTIONS))}")
 
     problems.extend(unreachable(graph))
     return problems

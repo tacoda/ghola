@@ -129,6 +129,8 @@ PIPELINE = {
         # plan names real files rather than plausible ones.
         "plan": {
             "phase": "plan",
+            "requires": ["spec"],
+            "produces": ["plan"],
             # A gate's complaint and a reviewer's comment are already briefs.
             # Re-planning would only blur them.
             "skip_when": ["revision", "rework"],
@@ -139,6 +141,10 @@ PIPELINE = {
         },
         "run": {
             "phase": "run",
+            # Not `plan`: planning is skipped for a revision, and requiring it
+            # would make every revision unable to start.
+            "requires": ["spec"],
+            "produces": ["work"],
             "on_refusal": {"goto": "run", "max": 2, "stop_when_identical": True},
             "next": "prove",
         },
@@ -147,6 +153,8 @@ PIPELINE = {
         # reverted, because a shell can write whatever its tool list says.
         "prove": {
             "phase": "prove",
+            "requires": ["work"],
+            "produces": ["proof"],
             "optional": True,
             "contract": "proven",
             "revert_worktree_changes": True,
@@ -157,6 +165,8 @@ PIPELINE = {
         # is grading a story.
         "review": {
             "phase": "review",
+            "requires": ["work"],
+            "produces": ["review"],
             "optional": True,
             "contract": "verdict",
             "next": "commit",

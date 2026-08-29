@@ -4,9 +4,9 @@ You can run commands. You **cannot** edit: the editing functions were never
 granted to this phase, because a check that repairs what it finds is reporting
 on a tree nobody else has.
 
-## The spec
+## The document so far
 
-$spec
+$document
 
 ## What to produce
 
@@ -23,3 +23,8 @@ PROVEN: yes
 command is downgraded to `unproven` automatically — evidence or it did not
 happen. If you could not run something, say `partial` and name what you could
 not check and why.
+
+## When you are done
+
+This phase produces **the proof**, in the shape above. Evidence or it did not
+happen.

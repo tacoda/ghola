@@ -139,3 +139,31 @@ class TheLadderReportsWhatItCannotEnforce(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+@unittest.skipUnless(ENGINE, "no engine, and GHOLA_LIVE_OPTIONAL is set")
+class NothingCanMergeItself(unittest.TestCase):
+    """The one invariant of this repository, enforced by the framework.
+
+    `worktree::land` rebases onto a target branch and fast-forwards it. That is
+    a merge whatever it is called, and ghola opens a pull request and stops. So
+    the capability is switched off in the worktree worker's own gates rather
+    than merely unused: rung-1 thinking applied to a worker's configuration.
+    """
+
+    def test_landing_is_disabled_in_the_worker(self):
+        gates = (trigger("configuration::get", {"id": "worktree"})
+                 .get("value") or {}).get("gates") or {}
+        self.assertIs(gates.get("allow_land"), False,
+                      "worktree::land is enabled, so something could fast-forward "
+                      "a target branch. Nothing in ghola merges")
+        self.assertEqual(gates.get("land_targets"), [],
+                         "a land target is a branch something is allowed to "
+                         "fast-forward. There should be none")
+
+    def test_force_removal_is_available_for_teardown(self):
+        # A squash merge leaves the branch commit outside the target's ancestry,
+        # so `remove` refuses with W221 and every landed job leaks a worktree.
+        gates = (trigger("configuration::get", {"id": "worktree"})
+                 .get("value") or {}).get("gates") or {}
+        self.assertIs(gates.get("allow_force"), True)
