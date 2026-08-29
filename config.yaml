@@ -63,3 +63,4 @@ workers:
   - name: codex
   - name: iii-stream
   - name: configuration
+  - name: opengantry

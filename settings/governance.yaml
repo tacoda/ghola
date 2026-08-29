@@ -1,0 +1,31 @@
+# Governance gates: what a machine can prove before something ships.
+#
+# Three mechanisms sit in front of a call, and confusing them is how a system
+# ends up with two of them and a gap:
+#
+#   the ladder      refuses what a RULE can decide deterministically
+#   approval-gate   holds what a HUMAN should decide
+#   opengantry      blocks what a MACHINE CAN PROVE is unsafe
+#
+# This file configures the third. A promote-class call is one that changes
+# something outside this machine: `::deploy`, `::merge`, `::publish`, `::push`,
+# `::apply`, `::promote`, plus `worktree::land` and the `github::*` publishers,
+# which ship something without saying so in their names.
+#
+# Fail closed. A promote-class call with no verdict is refused at EVERY
+# oversight level, including `manual`. A person watching is not the same as a
+# machine having proved something, and "somebody clicked approve" is weaker
+# evidence than "the repository's own tests passed against this exact revision".
+#
+# Optional, like everything in settings/. Delete it and verdicts are required.
+
+require_verdict: true
+
+# Functions this deployment ships with that the suffix rule cannot see.
+# also_promote:
+#   myapp::ship-it: pushes to production
+
+# Deliberate holes. Each one is recorded in the audit log with the function it
+# excused, so "why did that ship unproven" has an answer that is not a shrug.
+# exempt:
+#   - github::pr::comment

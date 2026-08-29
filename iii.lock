@@ -538,6 +538,14 @@ workers:
         x86_64-unknown-linux-musl:
           url: https://github.com/iii-hq/workers/releases/download/memory/v0.2.4/memory-x86_64-unknown-linux-musl.tar.gz
           sha256: 9d11be5c74c884423eb9cecb35cc1684b2310b7289aa218d77ef1438e3c4617e
+  opengantry:
+    version: 0.1.2
+    type: bundle
+    dependencies: {}
+    source:
+      kind: bundle
+      archive_url: https://github.com/iii-hq/workers/releases/download/opengantry/v0.1.2/opengantry.tar.gz
+      sha256: 382461b2f1cd790feb5ac2e5799a66c2c763fd7a52bd2093b1b83ac2ad55e30f
   pdf:
     version: 0.1.2
     type: binary

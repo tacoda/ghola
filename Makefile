@@ -7,7 +7,7 @@
 #   3. tell it to do work      make turn  (make work, once the factory lands)
 
 .PHONY: help setup doctor install engine policy ladder up down logs status stop restart \
-        call schema models console config turn work test test-live eval clean
+        call schema models console config turn work test test-live eval audit clean
 
 VENV := .venv
 PY   := $(VENV)/bin/python
@@ -39,6 +39,7 @@ help:
 	@echo "doing work"
 	@echo '  make turn PHASE=plan PROMPT="..." [WORKSPACE=../repo]'
 	@echo "  make config     the effective settings, and where each value came from"
+	@echo "  make audit      the append-only record: intact? and what it says"
 	@echo "  make models     what the router can actually reach"
 	@echo ""
 	@echo "checking it"
@@ -169,6 +170,11 @@ work:
 	@echo "the factory arrives in M4. Until then, one turn at a time:"
 	@echo '  make turn PHASE=plan PROMPT="..." WORKSPACE=../repo'
 	@exit 2
+
+# The append-only record: whether it is intact, and what it says.
+# `VERIFY=1` exits non-zero on a broken chain, for a cron job or a CI step.
+audit:
+	@$(PY) scripts/audit.py
 
 # A default nobody can see is a magic number.
 config:
