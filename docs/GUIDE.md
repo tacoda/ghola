@@ -18,15 +18,16 @@ Three things, and confusing them is the main way people get lost.
 
 **iii is the framework.** It is an engine plus a set of workers. A *worker* is a
 running service that registers *functions* on a bus, and any worker can call any
-other worker's function. iii ships about 77 of them. ghola installs 30.
+other worker's function. iii ships about 77 of them. ghola installs 31.
 
 **The harness is a worker.** `harness` is iii's agent loop: it takes a message,
 assembles context, calls a model, runs the functions the model asks for, and
 repeats. ghola does not have a turn loop. It starts turns on this one.
 
-**ghola is a starter kit.** It picks which workers to run, on which ports, wired
-together, and adds a constraint ladder. Everything in this repository is yours to
-edit once you clone it.
+**ghola is a starter kit.** It picks which workers to run, on which ports, and
+wires them together. Everything in this repository is yours to edit once you
+clone it. The constraint ladder is its own worker, `ladder`, because it is the
+one idea here that is useful without the rest.
 
 ```
 you  ──▶  ghola  ──▶  harness worker  ──▶  a model
@@ -70,7 +71,7 @@ make up
 ```
 
 This starts the engine, waits for the harness worker to report ready, then starts
-ghola's policy worker. Expect about a minute the first time: 30 workers start in
+ghola's policy worker. Expect about a minute the first time: 31 workers start in
 sequence.
 
 ```bash
@@ -127,7 +128,16 @@ factory.
 If nothing comes back, ask the harness directly:
 
 ```bash
-make call FN=harness::status JSON='{"session_id":"s_anon_plan"}'
+make call FN=approval::list-pending    # a held call is the usual answer
+make call FN=harness::status JSON='{"session_id":"s_<id>_plan"}'
+```
+
+**The first turn on a fresh install will hang.** `approval-gate` defaults to
+holding every function call for a human. Release it, or put the session in full
+mode and let the ladder do the refusing:
+
+```bash
+make call FN=approval::resolve JSON='{"session_id":"...","function_call_id":"...","decision":"allow"}'
 ```
 
 ---
@@ -296,4 +306,6 @@ other sees, so a rule that matters names both.
 | `make turn` never returns | ask `harness::status` for the session. A turn can fail while a listener waits |
 | a port is taken | another iii project's engine. `make status`, and note ghola is off the stock ports |
 | a rule seems not to fire | check the rung. Rung 0 enforces nothing by design |
+| a turn sits at `awaiting_functions` forever | `approval-gate` is holding a call. `iii trigger approval::list-pending`, then `approval::resolve`, or set the session to `full` |
+| `registration token mismatch` after restarting one worker | the router and the provider disagree. Restart the whole engine (`make down && make up`), not one worker |
 | `make config` says a file is absent that you wrote | check the path. `settings/`, not `config/`, which belongs to iii |

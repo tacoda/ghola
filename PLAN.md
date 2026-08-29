@@ -1051,6 +1051,19 @@ rather than in a footnote:
 
 ## 9. Open questions
 
+0a. **`approval-gate` defaults to holding every call, and a dark factory
+    deadlocks on the first one.** Its `mode` is per session and defaults to
+    `manual`, so the first live turn here parked on `coder::read-file` and waited
+    for a human who was not coming. The composition ghola wants is `mode: full`
+    plus the ladder: `ladder::gate` refuses deterministically, and `approval-gate`
+    holds only what a rule marks `policy: ask`. Otherwise two workers are both
+    trying to be the human in the loop and the quieter one wins.
+
+    **M4 must set the mode when it opens a session**, and the setting belongs in
+    `settings/pipeline.yaml` per stage, because a `run` stage and a `review`
+    stage genuinely want different answers. Unresolved: whether `auto` is a
+    better default than `full` for the stages that write.
+
 0. ~~**Should the ladder be its own iii worker?**~~ **Answered: yes, and it is.**
    It lives at `tacoda/ladder` and ghola points at a local checkout with
    `worker_path` until it is published. Everything else ghola was going to build
