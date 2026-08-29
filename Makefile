@@ -17,13 +17,14 @@ HTTP_PORT    := 3131
 CONSOLE_PORT := 3133
 STREAM_PORT  := 3132
 MGR_PORT     := 49154
+GOVERNED_PORT := 49155
 
 # `.env` is sourced for the ENGINE, not only for the workers. The provider
 # workers read their credentials from the engine's own environment, so an engine
 # started without them serves a router with no models and every turn fails at
 # `router::provider::resolve` with nothing saying why.
 ENV := set -a; [ -f .env ] && . ./.env; set +a;
-RUN := $(ENV) GHOLA_ROOT=$(PWD) III_URL=ws://localhost:$(MGR_PORT)
+RUN := $(ENV) PYTHONUNBUFFERED=1 GHOLA_ROOT=$(PWD) III_URL=ws://localhost:$(MGR_PORT)
 
 help:
 	@echo "getting started"
@@ -112,7 +113,7 @@ LADDER ?= ../ladder
 
 ladder:
 	@test -d $(LADDER) || { echo "no ladder at $(LADDER). Clone tacoda/ladder beside this repo"; exit 2; }
-	@$(ENV) III_URL=ws://localhost:$(MGR_PORT) LADDER_HOME=$(LADDER) \
+	@$(ENV) PYTHONUNBUFFERED=1 III_URL=ws://localhost:$(MGR_PORT) LADDER_HOME=$(LADDER) \
 		$(LADDER)/.venv/bin/python $(LADDER)/src/main.py
 
 # What this repository contributes to a turn: four callbacks and no tools. The
@@ -134,14 +135,19 @@ up:
 	@# The workers are the engine's children and register over the following
 	@# minute. Starting the policy worker before the harness is up binds nothing,
 	@# and a hook that is not bound looks exactly like one that is.
+	@#
+	@# The probe is `router::provider::list`, NOT `harness::status`: that one
+	@# requires a session_id and fails with a serialization error, so this loop
+	@# ran all ninety seconds on every single boot and called it waiting.
 	@for i in $$(seq 1 90); do \
-		iii trigger harness::status --port $(MGR_PORT) >/dev/null 2>&1 && break; printf '.'; sleep 1; \
+		iii trigger router::provider::list --port $(MGR_PORT) >/dev/null 2>&1 && break; \
+		printf '.'; sleep 1; \
 	done
 	@echo ""
 	@pgrep -f '[g]hola-policy/src/boot.py' >/dev/null \
 		|| ($(RUN) $(PY) workers/ghola-policy/src/boot.py > $(LOGS)/policy.log 2>&1 &)
 	@test -d $(LADDER) && { pgrep -f '[l]adder/src/main.py' >/dev/null \
-		|| ($(ENV) III_URL=ws://localhost:$(MGR_PORT) LADDER_HOME=$(LADDER) \
+		|| ($(ENV) PYTHONUNBUFFERED=1 III_URL=ws://localhost:$(MGR_PORT) LADDER_HOME=$(LADDER) \
 		    $(LADDER)/.venv/bin/python $(LADDER)/src/main.py > $(LOGS)/ladder.log 2>&1 &); } || true
 	@sleep 4
 	@$(MAKE) --no-print-directory status
@@ -225,7 +231,7 @@ status:
 	@echo "engine   : $$(pgrep -f '[i]ii --config config.yaml' >/dev/null && echo up || echo down)"
 	@echo "policy   : $$(pgrep -f '[g]hola-policy/src/boot.py' >/dev/null && echo up || echo down)"
 	@echo "ladder   : $$(pgrep -f '[l]adder/src/main.py' >/dev/null && echo up || echo down)"
-	@for p in $(HTTP_PORT) $(CONSOLE_PORT) $(STREAM_PORT) $(MGR_PORT); do \
+	@for p in $(HTTP_PORT) $(CONSOLE_PORT) $(STREAM_PORT) $(MGR_PORT) $(GOVERNED_PORT); do \
 		printf '%-9s: %s\n' "port $$p" "$$(lsof -nP -iTCP:$$p -sTCP:LISTEN >/dev/null 2>&1 && echo listening || echo free)"; \
 	done
 

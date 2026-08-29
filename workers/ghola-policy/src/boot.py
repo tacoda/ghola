@@ -28,6 +28,7 @@ from pathlib import Path
 from iii import InitOptions, register_worker
 
 import context
+import recorders
 
 NAME = "ghola"
 
@@ -91,8 +92,15 @@ def main() -> None:
     context.WORKER = worker
 
     bound = bind_hooks(worker)
+    # The observability half: three workers decide things and announce them, and
+    # none of them keeps a permanent record. This is where those announcements
+    # land in one append-only log.
+    recording = recorders.bind(worker)
+
     print(f"ghola-policy started on {url}")
     print(f"  hooks : {', '.join(bound) or 'none'}")
+    print(f"  audit : {context.AUDIT.folder}")
+    print(f"  recording: {', '.join(recording) or 'nothing'}")
     print("  tools : none. Reading, editing and running are coder::* and shell::*")
     print("  the turn loop is iii's harness worker; this carries the ladder")
 

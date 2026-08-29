@@ -831,6 +831,12 @@ came back in the model's reply. Arbitrary on purpose — a rule the model would
 follow anyway proves nothing, because a turn that never saw the charter passes it
 too.
 
+**The governed listener is declared** in `config.yaml` as a second
+`iii-worker-manager#governed` instance on 49155, with `gantry::middleware` in
+front of every call arriving on it. Nothing connects to it yet: M5 is the first
+stage with something to push. It exists now because a governed listener added on
+the day you first need it is a governed listener configured in a hurry.
+
 **Not done, and it belongs to M4:** path scoping. `Charter.take(touched=…)` holds
 a scoped piece back until the turn goes near what it is about, and is tested, but
 nothing tracks touched paths until the factory does. Every scoped piece therefore

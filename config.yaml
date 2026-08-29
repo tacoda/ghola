@@ -20,10 +20,35 @@ workers:
   - name: provider-openai
   - name: provider-openai-codex
 
-  # The listener ghola's own workers connect to.
+  # The listener ghola's own workers connect to. Ungoverned: these are the
+  # operator's own processes, started from this repository's Makefile.
   - name: iii-worker-manager
     config:
       port: 49154
+
+  # The GOVERNED listener. A second instance of the same worker on its own port,
+  # with `gantry::middleware` in front of every call that arrives on it.
+  #
+  # iii can already run an agent unattended; the open question is letting one
+  # SHIP unattended. A promote-class call — anything ending in ::deploy, ::merge,
+  # ::publish, ::push, ::apply or ::promote — has to carry a verdict token bound
+  # to the exact revision it was minted against, and `gantry::middleware`
+  # recomputes the claims from disk rather than trusting the token's own payload.
+  #
+  # Nothing connects here yet. It exists so the port is reserved and the
+  # configuration is reviewable before M5 has something to push, and because a
+  # governed listener added on the day you first need it is a governed listener
+  # configured in a hurry.
+  - name: iii-worker-manager#governed
+    config:
+      host: 127.0.0.1
+      port: 49155
+      middleware_function_id: gantry::middleware
+
+  # Blocks what a machine can already prove is unsafe, which is a different
+  # question from what a human should decide (approval-gate) and from what a
+  # rule can decide (ladder).
+  - name: opengantry
 
   # Serves the dashboard and the JSON endpoints.
   - name: http
