@@ -1086,8 +1086,24 @@ gate is tested without a pull request. Effects live outside it.
 - Contracts: **done**, and verified live. A real `prove` turn claimed
   `PROVEN: yes` with no command under it, the guard downgraded it to `unproven`,
   and the audit log recorded `claimed: yes -> became: unproven` with the reason.
-- The `judge` grader, and the six phase eval suites from section 7. This is where
-  the guessed thresholds in section 4.8 get replaced with measured ones.
+- Evals: **done**, and both cases discriminate against a real model.
+  `ghola::eval::{contract,verdict-is,mentions,cites-evidence}` are registered
+  and reachable, `evals/*.json` are `eval::start` requests, and `make eval`
+  submits them.
+
+**There is no `judge` grader, and that is now a decision rather than a gap.**
+All four evaluators are deterministic, and a case that can be graded
+deterministically must not use a model to grade it: a model grading a model is
+the weakest evidence available, and every case worth writing so far has had a
+checkable answer. If one arrives that genuinely cannot, `judge` is the thing to
+add then — with a threshold rather than a verdict, and reported separately, so a
+suite that is 90 percent judge is visibly measuring agreement rather than
+correctness.
+
+The thresholds section 4.8 guessed at are still guesses. What replaced them is
+the `eval` worker's own eligibility rule, which is stricter than anything I
+wrote: every treatment run must pass and its pass count must not regress. A
+candidate that is merely no worse is not evidence that it is better.
 
 **Verify:** a `PROVEN: yes` with no command under any criterion downgrades to
 `unproven`; an unparseable verdict records as `unreadable` and never as a pass.

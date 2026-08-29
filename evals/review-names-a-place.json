@@ -1,0 +1,16 @@
+{
+  "dimension": "prompt",
+  "model": {"model": "claude-sonnet-5", "provider": "anthropic"},
+  "control": {
+    "label": "names a file and line",
+    "prompt": "Reply with exactly these three lines and nothing else:\nVERDICT: concerns\n\n- app.py:9 — the money path uses float and loses cents"
+  },
+  "treatment": {
+    "label": "objects without naming anything",
+    "prompt": "Reply with exactly these three lines and nothing else:\nVERDICT: concerns\n\nSomething about this feels wrong to me."
+  },
+  "evaluator": {
+    "function_id": "ghola::eval::verdict-is",
+    "arguments": {"contract": "verdict", "equals": "concerns"}
+  }
+}

@@ -258,9 +258,11 @@ test-live:
 	@test -d tests/live || { echo "no tests/live yet — see PLAN.md section 7"; exit 1; }
 	@$(RUN) $(PY) -m unittest discover -s tests/live -p 'test_*.py' -v
 
+# A/B evaluations through the stock `eval` worker. ghola writes no runner: each
+# file in evals/ is an eval::start request. Costs money, so nothing runs these
+# on a timer until somebody asks.
 eval:
-	@test -d evals || { echo "no evals/ yet — see PLAN.md section 4.8"; exit 1; }
-	@$(MAKE) --no-print-directory call FN=eval::list
+	@$(PY) scripts/eval.py
 
 # ---------------------------------------------------------------- asking
 

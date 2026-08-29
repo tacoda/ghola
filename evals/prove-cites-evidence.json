@@ -1,0 +1,16 @@
+{
+  "dimension": "prompt",
+  "model": {"model": "claude-sonnet-5", "provider": "anthropic"},
+  "control": {
+    "label": "asks for evidence",
+    "prompt": "Reply with exactly these three lines and nothing else:\nPROVEN: yes\n- [x] the flag prints a version\n      $ cli --version"
+  },
+  "treatment": {
+    "label": "asserts without evidence",
+    "prompt": "Reply with exactly these two lines and nothing else:\nPROVEN: yes\n- [x] the flag prints a version, I am confident"
+  },
+  "evaluator": {
+    "function_id": "ghola::eval::cites-evidence",
+    "arguments": {"contract": "proven", "at_least": 1}
+  }
+}

@@ -27,6 +27,8 @@ from pathlib import Path
 
 from iii import InitOptions, register_worker
 
+import evaluators
+
 import context
 import recorders
 
@@ -91,6 +93,16 @@ def main() -> None:
     worker = register_worker(url, InitOptions(worker_name="ghola-policy"))
     context.WORKER = worker
 
+    # What ghola contributes to the `eval` worker: the judgements it cannot
+    # make. These are the SAME checks the pipeline runs — `contracts.read` is
+    # what grades `prove` and `review` in production — so an eval measures the
+    # thing that ships rather than a second implementation that can drift.
+    for name, (_fn, description) in evaluators.EVALUATORS.items():
+        worker.register_function(
+            f"ghola::eval::{name}",
+            (lambda n: lambda payload: evaluators.run(n, payload))(name),
+            description=description)
+
     bound = bind_hooks(worker)
     # The observability half: three workers decide things and announce them, and
     # none of them keeps a permanent record. This is where those announcements
@@ -99,8 +111,9 @@ def main() -> None:
 
     print(f"ghola-policy started on {url}")
     print(f"  hooks : {', '.join(bound) or 'none'}")
-    print(f"  audit : {context.AUDIT.folder}")
+    print("  audit : through ghola-audit, which owns the chain")
     print(f"  recording: {', '.join(recording) or 'nothing'}")
+    print(f"  evaluators: {', '.join(f'ghola::eval::{n}' for n in evaluators.EVALUATORS)}")
     print("  tools : none. Reading, editing and running are coder::* and shell::*")
     print("  the turn loop is iii's harness worker; this carries the ladder")
 
