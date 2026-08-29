@@ -27,6 +27,8 @@ from pathlib import Path
 
 from iii import InitOptions, register_worker
 
+import context
+
 NAME = "ghola"
 
 # The harness's own trigger types, as the installed worker spells them. The tech
@@ -86,6 +88,7 @@ def main() -> None:
     sys.path.insert(0, str(Path(__file__).resolve().parent))
     url = os.environ.get("III_URL", "ws://localhost:49154")
     worker = register_worker(url, InitOptions(worker_name="ghola-policy"))
+    context.WORKER = worker
 
     bound = bind_hooks(worker)
     print(f"ghola-policy started on {url}")

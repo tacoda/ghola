@@ -124,7 +124,13 @@ def main() -> int:
     print(f"--- {status}, ${result['cost_usd']:.4f}")
     if result["error"]:
         print(f"--- {result['error']}")
-    return 0 if result["ok"] else 1
+
+    # The SDK starts a telemetry thread that outlives this function and retries
+    # forever, so a script that returns normally never exits and the caller sees
+    # a completed turn followed by an endless reconnect log. Nothing here needs
+    # a clean shutdown: the result is printed and the engine owns the session.
+    sys.stdout.flush()
+    os._exit(0 if result["ok"] else 1)
 
 
 if __name__ == "__main__":

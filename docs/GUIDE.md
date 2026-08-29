@@ -7,7 +7,7 @@ This guide takes you from a fresh clone to a turn that reads your code, and then
 shows you the three things you will want to change first. It assumes you have
 never used iii.
 
-**Status: ghola is at M1.** Sections 1 to 5 work today. Sections 6 and 7 describe
+**Status: ghola is at M2.** Sections 1 to 5 work today. Sections 6 and 7 describe
 what the milestones in [PLAN.md](../PLAN.md) add, and say so where they do.
 
 ---
@@ -132,9 +132,10 @@ make call FN=approval::list-pending    # a held call is the usual answer
 make call FN=harness::status JSON='{"session_id":"s_<id>_plan"}'
 ```
 
-**The first turn on a fresh install will hang.** `approval-gate` defaults to
-holding every function call for a human. Release it, or put the session in full
-mode and let the ladder do the refusing:
+**If a turn hangs, `approval-gate` is holding a call.** ghola ships
+`config/approval-gate.yaml` with `default_mode: full` so the ladder does the
+refusing, but a session created before that change keeps its own mode. Release
+the held call:
 
 ```bash
 make call FN=approval::resolve JSON='{"session_id":"...","function_call_id":"...","decision":"allow"}'

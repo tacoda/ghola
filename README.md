@@ -14,7 +14,7 @@ The constraint ladder that used to live here is now its own worker,
 general idea in the pile and a starter kit whose best idea is locked inside it is
 a worse starter kit.
 
-**Status: M1.** The turn seam works. There is no factory yet. The phased plan is
+**Status: M2.** The turn seam works and the charter reaches the model. There is no factory yet. The phased plan is
 in [PLAN.md](PLAN.md), and the walkthrough is in [docs/GUIDE.md](docs/GUIDE.md).
 
 ## Usage

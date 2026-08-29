@@ -804,17 +804,37 @@ non-empty catalogue, `make stop` frees every port.
    (`harness::hook::pre-trigger`). Underscore bindings register without error and
    never fire, which is a ladder that looks wired and is not.
 
-### M2. The charter reaches the turn (rung 0)
+### M2. The charter reaches the turn (rung 0) — **done**
 
-- `pre_generate` assembles the target repo's `CLAUDE.md`, `.claude/rules`,
-  skills, commands, and sub-agent definitions for the paths this turn has
-  touched, and returns them as a system prompt mutation.
-- `@path` imports in `CLAUDE.md` are followed.
-- `settings/layers.yaml` resolves org, team, and project rule directories.
+Smaller than this plan first said, because three other workers are already on
+`pre-generate` and each owns a piece: `directory` serves the repository's skills
+and prompts, `memory` injects its banks, and `ladder` owns the rules and their
+layers. `settings/layers.yaml` is therefore the ladder's configuration, not
+ghola's.
 
-**Verify:** a house rule stated only in a target repo's `CLAUDE.md` changes the
-turn's behavior, and a repo with no `.claude` directory still receives the team
-and org rules. That last one is what makes them standards rather than suggestions.
+- `ghola-core/charter.py`: assembly, pure. Takes text and a reader, returns text.
+- `pre_generate` reads `CLAUDE.md` (or `AGENTS.md`), follows `@path` imports, asks
+  `ladder::list` for the constraint prose, and returns a `system_prompt` mutation.
+- Only the *prose* is taken from the ladder. A rule's enforcement is the ladder's
+  job at whatever rung carries it, and implementing it twice is the seam an agent
+  finds first.
+- An import is resolved inside the repository only. `@../../../etc/passwd` would
+  otherwise put that file into a system prompt, and the target repository is what
+  ghola is pointed at rather than what it trusts.
+- A missing import, a cycle, and an over-deep chain are each reported and left as
+  written. Silently dropping one produces a charter with a missing section, which
+  is the harder bug to find.
+
+**Verified live**, against `tests/fixtures/charter-repo`: two arbitrary tokens,
+one stated only in `CLAUDE.md` and one reachable only through its `@import`, both
+came back in the model's reply. Arbitrary on purpose — a rule the model would
+follow anyway proves nothing, because a turn that never saw the charter passes it
+too.
+
+**Not done, and it belongs to M4:** path scoping. `Charter.take(touched=…)` holds
+a scoped piece back until the turn goes near what it is about, and is tested, but
+nothing tracks touched paths until the factory does. Every scoped piece therefore
+waits today and only the always-on ones travel.
 
 ### M3. The ladder (rungs 1 through 3, and holds)
 

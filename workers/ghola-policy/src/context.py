@@ -62,6 +62,11 @@ def of(payload: dict) -> Call:
     )
 
 
+# Set by boot.py once the worker is connected, so a callback can ask another
+# worker something. The policy worker still holds no SESSION state: this is a
+# connection, not a memory of which job is running.
+WORKER = None
+
 CONTINUE = {"decision": "continue"}
 
 
