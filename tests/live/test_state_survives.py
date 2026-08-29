@@ -112,3 +112,35 @@ class TheStoreActuallySurvives(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+@unittest.skipUnless(ENGINE, "no engine, and GHOLA_LIVE_OPTIONAL is set")
+class ModelLimitsAreNeverGuessed(unittest.TestCase):
+    """A degraded turn is worse than a failed one, because nothing announces it.
+
+    `allow_fallback_limits` makes the context-manager use 8192/1024 when it
+    cannot resolve a model's real limits. That turned a missing credential into
+    every turn silently running on an 8192-token window against a 1M-context
+    model, for as long as it took somebody to notice a context overflow.
+
+    Off, the same situation errors with `could not resolve model limits`, which
+    is a sentence naming its own cause.
+    """
+
+    def test_the_context_manager_does_not_guess(self):
+        config = trigger("configuration::get", {"id": "context-manager"}).get("value") or {}
+        self.assertIs(
+            config.get("allow_fallback_limits"), False,
+            "allow_fallback_limits is on, so a model whose limits cannot be "
+            "resolved silently gets an 8192-token window instead of an error")
+
+    def test_the_router_can_actually_resolve_a_model(self):
+        # With the fallback off, this failing means every turn fails. Better to
+        # find out here than one paid turn in.
+        answer = trigger("router::models::get",
+                         {"provider": "anthropic", "id": "claude-sonnet-5"})
+        model = answer.get("model") or {}
+        self.assertTrue(model.get("context_window"),
+                        "the router cannot resolve claude-sonnet-5. Usually the "
+                        "engine started without credentials in scope: check that "
+                        ".env was EXPORTED, not merely sourced")

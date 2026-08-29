@@ -2,7 +2,7 @@ id: context-manager
 name: Context Manager
 description: 'Model-ready context assembly tuning: token-budget reserves, function-result prune thresholds, compaction tail size, the compaction lease TTL and directory, and the summariser timeout.'
 value:
-  allow_fallback_limits: true
+  allow_fallback_limits: false
   lease_dir: ~/.iii/data/context-manager
   lease_ttl_secs: 300
   max_output_chars: 2000

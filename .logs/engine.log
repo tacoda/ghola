@@ -1583,3 +1583,297 @@ OpenTelemetry initialized: exporter=memory (max_spans=10000), service_name=ghola
 [03:22:19.928 PM] [INFO] iii::workers::reload reload: config changed, reloading from config.yaml
 [03:22:19.934 PM] [INFO] iii::workers::reload reload: diff +0 added, -0 removed, ~0 changed (0 revived), =36 unchanged
 [03:22:19.934 PM] [INFO] iii::workers::reload reload: success
+[03:23:09.576 PM] [INFO] iii::workers::reload reload: config changed, reloading from config.yaml
+[03:23:09.583 PM] [INFO] iii::workers::reload reload: diff +0 added, -0 removed, ~0 changed (0 revived), =36 unchanged
+[03:23:09.583 PM] [INFO] iii::workers::reload reload: success
+[03:25:14.520 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 86b7be79-5f73-45d7-94dd-927988f21167
+    └ ip_address: Some("127.0.0.1")
+[03:25:14.524 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 86b7be79-5f73-45d7-94dd-927988f21167
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(96716)
+[03:25:33.584 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: db8889b3-f25f-462e-bac8-4dc058e0159e
+    └ ip_address: Some("127.0.0.1")
+[03:25:33.586 PM] [INFO] iii::function [REGISTERED] Function ghola-turn::completed
+[03:25:34.591 PM] [INFO] iii::workers::engine_fn New functions detected, firing functions-available trigger
+[03:25:35.929 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 215304c2-1ebf-4e4c-bef0-b1d03497f9ac
+    └ dir: read
+[03:25:35.929 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 215304c2-1ebf-4e4c-bef0-b1d03497f9ac
+    └ dir: read
+[03:25:35.929 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 215304c2-1ebf-4e4c-bef0-b1d03497f9ac
+[03:25:35.931 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: cb5352b8-def6-46da-8a9b-57c9557a1dad
+    └ dir: read
+[03:25:35.931 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: cb5352b8-def6-46da-8a9b-57c9557a1dad
+    └ dir: read
+[03:25:35.931 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: cb5352b8-def6-46da-8a9b-57c9557a1dad
+[03:25:36.813 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: cb5352b8-def6-46da-8a9b-57c9557a1dad
+    └ dir: write
+[03:25:36.814 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: cb5352b8-def6-46da-8a9b-57c9557a1dad
+    └ dir: write
+[03:25:36.814 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: cb5352b8-def6-46da-8a9b-57c9557a1dad
+[03:25:36.815 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 215304c2-1ebf-4e4c-bef0-b1d03497f9ac
+    └ dir: write
+[03:25:36.815 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 215304c2-1ebf-4e4c-bef0-b1d03497f9ac
+    └ dir: write
+[03:25:36.815 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 215304c2-1ebf-4e4c-bef0-b1d03497f9ac
+[03:25:37.492 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 215304c2-1ebf-4e4c-bef0-b1d03497f9ac
+[03:25:37.492 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 215304c2-1ebf-4e4c-bef0-b1d03497f9ac
+    ├ total_bytes: 0
+    └ msg_count: 9
+[03:25:37.492 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 215304c2-1ebf-4e4c-bef0-b1d03497f9ac
+    ├ total_bytes: 0
+    └ msg_count: 9
+[03:25:37.492 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: cb5352b8-def6-46da-8a9b-57c9557a1dad
+[03:25:37.492 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: cb5352b8-def6-46da-8a9b-57c9557a1dad
+    ├ total_bytes: 0
+    └ msg_count: 9
+[03:25:37.492 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: cb5352b8-def6-46da-8a9b-57c9557a1dad
+    ├ total_bytes: 0
+    └ msg_count: 9
+[03:25:37.875 PM] [INFO] iii::function [UNREGISTERED] Function ghola-turn::completed
+[03:25:37.876 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: db8889b3-f25f-462e-bac8-4dc058e0159e
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(96788)
+[03:25:37.935 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 0b43c676-3c82-4fce-bc78-aad39bce6977
+    └ dir: read
+[03:25:37.935 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 0b43c676-3c82-4fce-bc78-aad39bce6977
+    └ dir: read
+[03:25:37.935 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: 0b43c676-3c82-4fce-bc78-aad39bce6977
+[03:25:37.935 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: f65782ae-f3e4-4c4a-bc60-4f0bb8bdb532
+    └ dir: read
+[03:25:37.935 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: f65782ae-f3e4-4c4a-bc60-4f0bb8bdb532
+    └ dir: read
+[03:25:37.935 PM] [INFO] iii::workers::worker::ws_handler Read: receiver acquired, streaming channel → WS
+    └ channel_id: f65782ae-f3e4-4c4a-bc60-4f0bb8bdb532
+[03:25:38.232 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: f65782ae-f3e4-4c4a-bc60-4f0bb8bdb532
+    └ dir: write
+[03:25:38.232 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: f65782ae-f3e4-4c4a-bc60-4f0bb8bdb532
+    └ dir: write
+[03:25:38.232 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: f65782ae-f3e4-4c4a-bc60-4f0bb8bdb532
+[03:25:38.232 PM] [INFO] iii::workers::worker::ws_handler Channel WS upgrade requested
+    ├ channel_id: 0b43c676-3c82-4fce-bc78-aad39bce6977
+    └ dir: write
+[03:25:38.233 PM] [INFO] iii::workers::worker::ws_handler Channel found, upgrading to WebSocket
+    ├ channel_id: 0b43c676-3c82-4fce-bc78-aad39bce6977
+    └ dir: write
+[03:25:38.233 PM] [INFO] iii::workers::worker::ws_handler Write: sender acquired, streaming WS → channel
+    └ channel_id: 0b43c676-3c82-4fce-bc78-aad39bce6977
+[03:25:38.244 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: f65782ae-f3e4-4c4a-bc60-4f0bb8bdb532
+[03:25:38.244 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: f65782ae-f3e4-4c4a-bc60-4f0bb8bdb532
+    ├ total_bytes: 0
+    └ msg_count: 1
+[03:25:38.244 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: f65782ae-f3e4-4c4a-bc60-4f0bb8bdb532
+    ├ total_bytes: 0
+    └ msg_count: 1
+[03:25:38.244 PM] [INFO] iii::workers::worker::ws_handler Write: received WS close frame
+    └ channel_id: 0b43c676-3c82-4fce-bc78-aad39bce6977
+[03:25:38.244 PM] [INFO] iii::workers::worker::ws_handler Write: stream complete, dropping sender
+    ├ channel_id: 0b43c676-3c82-4fce-bc78-aad39bce6977
+    ├ total_bytes: 0
+    └ msg_count: 1
+[03:25:38.244 PM] [INFO] iii::workers::worker::ws_handler Read: stream complete, sending WS close
+    ├ channel_id: 0b43c676-3c82-4fce-bc78-aad39bce6977
+    ├ total_bytes: 0
+    └ msg_count: 1
+[03:25:39.597 PM] [INFO] iii::workers::engine_fn New functions detected, firing functions-available trigger
+[03:26:02.276 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 3e063e87-2562-430a-b722-10c13bf41bfc
+    └ ip_address: Some("127.0.0.1")
+[03:26:02.277 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 3e063e87-2562-430a-b722-10c13bf41bfc
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(96896)
+[03:26:02.321 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 29300eed-4378-4eb4-b2d2-f9f0eee8f4b6
+    └ ip_address: Some("127.0.0.1")
+[03:26:02.322 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 29300eed-4378-4eb4-b2d2-f9f0eee8f4b6
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(96897)
+[03:26:02.330 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: d58f53fd-b422-48e9-8b0d-bcb36863730c
+    └ ip_address: Some("127.0.0.1")
+[03:26:02.332 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: d58f53fd-b422-48e9-8b0d-bcb36863730c
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(96898)
+[03:26:02.339 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 2e4dbb79-3eec-4c95-9227-e4091e6778f5
+    └ ip_address: Some("127.0.0.1")
+[03:26:02.341 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 2e4dbb79-3eec-4c95-9227-e4091e6778f5
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(96899)
+[03:26:02.348 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 9491f67c-5462-425c-a178-76ad5bf4fd36
+    └ ip_address: Some("127.0.0.1")
+[03:26:02.350 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 9491f67c-5462-425c-a178-76ad5bf4fd36
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(96900)
+[03:26:02.357 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: ef71ae3f-f328-4d36-9909-01b8257d1d78
+    └ ip_address: Some("127.0.0.1")
+[03:26:02.359 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: ef71ae3f-f328-4d36-9909-01b8257d1d78
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(96901)
+[03:26:02.367 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: dd466fc0-f89e-4303-a9c1-46209f0c4fde
+    └ ip_address: Some("127.0.0.1")
+[03:26:02.368 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: dd466fc0-f89e-4303-a9c1-46209f0c4fde
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(96902)
+[03:26:02.377 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 6131fc50-b9ee-4bd3-b2a5-c7416e96df33
+    └ ip_address: Some("127.0.0.1")
+[03:26:02.377 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 6131fc50-b9ee-4bd3-b2a5-c7416e96df33
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(96903)
+[03:26:02.386 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: a86e4ea9-b3ef-4697-867f-203e2f740519
+    └ ip_address: Some("127.0.0.1")
+[03:26:02.388 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: a86e4ea9-b3ef-4697-867f-203e2f740519
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(96904)
+[03:26:02.395 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 9656e52b-c55b-48fd-9ce8-7884c684c3e7
+    └ ip_address: Some("127.0.0.1")
+[03:26:02.396 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 9656e52b-c55b-48fd-9ce8-7884c684c3e7
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(96905)
+[03:26:02.405 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 98f2ad76-03ea-4c03-a48f-60bd95e164de
+    └ ip_address: Some("127.0.0.1")
+[03:26:02.405 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 98f2ad76-03ea-4c03-a48f-60bd95e164de
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(96906)
+[03:26:02.413 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: def655f1-cf62-4512-8f9b-ee42b63aec96
+    └ ip_address: Some("127.0.0.1")
+[03:26:02.414 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: def655f1-cf62-4512-8f9b-ee42b63aec96
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(96907)
+[03:26:02.423 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: c08ac3f8-66dc-4f8f-8209-6725754a127f
+    └ ip_address: Some("127.0.0.1")
+[03:26:02.423 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: c08ac3f8-66dc-4f8f-8209-6725754a127f
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(96908)
+[03:26:04.471 PM] [INFO] iii::function [UNREGISTERED] Function state::on-config-change
+[03:26:04.471 PM] [INFO] iii::function [UNREGISTERED] Function state::ui-content
+[03:26:04.471 PM] [INFO] iii::function [UNREGISTERED] Function state::list_keys
+[03:26:04.471 PM] [INFO] iii::function [UNREGISTERED] Function state::list
+[03:26:04.471 PM] [INFO] iii::function [UNREGISTERED] Function state::compare-and-set
+[03:26:04.471 PM] [INFO] iii::function [UNREGISTERED] Function state::delete
+[03:26:04.471 PM] [INFO] iii::function [UNREGISTERED] Function harness::state::compare-and-set
+[03:26:04.471 PM] [INFO] iii::function [UNREGISTERED] Function harness::state::get
+[03:26:04.471 PM] [INFO] iii::function [UNREGISTERED] Function harness::state::list
+[03:26:04.471 PM] [INFO] iii::function [UNREGISTERED] Function state::claim-namespace
+[03:26:04.471 PM] [INFO] iii::function [UNREGISTERED] Function state::set
+[03:26:04.471 PM] [INFO] iii::function [UNREGISTERED] Function state::barrier
+[03:26:04.471 PM] [INFO] iii::function [UNREGISTERED] Function state::get
+[03:26:04.471 PM] [INFO] iii::function [UNREGISTERED] Function state::update
+[03:26:04.471 PM] [INFO] iii::function [UNREGISTERED] Function state::list_groups
+[03:26:04.471 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 68f48310-3096-4838-a97a-87f32b9284f8
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(92774)
+[03:26:04.614 PM] [INFO] iii::workers::engine_fn New functions detected, firing functions-available trigger
+[03:26:07.528 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 1a9e0776-1bd4-429d-8bfe-dc44106e815c
+    └ ip_address: Some("127.0.0.1")
+[03:26:07.529 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: b3cd9a80-6c0a-45a3-a9f2-a043d6aa3ce7
+    └ ip_address: Some("127.0.0.1")
+[03:26:07.533 PM] [INFO] iii::trigger [REGISTERED] Trigger Type state
+[03:26:07.533 PM] [INFO] iii::function [REGISTERED] Function harness::state::get
+[03:26:07.533 PM] [INFO] iii::function [REGISTERED] Function harness::state::list
+[03:26:07.533 PM] [INFO] iii::function [REGISTERED] Function harness::state::compare-and-set
+[03:26:07.533 PM] [INFO] iii::function [REGISTERED] Function state::claim-namespace
+[03:26:07.533 PM] [INFO] iii::function [REGISTERED] Function state::set
+[03:26:07.533 PM] [INFO] iii::function [REGISTERED] Function state::compare-and-set
+[03:26:07.533 PM] [INFO] iii::function [REGISTERED] Function state::barrier
+[03:26:07.533 PM] [INFO] iii::function [REGISTERED] Function state::get
+[03:26:07.533 PM] [INFO] iii::function [REGISTERED] Function state::delete
+[03:26:07.533 PM] [INFO] iii::function [REGISTERED] Function state::update
+[03:26:07.533 PM] [INFO] iii::function [REGISTERED] Function state::list
+[03:26:07.533 PM] [INFO] iii::function [REGISTERED] Function state::list_keys
+[03:26:07.533 PM] [INFO] iii::function [REGISTERED] Function state::list_groups
+[03:26:07.533 PM] [INFO] iii::function [REGISTERED] Function state::ui-content
+[03:26:07.533 PM] [INFO] iii::function [REGISTERED] Function state::on-config-change
+[03:26:07.533 PM] [INFO] iii::workers::configuration::trigger Registering configuration trigger
+    ├ trigger_id: 915c9c5b-e1ad-4d25-9158-2edfca0a7c03
+    ├ configuration_id: Some("state")
+    └ event_types: Some(["configuration:updated"])
+[03:26:08.589 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 1a9e0776-1bd4-429d-8bfe-dc44106e815c
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(96909)
+[03:26:08.610 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 63e6840c-ecb4-401f-8e58-d85a8ea449b3
+    └ ip_address: Some("127.0.0.1")
+[03:26:08.611 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 63e6840c-ecb4-401f-8e58-d85a8ea449b3
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(97017)
+[03:26:08.629 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 96c7429e-e49e-424c-a5bc-0d77a52d3183
+    └ ip_address: Some("127.0.0.1")
+[03:26:08.630 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 96c7429e-e49e-424c-a5bc-0d77a52d3183
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(97018)
+[03:26:08.647 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 336d51b3-d137-4e85-b522-1f6f114fb39e
+    └ ip_address: Some("127.0.0.1")
+[03:26:08.647 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 336d51b3-d137-4e85-b522-1f6f114fb39e
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(97019)
+[03:26:08.661 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: b16dc931-d42f-41cb-b06e-1fafc9397d16
+    └ ip_address: Some("127.0.0.1")
+[03:26:08.662 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: b16dc931-d42f-41cb-b06e-1fafc9397d16
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(97020)
