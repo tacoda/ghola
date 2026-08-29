@@ -63,5 +63,3 @@ workers:
   - name: codex
   - name: iii-stream
   - name: configuration
-  - name: ladder
-    worker_path: /Users/tacoda/tacoda/ladder

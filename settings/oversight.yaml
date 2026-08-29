@@ -1,0 +1,22 @@
+# How much of this a person watches. A dial, not a switch.
+#
+# "Dark factory" is a useful phrase and a bad setting: nobody wants a system
+# where no human sees anything, and nobody wants to approve every read either.
+#
+#   manual      a person answers every call
+#   attended    a person answers every write; reads run
+#   supervised  the ladder refuses; a person answers only what a rule marks `ask`
+#   dark        nothing waits for a person, and `ask` degrades to refuse
+#
+# `ask` NEVER becomes `allow`. An unattended factory reading "ask" as "yes" has
+# answered a question nobody put.
+#
+# This file is optional, like everything in settings/. Delete it and you get
+# `supervised`, which is the shape the rest of the design assumes.
+
+default: supervised
+
+# A stage may name its own, because `run` and `review` want different answers.
+# stages:
+#   run: attended
+#   review: dark

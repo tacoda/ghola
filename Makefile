@@ -6,7 +6,7 @@
 #   2. add config and scripts  edit settings/, drop files in actions/
 #   3. tell it to do work      make turn  (make work, once the factory lands)
 
-.PHONY: help setup doctor install engine policy up down logs status stop restart \
+.PHONY: help setup doctor install engine policy ladder up down logs status stop restart \
         call schema models console config turn work test test-live eval clean
 
 VENV := .venv
@@ -99,6 +99,21 @@ engine:
 	@python3 scripts/seed_console_port.py
 	@$(ENV) iii --config config.yaml
 
+# The ladder, as a HOST process rather than a managed worker.
+#
+# `iii worker add ../ladder` runs it in a microVM with only its own source
+# mounted, and the target repository does not exist inside that sandbox: it
+# reads a `.claude/settings.json` from a path that is not there and reports a
+# repository with no permissions, which looks exactly like permissions that are
+# not enforced. Anything that inspects a target repo has to run where that repo
+# is.
+LADDER ?= ../ladder
+
+ladder:
+	@test -d $(LADDER) || { echo "no ladder at $(LADDER). Clone tacoda/ladder beside this repo"; exit 2; }
+	@$(ENV) III_URL=ws://localhost:$(MGR_PORT) LADDER_HOME=$(LADDER) \
+		$(LADDER)/.venv/bin/python $(LADDER)/src/main.py
+
 # What this repository contributes to a turn: four callbacks and no tools. The
 # turn loop is the harness worker's, started by the engine like every other one.
 policy:
@@ -124,7 +139,10 @@ up:
 	@echo ""
 	@pgrep -f '[g]hola-policy/src/boot.py' >/dev/null \
 		|| ($(RUN) $(PY) workers/ghola-policy/src/boot.py > $(LOGS)/policy.log 2>&1 &)
-	@sleep 3
+	@test -d $(LADDER) && { pgrep -f '[l]adder/src/main.py' >/dev/null \
+		|| ($(ENV) III_URL=ws://localhost:$(MGR_PORT) LADDER_HOME=$(LADDER) \
+		    $(LADDER)/.venv/bin/python $(LADDER)/src/main.py > $(LOGS)/ladder.log 2>&1 &); } || true
+	@sleep 4
 	@$(MAKE) --no-print-directory status
 
 down: stop
@@ -200,6 +218,7 @@ console:
 status:
 	@echo "engine   : $$(pgrep -f '[i]ii --config config.yaml' >/dev/null && echo up || echo down)"
 	@echo "policy   : $$(pgrep -f '[g]hola-policy/src/boot.py' >/dev/null && echo up || echo down)"
+	@echo "ladder   : $$(pgrep -f '[l]adder/src/main.py' >/dev/null && echo up || echo down)"
 	@for p in $(HTTP_PORT) $(CONSOLE_PORT) $(STREAM_PORT) $(MGR_PORT); do \
 		printf '%-9s: %s\n' "port $$p" "$$(lsof -nP -iTCP:$$p -sTCP:LISTEN >/dev/null 2>&1 && echo listening || echo free)"; \
 	done
@@ -212,6 +231,7 @@ status:
 # already stopped is a success here rather than an error to read past.
 stop:
 	@pkill -f 'ghola-policy/src/boot.py' || true
+	@pkill -f 'ladder/src/main.py' || true
 	@pkill -f 'iii --config config.yaml' || true
 	@# The engine's workers are its children and outlive the signal by a few
 	@# seconds. A fixed sleep reported them still up, which is the opposite of

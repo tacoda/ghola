@@ -836,12 +836,20 @@ a scoped piece back until the turn goes near what it is about, and is tested, bu
 nothing tracks touched paths until the factory does. Every scoped piece therefore
 waits today and only the always-on ones travel.
 
-### M3. The ladder (rungs 1 through 3, and holds)
+### M3. The ladder (rungs 1 through 3, and holds) — **done**
 
-- Rule parsing, the three axes, layer resolution, and adaptation by id with
-  `locked: true` refusing it.
-- `pre_trigger` loads the rules for the touched paths, runs the predicate, and
-  refuses in the rule's own words.
+Most of it is the `ladder` worker's, which is what extracting it was for. What
+landed here is the join and the dial.
+
+- **In the ladder:** the repository's own `.claude/settings.json` `permissions`,
+  read at two rungs. `Bash` names a whole tool and is withheld at rung 1;
+  `Bash(php *)` names an argument and is refused at rung 2. `ask` subtracts like
+  `deny`, because there is no human inside an unattended turn.
+- **In ghola:** rung 1 applied where the grant is actually built. `ladder::list`
+  returns what is withheld and `turn.payload_for` subtracts it, putting the names
+  in the send's `deny` list. The harness refuses on "no allow-glob match **or** a
+  deny-glob match", so a deny beats an allow whatever the glob said.
+- **`settings/oversight.yaml`:** the dial above.
 - The target repo's `.claude/settings.json` `permissions` honored at two rungs:
   `Bash` names a whole tool and is withheld (rung 1); `Bash(php *)` names an
   argument and is refused (rung 2). `ask` subtracts like `deny`, because an
@@ -1071,32 +1079,26 @@ rather than in a footnote:
 
 ## 9. Open questions
 
-0a. **`approval-gate` defaults to holding every call, and a dark factory
-    deadlocks on the first one.** Its `mode` is per session and defaults to
-    `manual`, so the first live turn here parked on `coder::read-file` and waited
-    for a human who was not coming. The composition ghola wants is `mode: full`
-    plus the ladder: `ladder::gate` refuses deterministically, and `approval-gate`
-    holds only what a rule marks `policy: ask`. Otherwise two workers are both
-    trying to be the human in the loop and the quieter one wins.
+0a. ~~**`approval-gate` defaults to holding every call.**~~ **Answered by the
+    oversight dial.** Its `mode` defaults to `manual`, so the first live turn
+    here parked on `coder::read-file` waiting for a human who was not coming.
+    Two workers were both trying to be the human in the loop.
 
-    **M4 must set the mode when it opens a session**, and the setting belongs in
-    `settings/pipeline.yaml` per stage, because a `run` stage and a `review`
-    stage genuinely want different answers. Unresolved: whether `auto` is a
-    better default than `full` for the stages that write.
+    `settings/oversight.yaml` now names the pair, because setting a mode to
+    `full` silently changes what every `ask` rule does and an operator should
+    not have to know that:
 
-0. ~~**Should the ladder be its own iii worker?**~~ **Answered: yes, and it is.**
-   It lives at `tacoda/ladder` and ghola points at a local checkout with
-   `worker_path` until it is published. Everything else ghola was going to build
-   turned out to be a worker that already existed, and the ladder was the one
-   part left that was genuinely general: constraints and capabilities, layers and
-   rungs, feedforward and feedback, and the promote/demote/add/remove lifecycle.
-   None of that is specific to a factory.
+    | level | a person answers | refuses without asking |
+    |---|---|---|
+    | `manual` | every call | nothing |
+    | `attended` | every write | reads run |
+    | `supervised` | only what a rule marks `ask` | the ladder |
+    | `dark` | nothing | the ladder, and `ask` degrades to refuse |
 
-   What moving it cost: ghola no longer owns the idea that made it interesting,
-   and `ghola-policy` is now four callbacks of which three are placeholders. What
-   it bought: any iii project gets the ladder with `iii worker add ladder`, the
-   model generalised from rules to every agent primitive while it was being
-   extracted, and 54 tests now run against it with no engine at all.
+    **`ask` never becomes `allow`,** at any level, and that invariant is the
+    first test in the file. Default is `supervised`. A stage may override it,
+    because `run` and `review` want different answers. **M4 sets it per stage
+    when it opens a session.**
 
 1. **Does the harness worker's `options.functions.allow` glob syntax cover
    `ghola::tool::*` and an explicit deny of one name in the same block?** wipp

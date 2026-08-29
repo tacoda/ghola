@@ -2126,3 +2126,555 @@ OpenTelemetry initialized: exporter=memory (max_spans=10000), service_name=ghola
 [02:10:46.240 PM] [INFO] iii::workers::reload reload: config changed, reloading from config.yaml
 [02:10:46.255 PM] [INFO] iii::workers::reload reload: diff +0 added, -0 removed, ~0 changed (0 revived), =34 unchanged
 [02:10:46.255 PM] [INFO] iii::workers::reload reload: success
+[02:11:10.787 PM] [INFO] iii::workers::reload reload: config changed, reloading from config.yaml
+[02:11:10.796 PM] [INFO] iii::workers::reload reload: diff +0 added, -0 removed, ~0 changed (0 revived), =34 unchanged
+[02:11:10.796 PM] [INFO] iii::workers::reload reload: success
+[02:13:00.040 PM] [INFO] iii::function [UNREGISTERED] Function ladder::evaluate
+[02:13:00.041 PM] [INFO] iii::function [UNREGISTERED] Function ladder::gate
+[02:13:00.041 PM] [INFO] iii::function [UNREGISTERED] Function ladder::add
+[02:13:00.041 PM] [INFO] iii::function [UNREGISTERED] Function ladder::move
+[02:13:00.041 PM] [INFO] iii::function [UNREGISTERED] Function ladder::list
+[02:13:00.041 PM] [INFO] iii::function [UNREGISTERED] Function ladder::explain
+[02:13:00.041 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 8ef32bca-f765-4100-aa0e-356346887e94
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(226)
+[02:13:01.203 PM] [INFO] iii::workers::engine_fn New functions detected, firing functions-available trigger
+[02:13:01.824 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 12bcf328-4e46-4877-bd01-0b8f538c5219
+    └ ip_address: Some("127.0.0.1")
+[02:13:01.830 PM] [INFO] iii::function [REGISTERED] Function ladder::gate
+[02:13:01.830 PM] [INFO] iii::function [REGISTERED] Function ladder::list
+[02:13:01.830 PM] [INFO] iii::function [REGISTERED] Function ladder::explain
+[02:13:01.830 PM] [INFO] iii::function [REGISTERED] Function ladder::evaluate
+[02:13:01.830 PM] [INFO] iii::function [REGISTERED] Function ladder::move
+[02:13:01.830 PM] [INFO] iii::function [REGISTERED] Function ladder::add
+[02:13:06.206 PM] [INFO] iii::workers::engine_fn New functions detected, firing functions-available trigger
+[02:13:29.075 PM] [INFO] iii::function [UNREGISTERED] Function ladder::gate
+[02:13:29.076 PM] [INFO] iii::function [UNREGISTERED] Function ladder::list
+[02:13:29.076 PM] [INFO] iii::function [UNREGISTERED] Function ladder::explain
+[02:13:29.076 PM] [INFO] iii::function [UNREGISTERED] Function ladder::evaluate
+[02:13:29.076 PM] [INFO] iii::function [UNREGISTERED] Function ladder::add
+[02:13:29.076 PM] [INFO] iii::function [UNREGISTERED] Function ladder::move
+[02:13:29.076 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 12bcf328-4e46-4877-bd01-0b8f538c5219
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(227)
+[02:13:30.775 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: ce238b4f-995a-47b8-beb7-b3ecbfc1bf31
+    └ ip_address: Some("127.0.0.1")
+[02:13:30.781 PM] [INFO] iii::function [REGISTERED] Function ladder::gate
+[02:13:30.781 PM] [INFO] iii::function [REGISTERED] Function ladder::list
+[02:13:30.781 PM] [INFO] iii::function [REGISTERED] Function ladder::explain
+[02:13:30.781 PM] [INFO] iii::function [REGISTERED] Function ladder::evaluate
+[02:13:30.781 PM] [INFO] iii::function [REGISTERED] Function ladder::move
+[02:13:30.781 PM] [INFO] iii::function [REGISTERED] Function ladder::add
+[02:13:44.162 PM] [INFO] iii::function [UNREGISTERED] Function ladder::explain
+[02:13:44.163 PM] [INFO] iii::function [UNREGISTERED] Function ladder::add
+[02:13:44.163 PM] [INFO] iii::function [UNREGISTERED] Function ladder::gate
+[02:13:44.163 PM] [INFO] iii::function [UNREGISTERED] Function ladder::move
+[02:13:44.163 PM] [INFO] iii::function [UNREGISTERED] Function ladder::list
+[02:13:44.163 PM] [INFO] iii::function [UNREGISTERED] Function ladder::evaluate
+[02:13:44.163 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: ce238b4f-995a-47b8-beb7-b3ecbfc1bf31
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(226)
+[02:13:45.766 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 253b18f7-ab79-4269-b5bc-b9c3838910df
+    └ ip_address: Some("127.0.0.1")
+[02:13:45.772 PM] [INFO] iii::function [REGISTERED] Function ladder::gate
+[02:13:45.772 PM] [INFO] iii::function [REGISTERED] Function ladder::list
+[02:13:45.772 PM] [INFO] iii::function [REGISTERED] Function ladder::explain
+[02:13:45.772 PM] [INFO] iii::function [REGISTERED] Function ladder::evaluate
+[02:13:45.772 PM] [INFO] iii::function [REGISTERED] Function ladder::move
+[02:13:45.772 PM] [INFO] iii::function [REGISTERED] Function ladder::add
+[02:14:01.826 PM] [INFO] iii::function [UNREGISTERED] Function ladder::move
+[02:14:01.826 PM] [INFO] iii::function [UNREGISTERED] Function ladder::gate
+[02:14:01.826 PM] [INFO] iii::function [UNREGISTERED] Function ladder::explain
+[02:14:01.826 PM] [INFO] iii::function [UNREGISTERED] Function ladder::evaluate
+[02:14:01.826 PM] [INFO] iii::function [UNREGISTERED] Function ladder::add
+[02:14:01.826 PM] [INFO] iii::function [UNREGISTERED] Function ladder::list
+[02:14:01.826 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 253b18f7-ab79-4269-b5bc-b9c3838910df
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(226)
+[02:14:03.442 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: e43be7c8-5ebb-47e6-9012-1477d23ae891
+    └ ip_address: Some("127.0.0.1")
+[02:14:03.448 PM] [INFO] iii::function [REGISTERED] Function ladder::gate
+[02:14:03.448 PM] [INFO] iii::function [REGISTERED] Function ladder::list
+[02:14:03.448 PM] [INFO] iii::function [REGISTERED] Function ladder::explain
+[02:14:03.448 PM] [INFO] iii::function [REGISTERED] Function ladder::evaluate
+[02:14:03.448 PM] [INFO] iii::function [REGISTERED] Function ladder::move
+[02:14:03.448 PM] [INFO] iii::function [REGISTERED] Function ladder::add
+[02:14:18.352 PM] [INFO] iii::function [UNREGISTERED] Function ladder::explain
+[02:14:18.352 PM] [INFO] iii::function [UNREGISTERED] Function ladder::add
+[02:14:18.352 PM] [INFO] iii::function [UNREGISTERED] Function ladder::list
+[02:14:18.352 PM] [INFO] iii::function [UNREGISTERED] Function ladder::evaluate
+[02:14:18.352 PM] [INFO] iii::function [UNREGISTERED] Function ladder::gate
+[02:14:18.352 PM] [INFO] iii::function [UNREGISTERED] Function ladder::move
+[02:14:18.352 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: e43be7c8-5ebb-47e6-9012-1477d23ae891
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(227)
+[02:14:19.969 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: d1704ed8-feef-40b9-a409-061c564e04cd
+    └ ip_address: Some("127.0.0.1")
+[02:14:19.975 PM] [INFO] iii::function [REGISTERED] Function ladder::gate
+[02:14:19.975 PM] [INFO] iii::function [REGISTERED] Function ladder::list
+[02:14:19.975 PM] [INFO] iii::function [REGISTERED] Function ladder::explain
+[02:14:19.975 PM] [INFO] iii::function [REGISTERED] Function ladder::evaluate
+[02:14:19.975 PM] [INFO] iii::function [REGISTERED] Function ladder::move
+[02:14:19.975 PM] [INFO] iii::function [REGISTERED] Function ladder::add
+[02:14:44.691 PM] [INFO] iii::function [UNREGISTERED] Function ladder::gate
+[02:14:44.691 PM] [INFO] iii::function [UNREGISTERED] Function ladder::move
+[02:14:44.691 PM] [INFO] iii::function [UNREGISTERED] Function ladder::add
+[02:14:44.691 PM] [INFO] iii::function [UNREGISTERED] Function ladder::list
+[02:14:44.691 PM] [INFO] iii::function [UNREGISTERED] Function ladder::evaluate
+[02:14:44.691 PM] [INFO] iii::function [UNREGISTERED] Function ladder::explain
+[02:14:44.692 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: d1704ed8-feef-40b9-a409-061c564e04cd
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(226)
+[02:14:46.255 PM] [INFO] iii::workers::engine_fn New functions detected, firing functions-available trigger
+[02:14:46.287 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 15f92e5d-5e80-4d92-9ad5-2f17e6b8bc93
+    └ ip_address: Some("127.0.0.1")
+[02:14:46.292 PM] [INFO] iii::function [REGISTERED] Function ladder::gate
+[02:14:46.292 PM] [INFO] iii::function [REGISTERED] Function ladder::list
+[02:14:46.292 PM] [INFO] iii::function [REGISTERED] Function ladder::explain
+[02:14:46.292 PM] [INFO] iii::function [REGISTERED] Function ladder::evaluate
+[02:14:46.292 PM] [INFO] iii::function [REGISTERED] Function ladder::move
+[02:14:46.292 PM] [INFO] iii::function [REGISTERED] Function ladder::add
+[02:14:51.259 PM] [INFO] iii::workers::engine_fn New functions detected, firing functions-available trigger
+[02:16:49.919 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: eac55ff7-3d81-4a26-bf16-9692b315f7e9
+    └ ip_address: Some("127.0.0.1")
+[02:16:49.926 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: eac55ff7-3d81-4a26-bf16-9692b315f7e9
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(69805)
+[02:16:49.933 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: b77f0c65-b3ef-4ade-bd22-68dc4f6b127d
+    └ ip_address: Some("127.0.0.1")
+[02:16:49.933 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: b77f0c65-b3ef-4ade-bd22-68dc4f6b127d
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(69806)
+[02:16:49.940 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: a0c5a82a-7626-4bad-8d12-51959d2a3d4b
+    └ ip_address: Some("127.0.0.1")
+[02:16:49.941 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: a0c5a82a-7626-4bad-8d12-51959d2a3d4b
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(69807)
+[02:17:00.416 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 9644f83c-8a5f-49d1-a91a-8c8d195f3db8
+    └ ip_address: Some("127.0.0.1")
+[02:17:00.417 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 9644f83c-8a5f-49d1-a91a-8c8d195f3db8
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(69895)
+[02:17:00.448 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 20d47002-2d4c-4be5-a712-29e10ee7166d
+    └ ip_address: Some("127.0.0.1")
+[02:17:00.448 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 20d47002-2d4c-4be5-a712-29e10ee7166d
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(69899)
+[02:17:17.215 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: fda703ff-127b-4ac0-9626-d403343fe48e
+    └ ip_address: Some("127.0.0.1")
+[02:17:17.216 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: fda703ff-127b-4ac0-9626-d403343fe48e
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70031)
+[02:17:17.268 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 64d8fd7f-12db-4539-977e-18b83a276b33
+    └ ip_address: Some("127.0.0.1")
+[02:17:17.271 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 64d8fd7f-12db-4539-977e-18b83a276b33
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70032)
+[02:17:17.278 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 55355a03-8c24-4844-a4ac-7eb9f9a8db68
+    └ ip_address: Some("127.0.0.1")
+[02:17:17.280 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 55355a03-8c24-4844-a4ac-7eb9f9a8db68
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70033)
+[02:17:17.287 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 1e66ed21-b1a3-415d-8b11-6f755a5719dd
+    └ ip_address: Some("127.0.0.1")
+[02:17:17.289 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 1e66ed21-b1a3-415d-8b11-6f755a5719dd
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70034)
+[02:17:17.297 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: be7fc2c1-8386-469c-a222-512043507f7c
+    └ ip_address: Some("127.0.0.1")
+[02:17:17.298 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: be7fc2c1-8386-469c-a222-512043507f7c
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70035)
+[02:17:17.306 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 10817436-f98c-45b1-94a5-f015f94ada4d
+    └ ip_address: Some("127.0.0.1")
+[02:17:17.306 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 10817436-f98c-45b1-94a5-f015f94ada4d
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70036)
+[02:17:17.314 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 8926dcad-85e9-4598-b6c5-dd88b1427b9b
+    └ ip_address: Some("127.0.0.1")
+[02:17:17.314 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 8926dcad-85e9-4598-b6c5-dd88b1427b9b
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70037)
+[02:17:17.324 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 4273efa8-9543-4f93-aae8-81b991083a1d
+    └ ip_address: Some("127.0.0.1")
+[02:17:17.325 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 4273efa8-9543-4f93-aae8-81b991083a1d
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70038)
+[02:17:17.332 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 9867ecf0-9dfb-44cb-b2c1-fef616069255
+    └ ip_address: Some("127.0.0.1")
+[02:17:17.334 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 9867ecf0-9dfb-44cb-b2c1-fef616069255
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70039)
+[02:17:37.119 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: ecc47e37-20d9-4753-affb-1b37c076822f
+    └ ip_address: Some("127.0.0.1")
+[02:17:37.119 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: ecc47e37-20d9-4753-affb-1b37c076822f
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70162)
+[02:17:37.223 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: bc89d37b-0507-4a36-aeaa-91e5fe7e5947
+    └ ip_address: Some("127.0.0.1")
+[02:17:37.224 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: bc89d37b-0507-4a36-aeaa-91e5fe7e5947
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70163)
+[02:17:37.233 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 5432cb37-c6e3-4aad-9903-ee2b52c1dcd2
+    └ ip_address: Some("127.0.0.1")
+[02:17:37.234 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 5432cb37-c6e3-4aad-9903-ee2b52c1dcd2
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70164)
+[02:17:37.242 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: aa34eec3-0cd1-4941-8886-9754f63b3dc8
+    └ ip_address: Some("127.0.0.1")
+[02:17:37.243 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: aa34eec3-0cd1-4941-8886-9754f63b3dc8
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70165)
+[02:17:37.251 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 7ef2e2f4-ad46-4fa7-828b-d2405fb25951
+    └ ip_address: Some("127.0.0.1")
+[02:17:37.252 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 7ef2e2f4-ad46-4fa7-828b-d2405fb25951
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70166)
+[02:17:37.260 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: b0c7eabe-e2d1-4932-bf24-b03ba2acbc30
+    └ ip_address: Some("127.0.0.1")
+[02:17:37.260 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: b0c7eabe-e2d1-4932-bf24-b03ba2acbc30
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70167)
+[02:17:37.269 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 41b0200b-bb33-4a43-9ab3-3e3f35a0db2f
+    └ ip_address: Some("127.0.0.1")
+[02:17:37.269 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 41b0200b-bb33-4a43-9ab3-3e3f35a0db2f
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70168)
+[02:17:37.277 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: a798fe14-cc06-4a7d-95c2-67d39d9cf881
+    └ ip_address: Some("127.0.0.1")
+[02:17:37.278 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: a798fe14-cc06-4a7d-95c2-67d39d9cf881
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70169)
+[02:17:37.286 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 90a12fac-8f2a-42a3-a477-c18e73ac6abe
+    └ ip_address: Some("127.0.0.1")
+[02:17:37.287 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 90a12fac-8f2a-42a3-a477-c18e73ac6abe
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70171)
+[02:17:56.533 PM] [INFO] iii::function [UNREGISTERED] Function ladder::list
+[02:17:56.533 PM] [INFO] iii::function [UNREGISTERED] Function ladder::explain
+[02:17:56.533 PM] [INFO] iii::function [UNREGISTERED] Function ladder::evaluate
+[02:17:56.533 PM] [INFO] iii::function [UNREGISTERED] Function ladder::gate
+[02:17:56.533 PM] [INFO] iii::function [UNREGISTERED] Function ladder::move
+[02:17:56.533 PM] [INFO] iii::function [UNREGISTERED] Function ladder::add
+[02:17:56.533 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 15f92e5d-5e80-4d92-9ad5-2f17e6b8bc93
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(226)
+[02:17:56.701 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 05c56a70-2677-4ae8-b7fd-1323ead15e4e
+    └ ip_address: Some("127.0.0.1")
+[02:17:57.204 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 1845bb19-33c1-4ec2-975a-ec0fe4646051
+    └ ip_address: Some("127.0.0.1")
+[02:17:57.210 PM] [INFO] iii::function [REGISTERED] Function ladder::gate
+[02:17:57.210 PM] [INFO] iii::function [REGISTERED] Function ladder::list
+[02:17:57.210 PM] [INFO] iii::function [REGISTERED] Function ladder::explain
+[02:17:57.210 PM] [INFO] iii::function [REGISTERED] Function ladder::evaluate
+[02:17:57.210 PM] [INFO] iii::function [REGISTERED] Function ladder::move
+[02:17:57.210 PM] [INFO] iii::function [REGISTERED] Function ladder::add
+[02:17:57.737 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 05c56a70-2677-4ae8-b7fd-1323ead15e4e
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70280)
+[02:18:03.823 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: c9d4126b-1709-47cd-a2ec-ca4a08747dcd
+    └ ip_address: Some("127.0.0.1")
+[02:18:03.824 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: c9d4126b-1709-47cd-a2ec-ca4a08747dcd
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70438)
+[02:18:03.833 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 2e91151c-55c9-4510-b7a1-862a6f024c0b
+    └ ip_address: Some("127.0.0.1")
+[02:18:03.835 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 2e91151c-55c9-4510-b7a1-862a6f024c0b
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70439)
+[02:18:03.842 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 6f69576c-2617-443e-bce7-1a66afb279d0
+    └ ip_address: Some("127.0.0.1")
+[02:18:03.844 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 6f69576c-2617-443e-bce7-1a66afb279d0
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70440)
+[02:18:03.851 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: ad942936-8a8a-48b2-9fae-5ca557f5db7e
+    └ ip_address: Some("127.0.0.1")
+[02:18:03.853 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: ad942936-8a8a-48b2-9fae-5ca557f5db7e
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70441)
+[02:18:03.860 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: f0cb2393-5051-4ddc-b5e4-e005345f76fb
+    └ ip_address: Some("127.0.0.1")
+[02:18:03.862 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: f0cb2393-5051-4ddc-b5e4-e005345f76fb
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70442)
+[02:18:03.869 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: d7cb1913-e591-4f1a-8c3f-368dff071cca
+    └ ip_address: Some("127.0.0.1")
+[02:18:03.869 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: d7cb1913-e591-4f1a-8c3f-368dff071cca
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70443)
+[02:18:03.877 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: ae352a8d-802d-4d33-8913-8c920f0eda3c
+    └ ip_address: Some("127.0.0.1")
+[02:18:03.878 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: ae352a8d-802d-4d33-8913-8c920f0eda3c
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70444)
+[02:18:03.886 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: fd1f9c73-9da5-46a0-9572-d0e5cf7a1bc6
+    └ ip_address: Some("127.0.0.1")
+[02:18:03.887 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: fd1f9c73-9da5-46a0-9572-d0e5cf7a1bc6
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70445)
+[02:18:03.895 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 10b1b50c-b9c9-45d2-a549-268e537efba8
+    └ ip_address: Some("127.0.0.1")
+[02:18:03.896 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 10b1b50c-b9c9-45d2-a549-268e537efba8
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70446)
+[02:18:10.898 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: d8398c20-e288-4305-bf8e-4909b687b4e5
+    └ ip_address: Some("127.0.0.1")
+[02:18:10.900 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: d8398c20-e288-4305-bf8e-4909b687b4e5
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70507)
+[02:18:56.582 PM] [INFO] iii::workers::reload reload: config changed, reloading from config.yaml
+[02:18:56.592 PM] [INFO] iii::workers::reload reload: diff +0 added, -1 removed, ~0 changed (0 revived), =33 unchanged
+[02:18:59.611 PM] [INFO] iii::function [UNREGISTERED] Function ladder::move
+[02:18:59.611 PM] [INFO] iii::function [UNREGISTERED] Function ladder::add
+[02:18:59.611 PM] [INFO] iii::function [UNREGISTERED] Function ladder::evaluate
+[02:18:59.611 PM] [INFO] iii::function [UNREGISTERED] Function ladder::list
+[02:18:59.611 PM] [INFO] iii::function [UNREGISTERED] Function ladder::gate
+[02:18:59.611 PM] [INFO] iii::function [UNREGISTERED] Function ladder::explain
+[02:18:59.611 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 1845bb19-33c1-4ec2-975a-ec0fe4646051
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(227)
+[02:18:59.724 PM] [INFO] iii::workers::registry_worker Worker stopped via iii-worker
+    └ worker: ladder
+[02:18:59.724 PM] [INFO] iii::workers::reload reload: success
+[02:19:01.377 PM] [INFO] iii::workers::engine_fn New functions detected, firing functions-available trigger
+[02:19:03.618 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: e16a572f-0f8f-459c-bea9-17f1bf9918a7
+    └ ip_address: Some("127.0.0.1")
+[02:19:03.622 PM] [INFO] iii::function [REGISTERED] Function ladder::gate
+[02:19:03.622 PM] [INFO] iii::function [REGISTERED] Function ladder::list
+[02:19:03.622 PM] [INFO] iii::function [REGISTERED] Function ladder::explain
+[02:19:03.622 PM] [INFO] iii::function [REGISTERED] Function ladder::evaluate
+[02:19:03.622 PM] [INFO] iii::function [REGISTERED] Function ladder::move
+[02:19:03.622 PM] [INFO] iii::function [REGISTERED] Function ladder::add
+[02:19:06.383 PM] [INFO] iii::workers::engine_fn New functions detected, firing functions-available trigger
+[02:19:09.453 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: d014c09c-0065-4f05-803d-b5a2ed76c659
+    └ ip_address: Some("127.0.0.1")
+[02:19:09.454 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: d014c09c-0065-4f05-803d-b5a2ed76c659
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70942)
+[02:19:09.539 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 597e25ea-be16-4cb4-8e7d-dcb3c30cc6e8
+    └ ip_address: Some("127.0.0.1")
+[02:19:09.542 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 597e25ea-be16-4cb4-8e7d-dcb3c30cc6e8
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70943)
+[02:19:09.550 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 3138fd83-eb5c-4275-8337-dc6846ce4b66
+    └ ip_address: Some("127.0.0.1")
+[02:19:09.552 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 3138fd83-eb5c-4275-8337-dc6846ce4b66
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70944)
+[02:19:09.560 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 9762414c-63e6-4b4f-8e8f-e4e584aaa14c
+    └ ip_address: Some("127.0.0.1")
+[02:19:09.561 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 9762414c-63e6-4b4f-8e8f-e4e584aaa14c
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70945)
+[02:19:09.570 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: ff36b909-2ffa-4849-88e7-78d9f966b1e0
+    └ ip_address: Some("127.0.0.1")
+[02:19:09.571 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: ff36b909-2ffa-4849-88e7-78d9f966b1e0
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70946)
+[02:19:09.579 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 7588b982-cfee-407a-a3c5-d3c0979e4603
+    └ ip_address: Some("127.0.0.1")
+[02:19:09.579 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 7588b982-cfee-407a-a3c5-d3c0979e4603
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70947)
+[02:19:09.587 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 00ac50d2-dc47-4e0b-ac84-3cee6436d02a
+    └ ip_address: Some("127.0.0.1")
+[02:19:09.588 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 00ac50d2-dc47-4e0b-ac84-3cee6436d02a
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70948)
+[02:19:09.596 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: bbacbd7d-7e90-4693-a44e-27444a2bb8a8
+    └ ip_address: Some("127.0.0.1")
+[02:19:09.598 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: bbacbd7d-7e90-4693-a44e-27444a2bb8a8
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70949)
+[02:19:09.605 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 3d6ebe03-ff39-4636-a656-da940563363c
+    └ ip_address: Some("127.0.0.1")
+[02:19:09.606 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 3d6ebe03-ff39-4636-a656-da940563363c
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70950)
+[02:19:35.141 PM] [INFO] iii::function [UNREGISTERED] Function ladder::list
+[02:19:35.141 PM] [INFO] iii::function [UNREGISTERED] Function ladder::move
+[02:19:35.141 PM] [INFO] iii::function [UNREGISTERED] Function ladder::evaluate
+[02:19:35.141 PM] [INFO] iii::function [UNREGISTERED] Function ladder::add
+[02:19:35.141 PM] [INFO] iii::function [UNREGISTERED] Function ladder::gate
+[02:19:35.141 PM] [INFO] iii::function [UNREGISTERED] Function ladder::explain
+[02:19:35.141 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: e16a572f-0f8f-459c-bea9-17f1bf9918a7
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(70920)
+[02:19:36.335 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: f36f259f-3625-4187-8ff6-373dd8bb511a
+    └ ip_address: Some("127.0.0.1")
+[02:19:36.337 PM] [INFO] iii::function [REGISTERED] Function ladder::gate
+[02:19:36.337 PM] [INFO] iii::function [REGISTERED] Function ladder::list
+[02:19:36.337 PM] [INFO] iii::function [REGISTERED] Function ladder::explain
+[02:19:36.337 PM] [INFO] iii::function [REGISTERED] Function ladder::evaluate
+[02:19:36.337 PM] [INFO] iii::function [REGISTERED] Function ladder::move
+[02:19:36.337 PM] [INFO] iii::function [REGISTERED] Function ladder::add
+[02:19:42.209 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: dc3c5442-da8c-4594-b484-316f206db1e2
+    └ ip_address: Some("127.0.0.1")
+[02:19:42.209 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: dc3c5442-da8c-4594-b484-316f206db1e2
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(71173)
+[02:19:42.264 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 5a0d6a28-0535-4363-99ab-7b4c1671696b
+    └ ip_address: Some("127.0.0.1")
+[02:19:42.267 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 5a0d6a28-0535-4363-99ab-7b4c1671696b
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(71174)
+[02:19:42.274 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 51bb7578-7fe4-42b7-9294-d035cbf2b0e3
+    └ ip_address: Some("127.0.0.1")
+[02:19:42.275 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 51bb7578-7fe4-42b7-9294-d035cbf2b0e3
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(71175)
+[02:19:42.284 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 25002b38-3e2e-4700-80fd-07a91db77a5d
+    └ ip_address: Some("127.0.0.1")
+[02:19:42.285 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 25002b38-3e2e-4700-80fd-07a91db77a5d
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(71176)
+[02:19:42.293 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 772880e5-0196-4d3b-add1-af1ea774e63b
+    └ ip_address: Some("127.0.0.1")
+[02:19:42.295 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 772880e5-0196-4d3b-add1-af1ea774e63b
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(71177)
+[02:19:42.302 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 56e26840-b886-4adb-8991-b9406ca776ad
+    └ ip_address: Some("127.0.0.1")
+[02:19:42.303 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 56e26840-b886-4adb-8991-b9406ca776ad
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(71178)
+[02:19:42.311 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 39a9db40-33e4-4a52-8518-4e5e28af954d
+    └ ip_address: Some("127.0.0.1")
+[02:19:42.311 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 39a9db40-33e4-4a52-8518-4e5e28af954d
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(71179)
+[02:19:42.319 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 59f8a168-d1ea-4f17-9fe8-86e5881a0dbb
+    └ ip_address: Some("127.0.0.1")
+[02:19:42.321 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 59f8a168-d1ea-4f17-9fe8-86e5881a0dbb
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(71180)
+[02:19:42.328 PM] [INFO] iii::worker_connections Worker registered
+    ├ worker_id: 4845be04-db86-4f7a-a737-2777e665e88f
+    └ ip_address: Some("127.0.0.1")
+[02:19:42.329 PM] [INFO] iii::worker_connections Worker unregistered
+    ├ worker_id: 4845be04-db86-4f7a-a737-2777e665e88f
+    ├ ip_address: Some("127.0.0.1")
+    └ pid: Some(71181)
+[02:20:59.794 PM] [INFO] iii::workers::reload reload: config changed, reloading from config.yaml
+[02:20:59.803 PM] [INFO] iii::workers::reload reload: diff +0 added, -0 removed, ~0 changed (0 revived), =33 unchanged
+[02:20:59.803 PM] [INFO] iii::workers::reload reload: success

@@ -14,7 +14,7 @@ The constraint ladder that used to live here is now its own worker,
 general idea in the pile and a starter kit whose best idea is locked inside it is
 a worse starter kit.
 
-**Status: M2.** The turn seam works and the charter reaches the model. There is no factory yet. The phased plan is
+**Status: M3.** The turn seam works, the charter reaches the model, and the ladder refuses. There is no factory yet. The phased plan is
 in [PLAN.md](PLAN.md), and the walkthrough is in [docs/GUIDE.md](docs/GUIDE.md).
 
 ## Usage
@@ -36,7 +36,7 @@ starter kit is rather than a compromise.
 
 ```
 make setup      # checks your tools, makes the venv, writes .env. Run this first
-make up         # engine, its 30 workers, and ghola's callbacks, backgrounded
+make up         # engine, its workers, the ladder and ghola's callbacks
 make status     # what is up
 make down       # all of it, and wait for the ports to free
 
@@ -105,8 +105,25 @@ Everything a team would want to change is configuration:
 | What differs between teams | Where |
 |---|---|
 | the flow of work in the factory | `settings/pipeline.yaml` |
-| the development process in the harness | `settings/phases.yaml`, `settings/layers.yaml`, `prompts/` |
+| the development process in the harness | `settings/phases.yaml`, `prompts/` |
+| how much a person watches | `settings/oversight.yaml` |
 | project specifics | the target repo's own `CLAUDE.md` and `.claude/` |
+
+## Oversight is a dial, not a switch
+
+"Dark factory" is a useful phrase and a bad setting. Nobody wants a system where
+no human sees anything, and nobody wants to approve every read either.
+
+| level | a person answers | refuses without asking |
+|---|---|---|
+| `manual` | every call | nothing |
+| `attended` | every write | reads run |
+| `supervised` | only what a rule marks `ask` | the ladder, deterministically |
+| `dark` | nothing | the ladder, and `ask` degrades to refuse |
+
+**`ask` never becomes `allow`** at any level. An unattended factory reading "ask"
+as "yes" has answered a question nobody put. Default is `supervised`, and a stage
+may override it because `run` and `review` want different answers.
 
 Extension is two mechanisms: drop a Python file in `actions/`, `guards/` or
 `predicates/` and it is found by filename, or name any function id on the bus and

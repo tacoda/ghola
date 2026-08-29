@@ -13,6 +13,7 @@ Every function here is pure except `send`, which does one trigger. That is
 deliberate: it is what lets the whole seam be tested without an engine.
 """
 
+import fnmatch
 import re
 import time
 
@@ -56,8 +57,42 @@ def phase_of(event: dict) -> tuple[str, str]:
     return as_id(session.group("job")), session.group("phase")
 
 
+def granted(allowed: list[str], withheld: list[str]) -> tuple[list[str], list[str]]:
+    """Rung 1, applied where the grant is actually built.
+
+    Returns the functions this phase may call, and the ones a constraint took
+    away. The second half is returned rather than logged because a rung that
+    cannot say what it removed is a rung nobody can check, and this is the exact
+    place a previous design had a rule that was written, tested, and called by
+    nothing: `phases.yaml` omitted the editors by hand, the rule said it withheld
+    them, and the two agreed only because somebody kept them agreeing.
+
+    A withheld name is matched against the glob a phase granted, so withholding
+    `coder::create-file` takes it away from a phase granted `coder::*`.
+    """
+    if not withheld:
+        return list(allowed), []
+
+    kept, taken = [], []
+    for pattern in allowed:
+        hits = [w for w in withheld if fnmatch.fnmatch(w, pattern) or w == pattern]
+        if hits and not any(ch in pattern for ch in "*?["):
+            # An exact grant of a withheld function. Drop it.
+            taken.extend(hits)
+            continue
+        kept.append(pattern)
+        # A glob that would reach a withheld function stays, because narrowing it
+        # here would silently rewrite what the phase asked for. The `deny` list
+        # below is what actually stops the call, and the harness honours a deny
+        # over any allow-glob match.
+        taken.extend(hits)
+
+    return kept, sorted(set(taken))
+
+
 def payload_for(phase: str, prompt: str, *, job_id: str = "", workspace: str = "",
-                model: str = "", config: dict | None = None) -> dict:
+                model: str = "", config: dict | None = None,
+                withheld: list[str] | None = None) -> dict:
     """The whole `harness::send` payload, as a pure function of its arguments.
 
     Built here rather than inline in `send` so a test can assert what a phase
@@ -66,6 +101,18 @@ def payload_for(phase: str, prompt: str, *, job_id: str = "", workspace: str = "
     """
     session_id = session_for(job_id, phase)
     options = phase_settings.send_options(phase, config)
+
+    # Rung 1. The ladder says what a constraint withholds; this is where it is
+    # subtracted from the grant, and the `deny` list is what makes it stick: the
+    # harness refuses a call on "no allow-glob match OR a deny-glob match", so a
+    # deny beats an allow whatever the glob said.
+    if withheld:
+        grant = dict(options.get("functions") or {})
+        kept, taken = granted(grant.get("allow") or [], withheld)
+        if taken:
+            grant["allow"] = kept
+            grant["deny"] = sorted(set((grant.get("deny") or []) + taken))
+            options["functions"] = grant
     # Handed back verbatim to every callback the harness invokes. The policy
     # worker holds no session state, so this dict is the only thing telling a
     # callback which piece of work it is inside.
@@ -90,15 +137,38 @@ def payload_for(phase: str, prompt: str, *, job_id: str = "", workspace: str = "
     }
 
 
+def withheld_by_ladder(worker, workspace: str) -> list[str]:
+    """What rung 1 takes away, asked of the `ladder` worker.
+
+    A failure is an empty list rather than an exception. The ladder is a separate
+    worker and may be down; a turn granted too much is a worse outcome than no
+    turn only if nothing else is watching, and rungs 2 through 5 still are. The
+    caller reports the shortfall rather than pretending it did not happen.
+    """
+    if worker is None:
+        return []
+    try:
+        answer = worker.trigger({"function_id": "ladder::list", "timeout_ms": 8000,
+                                 "payload": {"repo": workspace}}) or {}
+        body = answer.get("payload") or answer
+        return list(body.get("withheld") or [])
+    except Exception:  # noqa: BLE001 — a missing ladder must not fail the turn
+        return []
+
+
 def send(worker, phase: str, prompt: str, *, job_id: str = "", workspace: str = "",
-         model: str = "", timeout_ms: int = 60000) -> str:
+         model: str = "", timeout_ms: int = 60000,
+         withheld: list[str] | None = None) -> str:
     """Start one phase as a turn. Returns the session it runs in.
 
     A lookup and a trigger, and it is meant to stay that way. Everything that is
     a number or a name came from `phases.yaml`; everything that is a judgment
     happens in a callback the harness invokes.
     """
-    payload = payload_for(phase, prompt, job_id=job_id, workspace=workspace, model=model)
+    if withheld is None:
+        withheld = withheld_by_ladder(worker, workspace)
+    payload = payload_for(phase, prompt, job_id=job_id, workspace=workspace,
+                          model=model, withheld=withheld)
     worker.trigger({"function_id": "harness::send", "timeout_ms": timeout_ms,
                     "payload": payload})
     return payload["session_id"]
