@@ -1013,7 +1013,25 @@ holds that, and it is about them rather than about jobs.
 every stage is reachable and every terminal state is declared; a job killed
 between two stages resumes on restart; a stage delivered twice does the work once.
 
-### M5. Delivery (rung 4, the PR, the gate) — **the happy path is proven**
+### M5. Delivery (rung 4, the PR, the gate) — **done, every path exercised**
+
+Three real jobs against `tacoda/fawlty` proved the whole lifecycle:
+
+| path | evidence |
+|---|---|
+| spec to pull request | PR #1, `README.md` alone, 66 insertions |
+| merge to landed | the reconciler noticed on its own in ~20s |
+| comment to rework | PR #2: one pull request, two commits, a conversation |
+| landed to teardown | worktree off disk and deregistered, said so on the PR |
+| an idea to a spec | `refine` narrowed a vague sentence to three defects with line numbers |
+
+**Teardown is called by the factory on every terminal state**, not routed to as
+a stage: every terminal state needs it and a stage would need an edge from each
+of them. Removal passes `force`, because a squash merge leaves the branch commit
+outside the target's ancestry and git cannot see that it landed — without it
+every squash-merged job leaks a worktree, which is how three accumulated.
+
+
 
 A spec went in and https://github.com/tacoda/fawlty/pull/1 came out, through
 prepare, plan, run, prove, review, commit, publish. The diff was `README.md`
