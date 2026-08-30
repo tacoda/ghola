@@ -6,9 +6,9 @@ one produces. This module is the impure half: it asks the audit worker and the
 ladder worker what they know, sends one turn, and writes files.
 
 **Nothing is applied.** Accepting a proposal writes a spec into `specs/` and
-stops. The exception is a promotion or a demotion, which is one number in a
-file, and even that becomes a pull request a person merges — the ladder worker
-changes the repository and commits nothing.
+stops. The exception is a move on the ladder — a promotion, a demotion or a
+carry — which is a rung in a file, and even that becomes a pull request a person
+merges: the ladder worker changes the repository and commits nothing.
 
 That is the whole design constraint: the improve lane may not edit the charter,
 the harness or the factory on its own authority. Otherwise it is the one thing
@@ -205,9 +205,9 @@ def as_proposal(record: dict) -> proposalslib.Proposal:
 def accept(worker, root: Path, run_id: str, index: int, repo: str = "") -> dict:
     """Take one staged proposal seriously. Writes a spec; applies nothing.
 
-    A promotion or a demotion is the exception, because it is one number in a
-    file rather than a change somebody has to design. The ladder worker makes
-    it and commits nothing, so it still reaches a person as a diff.
+    A move on the ladder is the exception, because it is a rung in a file rather
+    than a change somebody has to design. The ladder worker makes it and commits
+    nothing, so it still reaches a person as a diff.
     """
     run = read(root, run_id)
     if run is None:
@@ -258,12 +258,18 @@ def write_spec(root: Path, proposal: proposalslib.Proposal) -> Path:
 
 
 def move(worker, proposal: proposalslib.Proposal, repo: str) -> dict:
-    """A promotion or a demotion, asked of the worker that owns the ladder."""
+    """A move on the ladder, asked of the worker that owns the ladder.
+
+    `promote` and `demote` replace a rung and take `to`. `carry` adds one and
+    takes `at`. Sending `to` for a carry is not an error anywhere: ladder plans
+    the move with no rung named, which is a different move than the one proposed.
+    """
     if worker is None:
         return {"ok": False, "error": "no engine connection"}
+    argument = proposalslib.MOVE_ARG.get(proposal.action, "to")
     answer = ask(worker, "ladder::move", {
         "repo": repo, "id": proposal.target, "move": proposal.action,
-        "to": proposal.rung})
+        argument: proposal.rung})
     return {"ok": bool(answer.get("ok")) and not answer.get("error"), **answer}
 
 

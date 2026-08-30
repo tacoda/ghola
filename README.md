@@ -174,8 +174,9 @@ believes by the third time.
 
 **Nothing is applied.** Accepting writes a spec into `specs/`, and that spec goes
 through the same pipeline and the same pull request as any other work. The one
-exception is a promotion or a demotion, which is one number in a file, handed to
-`ladder::move`. The ladder commits nothing either. Otherwise the lane that
+exception is a move on the ladder — a promotion, a demotion or a carry — which is
+a rung in a file, handed to `ladder::move`. The ladder commits nothing either.
+Nothing that takes enforcement away is applied this way. Otherwise the lane that
 proposes changes to the charter would be the single thing here escaping the gate
 everything else goes through.
 

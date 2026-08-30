@@ -275,9 +275,9 @@ def fn_proposals(payload: dict) -> dict:
 def fn_accept(payload: dict) -> dict:
     """Take one staged proposal seriously.
 
-    Writes a spec into `specs/` and stops there, except a promotion or demotion,
-    which is one number in a file and is asked of the ladder worker. Neither
-    commits anything: the change reaches a person as a diff.
+    Writes a spec into `specs/` and stops there, except a move on the ladder,
+    which is a rung in a file and is asked of the ladder worker. Neither commits
+    anything: the change reaches a person as a diff.
     """
     data = payload.get("payload") or payload
     run_id = str(data.get("run") or "")

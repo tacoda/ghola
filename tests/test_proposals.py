@@ -120,8 +120,13 @@ class Vocabulary(unittest.TestCase):
 
 
 class Moves(unittest.TestCase):
-    """Promotion and demotion are the only two ghola applies, and only because
-    each is one number in a file that still becomes a pull request."""
+    """A move on the ladder is the only thing ghola applies, and only because it
+    is a rung in a file that still becomes a pull request.
+
+    Which moves those are is a policy, and the test below states the rule behind
+    it rather than the list, because a list two files keep in step is how this
+    design has been bitten before.
+    """
 
     def test_a_promotion_is_a_move(self):
         text = WHOLE.replace("action: add", "action: promote") + "\n- rung: 3\n"
@@ -134,8 +139,30 @@ class Moves(unittest.TestCase):
     def test_an_ordinary_proposal_is_not_a_move(self):
         self.assertFalse(one().is_move)
 
-    def test_only_two_actions_are_applied_directly(self):
-        self.assertEqual(set(proposals.MOVES), {"promote", "demote"})
+    def test_a_carry_is_a_move(self):
+        """A rung that catches and a rung that is blind want a second rung, not a
+        different one, and the lane had no way to say so."""
+        text = WHOLE.replace("action: add", "action: carry") + "\n- rung: delivery\n"
+        self.assertTrue(one(text).is_move)
+
+    def test_nothing_applied_directly_takes_enforcement_away(self):
+        """The rule behind the list, which is what a later edit has to keep.
+
+        `drop` and `remove` are ladder verbs this lane may propose in prose and
+        may not apply, because applying them removes a guarantee with no person
+        reading the diff first.
+        """
+        self.assertFalse(set(proposals.MOVES) & {"drop", "remove"})
+
+    def test_every_move_is_an_action_the_prompt_teaches(self):
+        self.assertLessEqual(set(proposals.MOVES), set(proposals.ACTIONS))
+
+    def test_a_carry_names_the_rung_with_ladder_s_own_argument(self):
+        """`carry` adds a rung and takes `at`; the others replace one and take
+        `to`. Sending `to` for a carry is not an error anywhere: ladder plans a
+        move with no rung named, which is a different move than the one made."""
+        self.assertEqual(proposals.MOVE_ARG.get("carry"), "at")
+        self.assertEqual(proposals.MOVE_ARG.get("promote", "to"), "to")
 
 
 class TheSpecItBecomes(unittest.TestCase):

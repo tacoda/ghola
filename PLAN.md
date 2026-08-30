@@ -175,8 +175,10 @@ raised from job evidence -> staged -> accepted -> a spec in specs/ -> a job -> a
                                    -> rejected -> recorded with a reason
 ```
 
-Nothing is applied. Accepting a proposal writes a spec and stops, except a
-promotion or demotion, which is one number and becomes a pull request directly.
+Nothing is applied. Accepting a proposal writes a spec and stops, except a move
+on the ladder — promote, demote or carry — which is a rung and becomes a pull
+request directly. `drop` and `remove` are ladder verbs this lane may propose in
+prose and may not apply, because both take a guarantee away.
 
 ---
 

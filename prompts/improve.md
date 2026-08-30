@@ -66,11 +66,16 @@ asks for. Concrete enough that somebody could build it from this alone.>
 `action` is one of **add** (it was missing), **improve** (it exists and is not
 doing its job), **remove** (it costs more than it earns), **migrate** (the form
 is wrong everywhere at once), **promote** (a constraint is carried too low to be
-relied on), **demote** (a constraint is carried higher than it earns).
+relied on), **demote** (a constraint is carried higher than it earns), **carry**
+(one mechanism cannot see everything this constraint is about).
 
-A **promote** or **demote** also needs `rung:` — the rung to move to. Those are
-the only two actions ghola applies directly, because each is one number in a
-file, and even those become a pull request a person merges.
+A **promote**, **demote** or **carry** also needs `rung:`. For a promote or a
+demote that is the rung to move to, and it replaces the one there now. For a
+carry it is a rung to add, and the existing one stays.
+
+Those three are the only actions ghola applies directly, because each is a rung
+in a file rather than a change somebody has to design, and even those become a
+pull request a person merges.
 
 ## How to do it well
 
@@ -92,6 +97,13 @@ evidence in front of you.
 carried too low: the prose is not stopping it, so it wants a hook or a gate. A
 constraint nothing has hit in a hundred jobs is carried too high for what it
 costs.
+
+**A rung that catches and a rung that is blind are a carry, not a promote.** The
+evidence looks the same at first: one rung fires and the rule still gets past.
+But a hook cannot see a shell heredoc and a delivery gate cannot see a call, so
+moving the rule to the mechanism that caught it leaves the other hole open. When
+the misses are of a kind the current rung has no way to see, say **carry** and
+name the rung that would have seen them.
 
 **Prefer the lane closest to the code.** Before proposing a factory stage, ask
 whether the repository could have said the thing itself. It usually could.

@@ -4,9 +4,9 @@ A proposal names three things — **where** it goes, **what** it is about, and
 **what happens to it** — plus the jobs it came from. Everything else is prose.
 
 **Nothing is applied.** Accepting a proposal writes a spec into `specs/` and
-stops there, except a promotion or demotion, which is one number in a file and
-becomes a pull request. To become real it goes through the same pipeline as any
-other work, gated by the same pull request.
+stops there, except a move on the ladder — a promotion, a demotion or a carry —
+which is a rung in a file and becomes a pull request. To become real it goes
+through the same pipeline as any other work, gated by the same pull request.
 
 That is the one rule keeping this from being the single thing escaping the
 factory's own gate: **the improve lane may not edit the charter, the harness or
@@ -54,11 +54,27 @@ ACTIONS = {
     "migrate": "the form is wrong everywhere at once",
     "promote": "a constraint is carried too low to be relied on",
     "demote": "a constraint is carried higher than it earns",
+    "carry": "one mechanism cannot see everything this constraint is about",
 }
 
-# Only these two are applied directly, because each is one number in a file and
-# becomes a pull request a human merges. Everything else becomes a spec.
-MOVES = ("promote", "demote")
+# Applied directly, because each is a rung in a file and becomes a pull request a
+# human merges. Everything else becomes a spec.
+#
+# `carry` is here because the evidence for it is the evidence this lane is best
+# at finding: `trouble.py` counts refusals per rung, and a rule firing at one
+# rung while another is blind to the same thing is exactly what a second rung is
+# for. Leaving it out meant the lane could see the case and had no way to say it.
+#
+# These are ladder's verbs, not ghola's. `drop` and `remove` are deliberately
+# absent: both take enforcement AWAY, and this lane may propose that in prose but
+# not apply it. ladder refuses anything else, so this list decides what is
+# applied directly rather than what is legal.
+MOVES = ("promote", "demote", "carry")
+
+# `carry` adds a rung; `promote` and `demote` replace one. ladder spells that
+# difference as two arguments, and sending the wrong one silently plans a
+# different move.
+MOVE_ARG = {"carry": "at"}
 
 HEADING = re.compile(r"^\s*#{2,3}\s*(?:PROPOSAL\b[:.]?)?\s*(.+?)\s*$", re.MULTILINE)
 FIELD = re.compile(r"^\s*[-*]\s*\*{0,2}(lane|kind|action|target|why|evidence|rung)"

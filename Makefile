@@ -38,26 +38,27 @@ help:
 	@echo "  make status     what is up"
 	@echo "  make logs       tail what is running"
 	@echo ""
-	@echo "doing work"
-	@echo '  make turn PHASE=plan PROMPT="..." [WORKSPACE=../repo]'
+	@echo "doing work                                    $$ = sends a paid turn"
+	@echo '  make turn PHASE=plan PROMPT="..." [WORKSPACE=../repo]        $$'
 	@echo "  make config     the effective settings, and where each value came from"
 	@echo "  make pipeline   the stage graph as it will run, and what is wrong with it"
-	@echo '  make submit SPEC=specs/x.md REPO=../repo SLUG=owner/name'
-	@echo '  make idea IDEA="a rough sentence" REPO=../repo   # refined into a spec first'
+	@echo '  make submit SPEC=specs/x.md REPO=../repo SLUG=owner/name     $$'
+	@echo '  make idea IDEA="a rough sentence" REPO=../repo               $$'
+	@echo "                  # an idea is refined into a spec before anything is built"
 	@echo "  make jobs       every job, newest first"
 	@echo "  make repos      every target repository, and what is wrong with it"
 	@echo "  make audit      the append-only record: intact? and what it says"
 	@echo "  make models     what the router can actually reach"
 	@echo ""
 	@echo "improving it"
-	@echo "  make improve [REPO=../repo]   read what went wrong, propose what would have helped"
+	@echo "  make improve [REPO=../repo]   read what went wrong, propose what helps  $$"
 	@echo "  make proposals [RUN=abc123]   what it staged. Nothing is applied"
-	@echo "  make accept RUN=abc123 N=0    turn one proposal into a spec in specs/"
+	@echo "  make accept RUN=abc123 N=0    a spec in specs/, or a move on the ladder"
 	@echo ""
 	@echo "checking it"
 	@echo "  make test       pure and worker tests. Seconds, no engine, no money"
 	@echo "  make test-live  framework contract tests. Needs a running engine"
-	@echo "  make eval       A/B evals through the eval worker. Costs money"
+	@echo "  make eval       A/B evals through the eval worker                     $$"
 	@echo ""
 	@echo "asking the engine"
 	@echo "  make call FN=harness::status [JSON='{...}']"

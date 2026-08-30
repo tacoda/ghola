@@ -285,6 +285,9 @@ Prose is not stopping it.
         improve.completed(self.root, run_id, {"ok": True, "text": self.PROMOTION})
         return engine, run_id
 
+    CARRY = PROMOTION.replace("action: promote", "action: carry") \
+                     .replace("- rung: 3", "- rung: delivery")
+
     def test_a_promotion_asks_the_ladder_rather_than_editing_a_file(self):
         engine, run_id = self.staged()
         improve.accept(engine, self.root, run_id, 0)
@@ -292,6 +295,27 @@ Prose is not stopping it.
         self.assertIn("ladder::move", called)
         self.assertEqual(called["ladder::move"]["id"], "no-secrets")
         self.assertEqual(called["ladder::move"]["move"], "promote")
+
+    def test_a_promotion_names_the_rung_it_replaces(self):
+        engine, run_id = self.staged()
+        improve.accept(engine, self.root, run_id, 0)
+        self.assertEqual(dict(engine.sent)["ladder::move"]["to"], "3")
+
+    def test_a_carry_names_the_rung_it_adds_instead(self):
+        """`carry` takes `at`, and `promote` takes `to`.
+
+        Sending the wrong one is not an error at either end: ladder plans the
+        move with no rung named and reports a success for a different move than
+        the one proposed, which is the shape this whole model is against.
+        """
+        engine = Engine(rules=[rule("no-secrets")])
+        run_id = improve.start(engine, self.root, [job(revisions=1)], "/tmp/repo")["run"]
+        improve.completed(self.root, run_id, {"ok": True, "text": self.CARRY})
+        improve.accept(engine, self.root, run_id, 0)
+        sent = dict(engine.sent)["ladder::move"]
+        self.assertEqual(sent["move"], "carry")
+        self.assertEqual(sent["at"], "delivery")
+        self.assertNotIn("to", sent)
 
     def test_it_writes_no_spec(self):
         engine, run_id = self.staged()
