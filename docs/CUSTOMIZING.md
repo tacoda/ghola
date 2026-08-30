@@ -39,7 +39,7 @@ now maintain, and a key in a YAML file is not.
 `configuration` worker, and that worker rewrites files in its own directory.
 Point `GHOLA_SETTINGS` somewhere else if you want the settings elsewhere.
 
-## Two merge rules that surprise people
+## Three merge rules that surprise people
 
 **`phases.yaml` merges one level down.** Set `plan.max_turns` and the `plan`
 phase keeps its built-in model and its tool grant. Name a phase the defaults do
@@ -56,7 +56,7 @@ means it stays off until a job asks, which is what `refine` is. I conflated
 them in the first pipeline, and `refine` rewrote the specs of jobs that had
 never asked for refining.
 
-## The four extension directories
+## The five extension directories
 
 Drop a file in, and ghola finds it by filename. No registration, and no import
 to add anywhere.
@@ -66,7 +66,13 @@ to add anywhere.
 | `actions/` | a stage that does something rather than asking a model | `run` |
 | `guards/` | a condition on whether a stage runs | `check` |
 | `parsers/` | reading a phase's answer your own way | `parse` |
+| `predicates/` | what a rule decides, for the ladder to call | `check` |
 | `forges/` | a code host other than GitHub | `driver` |
+
+A predicate belongs to the target repository rather than to ghola, and it lives
+beside its rule: `team/rules/no-secrets.py` next to `team/rules/no-secrets.md`.
+That pairing is what makes the rule and its enforcement one primitive instead of
+two things somebody keeps in agreement. See [the ladder](LADDER.md).
 
 Hyphens and underscores are the same name, so a stage written
 `deploy-to-staging` finds `deploy_to_staging.py`.
