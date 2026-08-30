@@ -1,0 +1,36 @@
+# Where eval cases come from, beyond this repository's own `evals/`.
+#
+# The point of this file: **a team's cases and graders need no fork.** A suite
+# lives in the team's own repository, versioned alongside the prompts it grades
+# and reviewed like anything else, and ghola reads it from wherever it is.
+#
+# Optional, like everything in settings/. With no file, `make eval` runs the
+# cases in `evals/` and nothing else.
+
+# Directories of `eval::start` request files, read in addition to `evals/`.
+# Absolute, `~`, `$VARS` and paths relative to this repository all work.
+#
+# A directory that is not there is reported rather than skipped quietly: a suite
+# nobody can find contributes no cases, and a run of no cases reports exactly
+# like a run that passed.
+#
+# suites:
+#   - ~/code/our-harness-evals/cases
+#   - $EVAL_SUITE_PATH
+
+# Function ids a team registered as their own graders, listed so `make config`
+# can show them and a case naming one nobody registered is answerable.
+#
+# ghola does not call these. The `eval` worker does, by the id in the case file,
+# and a grader is fifteen lines on any worker in any language:
+#
+#   worker.register_function("acme::eval::mentions-a-ticket", grade)
+#
+# It receives `(output, metrics, arguments, role)` and returns
+# `{passed, score?, reason?, details?}`. It must be deterministic: durable
+# delivery is at-least-once, and a grader that answered differently on a
+# redelivery would make the report a coin toss.
+#
+# graders:
+#   - acme::eval::mentions-a-ticket
+#   - acme::eval::no-new-dependencies

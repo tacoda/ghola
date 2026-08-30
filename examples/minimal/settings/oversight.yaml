@@ -1,0 +1,12 @@
+# Nothing waits for a person.
+#
+# `dark` is the right answer for a repository where the cost of a bad diff is
+# reading it and deleting the branch. It is the wrong answer everywhere else,
+# and the dial exists so that is a decision rather than a default.
+#
+# **`ask` still never becomes `allow`.** A rule marked `ask` refuses here rather
+# than being waved through: an unattended factory reading "ask" as "yes" has
+# answered a question nobody put. If that refuses work you want done, the rule
+# is wrong, and the fix is the rule.
+
+default: dark

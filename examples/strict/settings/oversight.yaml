@@ -1,0 +1,18 @@
+# A person answers every write.
+#
+# `attended` is the level for a repository where a bad diff costs more than the
+# time it takes to approve one. Reads run unheld, so the expensive part of a
+# turn — reading the repository to work out what to change — never waits.
+#
+# The two checks are dialled down rather than up, because holding their calls
+# buys nothing: `prove` and `review` are already read-only at rung 1, so there
+# is nothing for a person to refuse that the grant has not refused already.
+# Approving reads teaches an operator to approve without reading, which is how
+# the one call that mattered gets waved through.
+
+default: attended
+
+stages:
+  prove: supervised
+  review: supervised
+  security: supervised

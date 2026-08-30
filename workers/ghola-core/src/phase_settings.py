@@ -53,15 +53,19 @@ def declared() -> dict:
         return {}
 
 
-def load() -> dict:
+def load(given: dict | None = None) -> dict:
     """The effective configuration: the file merged over the built-in defaults.
 
     Merged one level down, so a file that sets `plan.max_turns` keeps the built-in
     model and grant for `plan` rather than replacing the whole block. A phase the
     file names and the defaults do not is simply added.
+
+    `given` overrides what is on disk, so a caller can ask what a configuration
+    it is holding would do. Without it a test has to reimplement this merge, and
+    a second implementation of a merge is a second implementation that drifts.
     """
     config = defaults.config()
-    given = declared()
+    given = declared() if given is None else given
 
     config["defaults"].update(given.get("defaults") or {})
     for name, block in (given.get("phases") or {}).items():

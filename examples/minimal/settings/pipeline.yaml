@@ -1,0 +1,56 @@
+# `run` and `publish`. Everything else is off.
+#
+# One turn per job: read the spec, change the code, open a request. No planning
+# turn, no proof, no review, no revision loop. For a scratch repository, a
+# spike, or a mechanical migration where the diff is the review.
+#
+# What you give up, so it is a decision rather than a discovery:
+#
+# - **No plan.** The turn decides what to build while building it, on the model
+#   `run` uses rather than a thinking one. It will pick the first approach that
+#   works, which is usually fine and occasionally the wrong shape entirely.
+# - **No proof.** Nothing runs the software. "It compiles" is the strongest
+#   claim anyone can make about the diff.
+# - **No review.** Nothing reads the diff against the spec before you do.
+# - **No revision loop.** If the repository's commit hook refuses, the job fails
+#   and stops. There is no second attempt with the gate's own words as a brief.
+#
+# The last one is the surprising cost. `max_revisions = 0` in repos.toml turns a
+# refusal from a retry into a dead job, and a repository with a strict hook will
+# fail most of them.
+
+first: prepare
+terminal: [landed, closed, failed]
+
+stages:
+  prepare:
+    action: prepare_workspace
+    next: run
+
+  run:
+    phase: run
+    requires: [spec]
+    produces: [work]
+    next: commit
+
+  # Rung 4 stays. It is the repository's own commit hook, and skipping it would
+  # mean this configuration ships things the repository itself refuses.
+  commit:
+    action: commit_and_push
+    next: publish
+
+  publish:
+    action: open_pull_request
+    next: waiting
+
+  # Still here, and still the point. Nothing merges itself in any configuration:
+  # the gate is not how much was checked before it, it is that a person decides.
+  waiting:
+    action: watch_pull_request
+    on_merge: landed
+    on_close: closed
+    on_comment: rework
+
+  rework:
+    action: prepare_workspace
+    next: run

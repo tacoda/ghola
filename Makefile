@@ -3,12 +3,12 @@
 # Three steps, and `make setup` is step one:
 #
 #   1. clone the repo          git clone … && make setup
-#   2. add config and scripts  edit settings/, drop files in actions/
-#   3. tell it to do work      make turn  (make work, once the factory lands)
+#   2. add config and scripts  name a repo in repos.local.toml, edit settings/
+#   3. tell it to do work      make submit SPEC=specs/x.md REPO=../repo
 
 .PHONY: help setup doctor install engine policy ladder factory auditd submit up down logs status stop restart \
         call schema models console config pipeline jobs turn idea work test test-live eval audit \
-        improve proposals accept clean
+        improve proposals accept repos clean
 
 VENV := .venv
 PY   := $(VENV)/bin/python
@@ -45,6 +45,7 @@ help:
 	@echo '  make submit SPEC=specs/x.md REPO=../repo SLUG=owner/name'
 	@echo '  make idea IDEA="a rough sentence" REPO=../repo   # refined into a spec first'
 	@echo "  make jobs       every job, newest first"
+	@echo "  make repos      every target repository, and what is wrong with it"
 	@echo "  make audit      the append-only record: intact? and what it says"
 	@echo "  make models     what the router can actually reach"
 	@echo ""
@@ -68,11 +69,21 @@ help:
 # it again after adding a dependency is the supported way to install one.
 setup: doctor install
 	@[ -f .env ] || { cp .env.example .env; chmod 600 .env; echo "  wrote .env from the example"; }
+	@# The one file a clone cannot ship filled in: it names directories on this
+	@# machine. Same split as .env, and the tracked repos.toml is its examples.
+	@[ -f repos.local.toml ] || { \
+		echo "# This machine's repositories. Not tracked; wins over repos.toml." > repos.local.toml; \
+		echo "# Copy an example out of repos.toml and edit the path." >> repos.local.toml; \
+		echo "  wrote an empty repos.local.toml"; }
 	@echo ""
 	@echo "ready. Next:"
 	@echo "  1. put your ANTHROPIC_API_KEY in .env"
-	@echo "  2. make up"
-	@echo '  3. make turn PHASE=plan PROMPT="what does this repo do?"'
+	@# Single quotes: a backtick inside a double-quoted echo is a shell command
+	@# substitution, and make would run `forge = "local"` as a command.
+	@echo '  2. name a repository in repos.local.toml — repos.toml has two examples,'
+	@echo '     and the forge = "local" one needs no account and no token'
+	@echo "  3. make up"
+	@echo "  4. make submit SPEC=specs/x.md REPO=/path/to/that/repo"
 
 # Named separately because the answer to "why did that fail" is usually here,
 # and finding out before a paid turn is the whole point.
@@ -103,7 +114,12 @@ doctor:
 	@# not the same thing. git may use an ssh host alias while gh uses a token
 	@# from the environment, and the mismatch fails only at `pr create`, after a
 	@# job has paid for a worktree, a plan, a run and two checks.
-	@for slug in $$(grep -oE 'slug *= *"[^"]+"' repos.toml 2>/dev/null | grep -oE '"[^"]+"' | tr -d '"'); do \
+	@echo ""
+	@echo "target repositories (repos.toml + repos.local.toml):"
+	@$(PY) scripts/repos.py 2>/dev/null || python3 scripts/repos.py
+	@# Only the ones whose forge needs an account. A `local` repository opens no
+	@# pull request and needs no token, which is the shortest path to a first run.
+	@for slug in $$($(PY) scripts/repos.py --slugs 2>/dev/null || python3 scripts/repos.py --slugs); do \
 		printf '  %-9s ' "$$slug"; \
 		if iii trigger github::exec --json "{\"args\":[\"api\",\"repos/$$slug\",\"--jq\",\".permissions.push\"]}" \
 			--port $(MGR_PORT) 2>/dev/null | grep -q true; then \
@@ -176,6 +192,11 @@ pipeline:
 
 jobs:
 	@$(MAKE) --no-print-directory call FN=ghola::jobs
+
+# Every target repository, from repos.toml and repos.local.toml together, with
+# whatever is wrong with each. Needs no engine.
+repos:
+	@$(PY) scripts/repos.py
 
 # What this repository contributes to a turn: four callbacks and no tools. The
 # turn loop is the harness worker's, started by the engine like every other one.

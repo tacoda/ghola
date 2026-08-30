@@ -1,11 +1,12 @@
 """Submit eval cases to the `eval` worker, and read what came back.
 
-    make eval                      every case in evals/
+    make eval                      every case in evals/ and in any suite
+                                   settings/evals.yaml names
     make eval CASE=prove-cites-evidence
     make eval RESULT=<evaluation_id>
 
-ghola writes no runner. Each file in `evals/` is an `eval::start` request, and
-this is the twenty lines that post them and print the answer.
+ghola writes no runner. Each case file is an `eval::start` request, and this is
+the twenty lines that post them and print the answer.
 """
 
 import json
@@ -14,7 +15,14 @@ import subprocess
 import sys
 from pathlib import Path
 
+import yaml
+
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "workers" / "ghola-core" / "src"))
+
+import evals  # noqa: E402
+import paths  # noqa: E402
+
 PORT = os.environ.get("GHOLA_MGR_PORT", "49154")
 
 
@@ -28,9 +36,11 @@ def trigger(function_id: str, payload: dict | None = None) -> dict:
     return json.loads(done.stdout or "{}")
 
 
-def cases(only: str = "") -> list[Path]:
-    found = sorted(p for p in (ROOT / "evals").glob("*.json"))
-    return [p for p in found if not only or p.stem == only]
+def settings() -> dict:
+    try:
+        return yaml.safe_load(paths.settings("evals.yaml").read_text()) or {}
+    except (OSError, yaml.YAMLError):
+        return {}
 
 
 def show_result(evaluation_id: str) -> int:
@@ -81,12 +91,17 @@ def main() -> int:
         return show_result(os.environ["RESULT"])
 
     only = os.environ.get("CASE", "").strip()
-    chosen = cases(only)
-    if not chosen:
-        print(f"no eval case{f' called {only!r}' if only else 's'} in evals/")
+    found = evals.gather(settings(), ROOT, only)
+
+    # Printed before anything runs. A suite that is not where it said it would
+    # be contributes no cases, and a run of no cases reports as a run that
+    # passed — which is the worst shape a report can take.
+    for problem in found.problems:
+        print(f"  {problem}")
+    if not found.cases:
         return 2
 
-    for path in chosen:
+    for path in found.cases:
         request = json.loads(path.read_text())
         try:
             answer = trigger("eval::start", request)

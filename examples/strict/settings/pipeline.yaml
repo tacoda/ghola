@@ -1,0 +1,107 @@
+# Every check on, and one more.
+#
+# For a repository with users on it. Four turns per job, two of them on a
+# thinking model, and a job that reaches a pull request has had its plan read,
+# its software run, its diff reviewed, and its security surface looked at by
+# something that was shown neither the plan nor the implementer's account of
+# what it built.
+#
+# Each stage below says what got through without it. That is more useful than
+# the list of settings, and it is the thing to read before turning one off.
+
+first: prepare
+terminal: [landed, closed, failed]
+
+stages:
+  prepare:
+    action: prepare_workspace
+    next: refine
+
+  # Opt-in, and worth turning on here: `make idea IDEA="..."` refines a rough
+  # sentence into a spec with acceptance criteria before anything is built from
+  # it. A spec somebody wrote carefully is never rewritten.
+  refine:
+    phase: refine
+    opt_in: true
+    requires: [spec]
+    produces: [spec]
+    skip_when: [revision, rework]
+    next: plan
+
+  # Deciding what to build and building it are separate turns on different
+  # models. Without this the run turn picks the first approach that works, which
+  # is how a two-line change arrives as a refactor of the module around it.
+  plan:
+    phase: plan
+    requires: [spec]
+    produces: [plan]
+    skip_when: [revision, rework]
+    # Strict here too: a plan that failed is not an empty plan to build from.
+    on_error: fail
+    next: run
+
+  run:
+    phase: run
+    requires: [spec]
+    produces: [work]
+    on_refusal: {goto: run, max: 3, stop_when_identical: true}
+    next: prove
+
+  # Runs the software against the acceptance criteria while the environment is
+  # still up. Not optional here: "it compiles" was the strongest claim anybody
+  # could make about a diff before this stage existed.
+  prove:
+    phase: prove
+    requires: [work]
+    produces: [proof]
+    optional: false
+    contract: proven
+    # A check may run and may not repair. Anything it changed in the worktree is
+    # reverted, because a shell can write whatever its tool list allows.
+    revert_worktree_changes: true
+    next: review
+
+  # Handed the spec and the diff and nothing else. Never the implementer's
+  # summary of its own work: a check fed the work's account of itself is
+  # grading a story.
+  review:
+    phase: review
+    requires: [work]
+    produces: [review]
+    optional: false
+    contract: verdict
+    next: security
+
+  # The extra one. A second reader with a single question — what does this diff
+  # let somebody do that they could not do before — because a general reviewer
+  # asked to check everything checks the thing it read most recently.
+  #
+  # `phases.yaml` in this directory gives it a thinking model and read-only
+  # tools; `prompts/security.md` is yours to write, and until it exists this
+  # phase runs on the bare document.
+  security:
+    phase: security
+    requires: [work]
+    produces: [review]
+    optional: true
+    contract: verdict
+    next: commit
+
+  commit:
+    action: commit_and_push
+    on_refusal: {goto: run, max: 3, stop_when_identical: true}
+    next: publish
+
+  publish:
+    action: open_pull_request
+    next: waiting
+
+  waiting:
+    action: watch_pull_request
+    on_merge: landed
+    on_close: closed
+    on_comment: rework
+
+  rework:
+    action: prepare_workspace
+    next: run

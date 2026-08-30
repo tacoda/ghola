@@ -25,6 +25,7 @@ from dataclasses import dataclass, field
 # error rather than a silent no-op.
 BUILTIN_ACTIONS = {
     "prepare_workspace": "claim a worktree and run the repo's prepare command",
+    "commit_and_push": "the delivery gate, the commit, and the branch",
     "open_pull_request": "publish the work for a human to decide on",
     "watch_pull_request": "poll the forge and react to what the human did",
     "teardown": "release the worktree and run the repo's cleanup command",

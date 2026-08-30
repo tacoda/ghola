@@ -1,0 +1,43 @@
+# Merged one level down over the built-ins, so setting one key keeps the rest.
+#
+# Two changes and one addition. Everything else — the models, the turn caps, the
+# tool grants for plan, run, prove and review — is the built-in default, and
+# `make config` will tell you so with the source tagged.
+
+phases:
+  # A reviewer that skims is a reviewer that passes. This is the cheapest place
+  # to spend a thinking model, because the alternative is spending a human's
+  # attention on the same diff.
+  review:
+    thinking_level: xhigh
+
+  # More room to actually run things. `prove` on a repository with a real test
+  # suite spends turns waiting on it, and a cap that cuts a proof short reports
+  # `unproven` for a suite that was passing.
+  prove:
+    max_turns: 80
+
+  # The extra stage in this pipeline. Read-only, deliberately: it says what the
+  # diff makes possible, and a check that could fix what it found would be
+  # grading its own work.
+  #
+  # Write `prompts/security.md` before turning this on. Without it the phase
+  # runs on the bare document, and `make config` reports which phases have a
+  # prompt and which do not.
+  security:
+    model: claude-opus-5
+    thinking_level: high
+    max_turns: 40
+    # Replaced wholesale rather than merged. A phase that lists its own tools
+    # means those, not those plus the defaults: rung 1 read as an accident of
+    # merge order is how a check ends up holding an editor.
+    functions:
+      allow:
+        - engine::functions::list
+        - engine::functions::info
+        - coder::read-file
+        - coder::search
+        - coder::list-folder
+        - coder::tree
+        - directory::skills::list
+        - directory::skills::get
