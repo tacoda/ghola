@@ -7,10 +7,16 @@ in, rather than whatever this file says by then.
 
 Precedence, most specific first:
 
-1. the repository's own entry in `repos.toml`
-2. `[defaults]` in the same file
-3. the environment (`GHOLA_BASE`, `GHOLA_BRANCH_PREFIX`, …)
-4. what is built in
+1. the repository's own entry in `repos.local.toml`
+2. its entry in `repos.toml`
+3. `[defaults]`, from the local file first
+4. the environment (`GHOLA_BASE`, `GHOLA_BRANCH_PREFIX`, …)
+5. what is built in
+
+**Two files, for the same reason as `.env`.** `repos.toml` is tracked and lists
+what a team shares; `repos.local.toml` is git-ignored and lists what is on this
+machine. Without the split, the one tracked file names somebody's home directory
+and every clone starts with a diff nobody wants to commit.
 
 The base branch is **discovered, not assumed**. wipp hardcoded `main`, and a
 repository on `develop` branched from nothing.
@@ -31,6 +37,9 @@ BUILT_IN = {
     # URL, which is a parse that gets SSH aliases and self-hosted hosts wrong.
     "slug": "",
     "base": "",
+    # Who hosts this repository and therefore receives the request for review.
+    # `local` is no forge at all, and needs no slug and no account.
+    "forge": "github",
     "branch_prefix": "ghola/",
     "prepare": "",
     "cleanup": "",
@@ -42,6 +51,7 @@ BUILT_IN = {
 }
 
 ENV_KEYS = {
+    "forge": "GHOLA_FORGE",
     "base": "GHOLA_BASE",
     "branch_prefix": "GHOLA_BRANCH_PREFIX",
     "prepare": "GHOLA_PREPARE",
@@ -51,6 +61,10 @@ ENV_KEYS = {
 
 NUMERIC = ("max_revisions", "concurrency")
 
+# Tracked, and shared with the team. Git-ignored, and this machine's.
+SHARED = Path("repos.toml")
+LOCAL = Path("repos.local.toml")
+
 
 @dataclass
 class Repo:
@@ -59,6 +73,10 @@ class Repo:
     path: str
     slug: str = ""
     base: str = ""
+    # Who hosts this repository and therefore receives the request for review.
+    # `local` is no forge at all: the request is a file in the repository, which
+    # is what a repo with no GitHub account behind it needs.
+    forge: str = "github"
     branch_prefix: str = "ghola/"
     prepare: str = ""
     cleanup: str = ""
@@ -87,11 +105,32 @@ def load(path: str | Path | None = None) -> dict:
     typo would take every other repository down with it. `make config` is where
     the parse error becomes visible.
     """
-    path = Path(path) if path else Path("repos.toml")
+    path = Path(path) if path else SHARED
     try:
         return tomllib.loads(path.read_text())
     except (OSError, tomllib.TOMLDecodeError):
         return {}
+
+
+def merged(path: str | Path | None = None) -> dict:
+    """`repos.toml` with `repos.local.toml` on top of it.
+
+    Merged one level deep: a local entry replaces a shared entry for the same
+    repository rather than being blended into it, because two half-configurations
+    for one repository is the thing nobody could debug.
+    """
+    shared = load(path)
+    if path is not None:
+        return shared
+
+    local = load(LOCAL)
+    if not local:
+        return shared
+
+    out = dict(shared)
+    out["defaults"] = {**(shared.get("defaults") or {}), **(local.get("defaults") or {})}
+    out["repos"] = {**(shared.get("repos") or {}), **(local.get("repos") or {})}
+    return out
 
 
 def resolve(repo_path: str, config: dict | None = None,
@@ -102,7 +141,7 @@ def resolve(repo_path: str, config: dict | None = None,
     ghola reliably has for it: a job names a directory on this machine, not a
     remote or a slug.
     """
-    config = load() if config is None else config
+    config = merged() if config is None else config
     environ = os.environ if environ is None else environ
     resolved = Path(repo_path).expanduser()
     key = str(resolved)
@@ -154,5 +193,5 @@ def branch_for(repo: Repo, job_id: str, slug: str = "") -> str:
 
 
 def known(config: dict | None = None) -> list[str]:
-    config = load() if config is None else config
+    config = merged() if config is None else config
     return sorted((config.get("repos") or {}).keys())

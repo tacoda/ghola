@@ -18,6 +18,7 @@ sys.path.insert(0, str(ROOT / "workers" / "ghola-core" / "src"))
 sys.path.insert(0, str(ROOT / "workers" / "ghola-factory" / "src"))
 
 import actions  # noqa: E402
+import forge  # noqa: E402
 import publishing  # noqa: E402
 
 JOB = {
@@ -83,14 +84,14 @@ class ThePullRequestBody(unittest.TestCase):
 
 class TheTitle(unittest.TestCase):
     def test_a_markdown_heading_does_not_become_a_stray_hash(self):
-        self.assertEqual(actions.title_for({"title": "# Do the thing"}),
+        self.assertEqual(forge.title_of({"title": "# Do the thing"}),
                          "Do the thing")
 
     def test_a_job_with_no_title_still_has_one(self):
-        self.assertEqual(actions.title_for({}), "ghola")
+        self.assertEqual(forge.title_of({}), "ghola")
 
     def test_it_is_bounded(self):
-        self.assertLessEqual(len(actions.title_for({"title": "x" * 300})), 70)
+        self.assertLessEqual(len(forge.title_of({"title": "x" * 300})), 70)
 
 
 class RepliesUnderComments(unittest.TestCase):

@@ -5,22 +5,52 @@
 # later rebuilds the environment the job was born in rather than whatever this
 # file says by then.
 #
-# Precedence: the repo's own entry, then [defaults], then the environment, then
-# what is built in.
+# **This file is tracked. `repos.local.toml` is not.** Put anything with a path
+# from your own machine in there; it wins over anything here, and it is the file
+# to start with. Same split as `.env`, for the same reason.
+#
+# Precedence: repos.local.toml, then this file, then the environment
+# (GHOLA_FORGE, GHOLA_BASE, …), then what is built in.
 
 [defaults]
 branch_prefix = "ghola/"
 max_revisions = 2
 
-[repos."/Users/tacoda/tacoda/fawlty"]
-slug = "tacoda/fawlty"
-# Named rather than discovered, so `origin/<base>` in the delivery gate always
-# resolves. Discovery from the forge arrives with the draft phase.
-base = "main"
-# Left empty on purpose for the first run. fawlty's stack is docker-compose and
-# bringing it up costs minutes per job; a spec that does not need the app
-# running does not need the app running. A spec that DOES needs:
+# ---------------------------------------------------------------------------
+# Copy one of these into `repos.local.toml` and edit it. Nothing below is live.
+# ---------------------------------------------------------------------------
+
+# A repository hosted on GitHub. The key is its absolute path on this machine,
+# because that is the only name ghola reliably has for it — a job names a
+# directory, not a remote.
+#
+#   [repos."/Users/you/code/your-repo"]
+#   slug = "you/your-repo"
+#
+#   # Named rather than discovered, so `origin/<base>` in the delivery gate
+#   # always resolves.
+#   base = "main"
+#
+#   # Whatever brings the stack up and takes it down, if a spec needs it
+#   # running. Both are shell strings and both are optional: a spec that does
+#   # not need the app running does not need the app running.
 #   prepare = "make up"
 #   cleanup = "make down"
-prepare = ""
-cleanup = ""
+#
+#   # The repository's own convention, not ghola's. One real repo had
+#   # `feature/` written in its CONTRIBUTING all along.
+#   branch_prefix = "ghola/"
+#
+#   # Credentials the repository's own tests need. These reach prepare, cleanup
+#   # and the agent's shell — so put the values in `.env` and reference them,
+#   # rather than writing a secret into a tracked file.
+#   [repos."/Users/you/code/your-repo".env]
+#   DATABASE_URL = "postgres://localhost/test"
+
+# A repository with no forge behind it at all. No account, no token, no slug:
+# the request for review is a markdown file in `.ghola/requests/`, and merging
+# the branch is how it lands. This is the shortest path to seeing ghola work.
+#
+#   [repos."/Users/you/code/scratch"]
+#   forge = "local"
+#   base = "main"

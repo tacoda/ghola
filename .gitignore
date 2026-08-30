@@ -21,3 +21,6 @@ audit/
 
 # Worker logs. Useful locally, noise in a diff.
 .logs/
+
+# This machine's repositories. `repos.toml` is the tracked template.
+repos.local.toml

@@ -131,6 +131,12 @@ class TheCommitMessage(unittest.TestCase):
     def test_a_job_with_no_title_still_commits(self):
         self.assertTrue(actions.commit_message({}))
 
+    def test_a_specs_heading_marker_does_not_reach_the_subject(self):
+        # A spec's first line is `# Do the thing`, and `git commit -m` keeps the
+        # hash: every commit in the first no-forge run read as a heading.
+        self.assertEqual(actions.commit_message({"title": "# Do the thing"}),
+                         "Do the thing")
+
 
 
 class BranchNaming(unittest.TestCase):

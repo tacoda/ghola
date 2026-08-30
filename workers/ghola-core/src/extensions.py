@@ -28,6 +28,10 @@ KINDS = {
     "guards": "check",
     "parsers": "parse",
     "predicates": "check",
+    # The odd one out: a forge is a `forge.Driver` rather than a function,
+    # because it answers four questions and one callable would have to switch on
+    # which was being asked.
+    "forges": "driver",
 }
 
 

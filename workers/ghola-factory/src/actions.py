@@ -6,20 +6,31 @@ to no forge directly, which is the whole reason this file is short:
 | action | what it actually calls |
 |---|---|
 | `prepare_workspace` | `worktree::create` and `worktree::claim`, then `shell::exec` |
-| `open_pull_request` | `github::pr::create` |
-| `watch_pull_request` | `github::pr::view` and `github::api` |
+| `open_pull_request` | whatever the forge driver names |
+| `watch_pull_request` | whatever the forge driver names |
 | `teardown` | `shell::exec`, then `worktree::release` |
 
 An action returns the same shape a turn does — `{ok, refused, blocked, outcome,
 error}` — so `graph.next_stage` does not care which kind of stage it just ran.
 That symmetry is what keeps the state machine a pure function of two dicts.
+
+**No forge is named in this file.** Which calls open a request and read it back
+is `forge.py`'s answer, and it is pure: a driver returns the calls and reads the
+answers, and `perform` below is the only thing that makes one.
 """
 
 from __future__ import annotations
 
+import os
+from pathlib import Path
+
+import extensions
+import forge as forgelib
 import governance
 import jobs
 import publishing
+
+ROOT = Path(os.environ.get("GHOLA_ROOT", Path(__file__).resolve().parents[3]))
 
 
 def call(worker, function_id: str, payload: dict, timeout_ms: int = 120000) -> dict:
@@ -193,7 +204,16 @@ def commit_and_push(worker, job: dict, settings: dict) -> dict:
     # wave through work it never read.
     run(worker, "git", ["add", "-A"], workspace)
 
-    refused = rung_four(worker, job, workspace, message, base)
+    # Where the branch has to get to before anybody can look at it, which is the
+    # forge's answer and not this stage's. A repository with no forge has no
+    # remote at all, and every ref below has to name something that exists.
+    driver, problem = driver_for(job, settings)
+    if problem:
+        return {"ok": False, "error": problem}
+    remote = driver.remote
+    against = f"{remote}/{base}" if remote else base
+
+    refused = rung_four(worker, job, workspace, message, against)
     if refused:
         return {"ok": True, "refused": True, "refusal": refused}
 
@@ -207,27 +227,22 @@ def commit_and_push(worker, job: dict, settings: dict) -> dict:
 
     # Nothing loose to commit is fine IF the turn already committed. What is not
     # fine is a branch with nothing on it at all.
-    ahead = run(worker, "git", ["log", "--oneline", f"origin/{base}..HEAD"], workspace)
+    ahead = run(worker, "git", ["log", "--oneline", f"{against}..HEAD"], workspace)
     if ahead["ok"] and not str(ahead.get("output") or "").strip():
         return {"ok": False, "error": (
             "the turn finished and the branch has no commits on it, so there is "
             "nothing to publish")}
 
-    pushed = run(worker, "git", ["push", "-u", "origin", branch], workspace)
+    if not remote:
+        # Nowhere to push. The branch is already in the checkout the reviewer
+        # will open, which is the whole of what `forge = "local"` means.
+        return {"ok": True, "committed": True, "branch": branch, "pushed": False}
+
+    pushed = run(worker, "git", ["push", "-u", remote, branch], workspace)
     if not pushed["ok"]:
         return {"ok": False, "error": f"push failed: {pushed.get('error')}"}
 
-    return {"ok": True, "committed": True, "branch": branch}
-
-
-def title_for(job: dict) -> str:
-    """The pull request's title.
-
-    The spec's first line, with its markdown heading marker stripped: `# Do the
-    thing` is a heading in a file and a stray `#` in a title.
-    """
-    first = str(job.get("title") or "").strip().lstrip("#").strip()
-    return first[:70] or "ghola"
+    return {"ok": True, "committed": True, "branch": branch, "pushed": True}
 
 
 def commit_message(job: dict) -> str:
@@ -238,12 +253,14 @@ def commit_message(job: dict) -> str:
     something rung 4 refuses. It is not added here so it never has to be
     removed there.
     """
-    title = str(job.get("title") or "").strip() or "ghola"
-    return title.splitlines()[0][:72]
+    # The same stripping the request title gets. A spec's first line is `# Do
+    # the thing`, and the `#` was reaching the commit subject: `git commit -m`
+    # keeps it, so every commit in the scratch repository read as a heading.
+    return forgelib.title_of(job)[:72]
 
 
 def rung_four(worker, job: dict, workspace: str, publishing: str,
-              base: str = "HEAD") -> str:
+              against: str = "HEAD") -> str:
     """The delivery gate, over the finished diff and the text about to ship.
 
     Asked of the `ladder` worker rather than reimplemented, so the same
@@ -251,10 +268,12 @@ def rung_four(worker, job: dict, workspace: str, publishing: str,
     A ladder that is unreachable does not wave the commit through silently: it
     says so, and the caller records it.
     """
-    # Everything not yet on the remote, committed or not. `--cached` alone
-    # would miss work the turn committed itself, which is the hole that let a
-    # diff reach a branch without the delivery gate reading it.
-    diff = run(worker, "git", ["diff", f"origin/{base}...HEAD", "--unified=0"],
+    # Everything not yet on the base, committed or not. `--cached` alone would
+    # miss work the turn committed itself, which is the hole that let a diff
+    # reach a branch without the delivery gate reading it. The ref is passed in
+    # rather than assumed: `origin/main` does not resolve in a repository with
+    # no remote, and the gate would then read the staged half of the work.
+    diff = run(worker, "git", ["diff", f"{against}...HEAD", "--unified=0"],
                workspace)
     changed = str(diff.get("output") or "") if diff["ok"] else ""
     staged = run(worker, "git", ["diff", "--cached", "--unified=0"], workspace)
@@ -274,16 +293,56 @@ def rung_four(worker, job: dict, workspace: str, publishing: str,
     return "" if body.get("allowed", True) else str(body.get("reason") or "refused")
 
 
+def driver_for(job: dict, settings: dict):
+    """The forge this job delivers through, or an error naming what is missing.
+
+    Resolved per job rather than per process, because `repos.toml` is per
+    repository and one factory can serve a GitHub repo and a local one.
+    """
+    name = forgelib.for_job({**settings, **job})
+    found = forgelib.named(name)
+    if found is not None:
+        return found, ""
+
+    try:
+        module, function_id = extensions.resolve(name, ROOT, "forges")
+    except extensions.ExtensionError as exc:
+        return None, str(exc)
+    if module is None:
+        return None, (f"`forge = \"{name}\"` names a function id, and a forge "
+                      "driver is a module rather than one call. Put it in "
+                      f"forges/{name}.py")
+    return module, ""
+
+
+def perform(worker, calls: list) -> tuple[list, dict]:
+    """Make the calls a driver asked for. Returns the answers and the first
+    failure that was not marked as tolerable.
+
+    A driver says which of its calls may fail: GitHub's two comment endpoints
+    are each optional because a repository can legitimately have neither kind,
+    while the call that opens the request is not.
+    """
+    answers = []
+    for one in calls:
+        answer = call(worker, one["function_id"], dict(one["payload"]))
+        answers.append(answer)
+        if not answer["ok"] and not one.get("allow_failure"):
+            return answers, answer
+    return answers, {}
+
+
 def open_pull_request(worker, job: dict, settings: dict) -> dict:
     """Publish the work for a human to decide on. ghola never merges.
 
-    **Idempotent.** A rework pushes to the same branch, so the pull request that
+    **Idempotent.** A rework pushes to the same branch, so the request that
     already exists updates itself and there is nothing to open. The first rework
     ran the whole loop correctly and then tried to create a second pull request
     for a branch that already had one.
     """
-    repo = settings.get("repo_settings") or {}
-    slug = str(job.get("repo_slug") or "")
+    driver, problem = driver_for(job, settings)
+    if problem:
+        return {"ok": False, "error": problem}
 
     if job.get("pr_number"):
         # Already open. Say on it that the answer has been pushed, so a reviewer
@@ -292,107 +351,60 @@ def open_pull_request(worker, job: dict, settings: dict) -> dict:
         return {"ok": True, "pull_request": job.get("pull_request"),
                 "pr_number": job["pr_number"],
                 "reopened": False, "commented": answered["ok"]}
-    if not slug:
-        return {"ok": False, "error": (
-            "no `owner/name` for this repository, so there is nothing to open a "
-            "pull request against. Set `repo_slug` on the job or `slug` in "
-            "repos.toml")}
 
-    made = call(worker, "github::pr::create", {
-        "repo": slug,
-        "title": title_for(job),
-        # The first real job opened a pull request with an EMPTY body, which
-        # makes a reviewer reconstruct what was asked and what was checked from
-        # the diff alone.
-        # The document the phases built, which is the account of the work.
-        "body": publishing.pull_request_body(job, job.get("document") or ""),
-        "head": job.get("branch") or "",
-        **({"base": repo["base"]} if repo.get("base") else {}),
-    })
-    if not made["ok"]:
-        return made
+    missing = driver.ready({**settings, **job})
+    if missing:
+        return {"ok": False, "error": missing}
 
-    value = made["value"]
-    url = str(value.get("output") or value.get("url") or "").strip()
-    # `gh pr create` prints the URL and the number is the last path segment.
-    # Without this the record has no `pr_number` and `watch_pull_request`
-    # answers "no pull request to watch" forever, which looks exactly like a
-    # card nobody has acted on.
-    number = value.get("number")
-    if not number and url:
-        tail = url.rstrip("/").rsplit("/", 1)[-1]
-        number = int(tail) if tail.isdigit() else None
+    # The first real job opened a pull request with an EMPTY body, which makes a
+    # reviewer reconstruct what was asked and what was checked from the diff
+    # alone. This is the document the phases built: the account of the work.
+    body = publishing.pull_request_body(job, job.get("document") or "")
+    answers, failed = perform(worker, driver.open_calls({**settings, **job}, body))
+    if failed:
+        return failed
 
-    return {"ok": True, "pull_request": url, "pr_number": number}
+    return {"ok": True, "forge": driver.name, **driver.opened(job, answers)}
 
 
 def watch_pull_request(worker, job: dict, settings: dict) -> dict:
-    """Read the pull request and report what the human did.
+    """Read the request and report what the human did.
 
     Returns an `outcome` the graph turns into an edge: merge lands it, close
     closes it, a comment is a brief for another turn. **Nothing is a legitimate
     answer** and means the card waits.
 
     ghola tells its own comments from a reviewer's by a marker rather than by
-    author, because it pushes with the operator's credentials and *is* the pull
+    author, because it pushes with the operator's credentials and *is* the
     request's author.
     """
-    slug, number = str(job.get("repo_slug") or ""), job.get("pr_number")
-    if not slug or not number:
-        return {"ok": False, "error": "no pull request to watch"}
+    driver, problem = driver_for(job, settings)
+    if problem:
+        return {"ok": False, "error": problem}
+    if not job.get("pr_number"):
+        return {"ok": False, "error": f"no {driver.noun} to watch"}
 
-    seen = call(worker, "github::pr::view", {"repo": slug, "number": number})
-    if not seen["ok"]:
-        return seen
+    seen, failed = perform(worker, driver.view_calls({**settings, **job}))
+    if failed:
+        return failed
 
-    pr = dict(seen["value"].get("value") or seen["value"])
-    pr["comments"] = comments_on(worker, slug, number)
+    pr = dict(driver.state({**settings, **job}, seen))
+    pr["comments"] = comments_on(worker, driver, job, settings, seen)
     return {"ok": True, **derive_outcome(job, pr)}
 
 
-def comments_on(worker, slug: str, number: int) -> list[dict]:
-    """Every comment on a pull request, from the endpoints `pr::view` omits.
+def comments_on(worker, driver, job: dict, settings: dict, seen: list) -> list[dict]:
+    """Everything anybody said, from wherever this forge keeps it.
 
-    **`github::pr::view` returns no comments.** It carries the body,
-    mergeability, review decision and diff stats, and a reconciler reading it
-    alone sees a card nobody has ever commented on — which is exactly what a
-    card nobody has commented on looks like. The first rework test waited three
-    minutes on a comment that was already there.
-
-    Two endpoints, because GitHub keeps them apart: issue comments are the
-    conversation, and pull comments are the ones anchored to a line. A reviewer
-    does not distinguish them and neither does this.
+    A driver that reads its comments out of what `view` already returned asks
+    for no further calls, and gets handed those answers instead: reading one
+    file twice would be two reads of one thing.
     """
-    found = []
-    for path in (f"repos/{slug}/issues/{number}/comments",
-                 f"repos/{slug}/pulls/{number}/comments"):
-        answer = call(worker, "github::api", {"path": path, "method": "GET"})
-        if not answer["ok"]:
-            continue
-        value = answer["value"]
-        items = value.get("value") or value.get("data") or value
-        if isinstance(items, str):
-            try:
-                import json as _json
-                items = _json.loads(items)
-            except ValueError:
-                continue
-        if isinstance(items, list):
-            for item in items:
-                if isinstance(item, dict):
-                    # A line comment carries its file and line; keeping them
-                    # means the brief can say WHERE, which is most of what makes
-                    # a review comment actionable.
-                    where = (f"{item.get('path')}:{item.get('line')} — "
-                             if item.get("path") else "")
-                    found.append({
-                        "id": str(item.get("id") or ""),
-                        "body": where + str(item.get("body") or ""),
-                        "createdAt": str(item.get("created_at")
-                                         or item.get("createdAt") or ""),
-                    })
-
-    return sorted(found, key=lambda c: c["createdAt"])
+    calls = driver.comment_calls({**settings, **job})
+    if not calls:
+        return driver.comments(seen)
+    answers, _ = perform(worker, calls)
+    return driver.comments(answers)
 
 
 def teardown(worker, job: dict, settings: dict) -> dict:
@@ -435,22 +447,38 @@ def teardown(worker, job: dict, settings: dict) -> dict:
     return {"ok": True, "did": done}
 
 
+def say(worker, job: dict, body: str) -> dict:
+    """Say something back on the request, if this forge has anywhere to say it.
+
+    A driver with no channel returns no calls, and this reports `skipped`
+    rather than `ok`. A forge that claims to have said something it did not is
+    worse than one that admits the channel does not exist: the whole point of
+    these messages is that a reviewer is not left watching a branch change with
+    no explanation.
+    """
+    if not job.get("pr_number"):
+        return {"ok": True, "skipped": "nothing open"}
+
+    driver, problem = driver_for(job, {})
+    if problem:
+        return {"ok": True, "skipped": problem}
+
+    calls = driver.say_calls(job, body)
+    if not calls:
+        return {"ok": True, "skipped": f"`{driver.name}` has no comment channel"}
+
+    _, failed = perform(worker, calls)
+    return failed or {"ok": True}
+
+
 def announce_landing(worker, job: dict) -> dict:
-    """Say on the pull request that ghola has finished with it."""
-    if not job.get("repo_slug") or not job.get("pr_number"):
-        return {"ok": True}
-    return call(worker, "github::pr::comment", {
-        "repo": job["repo_slug"], "number": job["pr_number"],
-        "body": publishing.landed_note(job)})
+    """Say on the request that ghola has finished with it."""
+    return say(worker, job, publishing.landed_note(job))
 
 
 def answer_pushed(worker, job: dict) -> dict:
-    """Say on the pull request that the reworked answer is on the branch."""
-    if not job.get("repo_slug") or not job.get("pr_number"):
-        return {"ok": True}
-    return call(worker, "github::pr::comment", {
-        "repo": job["repo_slug"], "number": job["pr_number"],
-        "body": publishing.answer_note(job)})
+    """Say on the request that the reworked answer is on the branch."""
+    return say(worker, job, publishing.answer_note(job))
 
 
 def acknowledge(worker, job: dict, brief: str) -> dict:
@@ -461,11 +489,7 @@ def acknowledge(worker, job: dict, brief: str) -> dict:
     next poll does not read ghola's own acknowledgement as new feedback and
     rework forever.
     """
-    if not job.get("repo_slug") or not job.get("pr_number"):
-        return {"ok": True}
-    return call(worker, "github::pr::comment", {
-        "repo": job["repo_slug"], "number": job["pr_number"],
-        "body": publishing.reply_to(job, brief)})
+    return say(worker, job, publishing.reply_to(job, brief))
 
 
 def stop(worker, job: dict, settings: dict) -> dict:
