@@ -1154,17 +1154,46 @@ audit entries, all five traceable, none dropped. Accepting one wrote
 `specs/give-commits-md-a-scope-for-changes-that-are-not-a-resource.md` and
 called nothing on the bus.
 
-### M8. Adoption
+### M8. Adoption — **done**
 
-- `ghola init` scaffolds a new factory: `settings/`, `prompts/`, an empty rules
-  directory, a `worker-compose.yaml`, and a `repos.toml` with one commented entry.
-- A second forge driver, to prove the seam is a seam.
-- An example directory with two contrasting configurations: a strict one with
-  every check on, and a minimal one that is `run` and `publish` only.
-- An example team eval suite outside this repository, pointed at by
-  `settings/evals.yaml`, proving a team's cases and graders need no fork.
-- `docs/`: the ladder, the customization contract, adoption, evals, and an honest
-  limitations page.
+- ~~`ghola init` scaffolds a new factory~~ **Cut.** `state/`, `audit/` and
+  `.logs/` are all git-ignored, so a fresh clone is already clean and the files
+  *are* the scaffold. Scaffolding a starter kit that ships filled in is
+  scaffolding nothing. What was real underneath it: `repos.toml` shipped
+  pointing at my home directory. It is now a tracked template of commented
+  examples, and `repos.local.toml` is git-ignored and wins over it, which is the
+  same split as `.env` for the same reason. `make setup` writes it, and
+  `make repos` and `make doctor` report every configured repository through the
+  same `repos.merged` the factory uses.
+- **A second forge driver.** `forge.py` is pure: a driver returns the calls to
+  make and reads the answers, and the factory makes them. `github` is the stock
+  worker. `local` is no forge at all, which is the harder and more useful proof:
+  the request is a markdown file in `.ghola/requests/`, a merge is a merge, and
+  it needs no account, no token and no slug. A third is `forges/<name>.py`
+  defining `driver`.
+- **Two example configurations**, `minimal` and `strict`, both parsed by the
+  same `graph.parse` a live pipeline gets. A broken example is worse than no
+  example.
+- **`settings/evals.yaml`** names suites outside this repository. Proved with an
+  external case that discriminated 1/1 control against 0/1 treatment.
+- **`docs/`**: adoption, the ladder, the customization contract, evals, and an
+  honest limitations page, plus the guide's missing section on running a job.
+
+What the no-forge run taught, none of which a test would have:
+
+- **The commit stage pushed to `origin` unconditionally.** A repository with no
+  forge has no remote, and the branch is already in the checkout the reviewer
+  opens. The same assumed ref reached the delivery gate, where `origin/main`
+  failing to resolve had quietly reduced rung 4 to reading the staged half of
+  the diff.
+- **The `local` request template quoted its own comment heading**, so the split
+  matched that occurrence, and everything after it came back as one reviewer
+  comment. The job reworked itself against its own document. The conversation
+  starts at a marker now, because prose gets quoted.
+- **`commit_message` did not strip a spec's `#`.** `git commit -m` keeps it, so
+  every commit read as a heading.
+- **`graph.BUILTIN_ACTIONS` had no entry for `commit_and_push`**, so the
+  documented list of built-in actions had drifted from the implemented one.
 
 **Verify:** a person who has never seen this repo gets a pull request out of a
 target repository, following the README only. If they cannot, the README is the

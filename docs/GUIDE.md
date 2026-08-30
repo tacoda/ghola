@@ -3,12 +3,11 @@
 <!-- voice-register: informational -->
 <!-- voice-english: ste -->
 
-This guide takes you from a fresh clone to a turn that reads your code, and then
-shows you the three things you will want to change first. It assumes you have
-never used iii.
+This guide takes you from a fresh clone to a pull request, then shows you the
+three things you will want to change first. It assumes you have never used iii.
 
-**Status: ghola is at M2.** Sections 1 to 5 work today. Sections 6 and 7 describe
-what the milestones in [PLAN.md](../PLAN.md) add, and say so where they do.
+Read [what ghola does not do](LIMITATIONS.md) alongside it. Every section here
+tells you what works, and that page tells you where the edges are.
 
 ---
 
@@ -16,7 +15,7 @@ what the milestones in [PLAN.md](../PLAN.md) add, and say so where they do.
 
 Three things, and confusing them is the main way people get lost.
 
-**iii is the framework.** It is an engine plus a set of workers. A *worker* is a
+**iii is the framework.** An engine plus a set of workers. A *worker* is a
 running service that registers *functions* on a bus, and any worker can call any
 other worker's function. iii ships about 77 of them. ghola installs 31.
 
@@ -26,8 +25,8 @@ repeats. ghola does not have a turn loop. It starts turns on this one.
 
 **ghola is a starter kit.** It picks which workers to run, on which ports, and
 wires them together. Everything in this repository is yours to edit once you
-clone it. The constraint ladder is its own worker, `ladder`, because it is the
-one idea here that is useful without the rest.
+clone it. The constraint ladder lives in its own worker, `ladder`, because it is
+the one idea here that is useful without the rest.
 
 ```
 you  ──▶  ghola  ──▶  harness worker  ──▶  a model
@@ -48,7 +47,7 @@ make setup
 ```
 
 `make setup` runs `make doctor`, creates the virtual environment, installs the
-two Python packages, and writes `.env` from the example. Read what it prints.
+Python packages, and writes `.env` from the example. Read what it prints.
 
 Put your key in `.env`:
 
@@ -57,10 +56,10 @@ ANTHROPIC_API_KEY=sk-ant-...
 ```
 
 **The engine reads this file, not the workers.** The provider workers take their
-credentials from the engine's own environment. If you start the engine without
-the key, the router serves no models and every turn fails at
-`router::provider::resolve` with nothing that says why. `make up` sources `.env`
-for this reason.
+credentials from the engine's own environment. Start the engine without the key
+and the router serves no models. Every turn then fails at
+`router::provider::resolve`, and nothing says why. `make up` sources `.env` for
+that reason.
 
 ---
 
@@ -71,8 +70,8 @@ make up
 ```
 
 This starts the engine, waits for the harness worker to report ready, then starts
-ghola's policy worker. Expect about a minute the first time: 31 workers start in
-sequence.
+ghola's policy worker. Expect about a minute the first time, because 31 workers
+start in sequence.
 
 ```bash
 make status
@@ -87,14 +86,14 @@ port 3132: listening      the stream server
 port 49154: listening     the worker manager
 ```
 
-Open `http://127.0.0.1:3133`. That is the iii console, and it is the best tool
-here: every function, every trigger, queue depth, and a waterfall for each turn.
+Open `http://127.0.0.1:3133`. That is the iii console. Best tool here: every
+function, every trigger, queue depth, and a waterfall for each turn.
 
-These ports are not iii's stock ones. A ghola engine runs beside another iii
-project's engine on purpose.
+These ports are not iii's stock ones, on purpose: a ghola engine has to run
+beside another iii project's engine.
 
-To stop: `make down`. It waits for the ports to free, because reporting one port
-free while another is held is the same half-truth as one port down.
+To stop: `make down`. It waits for the ports to free. Reporting one port free
+while another is still held is the same half-truth as reporting one port down.
 
 ---
 
@@ -104,8 +103,8 @@ free while another is held is the same half-truth as one port down.
 make turn PHASE=plan PROMPT="What does this repository do?"
 ```
 
-Add `WORKSPACE=../some-repo` to point it at other code. Without it the turn works
-on ghola itself.
+Add `WORKSPACE=../some-repo` to point it at other code. Without it, the turn
+works on ghola itself.
 
 You will see the settings, then the model's answer and its cost:
 
@@ -116,14 +115,16 @@ workspace /Users/you/ghola
 rung 1    11 function(s) granted
 ```
 
-**Read the `rung 1` line.** It is the number of functions this phase may call. A
-function that is not in that list does not exist for this turn: the harness
-refuses it before ghola sees it. That is the first rung of the ladder, and it is
-enforced by the framework rather than by a rule ghola checks.
+**Read the `rung 1` line.** It counts the functions this phase may call. A
+function absent from that list does not exist for this turn, because the harness
+refuses it before ghola sees it. That is the first rung of the ladder, and the
+framework enforces it rather than a rule ghola checks. I lean on this more than
+on any rule I have written: a check handed no editor needs no predicate telling
+it not to edit.
 
-**A turn edits the workspace as it is.** `make turn` is not a worktree, so a
-`run` phase writes to the files you are looking at. Worktrees arrive with the
-factory.
+**A turn edits the workspace as it is.** `make turn` mints no worktree, so a
+`run` phase writes to the files you are looking at. A job does cut a worktree,
+which is section 6.
 
 If nothing comes back, ask the harness directly:
 
@@ -134,8 +135,8 @@ make call FN=harness::status JSON='{"session_id":"s_<id>_plan"}'
 
 **If a turn hangs, `approval-gate` is holding a call.** ghola ships
 `config/approval-gate.yaml` with `default_mode: full` so the ladder does the
-refusing, but a session created before that change keeps its own mode. Release
-the held call:
+refusing, but a session created before that change keeps its own mode. Check
+what it is holding, then release it:
 
 ```bash
 make call FN=approval::resolve JSON='{"session_id":"...","function_call_id":"...","decision":"allow"}'
@@ -161,15 +162,95 @@ plan
 ```
 
 Every value carries where it came from. **Configuration in ghola is optional**,
-so this command is not a convenience: without it, a default is a magic number and
-a `settings/phases.yaml` with a YAML syntax error looks exactly like agreeing
-with the built-ins. `make config` says which it is.
+which makes this command load-bearing rather than convenient: without it a
+default is a magic number, and a `settings/phases.yaml` with a YAML syntax error
+looks exactly like agreeing with the built-ins. `make config` tells the two
+apart.
 
 ---
 
-## 6. Change the three things you will want to change
+## 6. Your first job
 
-### 6.1 A phase: which model, how long, what tools
+Section 4 ran one turn. A job is the whole pipeline: plan, run, prove, review,
+commit, and a request for somebody to review.
+
+### 6.1 Name a repository
+
+ghola works on a repository you name in `repos.local.toml`. Git ignores that
+file. It beats the tracked `repos.toml`, which holds the examples.
+
+The shortest path uses a scratch repository and no forge at all. A **forge** is
+whoever hosts your code and receives the pull request: GitHub, GitLab, Gitea. The
+`local` forge is none of them.
+
+```toml
+[repos."/Users/you/code/scratch"]
+forge = "local"
+base  = "main"
+```
+
+That entry needs no account, no token, and no slug. Check it:
+
+```
+make repos
+```
+
+### 6.2 Submit a spec
+
+```
+make submit SPEC=specs/document-the-ports.md REPO=/Users/you/code/scratch
+make jobs
+```
+
+Watch it in the console at `http://127.0.0.1:3133`. Each stage runs a turn or an
+action, and every transition travels as a durable queue message, so a crash
+between stages resumes rather than restarts.
+
+`make pipeline` prints the stage graph as it will actually run, plus anything
+wrong with it. Read it before you submit. A broken stage found two turns in has
+already cost you a worktree and a plan.
+
+### 6.3 What comes out
+
+The `local` forge writes the request into `.ghola/requests/` in your repository.
+It carries the spec, the plan, what the run turn built, what the proof ran, and
+the review's verdict. Each phase appended its own section as the job went, which
+is why the file reads as an account rather than as a summary.
+
+Then ghola stops. **Nothing merges itself**, in any configuration.
+
+You have three answers:
+
+- **Merge the branch.** ghola marks the job landed and releases the worktree.
+- **Set `status: closed`** in the request file. The job closes.
+- **Write a comment** under the marker at the bottom. ghola reworks the branch
+  against your words and pushes a second commit.
+
+The comment is the interesting one. It becomes the brief for the next turn, and
+it replaces the spec rather than joining it. Re-stating the original alongside a
+specific complaint is how a turn solves the wrong one.
+
+### 6.4 Moving to GitHub
+
+Change the entry and add a slug:
+
+```toml
+[repos."/Users/you/code/real-repo"]
+slug = "you/real-repo"
+base = "main"
+```
+
+`forge = "github"` is the default, so leave it out. Then run `make doctor`. It
+asks the `github` worker which account it is, because your shell and that worker
+routinely differ, and the mismatch surfaces at `pr create` after a job has
+already paid for a worktree, a plan, a run and two checks.
+
+Everything above works the same. The request becomes a pull request. A comment
+on it becomes the same rework.
+
+## 7. Change the three things you will want to change
+
+### 7.1 A phase: which model, how long, what tools
 
 Create `settings/phases.yaml`. Everything in it overrides a built-in.
 
@@ -204,7 +285,7 @@ phases:
 
 Then `make turn PHASE=threat-model PROMPT="..."`.
 
-### 6.2 The tools are not ghola's
+### 7.2 The tools are not ghola's
 
 Look at the function names above. `coder::read-file` and `shell::exec` come from
 iii's `shell` worker. `github::pr::create` comes from the `github` worker.
@@ -219,7 +300,7 @@ make schema FN=coder::read-file            # one function's contract
 Grant any of them to a phase by name. This is why extension does not need
 ghola's permission: a function id is a function id, wherever it came from.
 
-### 6.3 A script: when configuration is not enough
+### 7.3 A script: when configuration is not enough
 
 Configuration handles values. A judgment needs code, and code goes in a named
 directory where it is found by filename.
@@ -254,7 +335,7 @@ instead.
 
 ---
 
-## 7. The ladder
+## 8. The ladder
 
 This is the idea ghola adds to iii, and the reason the rest exists. It arrives at
 M3. Read it now, because it explains why the sections above are shaped this way.
@@ -290,7 +371,7 @@ other sees, so a rule that matters names both.
 
 ---
 
-## 8. Let it read its own record
+## 9. Let it read its own record
 
 A factory that never learns anything is a factory you have to keep teaching. The
 improve lane reads what already happened and asks one turn what would have
@@ -355,7 +436,7 @@ would be the one thing here that never passed through a pull request.
   is working; it is reported as `unobservable` and explicitly not as evidence
   for removing it.
 
-## 9. Where to go next
+## 10. Where to go next
 
 - `make help` lists every target.
 - [PLAN.md](../PLAN.md) is the phased plan: what is built, what is next, and what

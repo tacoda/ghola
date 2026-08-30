@@ -1,21 +1,30 @@
+<!-- voice-register: informational -->
+
 # ghola
+
+*You clone it. You teach it. It remembers.*
 
 **A starter kit for agentic systems on [iii](https://iii.dev).** Clone it,
 configure it, point it at a repository. A spec goes in, a pull request comes out,
 nothing merges itself.
 
-iii is the framework: it ships the turn loop, the tools, git worktrees, the
-GitHub client, the approval gate, durable queues and the console. ghola is an
-opinionated composition of thirty-one of its workers, plus the conventions that
-wire them together.
+iii is the framework. It ships the turn loop, the tools, git worktrees, the
+GitHub client, the approval gate, durable queues and the console. ghola composes
+thirty-one of its workers, and adds the conventions that wire them together.
 
-The constraint ladder that used to live here is now its own worker,
-[ladder](https://github.com/tacoda/ladder), because it was the one genuinely
-general idea in the pile and a starter kit whose best idea is locked inside it is
-a worse starter kit.
+I moved the constraint ladder out into its own worker,
+[ladder](https://github.com/tacoda/ladder). It was the one genuinely general idea
+in the pile, and a starter kit whose best idea is locked inside it is a worse
+starter kit.
 
-**Status: M3.** The turn seam works, the charter reaches the model, and the ladder refuses. There is no factory yet. The phased plan is
-in [PLAN.md](PLAN.md), and the walkthrough is in [docs/GUIDE.md](docs/GUIDE.md).
+**Status: M8.** The whole lifecycle runs. A spec becomes a plan, a diff, a
+proof, a review, a commit through your repository's own hook, and a pull
+request. Comment on it and the job reworks. 518 tests, and the phased plan is in
+[PLAN.md](PLAN.md).
+
+**Start here:** [docs/ADOPTING.md](docs/ADOPTING.md) gets a pull request out of
+a repository today. [docs/LIMITATIONS.md](docs/LIMITATIONS.md) says what this
+does badly and what it refuses to do. Read that one first. It costs less.
 
 ## Usage
 
@@ -26,11 +35,22 @@ in [PLAN.md](PLAN.md), and the walkthrough is in [docs/GUIDE.md](docs/GUIDE.md).
 ```
 
 Step 2 is optional. ghola runs on built-in defaults with an empty `settings/`,
-which is what `make config` is for: it prints every effective setting tagged with
-where it came from, so a default is never a magic number.
+which is what `make config` is for: it prints every effective setting tagged
+with where it came from, so a default is never a magic number.
+[examples/](examples/) holds two worked configurations at opposite ends of the
+range.
 
-Once you have cloned this, it is yours. There is no upgrade path, which is what a
-starter kit is rather than a compromise.
+Step 3 needs a repository named in `repos.local.toml`. The shortest version
+needs no GitHub account at all:
+
+```toml
+[repos."/Users/you/code/scratch"]
+forge = "local"     # no account, no token. The request is a file in the repo
+base  = "main"
+```
+
+Once you have cloned this, it is yours. No upgrade path, and a starter kit works
+that way on purpose rather than because I ran out of time.
 
 ## Running it
 
@@ -80,6 +100,11 @@ The rule is that if a worker does it, ghola does not.
 **ghola registers no tools of its own.** What is left is the stage graph and the
 briefs: which base ref, what happens in what order, when to land, and what the
 pull request says.
+
+A *forge* is whoever hosts your code and receives the pull request. Which one
+you use is a setting rather than a fork. `github` and `local` ship, and a third
+is a file in `forges/`. `local` is no forge at all, and the shortest path to
+seeing this work.
 
 ## The idea
 
@@ -150,9 +175,20 @@ believes by the third time.
 **Nothing is applied.** Accepting writes a spec into `specs/`, and that spec goes
 through the same pipeline and the same pull request as any other work. The one
 exception is a promotion or a demotion, which is one number in a file, handed to
-`ladder::move` — and the ladder commits nothing either. Otherwise the lane that
+`ladder::move`. The ladder commits nothing either. Otherwise the lane that
 proposes changes to the charter would be the single thing here escaping the gate
 everything else goes through.
+
+## Documentation
+
+| Page | Read it when |
+|---|---|
+| [docs/ADOPTING.md](docs/ADOPTING.md) | you want a pull request out of a repository today |
+| [docs/GUIDE.md](docs/GUIDE.md) | you want the walkthrough, part by part |
+| [docs/LADDER.md](docs/LADDER.md) | you are deciding where a rule belongs |
+| [docs/CUSTOMIZING.md](docs/CUSTOMIZING.md) | you want to change something and need to know where it lives |
+| [docs/EVALS.md](docs/EVALS.md) | you are about to edit a prompt |
+| [docs/LIMITATIONS.md](docs/LIMITATIONS.md) | before any of it |
 
 ## Requirements
 

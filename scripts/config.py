@@ -31,6 +31,34 @@ def show(phase: str) -> None:
         print(f"  {key:24} {str(value)[:72]:74} [{source[key]}]")
 
 
+def show_evals() -> None:
+    """Which cases and graders are in effect.
+
+    A team's suite lives outside this repository, so the only way to know ghola
+    can see it is to ask. A suite that moved contributes no cases, and a run of
+    no cases prints exactly like a run that passed.
+    """
+    import yaml
+
+    import evals
+    try:
+        config = yaml.safe_load(paths.settings("evals.yaml").read_text()) or {}
+    except (OSError, yaml.YAMLError):
+        config = {}
+
+    found = evals.gather(config, paths.root())
+    print(f"evals    : {len(found.cases)} case(s) in "
+          f"{len(evals.places(config, paths.root()))} suite(s)")
+    for problem in found.problems:
+        print(f"  WARNING: {problem}")
+
+    named = evals.graders(config)
+    if named:
+        # Listed rather than verified. Whether the function exists is the
+        # engine's answer, and this command deliberately needs no connection.
+        print(f"graders  : {', '.join(named)}")
+
+
 def main() -> int:
     given = paths.settings("phases.yaml")
     print(f"root     : {paths.root()}")
@@ -46,6 +74,8 @@ def main() -> int:
     missing = [p for p in known_phases if p not in have]
     print(f"prompts  : {len(have)} of {len(known_phases)} phases"
           + (f"  (no prompt for: {', '.join(missing)})" if missing else ""))
+
+    show_evals()
 
     wanted = [a for a in sys.argv[1:] if a]
     known = phase_settings.phases()
