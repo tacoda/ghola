@@ -89,6 +89,14 @@ port 49154: listening     the worker manager
 Open `http://127.0.0.1:3133`. That is the iii console. Best tool here: every
 function, every trigger, queue depth, and a waterfall for each turn.
 
+![The iii console: chat on the left, and a live trace panel on the right listing
+one session per phase, each with its span count and
+duration](img/console/01-run.png)
+
+The trace panel is the half to watch. A job appears there as one session per
+phase, so `..._plan` and `..._run` are separate rows, and the span count beside
+each is every tool call that phase made.
+
 These ports are not iii's stock ones, on purpose: a ghola engine has to run
 beside another iii project's engine.
 
@@ -160,6 +168,12 @@ plan
   model          claude-opus-5                            [built-in]
   thinking_level high                                     [built-in]
 ```
+
+![make config, printing every phase with its functions, max turns, model and
+thinking level, each value tagged [built-in]](img/terminal/02-config.png)
+
+That block is trimmed. The picture is the whole thing on a fresh clone: six
+phases, and `[built-in]` against every value because `settings/` is still empty.
 
 Every value carries where it came from. **Configuration in ghola is optional**,
 which makes this command load-bearing rather than convenient: without it a
@@ -390,6 +404,13 @@ because a lane that only looked at outright failures would miss most of what is
 worth fixing.
 
 If nothing cost anything, no turn runs at all. That is the lane working.
+
+![make audit: 43 entries in one file, reported INTACT, then counts by kind and by
+actor](img/terminal/03-audit.png)
+
+`make audit` is that evidence from the outside: how many entries there are,
+whether the chain still verifies, and which actors wrote them. Run it before
+`make improve` to see how much there is to read.
 
 ### Where a proposal can go
 

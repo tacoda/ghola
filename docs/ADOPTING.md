@@ -57,6 +57,13 @@ make doctor      # what is missing, before you spend a turn finding out
 make repos       # every target repository, and what is wrong with it
 ```
 
+![make doctor, listing each tool with its version, the harness pin, the API key,
+the gh login, and every target repository with its forge and base
+branch](img/terminal/00-doctor.png)
+
+`make doctor` names the version of every tool it found, the harness pin, and each
+target repository. Fix what it reports before you submit anything.
+
 ## Step two: one job
 
 ```
@@ -67,6 +74,12 @@ make jobs
 Watch it in the console at `http://127.0.0.1:3133`. The job plans, runs, proves,
 reviews, commits through your repository's own hook, and opens the request. Then
 it stops. Nothing merges itself.
+
+![The iii console, chat on the left and the live trace panel on the right, with
+one traced session per phase for each job](img/console/04-failed.png)
+
+Each phase is one session in the trace panel, named for the job and the phase.
+Open a row to see every tool call the phase made, and how long each one took.
 
 Write a comment in the request file and ghola reworks the branch. Merge the
 branch and ghola lands the job, then releases the worktree.

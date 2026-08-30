@@ -22,5 +22,13 @@ audit/
 # Worker logs. Useful locally, noise in a diff.
 .logs/
 
+# The screenshot tool's dependencies and its scratch output. The script itself
+# is tracked: docs pictures go stale, and the way to retake them should not.
+.tooling/node_modules/
+.tooling/package-lock.json
+.tooling/capture.log
+.tooling/JOBID
+.tooling/explore.mjs
+
 # This machine's repositories. `repos.toml` is the tracked template.
 repos.local.toml

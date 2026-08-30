@@ -27,3 +27,22 @@ gone wrong, so a reader can decide against it cheaply and early.
 - [settings/README.md](../settings/README.md) is the reference for the
   configuration files themselves.
 - [iii.dev/docs](https://iii.dev/docs) documents the framework underneath.
+
+## The pictures
+
+Every screenshot in these pages is real output, and none of it is drawn by hand.
+The console frames in [img/console/](img/console) come from
+`.tooling/shoot-console.mjs`, which holds one page open and shoots it each time a
+job changes stage. The terminal frames in [img/terminal/](img/terminal) come from
+`.tooling/shoot-terminal.mjs`, which runs the `make` target named in each title
+bar and photographs its stdout.
+
+```
+cd .tooling && npm install                          # puppeteer, once
+node shoot-terminal.mjs ../docs/img/terminal        # needs a running engine
+node shoot-console.mjs <job-id> ../docs/img/console # run it beside a live job
+```
+
+Both scripts are tracked, because pictures go stale and the way to retake them
+should not. Neither spends money: `shoot-terminal.mjs` lists read-only targets
+only.

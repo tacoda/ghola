@@ -71,6 +71,17 @@ make test       # 514 tests, seconds, no engine, no money
 make help       # everything else
 ```
 
+![make help: the targets grouped as getting started, running it, doing work,
+improving it and checking it, with a dollar sign marking every target that sends
+a paid turn](docs/img/terminal/01-help.png)
+
+`make` is the whole operator surface, and the `$` column is there because a
+target that spends money should say so before you run it. While a job is up, the
+picture worth having open is the console:
+
+![The iii console, chat on the left and a live trace panel on the right, listing
+one traced session per phase for each job](docs/img/console/04-failed.png)
+
 `make setup` writes `.env` for you; put your `ANTHROPIC_API_KEY` in it before
 `make up`. The provider workers read their credentials from the **engine's**
 environment, so an engine started without them serves a router with no models and
