@@ -111,7 +111,7 @@ def main() -> None:
 
     print(f"ghola-policy started on {url}")
     print(f"  hooks : {', '.join(bound) or 'none'}")
-    print("  audit : through ghola-audit, which owns the chain")
+    print("  audit : through audit-log, which owns the chain")
     print(f"  recording: {', '.join(recording) or 'nothing'}")
     print(f"  evaluators: {', '.join(f'ghola::eval::{n}' for n in evaluators.EVALUATORS)}")
     print("  tools : none. Reading, editing and running are coder::* and shell::*")

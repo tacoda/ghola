@@ -73,7 +73,7 @@ def record(kind: str, actor: str = "", subject: str = "", **detail) -> None:
     **Not written directly.** A hash chain has exactly one writer or it has
     none: this worker and the factory both record, they are separate processes,
     and appending from both produced a log that failed its own verification
-    while nothing had tampered with it. `ghola-audit` owns the file.
+    while nothing had tampered with it. The `audit-log` worker owns the file.
 
     A failed write must not fail a turn, but it must not be silent either: an
     audit log that quietly stops recording is worse than none, because the

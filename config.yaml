@@ -1,8 +1,10 @@
 # iii engine configuration — ghola
 #
-# Stock infrastructure workers only. ghola's own three workers (core, factory,
-# policy) self-connect as local host processes: they need git, a forge CLI, and
-# the host's credentials, which a managed microVM does not have.
+# Stock infrastructure workers only. ghola's own two workers (factory, policy)
+# self-connect as local host processes: they need git, a forge CLI, and the
+# host's credentials, which a managed microVM does not have. `ladder` and
+# `audit-log` run the same way, from their own checkouts beside this one: one
+# has to see the target repository and the other has to outlive the sandbox.
 #
 # Ports are 3131 (http), 3133 (console) and 49154 (worker manager) rather than
 # iii's stock 3111/3113/49134, so a ghola engine runs beside another project's.

@@ -6,6 +6,16 @@
 Both questions from one file. An auditor asks whether it can be trusted and an
 engineer asks what it counts, and answering them from two stores is how the two
 answers stop agreeing.
+
+**The log belongs to `tacoda/audit-log`; this display belongs to ghola.** The
+worker counts whatever field it is asked for and knows nothing about rungs, which
+is correct: a rung is a ladder idea, and ghola is the thing composing the two.
+So the general summary comes from there and the line about refusals is computed
+here.
+
+Reading the files directly rather than asking the worker, because a reader needs
+no worker and asking the writer whether its own writing is intact is the wrong
+shape.
 """
 
 import os
@@ -13,15 +23,29 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "workers" / "ghola-core" / "src"))
+AUDITLOG = Path(os.environ.get("AUDITLOG") or ROOT.parent / "audit-log")
+sys.path.insert(0, str(AUDITLOG / "src"))
 
-import audit_log  # noqa: E402
+try:
+    import audit  # noqa: E402
+    import audit_log  # noqa: E402
+except ModuleNotFoundError:
+    print(f"no audit-log at {AUDITLOG}")
+    print("Clone tacoda/audit-log beside this repo, or set AUDITLOG to where it is.")
+    raise SystemExit(2)
 
-FOLDER = os.environ.get("GHOLA_AUDIT_DIR") or (ROOT / "audit")
+FOLDER = os.environ.get("AUDIT_LOG_DIR") or (ROOT / "audit")
+
+# The same vocabulary the worker runs with, from the same variable. Reading the
+# log with a different list than the one it was written under would make this
+# command and `audit::verify` disagree about the same file, which is the failure
+# a single source of the list exists to prevent.
+KINDS = tuple(k.strip() for k in os.environ.get("AUDIT_LOG_KINDS", "").split(",")
+              if k.strip())
 
 
 def main() -> int:
-    report = audit_log.summary(FOLDER)
+    report = audit_log.summary(FOLDER, kinds=KINDS)
 
     if not report["files"]:
         print(f"no audit log at {FOLDER}")
@@ -41,19 +65,24 @@ def main() -> int:
     if os.environ.get("VERIFY"):
         return 0 if report["verified"] else 1
 
-    if report["by_kind"]:
-        print("\n  by kind")
-        for kind, count in report["by_kind"].items():
-            print(f"    {count:6}  {kind}")
-    if report["refusals_by_rung"]:
-        print("\n  refusals by rung")
-        for rung, count in report["refusals_by_rung"].items():
-            print(f"    {count:6}  rung {rung}")
-    if report["by_actor"]:
-        print("\n  by actor")
-        for actor, count in list(report["by_actor"].items())[:12]:
-            print(f"    {count:6}  {actor}")
+    show("by kind", report["by"]["kind"])
+    # ghola's own question, and the reason it is asked here: which rung is doing
+    # the work. A backstop that starts catching everything is a signal about how
+    # turns are writing, not an argument for tightening anything.
+    entries, _ = audit_log.AuditLog(FOLDER).read()
+    show("refusals by rung", audit.tally(entries, by="rung", kind="ladder.refused"),
+         label="rung ")
+    show("by actor", report["by"]["actor"], limit=12)
     return 0 if report["verified"] else 1
+
+
+def show(heading: str, counts: dict, label: str = "", limit: int = 0) -> None:
+    """One breakdown, or nothing at all when there is nothing to say."""
+    if not counts:
+        return
+    print(f"\n  {heading}")
+    for name, count in list(counts.items())[:limit or len(counts)]:
+        print(f"    {count:6}  {label}{name}")
 
 
 if __name__ == "__main__":

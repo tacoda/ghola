@@ -135,8 +135,8 @@ doctor:
 # fail with an error about the venv rather than doing the install.
 install:
 	@uv venv $(VENV) --allow-existing
-	@uv pip install --quiet --python $(PY) -e workers/ghola-core -e workers/ghola-policy -e workers/ghola-factory -e workers/ghola-audit
-	@echo "  installed ghola-core, ghola-policy, ghola-factory and ghola-audit into $(VENV)"
+	@uv pip install --quiet --python $(PY) -e workers/ghola-core -e workers/ghola-policy -e workers/ghola-factory
+	@echo "  installed ghola-core, ghola-policy and ghola-factory into $(VENV)"
 
 # ---------------------------------------------------------------- running
 
@@ -162,11 +162,36 @@ ladder:
 	@$(ENV) PYTHONUNBUFFERED=1 III_URL=ws://localhost:$(MGR_PORT) LADDER_HOME=$(LADDER) \
 		$(LADDER)/.venv/bin/python $(LADDER)/src/main.py
 
+# The record, also a HOST process, and for the same reason as the ladder: a
+# managed worker's microVM mounts only its own source, so the log would live and
+# die inside the sandbox. An audit log that vanishes with the thing it audits is
+# not one.
+#
 # One process owns the append-only chain. Two writers interleave their `prev`
 # hashes and produce a log that fails its own verification while nothing has
 # tampered with it, so this starts BEFORE the workers that record.
+#
+# `AUDIT_LOG_KINDS` is ghola's vocabulary, declared here because audit-log ships
+# none: it reports an entry whose kind is not on this list, which catches the
+# typo that would otherwise split a count in two. Keep it in step with what the
+# policy and factory workers actually append.
+#
+# The last three were missing from the list this replaced, and had been missing
+# for as long as the lane existed. The old worker checked for an unknown kind and
+# then did nothing with the answer, so three kinds ghola writes on every improve
+# run were never once reported. A check whose result is discarded is the thing
+# this repository is against, and it was sitting inside the audit log.
+AUDITLOG ?= ../audit-log
+AUDIT_KINDS := turn.started,turn.completed,ladder.refused,ladder.warned,\
+approval.held,approval.resolved,governance.verified,governance.denied,\
+stage.entered,stage.left,published,config.changed,\
+improve.started,improve.completed,proposal.accepted
+
 auditd:
-	@$(RUN) $(PY) workers/ghola-audit/src/audit_worker.py
+	@test -d $(AUDITLOG) || { echo "no audit-log at $(AUDITLOG). Clone tacoda/audit-log beside this repo"; exit 2; }
+	@$(ENV) PYTHONUNBUFFERED=1 III_URL=ws://localhost:$(MGR_PORT) \
+		AUDIT_LOG_DIR=$(PWD)/audit AUDIT_LOG_KINDS='$(AUDIT_KINDS)' \
+		$(AUDITLOG)/.venv/bin/python $(AUDITLOG)/src/main.py
 
 # The pipeline. Serves no HTTP: the console is the UI.
 factory:
@@ -228,8 +253,11 @@ up:
 	done
 	@echo ""
 	@# Before the recorders, so their first entry has somewhere to go.
-	@pgrep -f '[g]hola-audit/src/audit_worker.py' >/dev/null \
-		|| ($(RUN) $(PY) workers/ghola-audit/src/audit_worker.py > $(LOGS)/audit.log 2>&1 &)
+	@test -d $(AUDITLOG) && { pgrep -f '[a]udit-log/src/main.py' >/dev/null \
+		|| ($(ENV) PYTHONUNBUFFERED=1 III_URL=ws://localhost:$(MGR_PORT) \
+		    AUDIT_LOG_DIR=$(PWD)/audit AUDIT_LOG_KINDS='$(AUDIT_KINDS)' \
+		    $(AUDITLOG)/.venv/bin/python $(AUDITLOG)/src/main.py > $(LOGS)/audit.log 2>&1 &); } \
+		|| echo "  no audit-log at $(AUDITLOG): NOTHING WILL BE RECORDED"
 	@sleep 2
 	@pgrep -f '[g]hola-policy/src/boot.py' >/dev/null \
 		|| ($(RUN) $(PY) workers/ghola-policy/src/boot.py > $(LOGS)/policy.log 2>&1 &)
@@ -292,7 +320,7 @@ accept:
 # Reads the log directly: a reader needs no worker, and asking the writer
 # whether its own writing is intact is the wrong shape.
 audit:
-	@$(PY) scripts/audit.py
+	@AUDIT_LOG_KINDS='$(AUDIT_KINDS)' AUDITLOG=$(AUDITLOG) $(PY) scripts/audit.py
 
 # A default nobody can see is a magic number.
 config:
@@ -346,7 +374,7 @@ status:
 	@echo "policy   : $$(pgrep -f '[g]hola-policy/src/boot.py' >/dev/null && echo up || echo down)"
 	@echo "ladder   : $$(pgrep -f '[l]adder/src/main.py' >/dev/null && echo up || echo down)"
 	@echo "factory  : $$(pgrep -f '[g]hola-factory/src/factory.py' >/dev/null && echo up || echo down)"
-	@echo "audit    : $$(pgrep -f '[g]hola-audit/src/audit_worker.py' >/dev/null && echo up || echo down)"
+	@echo "audit    : $$(pgrep -f '[a]udit-log/src/main.py' >/dev/null && echo up || echo down)"
 	@for p in $(HTTP_PORT) $(CONSOLE_PORT) $(STREAM_PORT) $(MGR_PORT) $(GOVERNED_PORT); do \
 		printf '%-9s: %s\n' "port $$p" "$$(lsof -nP -iTCP:$$p -sTCP:LISTEN >/dev/null 2>&1 && echo listening || echo free)"; \
 	done
@@ -360,7 +388,7 @@ status:
 stop:
 	@pkill -f 'ghola-policy/src/boot.py' || true
 	@pkill -f 'ghola-factory/src/factory.py' || true
-	@pkill -f 'ghola-audit/src/audit_worker.py' || true
+	@pkill -f 'audit-log/src/main.py' || true
 	@pkill -f 'ladder/src/main.py' || true
 	@pkill -f 'iii --config config.yaml' || true
 	@# The engine's workers are its children and outlive the signal by a few

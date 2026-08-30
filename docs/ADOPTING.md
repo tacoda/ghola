@@ -7,9 +7,22 @@ Three steps. The shortest honest path runs all three against a repository nobody
 else can see. Read [what ghola does not do](LIMITATIONS.md) before you start.
 
 ```
-git clone tacoda_github:tacoda/ghola.git && cd ghola
+git clone tacoda_github:tacoda/ghola.git
+git clone tacoda_github:tacoda/ladder.git
+git clone tacoda_github:tacoda/audit-log.git
+cd ladder && make install && cd ../audit-log && make install && cd ../ghola
 make setup
 ```
+
+Clone all three, side by side. `ladder` carries the rules and `audit-log` keeps
+the record. Both run as host processes from their own checkouts, because one has
+to see your repository and the other has to outlive the sandbox. `make up`
+starts them if they are there.
+
+If a sibling is missing, `make up` says so and keeps going. That is deliberate
+for the ladder and dangerous for the record: without `audit-log` nothing is
+written down, and `make up` prints `NOTHING WILL BE RECORDED`. Point `AUDITLOG`
+or `LADDER` at another directory if you keep them somewhere else.
 
 `make setup` checks your tools, builds the venv, writes `.env` from the example,
 and creates an empty `repos.local.toml`. Then it tells you what is left to do.

@@ -12,14 +12,15 @@ iii is the framework. It ships the turn loop, the tools, git worktrees, the
 GitHub client, the approval gate, durable queues and the console. ghola composes
 thirty-one of its workers, and adds the conventions that wire them together.
 
-I moved the constraint ladder out into its own worker,
-[ladder](https://github.com/tacoda/ladder). It was the one genuinely general idea
-in the pile, and a starter kit whose best idea is locked inside it is a worse
-starter kit.
+I moved two things out into their own workers:
+[ladder](https://github.com/tacoda/ladder), the constraint and capability ladder,
+and [audit-log](https://github.com/tacoda/audit-log), the append-only record.
+Both were general, and a starter kit whose best ideas are locked inside it is a
+worse starter kit. Clone them beside this repo; `make up` starts them.
 
 **Status: M8.** The whole lifecycle runs. A spec becomes a plan, a diff, a
 proof, a review, a commit through your repository's own hook, and a pull
-request. Comment on it and the job reworks. 518 tests, and the phased plan is in
+request. Comment on it and the job reworks. 514 tests, and the phased plan is in
 [PLAN.md](PLAN.md).
 
 **Start here:** [docs/ADOPTING.md](docs/ADOPTING.md) gets a pull request out of
@@ -66,7 +67,7 @@ make jobs       # every job, newest first
 make turn PHASE=plan PROMPT="why is the queue slow?" WORKSPACE=../some-repo
 make config     # the effective settings, and where each value came from
 make models     # what the router can actually reach
-make test       # 436 tests, seconds, no engine, no money
+make test       # 514 tests, seconds, no engine, no money
 make help       # everything else
 ```
 

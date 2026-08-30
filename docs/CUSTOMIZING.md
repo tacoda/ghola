@@ -109,6 +109,8 @@ function id there rather than pretending.
 - **The pull request.** No setting removes it, at any oversight level.
 - **`ask` becoming `allow`.** Not at `dark`, not anywhere.
 - **The audit log.** It appends, it hash-chains, and one worker owns the chain.
+  `AUDIT_LOG_KINDS` in the Makefile names the kinds ghola records; nothing there
+  turns the chain off, and no setting deletes an entry.
 - **Tools.** ghola registers none. Every tool a phase can call belongs to a
   stock iii worker, and rung 1 works the same over a function id whoever
   registered it.

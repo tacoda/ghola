@@ -206,6 +206,7 @@ ghola building.
 |---|---|
 | `harness` (1.8.7, pinned) | the turn loop, transcript, retry, sub-agents, token budget |
 | `ladder` | the constraint and capability ladder: layers, rungs, predicates, and the refusal that carries a rule's own words. Extracted from this repository into `tacoda/ladder` |
+| `audit-log` | the append-only, hash-chained record: one writer, fsynced before it answers, and `audit::recorded` for anyone who wants a copy. Extracted from this repository into `tacoda/audit-log` |
 | `shell` | every tool. It owns `coder::*` as well as `shell::*`: `read-file`, `search`, `tree`, `list-folder`, `create-file`, `update-file`, `delete-file`, `move`, `exec`, `exec_bg` |
 | `worktree` | worktree lifecycle, the branch convention, the claim that stops two jobs racing, and `land` with its rebase, test gate and atomic compare-and-swap |
 | `github` | the forge. Typed `pr::create/view/comment/diff/merge/checks`, `issue::*`, `run::*`, with read-versus-mutate gating and `exec`/`api` as escape hatches |
@@ -223,10 +224,15 @@ is served by `directory` rather than read by a tool.
 What is left for ghola is **the stage graph and the briefs**: which base ref,
 what happens in what order, when to land, and what the pull request says.
 
-The ladder used to be on that list and is not any more. It was the one genuinely
-general thing here, so it was extracted into its own worker, which is the same
-argument every other row of this table makes. A starter kit whose best idea is
-locked inside it is a worse starter kit.
+The ladder used to be on that list, and so did the audit log. Both were
+genuinely general, so both became their own worker, which is the same argument
+every other row of this table makes. A starter kit whose best ideas are locked
+inside it is a worse starter kit.
+
+The audit log went second and was the easier call, because nothing in it was
+ghola's except the vocabulary. That is now `AUDIT_LOG_KINDS`, declared in the
+Makefile, and declaring it caught three kinds ghola writes on every improve run
+that had never been on the list.
 
 The harness version pin is not cosmetic. On `harness` 1.8.1 the `pre-trigger`
 hook fired and its `deny` was ignored: the call ran anyway. A ladder mounted on
@@ -236,14 +242,13 @@ is honored, not merely delivered.**
 ### The workers ghola writes
 
 Two, and there is no third. An earlier draft of this plan had four; `worktree`,
-`github`, `shell` and `eval` took two of them away, which is this plan working
-rather than this plan being wrong.
+`github`, `shell` and `eval` took two of them away, and `audit-log` took the
+last, which is this plan working rather than this plan being wrong.
 
 | Worker | What it owns |
 |---|---|
 | `workers/ghola-factory` | The stage graph, the job record, and the briefs. Calls `worktree::*` and `github::*` rather than running git. Starts turns; never runs one. **Serves no HTTP: the console is the UI.** |
 | `workers/ghola-policy` | What this repository contributes to a turn: the four callbacks carrying the ladder, and the evaluator functions. **Registers no tools.** Holds no session state. |
-| `workers/ghola-audit` | Owns the append-only, hash-chained record. **One writer, by construction.** Everything else records through `audit::append`. |
 
 `ghola-core` is not a worker. It is a plain Python package both workers import:
 the pure decisions, with no I/O and no engine. The graph transition, the gate

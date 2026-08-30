@@ -648,7 +648,7 @@ def main() -> None:
     print(f"ghola-factory started on {url}")
     print(f"  jobs   : {STORE.folder}")
     print(f"  stages : {' -> '.join(graph.stages) or 'none'}")
-    print("  audit  : through ghola-audit, which owns the chain")
+    print("  audit  : through audit-log, which owns the chain")
     print(f"  queue  : {QUEUE} -> {NAME}::step")
     print(f"  poll   : {POLL} -> {NAME}::tick ({len(STORE.waiting())} waiting)")
     print("  the console is the UI: invoke ghola::submit from it")
