@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The customization contract — ghola guides</title>
+<meta name="description" content="Everything ghola does has a home, a built-in default, and a way to override it. This is the whole list, in the order you should reach for them.">
+<!-- voice-register: informational -->
+<!-- voice-english: ste -->
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body class="guides" data-page="customizing" data-root="../../">
+
+<div class="wrap">
+<main>
+<article>
+
+  <div class="kicker">Guide 5</div>
+  <h1>The customization contract</h1>
+  <p class="lede">Everything ghola does has a home, a built-in default, and a way
+  to override it. This page is the whole list, in the order you should reach for
+  them.</p>
+  <p>Run <code>make config</code> before you change anything. It prints every
+  effective setting with the source that produced it, so a default is never a
+  magic number you go looking for in the code.</p>
+
+  <h2>The order to reach for things</h2>
+
+  <ol>
+    <li><strong>A key in <code>settings/*.yaml</code>.</strong> One value,
+    overriding one default.</li>
+    <li><strong>A whole block.</strong> A phase, a stage, a contract.</li>
+    <li><strong>A Python file in a named directory.</strong> For a judgment, not
+    a value.</li>
+    <li><strong>A function id on the bus.</strong> When Python is the wrong
+    language for it.</li>
+  </ol>
+
+  <figure>
+    <pre class="mermaid">
+flowchart TB
+    q1{"is it one value?"}
+    q1 -- "yes" --> k["a key in settings/*.yaml"]
+    q1 -- "no" --> q2{"is it still a value,<br/>just several of them?"}
+    q2 -- "yes" --> b["a whole block:<br/>a phase, a stage, a contract"]
+    q2 -- "no" --> q3{"is it a judgment,<br/>so it needs code?"}
+    q3 -- "yes, in Python" --> py["a file in actions/, guards/,<br/>parsers/, predicates/, forges/"]
+    q3 -- "yes, in something else" --> fn["a function id on the bus"]
+
+    note["reach for code only when 1 and 2<br/>cannot say the thing. A Python file is<br/>code you now maintain. A key is not"]
+    py -.-> note
+    fn -.-> note
+
+    classDef cheap fill:#1A100A,stroke:#A4470F,color:#E8A33D
+    classDef gate fill:#3A2112,stroke:#E7C982,color:#E7C982
+    classDef costly fill:#23150C,stroke:#6E2E13,color:#E7C982
+    classDef aside fill:#0F0A06,stroke:#3B2515,color:#AB9070
+    class k,b cheap
+    class q1,q2,q3 gate
+    class py,fn costly
+    class note aside
+    </pre>
+    <figcaption>the cheapest thing that can say it, first</figcaption>
+  </figure>
+
+  <p>Reach for 3 only when 1 and 2 cannot say the thing. A Python file is code
+  you now maintain, and a key in a YAML file is not.</p>
+
+  <h2>What each file owns</h2>
+
+  <div class="scroll-x">
+  <table>
+    <tr><th>File</th><th>Owns</th><th>Default when absent</th></tr>
+    <tr><td>settings/phases.yaml</td><td>models, thinking levels, turn caps, tool grants</td><td><code>defaults.PHASES</code></td></tr>
+    <tr><td>settings/pipeline.yaml</td><td>the stage graph: what happens in what order</td><td><code>defaults.PIPELINE</code></td></tr>
+    <tr><td>settings/oversight.yaml</td><td>how much a person watches</td><td><code>supervised</code></td></tr>
+    <tr><td>settings/governance.yaml</td><td>which calls need a verdict before they run</td><td>the promote list</td></tr>
+    <tr><td>settings/contracts/*.yaml</td><td>how a phase's answer parses, and what invalidates it</td><td><code>contracts.BUILT_IN</code></td></tr>
+    <tr><td>settings/evals.yaml</td><td>eval suites outside this repository</td><td><code>evals/</code> alone</td></tr>
+    <tr><td>settings/pricing.yaml</td><td>fallback prices for models the router prices at null</td><td>none</td></tr>
+    <tr><td>repos.toml</td><td>what ghola knows about a target repository</td><td>the built-ins</td></tr>
+    <tr><td>repos.local.toml</td><td>the same, for this machine, git-ignored</td><td>absent</td></tr>
+    <tr><td>prompts/*.md</td><td>what each phase is actually asked</td><td>the bare spec</td></tr>
+  </table>
+  </div>
+
+  <p><code>settings/</code> rather than <code>config/</code>, because
+  <code>config/</code> belongs to iii's <code>configuration</code> worker, and
+  that worker rewrites files in its own directory. Point
+  <code>GHOLA_SETTINGS</code> somewhere else if you want the settings
+  elsewhere.</p>
+
+  <h2>Three merge rules that surprise people</h2>
+
+  <p><strong><code>phases.yaml</code> merges one level down.</strong> Set
+  <code>plan.max_turns</code> and the <code>plan</code> phase keeps its built-in
+  model and its tool grant. Name a phase the defaults do not have and ghola
+  simply adds it.</p>
+
+  <p><strong><code>functions</code> replaces, and never merges.</strong> A phase
+  that lists its own tools means those tools, and not those plus the defaults.
+  Rung 1 read as an accident of merge order is how a check ends up holding an
+  editor, so this one is deliberate.</p>
+
+  <div class="note warn">
+    <span class="label">What went wrong</span>
+    <p><strong><code>optional</code> and <code>opt_in</code> are
+    opposites.</strong> <code>optional</code> means the stage runs unless a job
+    turns it off, which is what <code>prove</code> and <code>review</code> are.
+    <code>opt_in</code> means it stays off until a job asks, which is what
+    <code>refine</code> is. I conflated them in the first pipeline, and
+    <code>refine</code> rewrote the specs of jobs that had never asked for
+    refining.</p>
+  </div>
+
+  <h2>The five extension directories</h2>
+
+  <p>Drop a file in, and ghola finds it by filename. No registration, and no
+  import to add anywhere.</p>
+
+  <div class="scroll-x">
+  <table>
+    <tr><th>Directory</th><th>For</th><th>Entry point</th></tr>
+    <tr><td>actions/</td><td>a stage that does something rather than asking a model</td><td><code>run</code></td></tr>
+    <tr><td>guards/</td><td>a condition on whether a stage runs</td><td><code>check</code></td></tr>
+    <tr><td>parsers/</td><td>reading a phase's answer your own way</td><td><code>parse</code></td></tr>
+    <tr><td>predicates/</td><td>what a rule decides, for the ladder to call</td><td><code>check</code></td></tr>
+    <tr><td>forges/</td><td>a code host other than GitHub</td><td><code>driver</code></td></tr>
+  </table>
+  </div>
+
+  <p>A predicate belongs to the target repository rather than to ghola, and it
+  lives beside its rule: <code>team/rules/no-secrets.py</code> next to
+  <code>team/rules/no-secrets.md</code>. That pairing is what makes the rule and
+  its enforcement one primitive instead of two things somebody keeps in
+  agreement. See <a href="../ladder/">the ladder</a>.</p>
+
+  <p>Hyphens and underscores are the same name, so a stage written
+  <code>deploy-to-staging</code> finds <code>deploy_to_staging.py</code>.</p>
+
+  <p>An action receives <code>(worker, job, settings)</code> and returns the same
+  shape a turn does: <code>{ok, refused, blocked, outcome, error}</code>. That
+  symmetry is why <code>graph.next_stage</code> does not care which kind of stage
+  it just ran.</p>
+
+  <div class="note">
+    <span class="label">Found before it costs you</span>
+    <p><strong>A named extension that resolves to nothing is an error, not a
+    no-op.</strong> ghola reports it when it reads the pipeline, which is before
+    a job has paid for a worktree and a plan. Run <code>make pipeline</code> to
+    see what it found.</p>
+  </div>
+
+  <h2>Naming a function instead of writing a file</h2>
+
+  <p>Every extension point that takes a module also takes
+  <code>worker::function</code>. Write the extension in Rust, in TypeScript, or
+  in anything that speaks the bus:</p>
+
+<pre>stages:
+  deploy:
+    action: acme::deploy::staging
+    next: waiting</pre>
+
+  <p>Python is the easy path. A worker is the one that scales, and the one you
+  reach for when the extension needs state or a connection of its own.</p>
+
+  <p>The exception is <code>forges/</code>. A driver answers four questions. One
+  callable would have to switch on which question it was being asked, so ghola
+  refuses a function id there rather than pretending.</p>
+
+  <h2>What you cannot configure</h2>
+
+  <ul>
+    <li><strong>The pull request.</strong> No setting removes it, at any
+    oversight level.</li>
+    <li><strong><code>ask</code> becoming <code>allow</code>.</strong> Not at
+    <code>dark</code>, not anywhere.</li>
+    <li><strong>The audit log.</strong> It appends, it hash-chains, and one
+    worker owns the chain. <code>AUDIT_LOG_KINDS</code> in the Makefile names the
+    kinds ghola records; nothing there turns the chain off, and no setting
+    deletes an entry.</li>
+    <li><strong>Tools.</strong> ghola registers none. Every tool a phase can call
+    belongs to a stock iii worker, and rung 1 works the same over a function id
+    whoever registered it.</li>
+  </ul>
+
+  <h2>Where the project's own opinions go</h2>
+
+  <p>Not here. A target repository's conventions belong in that repository, in
+  its <code>CLAUDE.md</code> and its <code>.claude/</code> directory. There git
+  versions them with the code they describe, and every other tool can read them
+  too.</p>
+
+  <figure>
+    <pre class="mermaid">
+flowchart LR
+    subgraph ghola["ghola: settings/"]
+        h["how work gets done:<br/>phases, stages, oversight,<br/>contracts, prompts"]
+    end
+    subgraph repo["your repository: CLAUDE.md, .claude/"]
+        w["what the work must respect:<br/>conventions, rules, skills,<br/>hooks, predicates"]
+    end
+    h <--> |"the split worth holding"| w
+
+    classDef a fill:#23150C,stroke:#6E2E13,color:#E7C982
+    classDef b fill:#1A100A,stroke:#A4470F,color:#E8A33D
+    class h a
+    class w b
+    </pre>
+    <figcaption>versioned with the code it describes, and readable by every other
+    tool</figcaption>
+  </figure>
+
+  <p>That split is the one worth holding. <code>settings/</code> says how work
+  gets done. The repository says what the work must respect.</p>
+
+</article>
+</main>
+</div>
+
+<script src="../../assets/site.js"></script>
+</body>
+</html>

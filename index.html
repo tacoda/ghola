@@ -6,311 +6,12 @@
 <title>ghola — a starter kit for agentic systems on iii</title>
 <meta name="description" content="A spec goes in, a pull request comes out, nothing merges itself. ghola composes thirty-one iii workers into a factory you own the moment you clone it.">
 <!-- voice-register: argument -->
-<style>
-:root {
-  --black:    #0A0705;
-  --brown-9:  #150D08;
-  --brown-8:  #23150C;
-  --brown-7:  #3A2112;
-  --rust:     #6E2E13;
-  --burnt:    #A4470F;
-  --orange:   #D2761B;
-  --amber:    #E8A33D;
-  --sand:     #E7C982;
-
-  --panel:    #1A100A;
-  --panel-2:  #23160E;
-  --border:   #3B2515;
-
-  --text:     #F1E3CB;
-  --muted:    #AB9070;
-
-  --maxw:     1080px;
-  --mono:     "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-  --sans:     Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
-}
-
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-html { scroll-behavior: smooth; }
-
-body {
-  background: var(--black);
-  color: var(--text);
-  font: 17px/1.65 var(--sans);
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
-}
-
-/* ---------- the dune field ---------------------------------------------- */
-
-#dunes {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  overflow: hidden;
-  background: var(--black);
-}
-#dunes .layer {
-  position: absolute;
-  left: -30%;
-  width: 160%;
-  will-change: transform;
-}
-#dunes svg { display: block; width: 100%; height: 14vh; }
-/* The body of the dune, below its crest. Tall enough that no layer can drift
-   far enough up to show black underneath it. */
-#dunes .body { height: 300vh; }
-#sun {
-  position: absolute;
-  left: 50%;
-  top: 15vh;
-  width: 320px;
-  height: 320px;
-  margin-left: -160px;
-  border-radius: 50%;
-  background: var(--rust);
-  will-change: transform;
-}
-/* Each crest sits lower than the one behind it, and moves faster, so the field
-   reads as depth rather than as five copies of one shape. */
-#d1 { top: 76vh; } #d2 { top: 83vh; } #d3 { top: 89vh; }
-#d4 { top: 94vh; } #d5 { top: 99vh; }
-
-/* ---------- chrome ------------------------------------------------------ */
-
-.wrap { position: relative; z-index: 1; }
-
-nav {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background: var(--black);
-  border-bottom: 1px solid var(--border);
-}
-nav .row {
-  max-width: var(--maxw);
-  margin: 0 auto;
-  padding: 14px 24px;
-  display: flex;
-  align-items: center;
-  gap: 26px;
-  font-family: var(--mono);
-  font-size: 14px;
-}
-nav .brand { color: var(--amber); font-weight: 700; letter-spacing: .04em; }
-nav a { color: var(--muted); text-decoration: none; }
-nav a:hover, nav a.on { color: var(--sand); }
-nav .spacer { flex: 1; }
-@media (max-width: 720px) { nav .hide-sm { display: none; } }
-
-/* Sections are opaque so the prose stays readable, and they are separated so
-   the dune field shows through the gaps and down both margins. */
-section {
-  max-width: var(--maxw);
-  margin: 0 auto 64px;
-  padding: 76px 44px;
-  background: var(--black);
-  border: 1px solid var(--border);
-}
-@media (max-width: 720px) { section { padding: 56px 22px; } }
-
-.eyebrow {
-  font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: var(--burnt);
-  margin-bottom: 14px;
-}
-h1 {
-  font-size: clamp(56px, 13vw, 132px);
-  line-height: .92;
-  letter-spacing: -.04em;
-  color: var(--sand);
-  font-weight: 800;
-}
-h2 {
-  font-size: clamp(28px, 4.4vw, 40px);
-  line-height: 1.15;
-  letter-spacing: -.02em;
-  color: var(--sand);
-  margin-bottom: 18px;
-}
-h3 { font-size: 19px; color: var(--amber); margin-bottom: 8px; letter-spacing: -.01em; }
-p { max-width: 62ch; }
-p + p { margin-top: 16px; }
-.lede { font-size: 20px; color: var(--text); }
-.muted { color: var(--muted); }
-a { color: var(--amber); }
-
-/* ---------- hero -------------------------------------------------------- */
-
-#hero {
-  padding-top: 18vh;
-  padding-bottom: 24vh;
-  background: none;
-  border: 0;
-  margin-bottom: 22vh;
-}
-.tagline {
-  font-family: var(--mono);
-  font-size: clamp(15px, 2.6vw, 21px);
-  color: var(--orange);
-  margin: 22px 0 26px;
-}
-.cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
-.btn {
-  font-family: var(--mono);
-  font-size: 14px;
-  text-decoration: none;
-  padding: 12px 20px;
-  border: 1px solid var(--border);
-  color: var(--sand);
-  background: var(--panel);
-}
-.btn:hover { border-color: var(--burnt); }
-.btn.primary { background: var(--burnt); border-color: var(--burnt); color: #FFF3DF; }
-.btn.primary:hover { background: var(--orange); border-color: var(--orange); }
-
-.facts {
-  margin-top: 40px;
-  font-family: var(--mono);
-  font-size: 13px;
-  color: var(--muted);
-}
-.facts b { color: var(--sand); font-weight: 500; }
-
-/* ---------- panels ------------------------------------------------------ */
-
-.panel {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  padding: 30px;
-}
-.grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-top: 32px; }
-.grid p { font-size: 15.5px; color: var(--muted); }
-
-pre {
-  background: var(--brown-9);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--burnt);
-  padding: 20px 22px;
-  overflow-x: auto;
-  font-family: var(--mono);
-  font-size: 13.5px;
-  line-height: 1.75;
-  color: var(--text);
-  margin-top: 26px;
-}
-pre .c { color: var(--muted); }
-pre .k { color: var(--amber); }
-
-table { width: 100%; border-collapse: collapse; margin-top: 26px; font-size: 15px; }
-th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
-th { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--burnt); }
-td:first-child { font-family: var(--mono); color: var(--amber); white-space: nowrap; }
-.scroll-x { overflow-x: auto; }
-
-/* ---------- the ladder -------------------------------------------------- */
-
-.rung {
-  display: flex;
-  gap: 18px;
-  align-items: baseline;
-  padding: 13px 18px;
-  border: 1px solid var(--border);
-  border-left-width: 4px;
-  background: var(--panel);
-  margin-top: 8px;
-  font-size: 15.5px;
-}
-.rung b { font-family: var(--mono); color: var(--sand); font-weight: 500; min-width: 92px; }
-.rung span { color: var(--muted); }
-.rung:nth-child(1) { border-left-color: var(--brown-7); }
-.rung:nth-child(2) { border-left-color: var(--rust); }
-.rung:nth-child(3) { border-left-color: var(--burnt); }
-.rung:nth-child(4) { border-left-color: var(--orange); }
-.rung:nth-child(5) { border-left-color: var(--amber); }
-.rung:nth-child(6) { border-left-color: var(--sand); }
-
-/* ---------- shots ------------------------------------------------------- */
-
-figure { margin-top: 28px; }
-figure img { width: 100%; display: block; border: 1px solid var(--border); }
-figcaption { margin-top: 10px; font-size: 14px; color: var(--muted); font-family: var(--mono); }
-
-/* ---------- not ---------------------------------------------------------- */
-
-.not li { list-style: none; padding: 14px 0; border-bottom: 1px solid var(--border); font-size: 16px; color: var(--muted); }
-.not li b { color: var(--sand); font-weight: 600; }
-.not { margin-top: 24px; }
-
-footer {
-  border-top: 1px solid var(--border);
-  background: var(--black);
-  margin-top: 96px;
-}
-footer .row {
-  max-width: var(--maxw);
-  margin: 0 auto;
-  padding: 34px 24px 70px;
-  font-family: var(--mono);
-  font-size: 13px;
-  color: var(--muted);
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-footer .spacer { flex: 1; }
-
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  #dunes .layer, #sun { transform: none !important; }
-}
-</style>
+<link rel="stylesheet" href="assets/site.css">
 </head>
-<body>
-
-<div id="dunes" aria-hidden="true">
-  <div id="sun"></div>
-  <div class="layer" id="d1" data-rate="0.03">
-    <svg viewBox="0 0 1200 200" preserveAspectRatio="none"><path fill="#6E2E13" d="M0 200V96c180-52 300 34 470 12S840 22 1000 58s200 44 200 44v98z"/></svg>
-    <div class="body" style="background:#6E2E13"></div>
-  </div>
-  <div class="layer" id="d2" data-rate="0.06">
-    <svg viewBox="0 0 1200 200" preserveAspectRatio="none"><path fill="#A4470F" d="M0 200V120c210 40 330-58 520-40s300 74 460 40 220-36 220-36v116z"/></svg>
-    <div class="body" style="background:#A4470F"></div>
-  </div>
-  <div class="layer" id="d3" data-rate="0.10">
-    <svg viewBox="0 0 1200 200" preserveAspectRatio="none"><path fill="#D2761B" d="M0 200V126c160-70 280 30 430 44s280-70 440-58 330 40 330 40v48z"/></svg>
-    <div class="body" style="background:#D2761B"></div>
-  </div>
-  <div class="layer" id="d4" data-rate="0.15">
-    <svg viewBox="0 0 1200 200" preserveAspectRatio="none"><path fill="#3A2112" d="M0 200V140c240-64 380 46 600 40s360-72 600-30v50z"/></svg>
-    <div class="body" style="background:#3A2112"></div>
-  </div>
-  <div class="layer" id="d5" data-rate="0.22">
-    <svg viewBox="0 0 1200 200" preserveAspectRatio="none"><path fill="#150D08" d="M0 200V130c200 76 340-30 560-16s400 88 640 46v40z"/></svg>
-    <div class="body" style="background:#150D08"></div>
-  </div>
-</div>
+<body data-page="home" data-root="./">
 
 <div class="wrap">
-
-<nav>
-  <div class="row">
-    <span class="brand">ghola</span>
-    <a href="#what" class="hide-sm">what it is</a>
-    <a href="#start">start</a>
-    <a href="#ladder" class="hide-sm">the ladder</a>
-    <a href="#look" class="hide-sm">what it looks like</a>
-    <a href="#not">what it does not do</a>
-    <span class="spacer"></span>
-    <a href="https://github.com/tacoda/ghola">github</a>
-  </div>
-</nav>
+<main>
 
 <section id="hero">
   <div class="eyebrow">A starter kit for agentic systems on iii</div>
@@ -323,9 +24,9 @@ footer .spacer { flex: 1; }
   and a ladder that puts every rule further out of reach of the thing it
   constrains.</p>
   <div class="cta">
-    <a class="btn primary" href="https://github.com/tacoda/ghola/blob/main/docs/ADOPTING.md">Get a pull request out of it today</a>
-    <a class="btn" href="https://github.com/tacoda/ghola">Read the code</a>
-    <a class="btn" href="https://github.com/tacoda/ghola/blob/main/docs/LIMITATIONS.md">What it does not do</a>
+    <a class="btn primary" href="guides/quickstart/">Get a pull request out of it today</a>
+    <a class="btn" href="guides/">Read the guides</a>
+    <a class="btn" href="guides/limitations/">What it does not do</a>
   </div>
   <div class="facts">
     <b>514</b> tests · <b>M8</b>, the whole lifecycle runs · needs <b>iii 0.22.1</b>,
@@ -345,6 +46,10 @@ footer .spacer { flex: 1; }
   <a href="https://github.com/tacoda/audit-log">audit-log</a> for the
   append-only record. A starter kit whose best ideas are locked inside it is a
   worse starter kit.</p>
+  <p class="muted">Both are moving back in as copies, so a clone ships the whole
+  thing rather than three repositories to keep in step. That is a shipping
+  convenience and not the end state: each one becomes a worker in its own right
+  again later.</p>
 
   <div class="grid">
     <div class="panel">
@@ -395,13 +100,37 @@ footer .spacer { flex: 1; }
 <pre><span class="c">1. clone the repo</span>          git clone … &amp;&amp; cd ghola &amp;&amp; <span class="k">make setup</span>
 <span class="c">2. add config and scripts</span>  edit settings/, drop files in actions/
 <span class="c">3. tell it to do work</span>      <span class="k">make submit</span> SPEC=specs/x.md REPO=../repo</pre>
-<pre><span class="c"># repos.local.toml — no account, no token, no slug</span>
+<pre><span class="c"># repos.local.toml, and no account, no token, no slug</span>
 [repos.<span class="k">"/Users/you/code/scratch"</span>]
 forge = <span class="k">"local"</span>
 base  = <span class="k">"main"</span></pre>
+  <figure>
+    <pre class="mermaid">
+flowchart LR
+    spec(["a spec"]) --> plan --> run --> prove --> review --> commit
+    commit -- "your hook refused" --> run
+    commit -- "your hook accepted" --> pr(["a pull request"])
+    pr --> you(["you"])
+    you -- "a comment" --> run
+    you -- "a merge" --> landed(["landed"])
+
+    classDef edge fill:#1A100A,stroke:#A4470F,color:#E8A33D
+    classDef stage fill:#23150C,stroke:#6E2E13,color:#E7C982
+    classDef gate fill:#3A2112,stroke:#E7C982,color:#E7C982
+    class spec,pr,landed edge
+    class plan,run,prove,review,commit stage
+    class you gate
+    </pre>
+    <figcaption>the whole lifecycle, and the one step that is always yours</figcaption>
+  </figure>
+
   <p class="muted" style="margin-top:18px"><code>make doctor</code> checks your
   tools, the harness pin, your key, and your <code>gh</code> login. Look there
   first when a job fails and nothing says why.</p>
+  <div class="cta">
+    <a class="btn primary" href="guides/quickstart/">The quickstart, in three steps</a>
+    <a class="btn" href="guides/walkthrough/">The walkthrough, part by part</a>
+  </div>
 </section>
 
 <section id="ladder">
@@ -419,11 +148,27 @@ base  = <span class="k">"main"</span></pre>
   <div class="rung"><b>4 stage gate</b><span>the delivery gate, over the finished diff</span></div>
   <div class="rung"><b>5 CI</b><span>out of reach of both the agent and the factory</span></div>
 
-  <p style="margin-top:26px">Capabilities ride a second ladder, joined to this
-  one at the grant. The <code>ladder</code> worker serves the whole promote,
-  demote, add and remove lifecycle, not ghola.</p>
+  <h3 style="margin-top:40px">Capability climbs the other way</h3>
+  <p>A constraint withholds, and gets stronger as it moves out of the agent's
+  reach. A capability grants, and gets stronger as it reaches further. Both are
+  primitives of the same shape, and both are served by the same worker.</p>
+
+  <div class="rung"><b>0 prose</b><span>described somewhere, and whoever reads it has it</span></div>
+  <div class="rung"><b>1 project</b><span>this repository, and nothing else</span></div>
+  <div class="rung"><b>2 team</b><span>every repository the team owns</span></div>
+  <div class="rung"><b>3 org</b><span>everybody</span></div>
+  <div class="rung"><b>4 tool</b><span>every agent, everywhere, by name</span></div>
+
+  <p style="margin-top:26px">The two ladders join at rung 1, the grant, which is
+  the sum of the capabilities that reached a phase minus everything a constraint
+  took back. <code>ladder::list</code> answers both sides at once, and the
+  <code>ladder</code> worker serves the whole promote, demote, add and remove
+  lifecycle, not ghola.</p>
 <pre>iii trigger ladder::list
 iii trigger ladder::move --json '{"id":"no-secrets","move":"carry","at":"delivery"}'</pre>
+  <div class="cta">
+    <a class="btn" href="guides/ladder/">Both ladders, in full</a>
+  </div>
 </section>
 
 <section id="oversight">
@@ -482,56 +227,14 @@ iii trigger ladder::move --json '{"id":"no-secrets","move":"carry","at":"deliver
     <li><b>The harness pin is load-bearing.</b> On 1.8.7 the engine honors a <code>pre-trigger</code> hook's <code>deny</code>. On 1.8.1 it ignored that deny and ran the call anyway, so a ladder mounted there looks wired and enforces nothing.</li>
   </ul>
   <div class="cta">
-    <a class="btn primary" href="https://github.com/tacoda/ghola/blob/main/docs/LIMITATIONS.md">Read the whole list first</a>
-    <a class="btn" href="https://github.com/tacoda/ghola/blob/main/docs/GUIDE.md">Then the walkthrough</a>
+    <a class="btn primary" href="guides/limitations/">Read the whole list first</a>
+    <a class="btn" href="guides/walkthrough/">Then the walkthrough</a>
   </div>
 </section>
 
-<footer>
-  <div class="row">
-    <span>ghola · MIT · built on <a href="https://iii.dev">iii</a></span>
-    <span class="spacer"></span>
-    <a href="https://github.com/tacoda/ghola">github.com/tacoda/ghola</a>
-    <a href="https://www.tacoda.dev">tacoda.dev</a>
-  </div>
-</footer>
-
+</main>
 </div>
 
-<script>
-// One listener, one frame. Each layer moves at its own rate, and the slight
-// horizontal drift is what makes five bands read as a dune field rather than as
-// five bands.
-(function () {
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-  const layers = [...document.querySelectorAll('#dunes .layer')];
-  const sun = document.getElementById('sun');
-  let ticking = false;
-
-  // The rise is capped at RISE. Uncapped, the nearest layer climbs past the top
-  // of a 6,000px page and its silhouette swallows every dune behind it, so the
-  // whole field is black by the third section. Capped, the crests settle into a
-  // horizon and keep drifting sideways for the rest of the page.
-  const RISE = 1200;
-
-  function paint() {
-    const y = window.scrollY;
-    const t = Math.min(y, RISE);
-    for (const el of layers) {
-      const r = parseFloat(el.dataset.rate);
-      el.style.transform = `translate3d(${y * r * 0.18}px, ${-t * r}px, 0)`;
-    }
-    sun.style.transform = `translate3d(0, ${-t * 0.015}px, 0)`;
-    ticking = false;
-  }
-
-  addEventListener('scroll', () => {
-    if (!ticking) { ticking = true; requestAnimationFrame(paint); }
-  }, { passive: true });
-
-  paint();
-})();
-</script>
+<script src="assets/site.js"></script>
 </body>
 </html>

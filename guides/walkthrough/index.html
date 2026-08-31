@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The walkthrough — ghola guides</title>
+<meta name="description" content="A fresh clone of ghola to a pull request, then the three things you will want to change first. It assumes you have never used iii.">
+<!-- voice-register: informational -->
+<!-- voice-english: ste -->
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body class="guides" data-page="walkthrough" data-root="../../">
+
+<div class="wrap">
+<main>
+<article>
+
+  <div class="kicker">Guide 3</div>
+  <h1>The walkthrough</h1>
+  <p class="lede">This guide takes you from a fresh clone to a pull request, then
+  shows you the three things you will want to change first. It assumes you have
+  never used iii.</p>
+  <p>Read <a href="../limitations/">what ghola does not do</a> alongside it. Every
+  section here tells you what works, and that page tells you where the edges
+  are.</p>
+
+  <h2>The parts, before you install anything</h2>
+
+  <p>Three things, and confusing them is the main way people get lost.</p>
+
+  <p><strong>iii is the framework.</strong> An engine plus a set of workers. A
+  <em>worker</em> is a running service that registers <em>functions</em> on a
+  bus, and any worker can call any other worker's function. iii ships about 77 of
+  them. ghola installs 31.</p>
+
+  <p><strong>The harness is a worker.</strong> <code>harness</code> is iii's
+  agent loop: it takes a message, assembles context, calls a model, runs the
+  functions the model asks for, and repeats. ghola does not have a turn loop. It
+  starts turns on this one.</p>
+
+  <p><strong>ghola is a starter kit.</strong> It picks which workers to run, on
+  which ports, and wires them together. Everything in this repository is yours to
+  edit once you clone it. The constraint ladder lives in its own worker,
+  <code>ladder</code>, because it is the one idea here that is useful without the
+  rest.</p>
+
+  <figure>
+    <pre class="mermaid">
+flowchart LR
+    you(["you"]) --> g
+
+    subgraph kit["ghola: conventions, and no tools of its own"]
+        g["the stage graph<br/>the briefs<br/>the ladder"]
+    end
+
+    subgraph iii["iii: the framework, about 77 functions"]
+        h["harness worker<br/>the turn loop"]
+        w["worktree worker"]
+        gh["github worker"]
+    end
+
+    g --> h --> model(["a model"])
+    g --> w --> git(["git"])
+    g --> gh --> pr(["a pull request"])
+
+    classDef kitn fill:#3A2112,stroke:#E7C982,color:#E7C982
+    classDef iiin fill:#23150C,stroke:#6E2E13,color:#E7C982
+    classDef out fill:#1A100A,stroke:#A4470F,color:#E8A33D
+    class g kitn
+    class h,w,gh iiin
+    class you,model,git,pr out
+    </pre>
+    <figcaption>ghola starts turns on somebody else's loop, which is why there is
+    so little of it to read</figcaption>
+  </figure>
+
+  <h2>Install</h2>
+
+  <p>You need <code>iii</code>, <code>uv</code>, <code>git</code>,
+  <code>gh</code> and Python 3.11 or newer.</p>
+
+<pre>curl -fsSL https://install.iii.dev/iii/main/install.sh | sh
+git clone tacoda_github:tacoda/ghola.git &amp;&amp; cd ghola
+<span class="k">make setup</span></pre>
+
+  <p><code>make setup</code> runs <code>make doctor</code>, creates the virtual
+  environment, installs the Python packages, and writes <code>.env</code> from
+  the example. Read what it prints.</p>
+
+  <p>Put your key in <code>.env</code>:</p>
+
+<pre>ANTHROPIC_API_KEY=sk-ant-...</pre>
+
+  <div class="note warn">
+    <span class="label">The failure this prevents</span>
+    <p><strong>The engine reads this file, not the workers.</strong> The provider
+    workers take their credentials from the engine's own environment. Start the
+    engine without the key and the router serves no models. Every turn then fails
+    at <code>router::provider::resolve</code>, and nothing says why.
+    <code>make up</code> sources <code>.env</code> for that reason.</p>
+  </div>
+
+  <h2>Start it</h2>
+
+<pre><span class="k">make up</span></pre>
+
+  <p>This starts the engine, waits for the harness worker to report ready, then
+  starts ghola's policy worker. Expect about a minute the first time, because 31
+  workers start in sequence.</p>
+
+<pre><span class="k">make status</span></pre>
+
+<pre>engine   : up
+policy   : up
+port 3131: listening      <span class="c">the HTTP surface</span>
+port 3133: listening      <span class="c">the iii console</span>
+port 3132: listening      <span class="c">the stream server</span>
+port 49154: listening     <span class="c">the worker manager</span></pre>
+
+  <p>Open <code>http://127.0.0.1:3133</code>. That is the iii console. Best tool
+  here: every function, every trigger, queue depth, and a waterfall for each
+  turn.</p>
+
+  <figure>
+    <img src="../../img/console/01-run.png" alt="The iii console: chat on the left, and a live trace panel on the right listing one session per phase, each with its span count and duration" loading="lazy">
+    <figcaption>the iii console, mid-job</figcaption>
+  </figure>
+
+  <p>The trace panel is the half to watch. A job appears there as one session per
+  phase, so <code>..._plan</code> and <code>..._run</code> are separate rows. The
+  span count beside each is every tool call that phase made.</p>
+
+  <p>These ports are not iii's stock ones, on purpose: a ghola engine has to run
+  beside another iii project's engine.</p>
+
+  <p>To stop: <code>make down</code>. It waits for the ports to free. Reporting
+  one port free while another is still held is the same half-truth as reporting
+  one port down.</p>
+
+  <h2>Your first turn</h2>
+
+<pre><span class="k">make turn</span> PHASE=plan PROMPT="What does this repository do?"</pre>
+
+  <p>Add <code>WORKSPACE=../some-repo</code> to point it at other code. Without
+  it, the turn works on ghola itself.</p>
+
+  <p>You will see the settings, then the model's answer and its cost:</p>
+
+<pre>phase     plan
+model     claude-opus-5  thinking=high max_turns=50
+workspace /Users/you/ghola
+<span class="k">rung 1    11 function(s) granted</span></pre>
+
+  <p><strong>Read the <code>rung 1</code> line.</strong> It counts the functions
+  this phase may call. A function absent from that list does not exist for this
+  turn, because the harness refuses it before ghola sees it. That is the first
+  rung of the ladder, and the framework enforces it rather than a rule ghola
+  checks. I lean on this more than on any rule I have written: a check handed no
+  editor needs no predicate telling it not to edit.</p>
+
+  <p><strong>A turn edits the workspace as it is.</strong> <code>make turn</code>
+  mints no worktree, so a <code>run</code> phase writes to the files you are
+  looking at. A job does cut a worktree, which is the first job below.</p>
+
+  <p>If nothing comes back, ask the harness directly:</p>
+
+<pre><span class="k">make call</span> FN=approval::list-pending    <span class="c"># a held call is the usual answer</span>
+<span class="k">make call</span> FN=harness::status JSON='{"session_id":"s_&lt;id&gt;_plan"}'</pre>
+
+  <p><strong>If a turn hangs, <code>approval-gate</code> is holding a
+  call.</strong> ghola ships <code>config/approval-gate.yaml</code> with
+  <code>default_mode: full</code> so the ladder does the refusing, but a session
+  created before that change keeps its own mode. Check what it is holding, then
+  release it:</p>
+
+<pre><span class="k">make call</span> FN=approval::resolve JSON='{"session_id":"...","function_call_id":"...","decision":"allow"}'</pre>
+
+  <h2>See what is configured</h2>
+
+<pre><span class="k">make config</span></pre>
+
+<pre>root     : /Users/you/ghola
+settings : /Users/you/ghola/settings/phases.yaml  <span class="c">(absent, using built-ins)</span>
+
+plan
+  functions      11 allowed: engine::functions::list, …   [built-in]
+  max_turns      50                                       [built-in]
+  model          claude-opus-5                            [built-in]
+  thinking_level high                                     [built-in]</pre>
+
+  <figure>
+    <img src="../../img/terminal/02-config.png" alt="make config, printing every phase with its functions, max turns, model and thinking level, each value tagged built-in" loading="lazy">
+    <figcaption>make config, on a fresh clone</figcaption>
+  </figure>
+
+  <p>That block is trimmed. The picture is the whole thing on a fresh clone: six
+  phases, and <code>[built-in]</code> against every value because
+  <code>settings/</code> is still empty.</p>
+
+  <p>Every value carries where it came from. <strong>Configuration in ghola is
+  optional</strong>, which makes this command load-bearing rather than
+  convenient. Without it, a default is a magic number, and a
+  <code>settings/phases.yaml</code> with a YAML syntax error looks exactly like
+  agreeing with the built-ins. <code>make config</code> tells the two apart.</p>
+
+  <h2>Your first job</h2>
+
+  <p>The section above ran one turn. A job is the whole pipeline: plan, run,
+  prove, review, commit, and a request for somebody to review.</p>
+
+  <figure>
+    <pre class="mermaid">
+stateDiagram-v2
+    direction TB
+    [*] --> plan : make submit
+    plan --> run
+    run --> prove
+    prove --> review
+    review --> commit
+    commit --> commit : the hook refused, so revise
+    commit --> request : the hook accepted
+    request --> [*] : you merged, so landed
+    request --> [*] : you set status closed
+    request --> run : you wrote a comment, so rework
+
+    note right of commit
+        every transition is a durable
+        queue message, so a crash
+        resumes rather than restarts
+    end note
+    note right of request
+        nothing merges itself,
+        in any configuration
+    end note
+    </pre>
+    <figcaption>the stage graph, and the three answers a request can get</figcaption>
+  </figure>
+
+  <h3>Name a repository</h3>
+
+  <p>ghola works on a repository you name in <code>repos.local.toml</code>. Git
+  ignores that file. It beats the tracked <code>repos.toml</code>, which holds
+  the examples.</p>
+
+  <p>The shortest path uses a scratch repository and no forge at all. A
+  <strong>forge</strong> is whoever hosts your code and receives the pull
+  request: GitHub, GitLab, Gitea. The <code>local</code> forge is none of
+  them.</p>
+
+<pre>[repos.<span class="k">"/Users/you/code/scratch"</span>]
+forge = <span class="k">"local"</span>
+base  = <span class="k">"main"</span></pre>
+
+  <p>That entry needs no account, no token, and no slug. Check it:</p>
+
+<pre><span class="k">make repos</span></pre>
+
+  <h3>Submit a spec</h3>
+
+<pre><span class="k">make submit</span> SPEC=specs/document-the-ports.md REPO=/Users/you/code/scratch
+<span class="k">make jobs</span></pre>
+
+  <p>Watch it in the console at <code>http://127.0.0.1:3133</code>. Each stage
+  runs a turn or an action. Every transition travels as a durable queue message,
+  so a crash between stages resumes rather than restarts.</p>
+
+  <p><code>make pipeline</code> prints the stage graph as it will actually run,
+  plus anything wrong with it. Read it before you submit. A broken stage found
+  two turns in has already cost you a worktree and a plan.</p>
+
+  <h3>What comes out</h3>
+
+  <p>The <code>local</code> forge writes the request into
+  <code>.ghola/requests/</code> in your repository. It carries the spec, the
+  plan, what the run turn built, what the proof ran, and the review's verdict.
+  Each phase appended its own section as the job went, which is why the file
+  reads as an account rather than as a summary.</p>
+
+  <p>Then ghola stops. <strong>Nothing merges itself</strong>, in any
+  configuration.</p>
+
+  <p>You have three answers:</p>
+
+  <ul>
+    <li><strong>Merge the branch.</strong> ghola marks the job landed and
+    releases the worktree.</li>
+    <li><strong>Set <code>status: closed</code></strong> in the request file. The
+    job closes.</li>
+    <li><strong>Write a comment</strong> under the marker at the bottom. ghola
+    reworks the branch against your words and pushes a second commit.</li>
+  </ul>
+
+  <p>The comment is the interesting one. It becomes the brief for the next turn,
+  and it replaces the spec rather than joining it. Re-stating the original
+  alongside a specific complaint is how a turn solves the wrong one.</p>
+
+  <h3>Moving to GitHub</h3>
+
+  <p>Change the entry and add a slug:</p>
+
+<pre>[repos.<span class="k">"/Users/you/code/real-repo"</span>]
+slug = <span class="k">"you/real-repo"</span>
+base = <span class="k">"main"</span></pre>
+
+  <p><code>forge = "github"</code> is the default, so leave it out. Then run
+  <code>make doctor</code>. It asks the <code>github</code> worker which account
+  it is, because your shell and that worker routinely differ. That mismatch
+  surfaces at <code>pr create</code>, after a job has already paid for a
+  worktree, a plan, a run and two checks.</p>
+
+  <p>Everything above works the same. The request becomes a pull request. A
+  comment on it becomes the same rework.</p>
+
+  <h2>Change the three things you will want to change</h2>
+
+  <h3>A phase: which model, how long, what tools</h3>
+
+  <p>Create <code>settings/phases.yaml</code>. Everything in it overrides a
+  built-in.</p>
+
+<pre>phases:
+  review:
+    thinking_level: high
+    max_turns: 30</pre>
+
+  <p>Run <code>make config PHASE=review</code>. The two keys you set now read
+  <code>[settings]</code>, and the rest still read <code>[built-in]</code>. The
+  file merges one level down, so setting one key keeps the rest of the phase.</p>
+
+  <div class="note">
+    <span class="label">The exception</span>
+    <p><strong><code>functions</code> is replaced, not merged.</strong> A phase
+    that lists its own functions gets those and not those plus the defaults. This
+    is deliberate. Rung 1 read as an accident of merge order is how a check ends
+    up holding an editor.</p>
+  </div>
+
+  <p>To add a phase that does not exist, name it:</p>
+
+<pre>phases:
+  threat-model:
+    model: claude-opus-5
+    functions:
+      allow:
+        - engine::functions::info
+        - coder::read-file
+        - coder::search</pre>
+
+  <p>Then <code>make turn PHASE=threat-model PROMPT="..."</code>.</p>
+
+  <h3>The tools are not ghola's</h3>
+
+  <p>Look at the function names above. <code>coder::read-file</code> and
+  <code>shell::exec</code> come from iii's <code>shell</code> worker.
+  <code>github::pr::create</code> comes from the <code>github</code> worker.</p>
+
+  <p><strong>ghola registers no tools.</strong> To find what is available:</p>
+
+<pre><span class="k">make call</span> FN=engine::functions::list       <span class="c"># everything on the bus</span>
+<span class="k">make schema</span> FN=coder::read-file            <span class="c"># one function's contract</span></pre>
+
+  <p>Grant any of them to a phase by name. This is why extension does not need
+  ghola's permission: a function id is a function id, wherever it came from.</p>
+
+  <h3>A script: when configuration is not enough</h3>
+
+  <p>Configuration handles values. A judgment needs code, and code goes in a
+  named directory where it is found by filename.</p>
+
+  <div class="scroll-x">
+  <table>
+    <tr><th>Directory</th><th>Becomes</th><th>Arrives in</th></tr>
+    <tr><td>predicates/</td><td>a rule's check</td><td>M3</td></tr>
+    <tr><td>actions/</td><td>a stage's action</td><td>M4</td></tr>
+    <tr><td>guards/</td><td>a stage's condition</td><td>M4</td></tr>
+  </table>
+  </div>
+
+  <p>A predicate is one function with no ghola imports, so you can run it
+  directly:</p>
+
+<pre><span class="c"># predicates/no_secrets.py</span>
+import re
+
+PATTERN = re.compile(r"(sk-ant-|BEGIN PRIVATE KEY)")
+
+
+def check(path: str, content: str, context: dict) -&gt; list[dict]:
+    <span class="c">"""Return one finding per offending line, or an empty list."""</span>
+    return [
+        {"line": n, "why": "a credential in source"}
+        for n, line in enumerate(content.splitlines(), 1)
+        if PATTERN.search(line)
+    ]</pre>
+
+  <p>There is no registration step and no import to add. If you would rather
+  write it in another language, register it as a worker function and name its
+  function id instead.</p>
+
+  <h2>The ladder</h2>
+
+  <p>This is the idea ghola adds to iii, and the reason the rest exists. It
+  arrives at M3. Read it now, because it explains why the sections above are
+  shaped this way.</p>
+
+  <p>There are two ladders, and you need both. A <strong>constraint</strong>
+  withholds something and climbs away from the agent's reach. A
+  <strong>capability</strong> grants something and climbs toward wider reach. They
+  meet at the grant, which is why one worker serves both.</p>
+
+  <p>A constraint has a <strong>rung</strong>: the mechanism that carries it.</p>
+
+  <div class="scroll-x">
+  <table>
+    <tr><th>Rung</th><th>What carries it</th><th>Can the agent get past it?</th></tr>
+    <tr><td>0</td><td>prose in a rules file</td><td>yes, by not reading it</td></tr>
+    <tr><td>1</td><td>the phase was never granted the function</td><td>no. There is nothing to refuse</td></tr>
+    <tr><td>2</td><td>the repository's own hook</td><td>yes. It can delete the hook</td></tr>
+    <tr><td>3</td><td>a callback in front of every call</td><td>no. It cannot reach the callback</td></tr>
+    <tr><td>4</td><td>the delivery gate, over the finished diff</td><td>no. It runs after the turn</td></tr>
+    <tr><td>5</td><td>CI, on the pull request</td><td>no. It runs outside the machine</td></tr>
+  </table>
+  </div>
+
+  <p>Each rung puts the rule further out of reach of the thing it constrains. The
+  rung is one line of a rule's frontmatter:</p>
+
+<pre>---
+id: no-secrets
+description: A credential never reaches a commit
+why: A leaked key costs a rotation and an incident review.
+<span class="k">rung: [3, 4]</span>
+predicate: predicates/no_secrets.py
+---</pre>
+
+  <p><strong><code>rung: [3, 4]</code> is two boundaries, not two
+  strictnesses.</strong> A callback at rung 3 sees function calls, and a shell
+  command is one call whose contents it does not read. The delivery gate at rung
+  4 sees the finished diff. Neither sees what the other sees, so a rule that
+  matters names both.</p>
+
+  <p><a href="../ladder/">The ladder guide</a> is the whole of it, including the
+  second ladder that capability climbs.</p>
+
+  <h2>Let it read its own record</h2>
+
+  <p>A factory that never learns anything is a factory you have to keep teaching.
+  The improve lane reads what already happened and asks one turn what would have
+  prevented it.</p>
+
+<pre><span class="k">make improve</span> REPO=../some-repo</pre>
+
+  <p>The evidence is the audit log and the job records, so it is what happened
+  rather than what anybody remembers:</p>
+
+  <ul>
+    <li>a refusal, and the rung that caught it</li>
+    <li>a revision the commit gate forced</li>
+    <li>a question the spec did not answer</li>
+    <li>a check that came back <code>concerns</code></li>
+    <li>a rule that never fired</li>
+  </ul>
+
+  <p><strong>Trouble is read broadly.</strong> A job that reached a merged pull
+  request still counts if it cost a revision on the way. A lane that looked only
+  at outright failures would miss most of what is worth fixing.</p>
+
+  <p>If nothing cost anything, no turn runs at all. That is the lane working.</p>
+
+  <figure>
+    <pre class="mermaid">
+flowchart LR
+    subgraph ev["what happened, not what anybody remembers"]
+        a["the audit log"]
+        j["the job records"]
+    end
+
+    a --> t
+    j --> t
+    t{"did anything<br/>cost something?"}
+    t -- "no" --> quiet["no turn runs.<br/>Zero proposals is an answer"]
+    t -- "yes" --> turn["one improve turn"]
+
+    turn --> ch["charter lane<br/>CLAUDE.md, rules, hooks"]
+    turn --> ha["harness lane<br/>prompts, policy, budgets"]
+    turn --> fa["factory lane<br/>stages, gates, ordering"]
+
+    ch --> spec["make accept writes specs/&lt;title&gt;.md"]
+    ha --> spec
+    fa --> spec
+    spec --> sub["you submit it, like any other work"]
+
+    classDef ev fill:#1A100A,stroke:#6E2E13,color:#E8A33D
+    classDef gate fill:#3A2112,stroke:#E7C982,color:#E7C982
+    classDef lane fill:#23150C,stroke:#3B2515,color:#E7C982
+    classDef quiet fill:#0F0A06,stroke:#3B2515,color:#AB9070
+    class a,j ev
+    class t gate
+    class ch,ha,fa lane
+    class quiet quiet
+    </pre>
+    <figcaption>nothing is applied. Accepting writes a spec and stops</figcaption>
+  </figure>
+
+  <figure>
+    <img src="../../img/terminal/03-audit.png" alt="make audit: 43 entries in one file, reported INTACT, then counts by kind and by actor" loading="lazy">
+    <figcaption>make audit</figcaption>
+  </figure>
+
+  <p><code>make audit</code> is that evidence from the outside: how many entries
+  there are, whether the chain still verifies, and which actors wrote them. Run
+  it before <code>make improve</code> to see how much there is to read.</p>
+
+  <h3>Where a proposal can go</h3>
+
+  <div class="scroll-x">
+  <table>
+    <tr><th>lane</th><th>what it is about</th><th>how often to expect one</th></tr>
+    <tr><td>charter</td><td>the target repo's <code>CLAUDE.md</code>, rules, hooks, skills</td><td>constantly</td></tr>
+    <tr><td>harness</td><td>prompts, tool policy, phases, budgets</td><td>rarer, usually an edge case</td></tr>
+    <tr><td>factory</td><td>stages, gates, guards, ordering</td><td>rarely. Process should be boring</td></tr>
+  </table>
+  </div>
+
+  <p>Proposals should thin out with distance from your own code. Most of what
+  goes wrong is a thing the repository wanted and never said out loud. So a run
+  that proposes three factory changes and no charter ones is usually telling you
+  the lane was picked wrongly.</p>
+
+  <h3>Reading and accepting</h3>
+
+<pre><span class="k">make proposals</span>                <span class="c"># every run, newest first</span>
+<span class="k">make proposals</span> RUN=abc123     <span class="c"># one run, whole, with the evidence it was given</span>
+<span class="k">make accept</span> RUN=abc123 N=0    <span class="c"># the first proposal becomes a spec</span></pre>
+
+  <p><strong>Nothing is applied.</strong> Accepting writes
+  <code>specs/&lt;title&gt;.md</code> and stops, and you submit it like any other
+  work:</p>
+
+<pre><span class="k">make submit</span> SPEC=specs/give-commits-md-a-scope.md REPO=../some-repo</pre>
+
+  <p>The exception is <code>promote</code> or <code>demote</code>, which is one
+  number in a rule's file and goes to <code>ladder::move</code>. That changes a
+  file and commits nothing, so it still reaches you as a diff. The rule behind
+  all of this is narrow and load-bearing: the lane that proposes changes to your
+  charter may not edit your charter. Otherwise it would be the one thing here
+  that never passed through a pull request.</p>
+
+  <h3>What it will not do</h3>
+
+  <ul>
+    <li>Propose anything it cannot trace to a job or a signal. Those are dropped,
+    and the run records what it dropped and why, so a quiet run is
+    distinguishable from a run that found nothing.</li>
+    <li>Fill a quiet week. Zero proposals is an answer.</li>
+    <li>Argue from a silence that proves nothing. A rule carried at rung 0
+    refuses nothing by construction, so it can never appear to have fired however
+    well it is working. The lane reports it as <code>unobservable</code>, and
+    explicitly not as evidence for removing it.</li>
+  </ul>
+
+  <h2>Where to go next</h2>
+
+  <ul>
+    <li><code>make help</code> lists every target.</li>
+    <li><a href="https://github.com/tacoda/ghola/blob/main/PLAN.md">PLAN.md</a>
+    is the phased plan: what is built, what is next, and what each milestone must
+    prove before it counts as done.</li>
+    <li>The iii console at <code>http://127.0.0.1:3133</code> shows the machinery
+    moving.</li>
+    <li><a href="https://iii.dev/docs">iii.dev/docs</a> documents the framework
+    underneath.</li>
+  </ul>
+
+  <h2>Troubleshooting</h2>
+
+  <div class="scroll-x">
+  <table>
+    <tr><th>What you see</th><th>What it is</th></tr>
+    <tr><td>every turn fails at <code>router::provider::resolve</code></td><td>the engine started without your key in scope. <code>make down &amp;&amp; make up</code></td></tr>
+    <tr><td><code>registration token mismatch</code></td><td>a stale provider registration. <code>iii worker restart provider-anthropic</code></td></tr>
+    <tr><td><code>make turn</code> never returns</td><td>ask <code>harness::status</code> for the session. A turn can fail while a listener waits</td></tr>
+    <tr><td>a port is taken</td><td>another iii project's engine. <code>make status</code>, and note ghola is off the stock ports</td></tr>
+    <tr><td>a rule seems not to fire</td><td>check the rung. Rung 0 enforces nothing by design</td></tr>
+    <tr><td>a turn sits at <code>awaiting_functions</code> forever</td><td><code>approval-gate</code> is holding a call. <code>iii trigger approval::list-pending</code>, then <code>approval::resolve</code>, or set the session to <code>full</code></td></tr>
+    <tr><td>the held call names a path outside the workspace</td><td>the turn reached past its filesystem scope and the approval hook parked it. A second root is <code>harness::filesystem::grant</code>, and the improve lane asks for one before it starts</td></tr>
+    <tr><td><code>registration token mismatch</code> after restarting one worker</td><td>the router and the provider disagree. Restart the whole engine (<code>make down &amp;&amp; make up</code>), not one worker</td></tr>
+    <tr><td><code>make config</code> says a file is absent that you wrote</td><td>check the path. <code>settings/</code>, not <code>config/</code>, which belongs to iii</td></tr>
+  </table>
+  </div>
+
+</article>
+</main>
+</div>
+
+<script src="../../assets/site.js"></script>
+</body>
+</html>

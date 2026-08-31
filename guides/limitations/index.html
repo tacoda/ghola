@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What ghola does not do — ghola guides</title>
+<meta name="description" content="What ghola does badly, what it refuses to do on purpose, and what has already gone wrong. None of it is a promise to fix.">
+<!-- voice-register: informational -->
+<!-- voice-english: ste -->
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body class="guides" data-page="limitations" data-root="../../">
+
+<div class="wrap">
+<main>
+<article>
+
+  <div class="kicker">Guide 1</div>
+  <h1>What ghola does not do</h1>
+  <p class="lede">Read this first. Every item below is something ghola does
+  badly, or not at all, or only under conditions nobody wrote down until now. A
+  tool with no stated failure mode reads like a sales page, and you would find
+  these anyway.</p>
+  <p>None of it is a promise to fix. Some of it is on purpose.</p>
+
+  <h2>Decisions, not gaps</h2>
+
+  <p><strong>No upgrade path.</strong> You clone this and it is yours. Nothing
+  here tracks a version, and nothing will migrate you when the built-in pipeline
+  changes. That is deliberate: a starter kit that owned your configuration would
+  not be yours. Want a later change? Read the diff and take the parts you
+  want.</p>
+
+  <p><strong>No CLI.</strong> <code>make</code> is the whole operator surface. A
+  command you install goes stale. Every target here is four lines of shell, and
+  you can read all of them.</p>
+
+  <p><strong>No HTTP surface.</strong> The iii console is the interface. A
+  dashboard of ours would be a second thing to maintain, and a worse trace view
+  than the one already running on port 3133.</p>
+
+  <p><strong>Nothing merges itself.</strong> No configuration removes the pull
+  request. Want a factory that lands its own work? Wrong starting point. The gate
+  is not a setting, so there is nothing here to turn off.</p>
+
+  <p><strong><code>ask</code> never becomes <code>allow</code>.</strong> Not at
+  <code>dark</code>, not anywhere. An unattended factory that reads "ask" as
+  "yes" has answered a question nobody put. When a rule marked <code>ask</code>
+  refuses work you want, the rule is what to change.</p>
+
+  <h2>Gaps, and how much they cost</h2>
+
+  <p><strong>One machine.</strong> The engine, the workers and the worktrees
+  share one box. ghola has no scheduler, no queue across hosts, and no way to run
+  two factories against one repository. Set <code>concurrency = 1</code> in
+  <code>repos.toml</code> for any repository whose prepare command allocates a
+  port.</p>
+
+  <p><strong>Cost reads <code>$0.00</code>.</strong> The router prices some
+  models at null, so <code>session_cost_usd</code> comes back zero. That means
+  the number in the job record and in the audit log is not one you can bill
+  anybody for. <code>settings/pricing.yaml</code> takes fallback prices. Nobody
+  has filled it in.</p>
+
+  <p><strong>Two forges, and one of them is a file.</strong>
+  <code>github</code> and <code>local</code> ship. GitLab, Gitea and Bitbucket
+  are each a <code>forges/&lt;name&gt;.py</code> away. Nobody has written one.
+  The seam is real and tested, and a seam with one production driver behind it is
+  still a seam with one production driver behind it.</p>
+
+  <p><strong>The <code>local</code> forge cannot tell you anything.</strong> A
+  file has no notifications, so ghola says nothing when it reads your comment or
+  finishes with the branch. You find out by looking.</p>
+
+  <p><strong>A squash merge defeats the <code>local</code> forge.</strong> That
+  driver reads a merge as "the branch is an ancestor of the base", and a squash
+  leaves no ancestry. If you squash, set the status to <code>closed</code> in the
+  request file. Or use GitHub.</p>
+
+  <p><strong>Evals cost money and nothing runs them for you.</strong>
+  <code>make eval</code> is manual on purpose. Nothing hooks it to a commit, to
+  CI, or to a schedule. A gate nobody can afford to run is a gate people learn to
+  skip. Run it before a prompt change.</p>
+
+  <p><strong>The improve lane needs a record to read.</strong> On a fresh clone
+  it has an empty audit log, so it finds nothing and says so. Give it a few
+  weeks. It is useless on day one and it will tell you that.</p>
+
+  <p><strong>Prompts are the least tested thing here.</strong>
+  <code>prompts/*.md</code> is the easiest file to change and the hardest to
+  check. Two evals discriminate. The other four phases have none, so a prompt
+  edit is the change with the weakest net under it.</p>
+
+  <h2>Things that have gone wrong, and now cannot</h2>
+
+  <p>Kept on purpose. A list of fixed bugs tells you what kind of system this is,
+  and what to watch for in the parts nobody has exercised yet.</p>
+
+  <ul>
+    <li>Harness 1.8.1 ignored a <code>pre-trigger</code> <code>deny</code>.
+    <code>iii.lock</code> pins 1.8.7. A ladder on 1.8.1 looks wired and enforces
+    nothing.</li>
+    <li><code>shell::exec</code> spawns a program and is not a shell.
+    <code>git add -A &amp;&amp; git commit</code> failed as a program name, and
+    the commit silently never ran.</li>
+    <li><code>shell::exec</code> returns a non-zero exit in the payload rather
+    than raising. A refused commit read as a success and disabled the revision
+    loop.</li>
+    <li>Two processes appended to the audit log. The chain failed its own
+    verification while nothing had tampered with it. One worker owns it now, and
+    every other worker asks that one.</li>
+    <li>A turn ran with no filesystem scope and read the wrong repository's
+    charter. Then it refused to edit anything, because the repository it could
+    see was not the one its instructions described.</li>
+    <li>The improve lane's request template quoted its own comment heading, and a
+    job reworked itself against its own document.</li>
+  </ul>
+
+  <h2>Before you adopt this</h2>
+
+  <p>If you have a working process and a team that follows it, this will not make
+  it faster. What it does is make an unattended process auditable. It becomes
+  worth something only once some part of your process already runs
+  unattended.</p>
+
+  <p>I would keep one part of this: the ladder. Everything else is a pipeline you
+  could write yourself. The rung is the idea.</p>
+
+</article>
+</main>
+</div>
+
+<script src="../../assets/site.js"></script>
+</body>
+</html>

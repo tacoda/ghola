@@ -1,0 +1,573 @@
+/* ghola — one stylesheet for the landing page and the guides.
+   The backdrop is fixed and the color of everything on it is driven by a single
+   custom property, --sky, which the script sets from scroll position. */
+
+:root {
+  --black:    #0A0705;
+  --brown-9:  #150D08;
+  --brown-8:  #23150C;
+  --brown-7:  #3A2112;
+  --rust:     #6E2E13;
+  --burnt:    #A4470F;
+  --orange:   #D2761B;
+  --amber:    #E8A33D;
+  --sand:     #E7C982;
+
+  --panel:    #1A100A;
+  --panel-2:  #23160E;
+  --border:   #3B2515;
+
+  --text:     #F1E3CB;
+  --muted:    #AB9070;
+
+  --maxw:     1080px;
+  --mono:     "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --sans:     Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* The scroll position, as a percentage. 14% is what a reduced-motion visitor
+     sees, because the script never moves it for them. */
+  --sky: 14%;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--text);
+  font: 17px/1.65 var(--sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ---------- the dune field ---------------------------------------------- */
+
+#dunes {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+#sky, #dunes .dune {
+  position: absolute;
+  background-image: var(--g);
+  background-repeat: no-repeat;
+  background-size: 100% 500%;
+  background-position: 0 var(--sky);
+}
+#sky { inset: 0; }
+
+/* Every dune is anchored to the bottom of the viewport and cut to shape by an
+   SVG mask, which is why the field never runs out: there is no top edge to
+   drift past and no bottom edge to expose. The 8vh overhang below the fold
+   absorbs the downward drift the script applies. */
+#dunes .dune {
+  left: -35%;
+  width: 170%;
+  bottom: -8vh;
+  height: calc(var(--h) + 8vh);
+  mask: var(--m) no-repeat 0 0 / 100% 100%;
+  -webkit-mask: var(--m) no-repeat 0 0 / 100% 100%;
+  will-change: transform;
+}
+/* The scroll drift lives on #sun and the pulse lives on its pseudo-element, so
+   the two never fight over one transform. */
+#sun {
+  position: absolute;
+  left: 50%;
+  top: 12vh;
+  width: 520px;
+  height: 520px;
+  margin-left: -260px;
+  will-change: transform;
+}
+#sun::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(232,163,61,.50), rgba(164,71,15,.26) 52%, rgba(164,71,15,0) 70%);
+  animation: sun-pulse 9s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+@keyframes sun-pulse {
+  0%, 100% { transform: scale(1);    opacity: .86; }
+  50%      { transform: scale(1.06); opacity: 1; }
+}
+
+/* ---------- chrome ------------------------------------------------------ */
+
+.wrap { position: relative; z-index: 1; }
+
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(10, 7, 5, .70);
+  backdrop-filter: blur(12px) saturate(1.1);
+  -webkit-backdrop-filter: blur(12px) saturate(1.1);
+  border-bottom: 1px solid var(--border);
+}
+nav .row {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  font-family: var(--mono);
+  font-size: 14px;
+}
+nav .brand { color: var(--amber); font-weight: 700; letter-spacing: .04em; text-decoration: none; }
+nav a { color: var(--muted); text-decoration: none; }
+nav a:hover, nav a.on { color: var(--sand); }
+nav .spacer { flex: 1; }
+@media (max-width: 860px) { nav .hide-sm { display: none; } }
+
+/* The guides shell is wider than the landing page, because it carries a
+   sidebar that the landing page does not have. */
+.guides nav .row { max-width: 1320px; }
+
+a { color: var(--amber); }
+
+footer {
+  border-top: 1px solid var(--border);
+  background: rgba(10, 7, 5, .70);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  margin-top: 96px;
+}
+footer .row {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 34px 24px 70px;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--muted);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+footer .spacer { flex: 1; }
+.guides footer .row { max-width: 1320px; }
+
+/* ---------- landing page ------------------------------------------------ */
+
+/* Sections are dark enough for the prose to stay readable and translucent
+   enough that the color behind them shifts as you scroll. */
+section {
+  max-width: var(--maxw);
+  margin: 0 auto 64px;
+  padding: 76px 44px;
+  background: rgba(10, 7, 5, .80);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+  border: 1px solid var(--border);
+}
+@media (max-width: 720px) { section { padding: 56px 22px; } }
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--burnt);
+  margin-bottom: 14px;
+}
+h1 {
+  font-size: clamp(56px, 13vw, 132px);
+  line-height: .92;
+  letter-spacing: -.04em;
+  color: var(--sand);
+  font-weight: 800;
+}
+section h2 {
+  font-size: clamp(28px, 4.4vw, 40px);
+  line-height: 1.15;
+  letter-spacing: -.02em;
+  color: var(--sand);
+  margin-bottom: 18px;
+}
+section h3 { font-size: 19px; color: var(--amber); margin-bottom: 8px; letter-spacing: -.01em; }
+p { max-width: 62ch; }
+p + p { margin-top: 16px; }
+.lede { font-size: 20px; color: var(--text); }
+.muted { color: var(--muted); }
+
+#hero {
+  padding-top: 18vh;
+  padding-bottom: 24vh;
+  background: none;
+  border: 0;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  margin-bottom: 22vh;
+}
+.tagline {
+  font-family: var(--mono);
+  font-size: clamp(15px, 2.6vw, 21px);
+  color: var(--orange);
+  margin: 22px 0 26px;
+}
+.cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+.btn {
+  font-family: var(--mono);
+  font-size: 14px;
+  text-decoration: none;
+  padding: 12px 20px;
+  border: 1px solid var(--border);
+  color: var(--sand);
+  background: var(--panel);
+}
+.btn:hover { border-color: var(--burnt); }
+.btn.primary { background: var(--burnt); border-color: var(--burnt); color: #FFF3DF; }
+.btn.primary:hover { background: var(--orange); border-color: var(--orange); }
+
+.facts {
+  margin-top: 40px;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--muted);
+}
+.facts b { color: var(--sand); font-weight: 500; }
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 30px;
+}
+.grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-top: 32px; }
+.grid p { font-size: 15.5px; color: var(--muted); }
+
+.rung {
+  display: flex;
+  gap: 18px;
+  align-items: baseline;
+  padding: 13px 18px;
+  border: 1px solid var(--border);
+  border-left-width: 4px;
+  background: var(--panel);
+  margin-top: 8px;
+  font-size: 15.5px;
+}
+.rung b { font-family: var(--mono); color: var(--sand); font-weight: 500; min-width: 92px; }
+.rung span { color: var(--muted); }
+.rung:nth-of-type(1) { border-left-color: var(--brown-7); }
+.rung:nth-of-type(2) { border-left-color: var(--rust); }
+.rung:nth-of-type(3) { border-left-color: var(--burnt); }
+.rung:nth-of-type(4) { border-left-color: var(--orange); }
+.rung:nth-of-type(5) { border-left-color: var(--amber); }
+.rung:nth-of-type(6) { border-left-color: var(--sand); }
+
+.not li { list-style: none; padding: 14px 0; border-bottom: 1px solid var(--border); font-size: 16px; color: var(--muted); }
+.not li b { color: var(--sand); font-weight: 600; }
+.not { margin-top: 24px; }
+
+/* ---------- shared prose furniture -------------------------------------- */
+
+pre {
+  background: var(--brown-9);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--burnt);
+  padding: 20px 22px;
+  overflow-x: auto;
+  font-family: var(--mono);
+  font-size: 13.5px;
+  line-height: 1.75;
+  color: var(--text);
+  margin-top: 26px;
+}
+pre .c { color: var(--muted); }
+pre .k { color: var(--amber); }
+code { font-family: var(--mono); font-size: .89em; color: var(--amber); }
+pre code { color: inherit; font-size: inherit; }
+
+table { width: 100%; border-collapse: collapse; margin-top: 26px; font-size: 15px; }
+th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+th { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--burnt); }
+td:first-child { font-family: var(--mono); color: var(--amber); white-space: nowrap; }
+.scroll-x { overflow-x: auto; }
+
+/* ---------- diagrams ---------------------------------------------------- */
+
+/* Mermaid renders into these. The source is hidden until the render lands, so
+   a slow CDN shows an empty panel rather than a wall of diagram syntax, and the
+   loader reveals it anyway if the fetch fails outright. */
+.mermaid {
+  background: var(--brown-9);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--rust);
+  padding: 26px 22px;
+  margin-top: 26px;
+  overflow-x: auto;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.mermaid:not([data-done]) { visibility: hidden; min-height: 120px; }
+.mermaid[data-done] { line-height: 1; }
+.mermaid svg { max-width: 100%; height: auto; display: inline-block; }
+figure > .mermaid { margin-top: 0; }
+
+figure { margin-top: 28px; }
+figure img { width: 100%; display: block; border: 1px solid var(--border); }
+figcaption { margin-top: 10px; font-size: 14px; color: var(--muted); font-family: var(--mono); }
+
+/* ---------- the guides shell -------------------------------------------- */
+
+.shell {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 24px 40px;
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 48px;
+  align-items: start;
+}
+@media (max-width: 960px) { .shell { grid-template-columns: minmax(0, 1fr); gap: 0; } }
+
+/* The sidebar needs its own panel. Without one, its links sit straight on the
+   dune field, and the field is bright orange by the middle of a long guide. */
+.side {
+  position: sticky;
+  top: 34px;
+  max-height: calc(100vh - 68px);
+  overflow-y: auto;
+  margin-top: 34px;
+  padding: 26px 14px 30px;
+  font-size: 15px;
+  background: rgba(10, 7, 5, .82);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+  border: 1px solid var(--border);
+}
+@media (max-width: 960px) {
+  .side {
+    position: static;
+    max-height: none;
+    margin-top: 26px;
+    padding: 22px 18px 24px;
+  }
+}
+.side h4 {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--burnt);
+  margin: 26px 0 10px;
+}
+.side h4:first-child { margin-top: 0; }
+.side ol { list-style: none; }
+.side li { margin: 0; }
+.side a {
+  display: block;
+  padding: 7px 12px 7px 13px;
+  color: var(--muted);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  line-height: 1.4;
+}
+.side a:hover { color: var(--sand); background: rgba(58, 33, 18, .35); }
+.side a.on {
+  color: var(--sand);
+  border-left-color: var(--burnt);
+  background: rgba(58, 33, 18, .55);
+}
+.side .num { font-family: var(--mono); font-size: 12px; color: var(--rust); margin-right: 9px; }
+.side a.on .num, .side a:hover .num { color: var(--burnt); }
+
+article {
+  background: rgba(10, 7, 5, .82);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+  border: 1px solid var(--border);
+  padding: 54px 56px 64px;
+  margin-top: 34px;
+  counter-reset: ch;
+}
+@media (max-width: 720px) { article { padding: 40px 22px 48px; } }
+
+article .kicker {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--burnt);
+  margin-bottom: 12px;
+}
+article h1 {
+  font-size: clamp(34px, 6vw, 54px);
+  line-height: 1.04;
+  letter-spacing: -.03em;
+  margin-bottom: 20px;
+}
+article .lede { max-width: 64ch; color: var(--text); font-size: 19px; }
+
+/* Chapters number themselves, so moving a section never leaves a stale
+   number behind in the prose. */
+article h2 {
+  counter-increment: ch;
+  counter-reset: sub;
+  font-size: 27px;
+  line-height: 1.25;
+  letter-spacing: -.02em;
+  color: var(--sand);
+  margin: 54px 0 16px;
+  padding-top: 26px;
+  border-top: 1px solid var(--border);
+  scroll-margin-top: 70px;
+}
+article h2::before {
+  content: counter(ch) ".";
+  font-family: var(--mono);
+  font-size: 19px;
+  color: var(--rust);
+  margin-right: 12px;
+}
+article h3 {
+  counter-increment: sub;
+  font-size: 19px;
+  color: var(--amber);
+  margin: 34px 0 10px;
+  scroll-margin-top: 70px;
+}
+article h3::before {
+  content: counter(ch) "." counter(sub);
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--rust);
+  margin-right: 10px;
+}
+article h2.plain, article h3.plain { counter-increment: none; }
+article h2.plain::before, article h3.plain::before { content: none; }
+
+article p { margin-top: 16px; }
+article ul, article ol { margin: 18px 0 0 24px; }
+article li { margin-top: 9px; }
+article li > p:first-child { margin-top: 0; }
+article ul ul, article ol ol { margin-top: 9px; }
+article strong { color: var(--sand); }
+article hr { border: 0; border-top: 1px solid var(--border); margin: 44px 0; }
+
+/* One callout, used for the thing on a page a reader must not miss. */
+.note {
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--amber);
+  background: var(--panel);
+  padding: 18px 22px;
+  margin-top: 26px;
+}
+.note p { margin-top: 10px; }
+.note p:first-child { margin-top: 0; }
+.note .label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--amber);
+  display: block;
+  margin-bottom: 8px;
+}
+.note.warn { border-left-color: var(--burnt); }
+.note.warn .label { color: var(--orange); }
+
+/* ---------- the per-page chapter list ----------------------------------- */
+
+.chapters {
+  border: 1px solid var(--border);
+  background: var(--panel);
+  padding: 22px 26px;
+  margin-top: 34px;
+}
+.chapters h4 {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--burnt);
+  margin-bottom: 12px;
+}
+.chapters ol { list-style: none; margin: 0; counter-reset: toc; columns: 2; column-gap: 40px; }
+@media (max-width: 720px) { .chapters ol { columns: 1; } }
+.chapters li { margin: 0; break-inside: avoid; }
+.chapters a {
+  display: block;
+  padding: 5px 0;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 15px;
+}
+.chapters a:hover { color: var(--sand); }
+.chapters a::before {
+  counter-increment: toc;
+  content: counter(toc) ".";
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--rust);
+  margin-right: 9px;
+}
+.chapters a.sub { padding-left: 26px; font-size: 14px; }
+.chapters a.sub::before { content: none; counter-increment: none; }
+
+/* ---------- prev / next ------------------------------------------------- */
+
+.pager {
+  display: flex;
+  gap: 16px;
+  margin-top: 34px;
+  flex-wrap: wrap;
+}
+.pager a {
+  flex: 1 1 240px;
+  border: 1px solid var(--border);
+  background: rgba(10, 7, 5, .82);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+  padding: 18px 22px;
+  text-decoration: none;
+  color: var(--sand);
+}
+.pager a:hover { border-color: var(--burnt); }
+.pager .dir {
+  display: block;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--burnt);
+  margin-bottom: 6px;
+}
+.pager a.next { text-align: right; }
+
+/* The guides index is one column, narrower than the two-column shell. */
+main.page { max-width: 960px; margin: 0 auto; padding: 0 24px 40px; }
+
+/* ---------- the guides index ------------------------------------------- */
+
+.cards { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); margin-top: 30px; }
+.card {
+  border: 1px solid var(--border);
+  background: var(--panel);
+  padding: 26px 28px;
+  text-decoration: none;
+  display: block;
+  color: inherit;
+}
+.card:hover { border-color: var(--burnt); background: var(--panel-2); }
+.card .num { font-family: var(--mono); font-size: 12px; color: var(--rust); }
+/* A card is not a chapter, so it takes no number from the article counter. */
+.card h3 { margin: 8px 0 8px; color: var(--amber); font-size: 20px; letter-spacing: -.01em; counter-increment: none; }
+.card h3::before { content: none; }
+.card p { color: var(--muted); font-size: 15.5px; margin: 0; max-width: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  #dunes .dune, #sun { transform: none !important; }
+  #sun::before { animation: none; opacity: .93; }
+}

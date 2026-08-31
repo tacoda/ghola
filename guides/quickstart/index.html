@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quickstart — ghola guides</title>
+<meta name="description" content="Three steps from a fresh clone of ghola to a pull request, against a repository nobody else can see.">
+<!-- voice-register: informational -->
+<!-- voice-english: ste -->
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body class="guides" data-page="quickstart" data-root="../../">
+
+<div class="wrap">
+<main>
+<article>
+
+  <div class="kicker">Guide 2</div>
+  <h1>Quickstart</h1>
+  <p class="lede">Three steps. The shortest honest path runs all three against a
+  repository nobody else can see. Read
+  <a href="../limitations/">what ghola does not do</a> before you start.</p>
+
+<pre>git clone tacoda_github:tacoda/ghola.git
+git clone tacoda_github:tacoda/ladder.git
+git clone tacoda_github:tacoda/audit-log.git
+cd ladder &amp;&amp; make install &amp;&amp; cd ../audit-log &amp;&amp; make install &amp;&amp; cd ../ghola
+<span class="k">make setup</span></pre>
+
+  <p>Clone all three, side by side. <code>ladder</code> carries the rules and
+  <code>audit-log</code> keeps the record. Both run as host processes from their
+  own checkouts, because one has to see your repository and the other has to
+  outlive the sandbox. <code>make up</code> starts them if they are there.</p>
+
+  <div class="note">
+    <span class="label">Three clones today, one soon</span>
+    <p>ghola will carry its own copies of the ladder and the audit log. Then a
+    clone gives you the whole thing, instead of three repositories to keep in
+    step. Those copies are a shipping convenience, not the end state. Each one
+    becomes a worker in its own right again later, because the rung is useful
+    without the rest of ghola.</p>
+  </div>
+
+  <div class="note warn">
+    <span class="label">Without it</span>
+    <p>If a sibling is missing, <code>make up</code> says so and keeps going.
+    That is deliberate for the ladder and dangerous for the record: without
+    <code>audit-log</code> nothing is written down, and <code>make up</code>
+    prints <code>NOTHING WILL BE RECORDED</code>. Point <code>AUDITLOG</code> or
+    <code>LADDER</code> at another directory if you keep them somewhere
+    else.</p>
+  </div>
+
+  <p><code>make setup</code> checks your tools, builds the venv, writes
+  <code>.env</code> from the example, and creates an empty
+  <code>repos.local.toml</code>. Then it tells you what is left to do.</p>
+
+  <h2>Step one: a key and a repository</h2>
+
+  <p>Put your <code>ANTHROPIC_API_KEY</code> in <code>.env</code>. The provider
+  workers read credentials from the engine's own environment. Start the engine
+  without the key and the router serves no models, so every turn fails at
+  <code>router::provider::resolve</code> and nothing says why. The first time I
+  hit this, the engine had the key in its shell and not in its environment. The
+  router's fallback limit then capped a million-token model at 8192 tokens.</p>
+
+  <p>Name a repository in <code>repos.local.toml</code>. Git ignores that file,
+  and it beats <code>repos.toml</code>, the tracked template that holds the
+  examples.</p>
+
+  <p>Start with a scratch repository and no forge:</p>
+
+<pre>[repos.<span class="k">"/Users/you/code/scratch"</span>]
+forge = <span class="k">"local"</span>
+base  = <span class="k">"main"</span></pre>
+
+  <p>That needs no GitHub account, no token, and no slug. ghola writes the
+  request for review into <code>.ghola/requests/</code> in the repository itself.
+  Merge the branch to land it.</p>
+
+<pre><span class="k">make up</span>
+<span class="k">make doctor</span>      <span class="c"># what is missing, before you spend a turn finding out</span>
+<span class="k">make repos</span>       <span class="c"># every target repository, and what is wrong with it</span></pre>
+
+  <figure>
+    <img src="../../img/terminal/00-doctor.png" alt="make doctor, listing each tool with its version, the harness pin, the API key, the gh login, and every target repository with its forge and base branch" loading="lazy">
+    <figcaption>make doctor</figcaption>
+  </figure>
+
+  <p><code>make doctor</code> names the version of every tool it found, the
+  harness pin, and each target repository. Fix what it reports before you submit
+  anything.</p>
+
+  <h2>Step two: one job</h2>
+
+<pre><span class="k">make submit</span> SPEC=specs/document-the-ports.md REPO=/Users/you/code/scratch
+<span class="k">make jobs</span></pre>
+
+  <p>Watch it in the console at <code>http://127.0.0.1:3133</code>. The job
+  plans, runs, proves, reviews, commits through your repository's own hook, and
+  opens the request. Then it stops. Nothing merges itself.</p>
+
+  <figure>
+    <pre class="mermaid">
+sequenceDiagram
+    autonumber
+    actor You
+    participant G as ghola
+    participant H as harness
+    participant R as your repo
+    participant AL as audit-log
+
+    You->>G: make submit SPEC=... REPO=...
+    G->>R: cut a worktree
+    G->>H: plan, then run
+    H->>R: write the diff
+    G->>H: prove, then review
+    G->>R: commit, through your own hook
+    R-->>G: the hook refused
+    G->>H: revise, up to max_revisions
+    G->>R: open the request for review
+    G->>AL: every refusal, every verdict
+    G--)You: it stops here
+    You->>R: merge, close, or comment
+    R-->>G: a comment, so rework the branch
+    </pre>
+    <figcaption>one job, end to end. The last two steps are yours</figcaption>
+  </figure>
+
+  <figure>
+    <img src="../../img/console/04-failed.png" alt="The iii console, chat on the left and the live trace panel on the right, with one traced session per phase for each job" loading="lazy">
+    <figcaption>the iii console, one traced session per phase</figcaption>
+  </figure>
+
+  <p>Each phase is one session in the trace panel, named for the job and the
+  phase. Open a row to see every tool call the phase made, and how long each one
+  took.</p>
+
+  <p>Write a comment in the request file and ghola reworks the branch. Merge the
+  branch and ghola lands the job, then releases the worktree.</p>
+
+  <h2>Step three: make it yours</h2>
+
+  <p>Now change something. In the order to reach for them:</p>
+
+  <ol>
+    <li><strong>A prompt.</strong> <code>prompts/plan.md</code> is what the
+    planning turn gets asked. Editing it moves more than anything else here, and
+    nothing checks it, so read <a href="../evals/">evals</a> first.</li>
+    <li><strong>The pipeline.</strong> Copy
+    <code>examples/minimal/settings/pipeline.yaml</code> into
+    <code>settings/</code> for one turn per job. Copy
+    <code>examples/strict/</code> for every check plus a security read.</li>
+    <li><strong>The oversight dial.</strong> <code>settings/oversight.yaml</code>
+    runs from <code>manual</code> to <code>dark</code>, and ships at
+    <code>supervised</code>.</li>
+    <li><strong>A rule.</strong> Write it in the target repository's
+    <code>CLAUDE.md</code>. Then read <a href="../ladder/">the ladder</a> and
+    pick the rung that can see what it is about.</li>
+  </ol>
+
+  <p><a href="../customizing/">The customization contract</a> lists everything
+  that has a home, and how to override each one.</p>
+
+  <h2>Moving to a real repository</h2>
+
+  <p>Add a GitHub entry to <code>repos.local.toml</code>:</p>
+
+<pre>[repos.<span class="k">"/Users/you/code/real-repo"</span>]
+slug = <span class="k">"you/real-repo"</span>
+base = <span class="k">"main"</span></pre>
+
+  <p>Then check the thing that fails latest and hurts most:</p>
+
+<pre><span class="k">make doctor</span></pre>
+
+  <p>The identity that pushes and the identity that opens a pull request are not
+  the same thing. Your shell may push over an SSH alias while the
+  <code>github</code> worker uses whatever <code>GH_TOKEN</code> the engine
+  started with. That mismatch surfaces at <code>pr create</code>, after a job has
+  already paid for a worktree, a plan, a run and two checks. So
+  <code>make doctor</code> asks the worker which account it is. Asking your shell
+  would answer a different question.</p>
+
+  <p>Put the token in <code>.env</code> as <code>GH_TOKEN</code>. Git tracks
+  <code>config/github.yaml</code>, so that file holds a reference and never a
+  secret.</p>
+
+  <h2>What to expect in the first week</h2>
+
+  <p><strong>Most of what goes wrong is a thing your repository wanted and never
+  said.</strong> A convention that lives in somebody's head is a convention a
+  turn cannot read. Each one costs you a revision until somebody writes it down.
+  Writing it down is the work.</p>
+
+  <p><strong>The improve lane needs a record.</strong> <code>make improve</code>
+  reads the audit log and the job records, then proposes what would have
+  prevented whatever cost you something. On a fresh clone it finds nothing and
+  says so. Come back to it after a few weeks.</p>
+
+  <p><strong>Budget for the commit hook.</strong> A strict hook produces
+  revisions rather than failures. Check that <code>max_revisions</code> in
+  <code>repos.toml</code> is high enough to let the loop finish.</p>
+
+  <h2>When to stop</h2>
+
+  <p>If your process already works and your team already follows it, ghola will
+  not make it faster. What it does is make an unattended process auditable, and
+  that is worth paying for only once some part of your process runs
+  unattended.</p>
+
+</article>
+</main>
+</div>
+
+<script src="../../assets/site.js"></script>
+</body>
+</html>

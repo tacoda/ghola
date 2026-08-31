@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The ladder — ghola guides</title>
+<meta name="description" content="A constraint has a rung: the mechanism that carries it. Capability climbs a second ladder in the opposite direction, and the two join at the grant.">
+<!-- voice-register: informational -->
+<!-- voice-english: ste -->
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body class="guides" data-page="ladder" data-root="../../">
+
+<div class="wrap">
+<main>
+<article>
+
+  <div class="kicker">Guide 4</div>
+  <h1>The ladder</h1>
+  <p class="lede">A constraint has a rung: the mechanism that carries it. Write
+  "money is Decimal" in <code>CLAUDE.md</code> and you have rung 0, which is
+  prose, and prose is a request. Write a hook that refuses the write and you have
+  rung 2, which is a guarantee. Same rule, same words, different thing
+  entirely.</p>
+  <p>Everything else in ghola is a pipeline you could write yourself. This is the
+  idea worth taking.</p>
+
+  <div class="note">
+    <span class="label">There are two ladders</span>
+    <p>A constraint withholds. A capability grants. They climb in opposite
+    directions, they meet at the grant, and <code>ladder::list</code> returns
+    both sides in one answer. A reader who takes only the constraint half has
+    taken half the idea, so both are below and both are the point.</p>
+  </div>
+
+  <figure>
+    <pre class="mermaid">
+flowchart TB
+    k4["rung 4 &middot; a tool, every agent by name"]
+    k3["rung 3 &middot; the org, everybody"]
+    k2["rung 2 &middot; the team, every repo it owns"]
+    grant["rung 1 &middot; THE GRANT<br/>what this phase may call"]
+    c2["rung 2 &middot; a hook on the tool call"]
+    c3["rung 3 &middot; a callback inside the turn"]
+    c4["rung 4 &middot; the delivery gate, over the diff"]
+    c5["rung 5 &middot; CI, after everybody left"]
+    k0["rung 0 &middot; prose. A capability nobody wired"]
+    c0["rung 0 &middot; prose. A rule nothing enforces"]
+
+    k4 --> k3 --> k2 --> grant
+    grant --> c2 --> c3 --> c4 --> c5
+    k0 -. "asks" .-> k2
+    c0 -. "asks" .-> c2
+
+    classDef cap fill:#1A100A,stroke:#A4470F,color:#E8A33D
+    classDef con fill:#23150C,stroke:#6E2E13,color:#E7C982
+    classDef hinge fill:#3A2112,stroke:#E7C982,color:#E7C982,stroke-width:2px
+    classDef prose fill:#0F0A06,stroke:#3B2515,color:#AB9070
+    class k4,k3,k2 cap
+    class c2,c3,c4,c5 con
+    class grant hinge
+    class k0,c0 prose
+    </pre>
+    <figcaption>capability climbs toward wider reach, a constraint climbs out of
+    reach, and rung 1 is the hinge both are measured from</figcaption>
+  </figure>
+
+  <h2>The constraint ladder</h2>
+
+  <p>Six rungs. What changes as you climb is not how strict the rule is, but what
+  the mechanism carrying it can see.</p>
+
+  <div class="scroll-x">
+  <table>
+    <tr><th>Rung</th><th>Carried by</th><th>What it can see</th></tr>
+    <tr><td>0</td><td>prose in the charter</td><td>nothing. It asks</td></tr>
+    <tr><td>1</td><td>the grant: what the phase may call</td><td>function ids, before any call</td></tr>
+    <tr><td>2</td><td>a hook on the tool call</td><td>the arguments, before the write lands</td></tr>
+    <tr><td>3</td><td>a callback inside the turn</td><td>the call, and it may hold it for a person</td></tr>
+    <tr><td>4</td><td>the delivery gate</td><td>the finished diff, before the commit</td></tr>
+    <tr><td>5</td><td>CI</td><td>the merged tree, after everybody left</td></tr>
+  </table>
+  </div>
+
+  <p>Two things follow, and both are the point.</p>
+
+  <p><strong>A rung is a place, not a strictness.</strong> Rung 3 sees a function
+  call, and a shell command is one call whose contents it does not read. Rung 4
+  sees the diff and never sees the call. Neither can see what the other sees, so a
+  rule that matters names both.</p>
+
+  <p><strong>Climbing costs something.</strong> Rung 0 is free and enforces
+  nothing. Rung 2 needs a predicate somebody writes and maintains. Rung 5 catches
+  everything, and it catches it after everybody has gone home. Pick the cheapest
+  rung that can actually see the thing your rule is about.</p>
+
+  <h2>The capability ladder</h2>
+
+  <p>Capability climbs too, and in the opposite direction. A constraint gets
+  stronger as it moves out of the agent's reach. A capability gets stronger as it
+  reaches further, from one repository out to every agent everywhere.</p>
+
+  <div class="scroll-x">
+  <table>
+    <tr><th>Rung</th><th>Where it lives</th><th>Who gets it</th></tr>
+    <tr><td>0</td><td>described in prose</td><td>whoever reads it</td></tr>
+    <tr><td>1</td><td>the project</td><td>this repository</td></tr>
+    <tr><td>2</td><td>the team</td><td>every repository the team owns</td></tr>
+    <tr><td>3</td><td>the org</td><td>everybody</td></tr>
+    <tr><td>4</td><td>a tool</td><td>every agent, everywhere, by name</td></tr>
+  </table>
+  </div>
+
+  <p>The two ladders join at rung 1. A constraint withholds a function; a
+  capability grants one. <code>ladder::list</code> returns both, plus
+  <code>withheld</code>, which is the list the factory subtracts from a phase's
+  grant before the turn starts.</p>
+
+  <p>So the grant is the one place you have to hold both ladders at once. It is
+  the top of neither and the hinge of both. What a phase may call is the sum of
+  the capabilities that reached it, minus everything a constraint took back.</p>
+
+  <h2>A primitive is two files with one name</h2>
+
+  <p><code>team/rules/no-secrets.md</code> is the rule.
+  <code>team/rules/no-secrets.py</code> is the predicate. The <code>.md</code>
+  alone gives you rung 0. Add the <code>.py</code> and the same primitive turns
+  mechanical, and the ladder works out the rest:</p>
+
+  <ul>
+    <li><strong>kind</strong> comes from the directory. <code>rules/</code> is a
+    rule, <code>skills/</code> is a skill.</li>
+    <li><strong>side</strong> comes from the kind. A rule constrains, and a skill
+    grants, so one primitive shape serves both ladders.</li>
+    <li><strong>layer</strong> is the one thing you declare:
+    <code>project</code>, <code>team</code>, or <code>org</code>.</li>
+    <li><strong>rung</strong> follows from the layer and from whether a script
+    exists beside it.</li>
+    <li><strong>direction</strong> follows too. A rule with a predicate runs
+    before the write and is feedforward. One without it can only be read
+    afterwards.</li>
+  </ul>
+
+  <figure>
+    <pre class="mermaid">
+flowchart LR
+    md["no-secrets.md<br/>the rule"] --> prim
+    py["no-secrets.py<br/>the predicate"] --> prim
+    prim["ONE PRIMITIVE"]
+    prim --> kind["kind &larr; the directory"]
+    prim --> side["side &larr; the kind"]
+    prim --> layer["layer &larr; you declare this"]
+    prim --> rung["rung &larr; layer, and is there a script"]
+    prim --> dir["direction &larr; is there a script"]
+
+    classDef file fill:#1A100A,stroke:#6E2E13,color:#E8A33D
+    classDef hinge fill:#3A2112,stroke:#E7C982,color:#E7C982,stroke-width:2px
+    classDef derived fill:#23150C,stroke:#3B2515,color:#AB9070
+    classDef declared fill:#23150C,stroke:#A4470F,color:#E7C982
+    class md,py file
+    class prim hinge
+    class kind,side,rung,dir derived
+    class layer declared
+    </pre>
+    <figcaption>one declared field, and the file layout decides the rest</figcaption>
+  </figure>
+
+  <p>So a primitive declares one field. Where you put the files decides the rest,
+  which is what stops a rule and its enforcement drifting apart. They are the same
+  primitive.</p>
+
+  <h2>Three mechanisms, three different questions</h2>
+
+  <p>Do not confuse these. They sit in front of the same call and answer different
+  things.</p>
+
+  <ul>
+    <li><strong><code>ladder</code></strong> decides what a rule says.
+    Deterministic, and it refuses in the rule's own words.</li>
+    <li><strong><code>approval-gate</code></strong> decides what a person says. It
+    holds the call and waits.</li>
+    <li><strong><code>opengantry</code></strong> decides what a machine can prove.
+    It verifies rather than judging.</li>
+  </ul>
+
+  <figure>
+    <pre class="mermaid">
+sequenceDiagram
+    autonumber
+    participant T as the turn
+    participant L as ladder
+    participant A as approval-gate
+    participant O as opengantry
+    participant F as the function
+
+    T->>L: I want to call this
+    L-->>T: refused, in the rule's own words
+    Note over L: deterministic. The dial never turns this off
+    T->>A: the calls the ladder allowed
+    A-->>T: held, until a person answers
+    Note over A: how much of this runs is the oversight dial
+    T->>O: the calls a person allowed
+    O-->>T: unproven, so not allowed
+    O->>F: proven
+    </pre>
+    <figcaption>three mechanisms in front of one call, answering three different
+    questions</figcaption>
+  </figure>
+
+  <p>The oversight dial in <code>settings/oversight.yaml</code> changes how much
+  of the second one runs. It never turns the first one off, and <code>ask</code>
+  never becomes <code>allow</code> at any level.</p>
+
+  <h2>Running it</h2>
+
+  <p>The ladder is its own worker, in its own repository, because it is not
+  ghola-shaped. Clone it beside this one:</p>
+
+  <div class="note">
+    <span class="label">Changing soon</span>
+    <p>ghola will carry its own copy of the ladder, and of the audit log with it.
+    Then a clone gives you the whole thing, instead of three repositories to keep
+    in step. Those copies are a shipping convenience, not the end state. Each one
+    becomes a worker in its own right again later. For the ladder that matters
+    most, because the rung is the part worth having without ghola.</p>
+  </div>
+
+<pre>git clone tacoda_github:tacoda/ladder.git ../ladder
+<span class="k">make up</span>          <span class="c"># starts it if ../ladder exists</span>
+<span class="k">make call</span> FN=ladder::list JSON='{"repo":"/path/to/repo"}'</pre>
+
+  <div class="note warn">
+    <span class="label">What I tried first</span>
+    <p>It runs as a host process rather than as a managed worker. I tried
+    <code>iii worker add ../ladder</code> first, which puts a worker in a microVM
+    that mounts only the worker's own source. The target repository does not exist
+    inside that sandbox. So the ladder read a
+    <code>.claude/settings.json</code> that was not there, reported a repository
+    with no permissions, and looked exactly like a ladder enforcing nothing.
+    Anything that inspects a target repository has to run where that repository
+    is.</p>
+  </div>
+
+  <h2>What to ask it</h2>
+
+<pre><span class="k">make call</span> FN=ladder::list     JSON='{"repo":"..."}'   <span class="c"># everything, both sides</span>
+<span class="k">make call</span> FN=ladder::explain  JSON='{"repo":"...","id":"no-secrets"}'
+<span class="k">make call</span> FN=ladder::evaluate JSON='{"repo":"...","path":"x.py","content":"...","rung":3}'
+<span class="k">make call</span> FN=ladder::move     JSON='{"repo":"...","id":"no-secrets","move":"promote","to":3}'</pre>
+
+  <p><code>list</code> answers both ladders at once. So its output has three
+  parts: a constraint side, a capability side, and the <code>withheld</code> list
+  that reconciles them.</p>
+
+  <p><code>explain</code> answers the question people get wrong. Not "is this
+  strict enough" but "can the mechanism carrying it see the thing it is
+  about".</p>
+
+  <p><code>move</code> changes a file and commits nothing. A change to a primitive
+  is a change to a repository, and it goes through whatever that repository does
+  with changes. It serves the whole lifecycle for both sides: promote, demote, add
+  and remove.</p>
+
+  <h2>Reading what it tells you</h2>
+
+  <p><code>ladder::list</code> reports <code>measured_share</code>: the fraction
+  of primitives carried somewhere a machine records what they caught. That number
+  does not make feedforward reliable. It makes the gap visible and counted, which
+  is the whole job.</p>
+
+  <p>Two numbers to watch in <code>make audit</code>:</p>
+
+  <ul>
+    <li><strong>Refusals per rung.</strong> One rung catching everything is a
+    signal about how your turns write, not an argument for tightening
+    anything.</li>
+    <li><strong>Rules that never fire.</strong> A rule carried mechanically that
+    has never fired is either settled or theatre. A rule carried at rung 0 cannot
+    fire at all, so its silence tells you nothing. ghola's improve lane reports
+    the two cases separately for exactly that reason.</li>
+  </ul>
+
+</article>
+</main>
+</div>
+
+<script src="../../assets/site.js"></script>
+</body>
+</html>

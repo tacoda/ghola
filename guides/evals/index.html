@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Evals — ghola guides</title>
+<meta name="description" content="A test says whether a function returns the right value. An eval says whether a prompt change made the answers better or worse. ghola needs both.">
+<!-- voice-register: informational -->
+<!-- voice-english: ste -->
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body class="guides" data-page="evals" data-root="../../">
+
+<div class="wrap">
+<main>
+<article>
+
+  <div class="kicker">Guide 6</div>
+  <h1>Evals</h1>
+  <p class="lede">A test tells you whether a function returns the right value. An
+  eval tells you whether a prompt change made the answers better or worse. ghola
+  needs both. Half of it is code, and the other half asks a model to judge
+  something.</p>
+
+  <p><strong>ghola writes no eval runner.</strong> The stock <code>eval</code>
+  worker already runs durable same-model A/B evaluations, alternates variant
+  order to reduce order bias, persists its reports, and injects a console page.
+  What it leaves open is the one thing it cannot know: whether a particular
+  answer was any good.</p>
+
+  <h2>Running them</h2>
+
+<pre><span class="k">make eval</span>                                 <span class="c">every case</span>
+<span class="k">make eval</span> CASE=prove-cites-evidence       <span class="c">one case</span>
+<span class="k">make eval</span> RESULT=eval_abc123              <span class="c">what it found</span></pre>
+
+  <p>Evaluations are durable and run in the background. They cost money, so
+  nothing runs them on a timer. Run them before you ship a prompt change. That is
+  the moment they earn their price.</p>
+
+  <figure>
+    <pre class="mermaid">
+sequenceDiagram
+    autonumber
+    actor You
+    participant W as the eval worker
+    participant M as the model
+    participant C as contracts.read
+    participant G as the grader
+    participant R as the report
+
+    You->>W: make eval CASE=...
+    Note over W: one case changes exactly one dimension
+    loop each run, variant order alternated
+        W->>M: the control prompt
+        M-->>W: an answer
+        W->>M: the treatment prompt
+        M-->>W: an answer
+    end
+    W->>C: parse both answers
+    C-->>W: the verdict, after any downgrade
+    W->>G: output, metrics, arguments, role
+    G-->>W: passed, and why
+    W->>R: pass counts, the delta, eligible
+    You->>R: make eval RESULT=eval_abc123
+    </pre>
+    <figcaption>the graders reach the same contract the pipeline runs, so an eval
+    measures the thing that ships</figcaption>
+  </figure>
+
+  <h2>What a case looks like</h2>
+
+  <p>Each file in <code>evals/</code> is an <code>eval::start</code>
+  request:</p>
+
+<pre>{
+  "dimension": "prompt",
+  "model": {"model": "claude-sonnet-5", "provider": "anthropic"},
+  "control":   {"label": "names a file and line",  "prompt": "..."},
+  "treatment": {"label": "objects without naming", "prompt": "..."},
+  "evaluator": {
+    "function_id": "ghola::eval::verdict-is",
+    "arguments": {"contract": "verdict", "equals": "concerns"}
+  }
+}</pre>
+
+  <p><strong>One case changes exactly one dimension.</strong> An A/B that changed
+  two things tells you something moved. It never tells you which thing moved it.
+  The worker enforces this, and so does <code>make test</code>.</p>
+
+  <h2>A case that cannot fail is not evidence</h2>
+
+  <p>Write the failing half first. A suite where every case passes tells you the
+  suite runs, and nothing else.</p>
+
+  <p>Both shipped cases discriminate against a real model.
+  <code>verdict-is</code> passes a review naming <code>app.py:9</code>. It fails
+  one that says "something about this feels wrong", which is the behavior the
+  contract exists to catch. Control scores 1/1, treatment scores 0/1, and the
+  pass-rate delta is -1.0.</p>
+
+  <div class="note warn">
+    <span class="label">What went wrong</span>
+    <p>Read the delta before the pass counts, and check the reader agrees with
+    the console. The first version of <code>make eval RESULT=</code> printed
+    "0/0 passed" for an evaluation that had discriminated perfectly. I had read
+    <code>report.control.runs</code>, and the per-run results live under
+    <code>progress.runs</code>. A report that looks like a result is worse than no
+    report.</p>
+  </div>
+
+  <p><code>eligible</code> is the worker's own judgment and it is strict on
+  purpose: every treatment run must pass, and the pass count must not regress. A
+  candidate that is no worse is not evidence that it is better.</p>
+
+  <h2>The four graders ghola ships</h2>
+
+  <div class="scroll-x">
+  <table>
+    <tr><th>Name</th><th>Asks</th></tr>
+    <tr><td>contract</td><td>did the answer obey its output contract at all</td></tr>
+    <tr><td>verdict-is</td><td>did it reach the expected answer, after any downgrade</td></tr>
+    <tr><td>mentions</td><td>did it name the thing this case is about</td></tr>
+    <tr><td>cites-evidence</td><td>did a claim of success carry a command under it</td></tr>
+  </table>
+  </div>
+
+  <p><strong>These are the same checks the pipeline runs.</strong>
+  <code>contracts.read</code> grades <code>prove</code> and <code>review</code>
+  in production, and the graders reach it rather than reimplementing it. So an
+  eval measures the thing that ships instead of a second copy that drifts.</p>
+
+  <p><code>verdict-is</code> grades after the contract's downgrades, not before.
+  A <code>PROVEN: yes</code> with no evidence parses as <code>unproven</code>, so
+  a case expecting <code>yes</code> fails on it. Grading the raw claim would
+  reward the behavior the contract exists to catch.</p>
+
+  <p><code>cites-evidence</code> is the most useful one on a <code>prove</code>
+  phase. A model that stops running things and starts asserting them still
+  produces output that reads exactly like a proof.</p>
+
+  <h2>Your own cases, without a fork</h2>
+
+  <p>Point <code>settings/evals.yaml</code> at a directory anywhere:</p>
+
+<pre>suites:
+  - ~/code/our-harness-evals/cases</pre>
+
+  <p>ghola reads it alongside <code>evals/</code> rather than instead of it. Your
+  suite lives in your repository. It is versioned with the prompts it grades, and
+  it goes through review like anything else.</p>
+
+  <p>A suite that is not where it said it would be gets reported before anything
+  runs. That matters. A run of no cases prints exactly like a run that
+  passed.</p>
+
+  <h2>Your own graders</h2>
+
+  <p>A grader is fifteen lines on any worker, in any language:</p>
+
+<pre>worker.register_function("acme::eval::mentions-a-ticket", grade)</pre>
+
+  <p>It receives <code>(output, metrics, arguments, role)</code> and returns
+  <code>{passed, score?, reason?, details?}</code>. Name it in a case file's
+  <code>evaluator</code>, and list it under <code>graders:</code> in
+  <code>settings/evals.yaml</code> so <code>make config</code> can show it.</p>
+
+  <p>Two rules, and both come from how the worker delivers:</p>
+
+  <p><strong>It must be deterministic and idempotent.</strong> Durable delivery
+  is at-least-once. A grader that answered differently on a redelivery would make
+  the report a coin toss.</p>
+
+  <p><strong>A grader that cannot run must fail, never pass.</strong> An unknown
+  name, a raised exception, a contract nobody defined: each one is a failed case.
+  Report any of them as a pass and you have put a green tick on a case nobody
+  graded.</p>
+
+  <figure>
+    <pre class="mermaid">
+flowchart LR
+    g{"the grader"}
+    g -- "it ran, and it passed" --> pass["pass"]
+    g -- "it ran, and it failed" --> fail["fail"]
+    g -- "unknown name" --> fail
+    g -- "raised an exception" --> fail
+    g -- "no such contract" --> fail
+    fail --> why["a green tick on a case<br/>nobody graded is worse<br/>than a red one"]
+
+    classDef gate fill:#3A2112,stroke:#E7C982,color:#E7C982
+    classDef ok fill:#1A100A,stroke:#A4470F,color:#E8A33D
+    classDef bad fill:#23150C,stroke:#6E2E13,color:#E7C982
+    classDef aside fill:#0F0A06,stroke:#3B2515,color:#AB9070
+    class g gate
+    class pass ok
+    class fail bad
+    class why aside
+    </pre>
+    <figcaption>every way of not running is a failure</figcaption>
+  </figure>
+
+  <h2>What is not covered</h2>
+
+  <p>Six phases produce something. Two of them have cases. <code>plan</code>,
+  <code>run</code>, <code>refine</code> and <code>improve</code> have none. A
+  change to one of those prompts ships with nothing here telling you whether you
+  made it worse.</p>
+
+</article>
+</main>
+</div>
+
+<script src="../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guides — ghola</title>
+<meta name="description" content="Six guides for ghola, in reading order: what it does not do, the quickstart, the walkthrough, the ladder, the customization contract, and evals.">
+<!-- voice-register: informational -->
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-page="guides" data-root="../">
+
+<div class="wrap">
+<main class="page">
+<article>
+
+  <div class="kicker">Guides</div>
+  <h1>Six guides</h1>
+  <p class="lede">Read them in this order the first time. The first one lists
+  what ghola does badly, and that is where I would want to start if somebody
+  handed me this.</p>
+
+  <div class="cards" data-cards></div>
+
+  <h2 class="plain">Why the limitations come first</h2>
+  <p>Every tool's documentation says what the tool does. That page says what this
+  one does badly, what it refuses to do on purpose, and what has already gone
+  wrong. So it goes first. Deciding against ghola in ten minutes costs you less
+  than finding these out in week two. One item may settle it for you: no
+  configuration removes the pull request.</p>
+
+  <h2 class="plain">How much of this you need</h2>
+  <p>Two guides get you working. Read the limitations, run the quickstart, and
+  stop there until something surprises you. The walkthrough is for when it does,
+  because it explains the parts rather than the steps.</p>
+  <p>The last three are reference, so reach for one when it answers the question
+  in front of you:</p>
+  <ul>
+    <li>the <strong>ladder</strong>, when you are deciding where a rule
+    belongs</li>
+    <li>the <strong>customization contract</strong>, when you want to change
+    something and cannot find its home</li>
+    <li><strong>evals</strong>, before you touch a prompt</li>
+  </ul>
+  <p>That last one matters more than its length suggests, since a prompt is the
+  easiest file here to change and the hardest to check.</p>
+
+  <div class="scroll-x">
+    <table data-order></table>
+  </div>
+
+  <h2 class="plain">Elsewhere</h2>
+  <ul>
+    <li><a href="https://github.com/tacoda/ghola/blob/main/PLAN.md">PLAN.md</a>
+    is the phased plan: what is built, what each milestone had to prove, and
+    what it taught.</li>
+    <li><a href="https://github.com/tacoda/ghola/tree/main/examples">examples/</a>
+    holds two working configurations at opposite ends of the range.</li>
+    <li><a href="https://github.com/tacoda/ghola/tree/main/settings">settings/</a>
+    is the reference for the configuration files themselves.</li>
+    <li><a href="https://iii.dev/docs">iii.dev/docs</a> documents the framework
+    underneath.</li>
+  </ul>
+
+  <h2 class="plain">The pictures</h2>
+  <p>Every screenshot in these guides is real output, and nobody drew any of it
+  by hand. The console frames come from
+  <code>.tooling/shoot-console.mjs</code>, which holds one page open and shoots
+  it each time a job changes stage. The terminal frames come from
+  <code>.tooling/shoot-terminal.mjs</code>, which runs the <code>make</code>
+  target named in each title bar and photographs its stdout.</p>
+<pre>cd .tooling &amp;&amp; npm install                          <span class="c"># puppeteer, once</span>
+node shoot-terminal.mjs ../docs/img/terminal        <span class="c"># needs a running engine</span>
+node shoot-console.mjs &lt;job-id&gt; ../docs/img/console <span class="c"># run it beside a live job</span></pre>
+  <p>Git tracks both scripts, because pictures go stale and the way to retake
+  them should not. Neither one spends money, since
+  <code>shoot-terminal.mjs</code> lists read-only targets only.</p>
+
+</article>
+</main>
+</div>
+
+<script src="../assets/site.js"></script>
+</body>
+</html>
