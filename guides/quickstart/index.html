@@ -17,28 +17,32 @@
 
   <div class="kicker">Guide 2</div>
   <h1>Quickstart</h1>
-  <p class="lede">Three steps. The shortest honest path runs all three against a
-  repository nobody else can see. Read
+  <p class="lede">Three steps, and one clone. The shortest honest path runs all
+  three against a repository nobody else can see. Read
   <a href="../limitations/">what ghola does not do</a> before you start.</p>
 
-<pre>git clone tacoda_github:tacoda/ghola.git
-git clone tacoda_github:tacoda/ladder.git
-git clone tacoda_github:tacoda/audit-log.git
-cd ladder &amp;&amp; make install &amp;&amp; cd ../audit-log &amp;&amp; make install &amp;&amp; cd ../ghola
+<pre>git clone https://github.com/tacoda/ghola.git &amp;&amp; cd ghola
 <span class="k">make setup</span></pre>
 
-  <p>Clone all three, side by side. <code>ladder</code> carries the rules and
-  <code>audit-log</code> keeps the record. Both run as host processes from their
-  own checkouts, because one has to see your repository and the other has to
-  outlive the sandbox. <code>make up</code> starts them if they are there.</p>
+  <p>The ladder that carries the rules and the record that keeps the log both
+  ship inside this repository, at <code>workers/ghola-ladder</code> and
+  <code>workers/ghola-audit</code>. <code>make up</code> starts them with
+  everything else.</p>
+
+  <p>Both run as host processes rather than managed workers. A managed worker
+  gets a microVM that mounts only its own source. So the ladder would read a
+  <code>.claude/settings.json</code> from a path that is not there. The record
+  would write a log that dies with the sandbox. Anything that inspects your
+  repository has to run where your repository is.</p>
 
   <div class="note">
-    <span class="label">Three clones today, one soon</span>
-    <p>ghola will carry its own copies of the ladder and the audit log. Then a
-    clone gives you the whole thing, instead of three repositories to keep in
-    step. Those copies are a shipping convenience, not the end state. Each one
-    becomes a worker in its own right again later, because the rung is useful
-    without the rest of ghola.</p>
+    <span class="label">Either one is swappable</span>
+    <p>Each is a copy of a worker that also lives on its own, and the copy is
+    meant to be replaceable. <code>make up LADDER=../ladder</code> hands the job
+    to a checkout of <a href="https://github.com/tacoda/ladder">tacoda/ladder</a>
+    instead, and <code>AUDITLOG</code> does the same for the record. The seam is
+    the function id, so no call site changes. <code>make status</code> names the
+    provider that is serving.</p>
   </div>
 
   <div class="note warn">

@@ -29,8 +29,8 @@
     <a class="btn" href="guides/limitations/">What it does not do</a>
   </div>
   <div class="facts">
-    <b>514</b> tests · <b>M8</b>, the whole lifecycle runs · needs <b>iii 0.22.1</b>,
-    Python 3.11+, git, gh · <b>MIT</b>
+    <b>618</b> tests · <b>M8</b>, the whole lifecycle runs · <b>one</b> clone ·
+    needs <b>iii 0.22.1</b>, Python 3.11+, git, gh · <b>MIT</b>
   </div>
 </section>
 
@@ -40,16 +40,19 @@
   <p>iii ships the turn loop, the tools, git worktrees, the GitHub client, the
   approval gate, durable queues, and the console. The rule here is that if a
   worker does it, ghola does not, which is why there is so little of ghola to
-  read. I moved two more things out into workers of their own:
-  <a href="https://github.com/tacoda/ladder">ladder</a> for the constraint and
-  capability ladder, and
-  <a href="https://github.com/tacoda/audit-log">audit-log</a> for the
-  append-only record. A starter kit whose best ideas are locked inside it is a
-  worse starter kit.</p>
-  <p class="muted">Both are moving back in as copies, so a clone ships the whole
-  thing rather than three repositories to keep in step. That is a shipping
-  convenience and not the end state: each one becomes a worker in its own right
-  again later.</p>
+  read. Two workers are ghola's own, because nothing else carries these ideas: the
+  constraint and capability ladder, and the append-only record. Both ship inside
+  the repository, so one clone is the whole thing.</p>
+  <p>Neither registers a tool any phase is granted. They serve the factory, the
+  callbacks and you, never a model mid-turn, so a phase's tools still all belong
+  to a stock iii worker.</p>
+  <p class="muted">Each also lives on its own, at
+  <a href="https://github.com/tacoda/ladder">ladder</a> and
+  <a href="https://github.com/tacoda/audit-log">audit-log</a>, which is where each
+  becomes a worker other projects install. Point <code>LADDER</code> or
+  <code>AUDITLOG</code> at a checkout and it serves instead of the copy, because
+  the seam is the function id rather than an import. A starter kit whose best ideas
+  are locked inside it is a worse starter kit.</p>
 
   <div class="grid">
     <div class="panel">
@@ -97,7 +100,7 @@
   <p>ghola runs on built-in defaults with an empty <code>settings/</code>. The
   shortest honest path points it at a scratch repository with no forge at all.
   The first pull request then costs one turn and no GitHub account.</p>
-<pre><span class="c">1. clone the repo</span>          git clone … &amp;&amp; cd ghola &amp;&amp; <span class="k">make setup</span>
+<pre><span class="c">1. clone the repo</span>          git clone https://github.com/tacoda/ghola.git &amp;&amp; <span class="k">make setup</span>
 <span class="c">2. add config and scripts</span>  edit settings/, drop files in actions/
 <span class="c">3. tell it to do work</span>      <span class="k">make submit</span> SPEC=specs/x.md REPO=../repo</pre>
 <pre><span class="c"># repos.local.toml, and no account, no token, no slug</span>

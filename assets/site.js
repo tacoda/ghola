@@ -35,12 +35,14 @@
       blurb: 'A test says whether a function returns the right value. An eval says whether a prompt change made the answers better or worse.' }
   ];
 
+  // The landing page's nav goes to pages, not to anchors on itself. Every URL
+  // on this site is a real path, and a nav that jumped to `#start` was the last
+  // thing here putting a fragment in the address bar.
   var LANDING = [
-    ['what', 'what it is'],
-    ['start', 'start'],
-    ['ladder', 'the ladder'],
-    ['look', 'what it looks like'],
-    ['not', 'what it does not do']
+    ['guides/', 'guides'],
+    ['guides/quickstart/', 'quickstart'],
+    ['guides/ladder/', 'the ladder', 'hide-sm'],
+    ['guides/limitations/', 'what it does not do']
   ];
 
   var DUNES = [
@@ -163,7 +165,8 @@
 
     var links = page() === 'home'
       ? LANDING.map(function (s) {
-          return '<a href="#' + s[0] + '"' + (s[0] === 'ladder' || s[0] === 'what' || s[0] === 'look' ? ' class="hide-sm"' : '') + '>' + s[1] + '</a>';
+          var cls = s[2] ? ' class="' + s[2] + '"' : '';
+          return '<a' + cls + ' href="' + url(s[0]) + '">' + s[1] + '</a>';
         }).join('')
       : '<a href="' + url('') + '">home</a>'
         + GUIDES.map(function (g) {
@@ -171,15 +174,10 @@
             return '<a class="hide-sm' + on + '" href="' + url('guides/' + g.slug + '/') + '">' + g.slug + '</a>';
           }).join('');
 
-    var guidesLink = page() === 'home'
-      ? '<a href="' + url('guides/') + '">guides</a>'
-      : '';
-
     var nav = el('nav', null,
       '<div class="row">'
       + '<a class="brand" href="' + url('') + '">ghola</a>'
       + links
-      + guidesLink
       + '<span class="spacer"></span>'
       + '<a href="https://github.com/tacoda/ghola">github</a>'
       + '</div>');

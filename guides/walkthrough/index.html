@@ -40,17 +40,23 @@
 
   <p><strong>ghola is a starter kit.</strong> It picks which workers to run, on
   which ports, and wires them together. Everything in this repository is yours to
-  edit once you clone it. The constraint ladder lives in its own worker,
-  <code>ladder</code>, because it is the one idea here that is useful without the
-  rest.</p>
+  edit once you clone it.</p>
+
+  <p>Two of those workers are ghola's own, in <code>workers/</code>. The ladder
+  is a worker rather than a library, because the rung is the one idea here worth
+  having without the rest. It has an upstream you can swap in. Neither worker
+  registers a tool any phase is granted: they serve the factory, the callbacks
+  and you.</p>
 
   <figure>
     <pre class="mermaid">
 flowchart LR
     you(["you"]) --> g
 
-    subgraph kit["ghola: conventions, and no tools of its own"]
-        g["the stage graph<br/>the briefs<br/>the ladder"]
+    subgraph kit["ghola: conventions, plus two workers of its own"]
+        g["the stage graph<br/>the briefs"]
+        l["ghola-ladder"]
+        a["ghola-audit"]
     end
 
     subgraph iii["iii: the framework, about 77 functions"]
@@ -62,16 +68,20 @@ flowchart LR
     g --> h --> model(["a model"])
     g --> w --> git(["git"])
     g --> gh --> pr(["a pull request"])
+    g --> l --> refusal(["a refusal, in the rule's own words"])
+    g --> a --> record(["the append-only record"])
 
     classDef kitn fill:#3A2112,stroke:#E7C982,color:#E7C982
+    classDef own fill:#3A2112,stroke:#A4470F,color:#E8A33D
     classDef iiin fill:#23150C,stroke:#6E2E13,color:#E7C982
     classDef out fill:#1A100A,stroke:#A4470F,color:#E8A33D
     class g kitn
+    class l,a own
     class h,w,gh iiin
-    class you,model,git,pr out
+    class you,model,git,pr,refusal,record out
     </pre>
-    <figcaption>ghola starts turns on somebody else's loop, which is why there is
-    so little of it to read</figcaption>
+    <figcaption>ghola starts turns on somebody else's loop, and writes only the
+    two workers that carry its own ideas</figcaption>
   </figure>
 
   <h2>Install</h2>
@@ -80,7 +90,7 @@ flowchart LR
   <code>gh</code> and Python 3.11 or newer.</p>
 
 <pre>curl -fsSL https://install.iii.dev/iii/main/install.sh | sh
-git clone tacoda_github:tacoda/ghola.git &amp;&amp; cd ghola
+git clone https://github.com/tacoda/ghola.git &amp;&amp; cd ghola
 <span class="k">make setup</span></pre>
 
   <p><code>make setup</code> runs <code>make doctor</code>, creates the virtual
@@ -104,14 +114,18 @@ git clone tacoda_github:tacoda/ghola.git &amp;&amp; cd ghola
 
 <pre><span class="k">make up</span></pre>
 
-  <p>This starts the engine, waits for the harness worker to report ready, then
-  starts ghola's policy worker. Expect about a minute the first time, because 31
-  workers start in sequence.</p>
+  <p>This starts the engine and waits for the harness worker to report ready.
+  Then it starts ghola's own workers: the record first, so the recorders have
+  somewhere to write, then the policy worker, the factory and the ladder. Expect
+  about a minute the first time, because 31 workers start in sequence.</p>
 
 <pre><span class="k">make status</span></pre>
 
 <pre>engine   : up
 policy   : up
+ladder   : up     <span class="c">(bundled)</span>
+factory  : up
+audit    : up     <span class="c">(bundled)</span>
 port 3131: listening      <span class="c">the HTTP surface</span>
 port 3133: listening      <span class="c">the iii console</span>
 port 3132: listening      <span class="c">the stream server</span>

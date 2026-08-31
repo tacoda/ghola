@@ -213,33 +213,50 @@ sequenceDiagram
 
   <h2>Running it</h2>
 
-  <p>The ladder is its own worker, in its own repository, because it is not
-  ghola-shaped. Clone it beside this one:</p>
+  <p>The ladder is a worker rather than a library, and it ships inside ghola at
+  <code>workers/ghola-ladder</code>. <code>make up</code> starts it with
+  everything else:</p>
 
-  <div class="note">
-    <span class="label">Changing soon</span>
-    <p>ghola will carry its own copy of the ladder, and of the audit log with it.
-    Then a clone gives you the whole thing, instead of three repositories to keep
-    in step. Those copies are a shipping convenience, not the end state. Each one
-    becomes a worker in its own right again later. For the ladder that matters
-    most, because the rung is the part worth having without ghola.</p>
-  </div>
-
-<pre>git clone tacoda_github:tacoda/ladder.git ../ladder
-<span class="k">make up</span>          <span class="c"># starts it if ../ladder exists</span>
+<pre><span class="k">make up</span>
 <span class="k">make call</span> FN=ladder::list JSON='{"repo":"/path/to/repo"}'</pre>
 
   <div class="note warn">
     <span class="label">What I tried first</span>
     <p>It runs as a host process rather than as a managed worker. I tried
-    <code>iii worker add ../ladder</code> first, which puts a worker in a microVM
-    that mounts only the worker's own source. The target repository does not exist
+    <code>iii worker add</code> first, which puts a worker in a microVM that
+    mounts only the worker's own source. The target repository does not exist
     inside that sandbox. So the ladder read a
     <code>.claude/settings.json</code> that was not there, reported a repository
     with no permissions, and looked exactly like a ladder enforcing nothing.
     Anything that inspects a target repository has to run where that repository
     is.</p>
   </div>
+
+  <h3>It is a copy, and it is meant to be swappable</h3>
+
+  <p>The rung is the one idea here worth having without the rest of ghola, so the
+  ladder also lives on its own at
+  <a href="https://github.com/tacoda/ladder">tacoda/ladder</a>. That is where it
+  becomes a worker other projects install. The copy in ghola exists so one clone
+  is the whole thing.</p>
+
+  <p>Point <code>LADDER</code> at a checkout and that checkout serves
+  instead:</p>
+
+<pre>git clone https://github.com/tacoda/ladder.git ../ladder
+<span class="k">make up</span> LADDER=../ladder
+<span class="k">make status</span>                  <span class="c"># names the provider that is serving</span></pre>
+
+  <p>The seam is the function id rather than an import. Nothing in ghola imports
+  the ladder package. Every caller triggers <code>ladder::list</code>,
+  <code>ladder::evaluate</code>, <code>ladder::move</code> or
+  <code>ladder::explain</code> over the bus, and <code>ladder::gate</code> binds
+  itself to the harness's <code>pre-trigger</code> hook. So exactly one provider
+  registers those ids, and no call site changes when you swap, because there is no
+  call site to change.</p>
+
+  <p>Keep that true if you edit either copy. A shortcut that imports the ladder
+  directly would weld the two together and take the swap away.</p>
 
   <h2>What to ask it</h2>
 
