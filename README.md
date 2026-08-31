@@ -4,13 +4,51 @@
 
 *You clone it. You teach it. It remembers.*
 
-**A starter kit for agentic systems on [iii](https://iii.dev).** Clone it,
-configure it, point it at a repository. A spec goes in, a pull request comes out,
-nothing merges itself.
+**A starter kit for agentic systems on [iii](https://iii.dev).** Clone it, point
+it at a repository. A spec goes in, a pull request comes out, nothing merges
+itself.
 
-iii is the framework. It ships the turn loop, the tools, git worktrees, the
-GitHub client, the approval gate, durable queues and the console. ghola composes
-thirty-one of its workers, and adds the conventions that wire them together.
+[iii](https://iii.dev) is the framework and the ecosystem doing the real work
+here: the turn loop, the tools, worktrees, the forge client, the approval gate,
+durable queues, the console. Read it on its own terms first, because everything
+below is that, wired up.
+
+There are two ways to build on it. You can add each worker when you need it,
+which keeps you holding only the parts you understand, and for a distributed
+system that is often the right call. Or you clone a kit that has already made
+those choices. This is the second one, and what it gets you is a harness and a
+factory already wired together:
+
+- **The harness** constrains one turn. Six phases, each with its own model,
+  thinking level, turn cap and tool grant. Four callbacks around the turn. The
+  prompts it is actually asked. The ladder deciding what a rule refuses, in the
+  rule's own words.
+- **The factory** runs many turns to a diff. A stage graph where every transition
+  is a durable queue message, so a crash resumes rather than restarts. A worktree
+  per job with a claim that stops two racing. A delivery gate over the finished
+  diff, then a pull request nothing can merge for you.
+
+A harness with no factory is a well-behaved agent you cannot get work through. A
+factory with no harness runs unattended and cannot tell you what it was allowed
+to do. That split is also how the improve lane sorts its proposals.
+
+**It works before you configure anything.** A fresh clone runs the whole
+lifecycle on built-in defaults with an empty `settings/`. Changing it is a key in
+a YAML file, or a Python file dropped into a named directory and found by its
+filename, with no registration step and no import to add. `make config` prints
+every effective value with the source that produced it, so a default is never a
+magic number you go hunting for in the code.
+
+**The rest of what a kit is for is management.** The workers would run without
+any of it. `make` is one operator surface over all of them: `doctor` for what is
+missing, `config` for what is set and where it came from, `pipeline` for the
+stage graph before you pay for one, `status` for what is up, `audit` for whether
+the record still verifies, `improve` for what went wrong and what would have
+helped.
+
+ghola composes thirty-one iii workers and adds the conventions that wire them
+together. If a worker does it, ghola does not, which is why there is so little of
+ghola to read.
 
 Two of those workers are ghola's own and ship inside this repository: the
 constraint and capability ladder at `workers/ghola-ladder`, and the append-only
