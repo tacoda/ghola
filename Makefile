@@ -103,6 +103,13 @@ doctor:
 	@printf '  %-9s ' ".env"; \
 		{ [ -f .env ] && grep -q '^ANTHROPIC_API_KEY=.\+' .env && echo "ANTHROPIC_API_KEY set"; } \
 		|| echo "no ANTHROPIC_API_KEY yet"
+	@# Which provider serves the two swappable workers. Both ship bundled, so
+	@# this line is boring until somebody swaps one, and on the day they do it is
+	@# the first place to look when `ladder::list` answers differently.
+	@printf '  %-9s %s' "ladder" "$(call provider,$(LADDER))"; \
+		test -d $(LADDER) && echo "" || echo "  MISSING at $(LADDER)"
+	@printf '  %-9s %s' "record" "$(call provider,$(AUDITLOG))"; \
+		test -d $(AUDITLOG) && echo "" || echo "  MISSING at $(AUDITLOG): nothing would be recorded"
 	@# The WORKER's identity, not this shell's. They are routinely different:
 	@# the shell has a keyring login and the engine has whatever GH_TOKEN was in
 	@# its environment, and only the worker's one opens pull requests.
@@ -147,51 +154,83 @@ engine:
 	@python3 scripts/seed_console_port.py
 	@$(ENV) iii --config config.yaml
 
-# The ladder, as a HOST process rather than a managed worker.
+# The ladder and the record: BUNDLED by default, swappable by variable.
 #
-# `iii worker add ../ladder` runs it in a microVM with only its own source
-# mounted, and the target repository does not exist inside that sandbox: it
-# reads a `.claude/settings.json` from a path that is not there and reports a
+# Both ship inside this repository so one clone is the whole thing. Point either
+# variable at a checkout of its upstream and that checkout serves instead:
+#
+#     make up LADDER=../ladder AUDITLOG=../audit-log
+#
+# The swap works because the seam is the function id. Nothing in ghola imports
+# either package; every caller triggers `ladder::*` or `audit::*` over the bus,
+# so exactly one provider registers those ids and no call site knows which.
+#
+# The interpreter follows the provider. A bundled copy shares ghola's venv,
+# because `make setup` built exactly one. An external checkout has its own, and
+# using ghola's would run upstream code against ghola's pinned dependencies.
+py_for = $(if $(wildcard $(1)/.venv/bin/python),$(1)/.venv/bin/python,$(PY))
+
+# A `pgrep -f` pattern for this provider's process. The provider's own path is
+# the pattern, so a bundled copy and an external checkout are told apart rather
+# than both answering to one name.
+#
+# The sed brackets the first character of the last path component, turning
+# `workers/ghola-ladder` into `workers/[g]hola-ladder`. That is the same trick
+# `[i]ii` uses below, and for the same reason: `pgrep -f` matches whole command
+# lines, and the shell running the recipe has this pattern in its own command
+# line. Unbracketed, every check reports the provider up because it found the
+# shell that went looking for it.
+proc = $(shell printf '%s' '$(1)' | sed -E 's|([^/])([^/]*)$$|[\1]\2|')/src/main.py
+running = pgrep -f '$(call proc,$(1))' >/dev/null
+
+# Which provider is serving, for `make status` and `make doctor`. A reader who
+# swapped one in three weeks ago should not have to remember that they did.
+provider = $(if $(filter workers/%,$(1)),(bundled),(external: $(1)))
+
+# Both run as HOST processes rather than managed workers.
+#
+# `iii worker add` puts a worker in a microVM with only its own source mounted,
+# and the target repository does not exist inside that sandbox: the ladder reads
+# a `.claude/settings.json` from a path that is not there and reports a
 # repository with no permissions, which looks exactly like permissions that are
 # not enforced. Anything that inspects a target repo has to run where that repo
-# is.
-LADDER ?= ../ladder
+# is. The record has the same problem from the other side: a log inside the
+# sandbox dies with it, and an audit log that vanishes with the thing it audits
+# is not one.
+LADDER ?= workers/ghola-ladder
 
 ladder:
-	@test -d $(LADDER) || { echo "no ladder at $(LADDER). Clone tacoda/ladder beside this repo"; exit 2; }
+	@test -d $(LADDER) || { echo "no ladder at $(LADDER)"; exit 2; }
 	@$(ENV) PYTHONUNBUFFERED=1 III_URL=ws://localhost:$(MGR_PORT) LADDER_HOME=$(LADDER) \
-		$(LADDER)/.venv/bin/python $(LADDER)/src/main.py
+		$(call py_for,$(LADDER)) $(LADDER)/src/main.py
 
-# The record, also a HOST process, and for the same reason as the ladder: a
-# managed worker's microVM mounts only its own source, so the log would live and
-# die inside the sandbox. An audit log that vanishes with the thing it audits is
-# not one.
-#
 # One process owns the append-only chain. Two writers interleave their `prev`
 # hashes and produce a log that fails its own verification while nothing has
 # tampered with it, so this starts BEFORE the workers that record.
 #
-# `AUDIT_LOG_KINDS` is ghola's vocabulary, declared here because audit-log ships
+# `AUDIT_LOG_KINDS` is ghola's vocabulary, declared here because the record ships
 # none: it reports an entry whose kind is not on this list, which catches the
 # typo that would otherwise split a count in two. Keep it in step with what the
-# policy and factory workers actually append.
+# policy and factory workers actually append. Declaring it here rather than
+# inside the worker is also what keeps the worker swappable: the vocabulary
+# belongs to whoever writes the entries, not to whoever stores them.
 #
 # The last three were missing from the list this replaced, and had been missing
 # for as long as the lane existed. The old worker checked for an unknown kind and
 # then did nothing with the answer, so three kinds ghola writes on every improve
 # run were never once reported. A check whose result is discarded is the thing
 # this repository is against, and it was sitting inside the audit log.
-AUDITLOG ?= ../audit-log
+AUDITLOG ?= workers/ghola-audit
 AUDIT_KINDS := turn.started,turn.completed,ladder.refused,ladder.warned,\
 approval.held,approval.resolved,governance.verified,governance.denied,\
 stage.entered,stage.left,published,config.changed,\
 improve.started,improve.completed,proposal.accepted
 
 auditd:
-	@test -d $(AUDITLOG) || { echo "no audit-log at $(AUDITLOG). Clone tacoda/audit-log beside this repo"; exit 2; }
+	@test -d $(AUDITLOG) || { echo "no record at $(AUDITLOG)"; exit 2; }
 	@$(ENV) PYTHONUNBUFFERED=1 III_URL=ws://localhost:$(MGR_PORT) \
 		AUDIT_LOG_DIR=$(PWD)/audit AUDIT_LOG_KINDS='$(AUDIT_KINDS)' \
-		$(AUDITLOG)/.venv/bin/python $(AUDITLOG)/src/main.py
+		$(call py_for,$(AUDITLOG)) $(AUDITLOG)/src/main.py
 
 # The pipeline. Serves no HTTP: the console is the UI.
 factory:
@@ -253,19 +292,28 @@ up:
 	done
 	@echo ""
 	@# Before the recorders, so their first entry has somewhere to go.
-	@test -d $(AUDITLOG) && { pgrep -f '[a]udit-log/src/main.py' >/dev/null \
+	@#
+	@# The bundled record always exists, so this warning now means one thing
+	@# only: somebody pointed AUDITLOG at a path that is not there. That is a
+	@# typo in a swap rather than a missing clone, and it still ends with
+	@# nothing being written down, so it still says so loudly.
+	@test -d $(AUDITLOG) && { $(call running,$(AUDITLOG)) \
 		|| ($(ENV) PYTHONUNBUFFERED=1 III_URL=ws://localhost:$(MGR_PORT) \
 		    AUDIT_LOG_DIR=$(PWD)/audit AUDIT_LOG_KINDS='$(AUDIT_KINDS)' \
-		    $(AUDITLOG)/.venv/bin/python $(AUDITLOG)/src/main.py > $(LOGS)/audit.log 2>&1 &); } \
-		|| echo "  no audit-log at $(AUDITLOG): NOTHING WILL BE RECORDED"
+		    $(call py_for,$(AUDITLOG)) $(AUDITLOG)/src/main.py > $(LOGS)/audit.log 2>&1 &); } \
+		|| echo "  AUDITLOG=$(AUDITLOG) is not a directory: NOTHING WILL BE RECORDED"
 	@sleep 2
 	@pgrep -f '[g]hola-policy/src/boot.py' >/dev/null \
 		|| ($(RUN) $(PY) workers/ghola-policy/src/boot.py > $(LOGS)/policy.log 2>&1 &)
 	@pgrep -f '[g]hola-factory/src/factory.py' >/dev/null \
 		|| ($(RUN) $(PY) workers/ghola-factory/src/factory.py > $(LOGS)/factory.log 2>&1 &)
-	@test -d $(LADDER) && { pgrep -f '[l]adder/src/main.py' >/dev/null \
+	@# Same again: bundled is always there, so a missing path is a bad swap. A
+	@# ladder that is not running enforces nothing, which is the failure this
+	@# worker exists to prevent, so it is not passed over in silence any more.
+	@test -d $(LADDER) && { $(call running,$(LADDER)) \
 		|| ($(ENV) PYTHONUNBUFFERED=1 III_URL=ws://localhost:$(MGR_PORT) LADDER_HOME=$(LADDER) \
-		    $(LADDER)/.venv/bin/python $(LADDER)/src/main.py > $(LOGS)/ladder.log 2>&1 &); } || true
+		    $(call py_for,$(LADDER)) $(LADDER)/src/main.py > $(LOGS)/ladder.log 2>&1 &); } \
+		|| echo "  LADDER=$(LADDER) is not a directory: NOTHING WILL BE ENFORCED"
 	@sleep 4
 	@$(MAKE) --no-print-directory status
 
@@ -372,9 +420,9 @@ console:
 status:
 	@echo "engine   : $$(pgrep -f '[i]ii --config config.yaml' >/dev/null && echo up || echo down)"
 	@echo "policy   : $$(pgrep -f '[g]hola-policy/src/boot.py' >/dev/null && echo up || echo down)"
-	@echo "ladder   : $$(pgrep -f '[l]adder/src/main.py' >/dev/null && echo up || echo down)"
+	@echo "ladder   : $$($(call running,$(LADDER)) && echo up || echo down)   $(call provider,$(LADDER))"
 	@echo "factory  : $$(pgrep -f '[g]hola-factory/src/factory.py' >/dev/null && echo up || echo down)"
-	@echo "audit    : $$(pgrep -f '[a]udit-log/src/main.py' >/dev/null && echo up || echo down)"
+	@echo "audit    : $$($(call running,$(AUDITLOG)) && echo up || echo down)   $(call provider,$(AUDITLOG))"
 	@for p in $(HTTP_PORT) $(CONSOLE_PORT) $(STREAM_PORT) $(MGR_PORT) $(GOVERNED_PORT); do \
 		printf '%-9s: %s\n' "port $$p" "$$(lsof -nP -iTCP:$$p -sTCP:LISTEN >/dev/null 2>&1 && echo listening || echo free)"; \
 	done
@@ -388,8 +436,13 @@ status:
 stop:
 	@pkill -f 'ghola-policy/src/boot.py' || true
 	@pkill -f 'ghola-factory/src/factory.py' || true
-	@pkill -f 'audit-log/src/main.py' || true
-	@pkill -f 'ladder/src/main.py' || true
+	@# These two follow whichever provider is configured. The old patterns were
+	@# the upstream paths, and the bundled record does not contain
+	@# `audit-log/src/main.py`, so it would have survived every `make stop`.
+	@# Bracketed for the reason `status` explains: these run in a shell whose own
+	@# command line holds the pattern.
+	@pkill -f '$(call proc,$(AUDITLOG))' || true
+	@pkill -f '$(call proc,$(LADDER))' || true
 	@pkill -f 'iii --config config.yaml' || true
 	@# The engine's workers are its children and outlive the signal by a few
 	@# seconds. A fixed sleep reported them still up, which is the opposite of

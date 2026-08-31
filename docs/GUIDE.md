@@ -25,13 +25,19 @@ repeats. ghola does not have a turn loop. It starts turns on this one.
 
 **ghola is a starter kit.** It picks which workers to run, on which ports, and
 wires them together. Everything in this repository is yours to edit once you
-clone it. The constraint ladder lives in its own worker, `ladder`, because it is
-the one idea here that is useful without the rest.
+clone it.
+
+Two of those workers are ghola's own, in `workers/`. The constraint ladder is
+still a worker rather than a library, because the rung is the one idea here that
+is useful without the rest, and it has an upstream you can swap in. Section 8 is
+the ladder itself and [LADDER.md](LADDER.md) is the swap.
 
 ```
-you  ──▶  ghola  ──▶  harness worker  ──▶  a model
-                 ──▶  worktree worker ──▶  git
-                 ──▶  github worker   ──▶  a pull request
+you  ──▶  ghola  ──▶  harness worker    ──▶  a model
+                 ──▶  worktree worker   ──▶  git
+                 ──▶  github worker     ──▶  a pull request
+                 ──▶  ghola-ladder      ──▶  a refusal, in the rule's own words
+                 ──▶  ghola-audit       ──▶  the append-only record
 ```
 
 ---
@@ -42,7 +48,7 @@ You need `iii`, `uv`, `git`, `gh` and Python 3.11 or newer.
 
 ```bash
 curl -fsSL https://install.iii.dev/iii/main/install.sh | sh
-git clone tacoda_github:tacoda/ghola.git && cd ghola
+git clone https://github.com/tacoda/ghola.git && cd ghola
 make setup
 ```
 
@@ -70,8 +76,9 @@ make up
 ```
 
 This starts the engine, waits for the harness worker to report ready, then starts
-ghola's policy worker. Expect about a minute the first time, because 31 workers
-start in sequence.
+ghola's own workers: the record first, so the recorders have somewhere to write,
+then the policy worker, the factory and the ladder. Expect about a minute the
+first time, because 31 workers start in sequence.
 
 ```bash
 make status
@@ -80,6 +87,9 @@ make status
 ```
 engine   : up
 policy   : up
+ladder   : up     (bundled)
+factory  : up
+audit    : up     (bundled)
 port 3131: listening      the HTTP surface
 port 3133: listening      the iii console
 port 3132: listening      the stream server

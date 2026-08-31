@@ -113,7 +113,7 @@ declared, feedback graded as **deterministic or inferential**, and the whole
 
 ### License and remote
 
-MIT. Remote is `tacoda_github:tacoda/ghola.git`. Everything in `settings/`,
+MIT. Remote is `https://github.com/tacoda/ghola.git`. Everything in `settings/`,
 `rules/`, `prompts/` and `iii.lock` is tracked; nothing under `runs/` or `.env`
 is.
 
@@ -1364,7 +1364,7 @@ rather than in a footnote:
 ```
 mkdir -p ~/tacoda/ghola && cd ~/tacoda/ghola
 git init
-git remote add origin tacoda_github:tacoda/ghola.git
+git remote add origin https://github.com/tacoda/ghola.git
 ```
 
 Then M0. The first pull request on ghola should be opened by ghola, on ghola,

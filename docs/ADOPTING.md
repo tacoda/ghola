@@ -7,22 +7,37 @@ Three steps. The shortest honest path runs all three against a repository nobody
 else can see. Read [what ghola does not do](LIMITATIONS.md) before you start.
 
 ```
-git clone tacoda_github:tacoda/ghola.git
-git clone tacoda_github:tacoda/ladder.git
-git clone tacoda_github:tacoda/audit-log.git
-cd ladder && make install && cd ../audit-log && make install && cd ../ghola
+git clone https://github.com/tacoda/ghola.git && cd ghola
 make setup
 ```
 
-Clone all three, side by side. `ladder` carries the rules and `audit-log` keeps
-the record. Both run as host processes from their own checkouts, because one has
-to see your repository and the other has to outlive the sandbox. `make up`
-starts them if they are there.
+One clone. The ladder that carries the rules and the record that keeps the log
+both ship inside this repository, at `workers/ghola-ladder` and
+`workers/ghola-audit`, and `make up` starts them with everything else.
 
-If a sibling is missing, `make up` says so and keeps going. That is deliberate
-for the ladder and dangerous for the record: without `audit-log` nothing is
-written down, and `make up` prints `NOTHING WILL BE RECORDED`. Point `AUDITLOG`
-or `LADDER` at another directory if you keep them somewhere else.
+Both run as host processes rather than managed workers. A managed worker gets a
+microVM that mounts only its own source, so the ladder would read a
+`.claude/settings.json` from a path that is not there, and the record would write
+a log that dies with the sandbox. Anything that inspects your repository has to
+run where your repository is.
+
+## Swapping either one out
+
+Each is a copy of a worker that also lives on its own, and the copy is meant to
+be replaceable:
+
+```
+make up LADDER=../ladder AUDITLOG=../audit-log
+```
+
+The seam is the function id. Nothing in ghola imports either package, and every
+caller triggers `ladder::*` or `audit::*` over the bus, so exactly one provider
+answers those ids and no call site knows which one. `make status` and
+`make doctor` both name the provider that is serving.
+
+If you point either variable at a directory that is not there, `make up` says so
+rather than starting quietly: `NOTHING WILL BE ENFORCED` for the ladder, and
+`NOTHING WILL BE RECORDED` for the log.
 
 `make setup` checks your tools, builds the venv, writes `.env` from the example,
 and creates an empty `repos.local.toml`. Then it tells you what is left to do.

@@ -7,11 +7,16 @@ Both questions from one file. An auditor asks whether it can be trusted and an
 engineer asks what it counts, and answering them from two stores is how the two
 answers stop agreeing.
 
-**The log belongs to `tacoda/audit-log`; this display belongs to ghola.** The
+**The chain belongs to the record worker; this display belongs to ghola.** The
 worker counts whatever field it is asked for and knows nothing about rungs, which
 is correct: a rung is a ladder idea, and ghola is the thing composing the two.
 So the general summary comes from there and the line about refusals is computed
 here.
+
+That worker ships bundled, at `workers/ghola-audit`, and `AUDITLOG` points
+somewhere else when a reader has swapped in `tacoda/audit-log` instead. Either
+way this file reads the same chain, because the store is named by
+`AUDIT_LOG_DIR` and belongs to ghola rather than to whoever is serving.
 
 Reading the files directly rather than asking the worker, because a reader needs
 no worker and asking the writer whether its own writing is intact is the wrong
@@ -23,15 +28,15 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-AUDITLOG = Path(os.environ.get("AUDITLOG") or ROOT.parent / "audit-log")
+AUDITLOG = Path(os.environ.get("AUDITLOG") or ROOT / "workers" / "ghola-audit")
 sys.path.insert(0, str(AUDITLOG / "src"))
 
 try:
     import audit  # noqa: E402
     import audit_log  # noqa: E402
 except ModuleNotFoundError:
-    print(f"no audit-log at {AUDITLOG}")
-    print("Clone tacoda/audit-log beside this repo, or set AUDITLOG to where it is.")
+    print(f"no record worker at {AUDITLOG}")
+    print("The bundled one is workers/ghola-audit. Set AUDITLOG to swap it.")
     raise SystemExit(2)
 
 FOLDER = os.environ.get("AUDIT_LOG_DIR") or (ROOT / "audit")

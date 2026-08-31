@@ -84,22 +84,45 @@ any level.
 
 ## Running it
 
-The ladder is its own worker, in its own repository, because it is not
-ghola-shaped. Clone it beside this one:
+The ladder is its own worker, and it ships inside this repository at
+`workers/ghola-ladder`. `make up` starts it with everything else:
 
 ```
-git clone tacoda_github:tacoda/ladder.git ../ladder
-make up          # starts it if ../ladder exists
+make up
 make call FN=ladder::list JSON='{"repo":"/path/to/repo"}'
 ```
 
 It runs as a host process rather than as a managed worker. I tried
-`iii worker add ../ladder` first, which puts a worker in a microVM that mounts
-only the worker's own source. The target repository does not exist inside that
-sandbox. So the ladder read a `.claude/settings.json` that was not there,
-reported a repository with no permissions, and looked exactly like a ladder
-enforcing nothing. Anything that inspects a target repository has to run where
-that repository is.
+`iii worker add` first, which puts a worker in a microVM that mounts only the
+worker's own source. The target repository does not exist inside that sandbox. So
+the ladder read a `.claude/settings.json` that was not there, reported a
+repository with no permissions, and looked exactly like a ladder enforcing
+nothing. Anything that inspects a target repository has to run where that
+repository is.
+
+### It is a copy, and it is meant to be swappable
+
+The ladder is the one idea here worth having without the rest of ghola, so it
+also lives on its own at [tacoda/ladder](https://github.com/tacoda/ladder). That
+is where it becomes a worker other projects install. The copy in this repository
+exists so one clone is the whole thing.
+
+Point `LADDER` at a checkout and that checkout serves instead:
+
+```
+git clone https://github.com/tacoda/ladder.git ../ladder
+make up LADDER=../ladder
+make status                  # names the provider that is serving
+```
+
+The seam is the function id rather than an import. Nothing in ghola imports the
+ladder package: every caller triggers `ladder::list`, `ladder::evaluate`,
+`ladder::move` or `ladder::explain` over the bus, and `ladder::gate` binds itself
+to the harness's `pre-trigger` hook. So exactly one provider registers those ids,
+and no call site changes when you swap, because there is no call site to change.
+
+Keep that true if you edit either copy. A shortcut that imports the ladder
+directly would weld the two together and take the swap away.
 
 ## What to ask it
 

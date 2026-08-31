@@ -12,15 +12,21 @@ iii is the framework. It ships the turn loop, the tools, git worktrees, the
 GitHub client, the approval gate, durable queues and the console. ghola composes
 thirty-one of its workers, and adds the conventions that wire them together.
 
-I moved two things out into their own workers:
-[ladder](https://github.com/tacoda/ladder), the constraint and capability ladder,
-and [audit-log](https://github.com/tacoda/audit-log), the append-only record.
-Both were general, and a starter kit whose best ideas are locked inside it is a
-worse starter kit. Clone them beside this repo; `make up` starts them.
+Two of those workers are ghola's own and ship inside this repository: the
+constraint and capability ladder at `workers/ghola-ladder`, and the append-only
+record at `workers/ghola-audit`. One clone is the whole thing.
+
+Both are also general enough to be worth having on their own, so each has an
+upstream that is where it becomes a worker other projects install:
+[ladder](https://github.com/tacoda/ladder) and
+[audit-log](https://github.com/tacoda/audit-log). Point `LADDER` or `AUDITLOG` at
+a checkout and it serves instead of the copy, because the seam is the function id
+rather than an import. A starter kit whose best ideas are locked inside it is a
+worse starter kit.
 
 **Status: M8.** The whole lifecycle runs. A spec becomes a plan, a diff, a
 proof, a review, a commit through your repository's own hook, and a pull
-request. Comment on it and the job reworks. 514 tests, and the phased plan is in
+request. Comment on it and the job reworks. 618 tests, and the phased plan is in
 [PLAN.md](PLAN.md).
 
 **Start here:** [docs/ADOPTING.md](docs/ADOPTING.md) gets a pull request out of
@@ -100,7 +106,6 @@ The rule is that if a worker does it, ghola does not.
 | Worker | What ghola therefore does not write |
 |---|---|
 | `harness` | the turn loop, transcript, retry, sub-agents, token budget |
-| `ladder` | rules, layers, rungs, predicates, and the refusal in a rule's own words |
 | `shell` | every tool. It owns `coder::*` too: read, search, tree, edit, exec |
 | `worktree` | worktree lifecycle, the claim that stops two jobs racing, `land` |
 | `github` | the forge: typed `pr`, `issue`, `run`, with read-vs-mutate gating |
@@ -109,9 +114,23 @@ The rule is that if a worker does it, ghola does not.
 | `directory` | the charter surfaces: skills, prompts, system prompts |
 | `state`, `queue`, `cron`, `http`, `console` | the store, durable topics, scheduling, the surfaces |
 
-**ghola registers no tools of its own.** What is left is the stage graph and the
-briefs: which base ref, what happens in what order, when to land, and what the
-pull request says.
+**ghola registers no tools a turn can call.** What is left is the stage graph and
+the briefs: which base ref, what happens in what order, when to land, and what
+the pull request says.
+
+The two workers it does write are the exception that proves the rule. The ladder
+registers seven functions and the record registers six, and not one of them is in
+any phase's grant: they serve the factory, the policy callbacks and you, never a
+model mid-turn. So a phase's tools still all belong to a stock iii worker.
+
+| ghola's own worker | Serves | Upstream |
+|---|---|---|
+| `workers/ghola-ladder` | `ladder::list`, `evaluate`, `explain`, `move`, `add`, `gate`, `refused` | [tacoda/ladder](https://github.com/tacoda/ladder) |
+| `workers/ghola-audit` | `audit::append`, `read`, `verify`, `summary`, `tally`, `recorded` | [tacoda/audit-log](https://github.com/tacoda/audit-log) |
+
+Each ships here so one clone is the whole thing, and each stays swappable for its
+upstream because the seam is the function id: `make up LADDER=../ladder` changes
+the provider and no call site.
 
 A *forge* is whoever hosts your code and receives the pull request. Which one
 you use is a setting rather than a fork. `github` and `local` ship, and a third
@@ -132,8 +151,9 @@ A constraint has a **rung**: the mechanism that carries it.
 ```
 
 Each rung puts the rule further out of reach of what it constrains. It is served
-by the `ladder` worker, which also carries capabilities on a second ladder joined
-to this one at the grant, and the whole promote/demote/add/remove lifecycle.
+by the ladder worker in `workers/ghola-ladder`, which also carries capabilities on
+a second ladder joined to this one at the grant, and the whole
+promote/demote/add/remove lifecycle.
 
 ```bash
 iii trigger ladder::list
