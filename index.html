@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ghola — a starter kit for agentic systems on iii</title>
-<meta name="description" content="A spec goes in, a pull request comes out, nothing merges itself. ghola composes thirty-one iii workers into a factory you own the moment you clone it.">
+<meta name="description" content="iii is the framework that does the work. ghola is a starter kit for it: a clone that already wires a harness and a factory together, for when you would rather not assemble one piece at a time.">
 <!-- voice-register: argument -->
 <link rel="stylesheet" href="assets/site.css">
 </head>
@@ -17,12 +17,13 @@
   <div class="eyebrow">A starter kit for agentic systems on iii</div>
   <h1>ghola</h1>
   <div class="tagline">You clone it. You teach it. It remembers.</div>
-  <p class="lede">A spec goes in, a pull request comes out, and nothing merges
-  itself. ghola composes thirty-one iii workers into a factory that plans,
-  writes, proves, reviews, and commits through your repository's own hook. It
-  registers no tools of its own. What it adds is the stage graph, the briefs,
-  and a ladder that puts every rule further out of reach of the thing it
-  constrains.</p>
+  <p class="lede"><a href="https://iii.dev">iii</a> is the framework and the
+  ecosystem doing the real work here: the turn loop, the tools, worktrees, the
+  forge client, durable queues, the console. You can build on it a piece at a
+  time, adding each worker when you need it, and for a distributed system that is
+  often the right call. ghola is the other route: one clone that has already wired
+  a harness and a factory together, plus the handful of things that make running
+  it easier.</p>
   <div class="cta">
     <a class="btn primary" href="guides/quickstart/">Get a pull request out of it today</a>
     <a class="btn" href="guides/">Read the guides</a>
@@ -34,13 +35,77 @@
   </div>
 </section>
 
+<section id="halves">
+  <div class="eyebrow">What the kit wires together</div>
+  <h2>A harness constrains one turn. A factory runs many. You need both, and
+  they are not the same job.</h2>
+  <p>Assembling these yourself on iii is a real option, and nothing below is
+  hidden from you. What a kit saves is the wiring and the order to do it in:
+  which workers, on which ports, in what sequence. Which of them has to be up
+  before the next one writes anything.</p>
+  <p>A harness with no factory gives you a well-behaved agent and no way to get
+  work through it. A factory with no harness runs unattended and cannot tell you
+  what it was allowed to do. That split is also how the improve lane sorts its
+  proposals.</p>
+
+  <div class="grid">
+    <div class="panel">
+      <h3>The harness: one turn, constrained</h3>
+      <p>Six phases, each with its own model, thinking level, turn cap and tool
+      grant. Four callbacks around the turn. The prompts it is actually asked, in
+      <code>prompts/</code>. The ladder deciding what a rule refuses, in the
+      rule's own words.</p>
+    </div>
+    <div class="panel">
+      <h3>The factory: many turns, to a diff</h3>
+      <p>A stage graph where every transition is a durable queue message, so a
+      crash resumes rather than restarts. A worktree per job with a claim that
+      stops two racing. A delivery gate over the finished diff, then a pull
+      request nothing can merge for you.</p>
+    </div>
+  </div>
+
+  <figure>
+    <pre class="mermaid">
+flowchart TB
+    subgraph f["THE FACTORY: many turns, to a diff"]
+        direction LR
+        s(["a spec"]) --> g["the stage graph<br/>durable between stages"]
+        g --> gate["the delivery gate<br/>over the finished diff"]
+        gate --> pr(["a pull request"])
+    end
+
+    subgraph h["THE HARNESS: one turn, constrained"]
+        direction LR
+        brief["the brief<br/>and the prompt"] --> grant["the grant<br/>what this phase may call"]
+        grant --> cb["four callbacks<br/>around the turn"]
+        cb --> lad["the ladder<br/>refuses in the rule's own words"]
+    end
+
+    g -. "starts a turn" .-> brief
+    lad -. "an outcome" .-> g
+
+    classDef fac fill:#23150C,stroke:#6E2E13,color:#E7C982
+    classDef har fill:#1A100A,stroke:#A4470F,color:#E8A33D
+    classDef out fill:#3A2112,stroke:#E7C982,color:#E7C982
+    class g,gate fac
+    class brief,grant,cb,lad har
+    class s,pr out
+    </pre>
+    <figcaption>the factory decides what happens next; the harness decides what
+    is allowed to happen at all</figcaption>
+  </figure>
+</section>
+
 <section id="what">
   <div class="eyebrow">What it is</div>
-  <h2>iii is the framework. ghola is the conventions that wire it together.</h2>
+  <h2>iii is the product. ghola is a starter kit for it.</h2>
   <p>iii ships the turn loop, the tools, git worktrees, the GitHub client, the
-  approval gate, durable queues, and the console. The rule here is that if a
-  worker does it, ghola does not, which is why there is so little of ghola to
-  read. Two workers are ghola's own, because nothing else carries these ideas: the
+  approval gate, durable queues, and the console. That is where the engineering
+  is, and it is worth reading on its own terms at
+  <a href="https://iii.dev">iii.dev</a>. The rule here is that if a worker does
+  it, ghola does not, which is why there is so little of ghola to read.</p>
+  <p>Two workers are ghola's own, because nothing else carries these ideas: the
   constraint and capability ladder, and the append-only record. Both ship inside
   the repository, so one clone is the whole thing.</p>
   <p>Neither registers a tool any phase is granted. They serve the factory, the
@@ -96,10 +161,15 @@
 
 <section id="start">
   <div class="eyebrow">Three steps</div>
-  <h2>Step two is optional, and step three is the one that costs money.</h2>
-  <p>ghola runs on built-in defaults with an empty <code>settings/</code>. The
-  shortest honest path points it at a scratch repository with no forge at all.
-  The first pull request then costs one turn and no GitHub account.</p>
+  <h2>It works before you configure anything. Step two is optional, and step
+  three is the one that costs money.</h2>
+  <p>ghola runs on built-in defaults with an empty <code>settings/</code>, so a
+  fresh clone does the whole lifecycle without a decision from you. The shortest
+  honest path points it at a scratch repository with no forge at all, and the
+  first pull request then costs one turn and no GitHub account.</p>
+  <p><code>make config</code> is what makes that safe rather than mysterious. It
+  prints every effective value with the source that produced it, so a default is
+  never a magic number you go hunting for in the code.</p>
 <pre><span class="c">1. clone the repo</span>          git clone https://github.com/tacoda/ghola.git &amp;&amp; <span class="k">make setup</span>
 <span class="c">2. add config and scripts</span>  edit settings/, drop files in actions/
 <span class="c">3. tell it to do work</span>      <span class="k">make submit</span> SPEC=specs/x.md REPO=../repo</pre>
@@ -133,6 +203,41 @@ flowchart LR
   <div class="cta">
     <a class="btn primary" href="guides/quickstart/">The quickstart, in three steps</a>
     <a class="btn" href="guides/walkthrough/">The walkthrough, part by part</a>
+  </div>
+</section>
+
+<section id="custom">
+  <div class="eyebrow">Changing it</div>
+  <h2>Config for a value, a script for a judgment. Take the cheapest one that
+  can say the thing.</h2>
+  <p>Every decision has a home, a built-in default, and a way to override it.
+  Most of what you want is a key in a YAML file. The rest is a Python file
+  dropped into a named directory, found by its filename, with no registration
+  step and no import to add.</p>
+
+  <div class="rung"><b>a key</b><span>one value in <code>settings/*.yaml</code>, overriding one default</span></div>
+  <div class="rung"><b>a block</b><span>a whole phase, stage or contract at once</span></div>
+  <div class="rung"><b>a script</b><span>drop it in <code>actions/</code>, <code>guards/</code>, <code>parsers/</code>, <code>predicates/</code> or <code>forges/</code></span></div>
+  <div class="rung"><b>a function id</b><span>any worker on the bus, in whatever language you like</span></div>
+
+<pre><span class="c"># settings/phases.yaml — one key, and the rest of the phase keeps its defaults</span>
+phases:
+  review:
+    thinking_level: <span class="k">high</span>
+    max_turns: <span class="k">30</span></pre>
+<pre><span class="c"># predicates/no_secrets.py — no ghola imports, so you can run it directly</span>
+def check(path: str, content: str, context: dict) -&gt; list[dict]:
+    return [{"line": n, "why": "a credential in source"}
+            for n, line in enumerate(content.splitlines(), 1)
+            if PATTERN.search(line)]</pre>
+
+  <p style="margin-top:22px">A name that resolves to nothing is an error rather
+  than a no-op. <code>make pipeline</code> reports it before a job has paid for a
+  worktree and a plan. What does not belong here is your repository's own
+  conventions: those go in its <code>CLAUDE.md</code>, versioned with the code
+  they describe.</p>
+  <div class="cta">
+    <a class="btn" href="guides/customizing/">The customization contract</a>
   </div>
 </section>
 
@@ -199,9 +304,25 @@ iii trigger ladder::move --json '{"id":"no-secrets","move":"carry","at":"deliver
 <section id="look">
   <div class="eyebrow">What it looks like</div>
   <h2>One terminal and one console. There is no third surface.</h2>
-  <p><code>make</code> is the whole operator surface. The <code>$</code> column
-  marks every target that sends a paid turn, because a command that spends money
-  should say so before you run it.</p>
+  <p>This is the part a kit is actually for. The workers underneath would run
+  without any of it. What ghola adds is the management: one place to ask what is
+  configured, what is up, what a job did, and what it cost.</p>
+  <p><code>make</code> is that whole operator surface, and every target is four
+  lines of shell you can read. The <code>$</code> column marks the ones that send
+  a paid turn, because a command that spends money should say so before you run
+  it.</p>
+  <div class="scroll-x">
+  <table>
+    <tr><th>ask</th><th>and it answers</th></tr>
+    <tr><td>make doctor</td><td>what is missing, before you spend a turn finding out</td></tr>
+    <tr><td>make config</td><td>every effective setting, and where each value came from</td></tr>
+    <tr><td>make pipeline</td><td>the stage graph as it will run, and what is wrong with it</td></tr>
+    <tr><td>make status</td><td>what is up, and which provider is serving the swappable pair</td></tr>
+    <tr><td>make jobs</td><td>every job, newest first</td></tr>
+    <tr><td>make audit</td><td>the append-only record: does it still verify, and what does it count</td></tr>
+    <tr><td>make improve</td><td>read what went wrong, propose what would have helped</td></tr>
+  </table>
+  </div>
   <figure>
     <img src="img/terminal/01-help.png" alt="make help, listing the targets grouped as getting started, running it, doing work, improving it and checking it, with a dollar sign marking every target that sends a paid turn" loading="lazy">
     <figcaption>make help</figcaption>
