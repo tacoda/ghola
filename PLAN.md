@@ -1,3 +1,5 @@
+<!-- voice-register: informational -->
+
 # ghola: implementation plan
 
 <!-- voice-register: argument -->
@@ -1207,6 +1209,69 @@ What the no-forge run taught, none of which a test would have:
 target repository, following the README only. If they cannot, the README is the
 defect.
 
+### M9. What reading the record found — **done**
+
+M8 shipped a working lifecycle, so the next thing worth doing was reading it
+back. [ROADMAP.md](ROADMAP.md) is where what-comes-next lives now; this section
+is the shipped half, moved here because that page is for work with no milestone.
+
+Every item is a defect found by reading code rather than by a failing test, and
+three of the four turned out to be more than one bug.
+
+- **The review phase was promised a diff and shown nothing.** `prompts/review.md`
+  carried a `$diff` placeholder and told the reviewer it had seen the change.
+  `brief_for` filled it from `job.get("diff")` and nothing ever wrote `diff`
+  onto a job, and a missing field renders as an empty string on purpose so a
+  `$PATH` in a spec cannot break a turn. So the reviewer read a heading with
+  nothing under it and no reason to go looking. The phase has `RUNNING` in its
+  grant, so it now gets the base ref and the two commands that fetch the whole
+  change. `actions.base_ref` is the single derivation of that ref, read by the
+  delivery gate and by the brief, because a reviewer grading against a different
+  ref than the gate reads is a reviewer whose `pass` means nothing at delivery.
+  `prompts.FIELDS` is the promise that something fills a name, so `tests/test_docs.py`
+  checks every prompt against it. `9360321`.
+
+- **The delivery gate read less than it claimed**, three ways. It cut its input
+  at 200,000 characters with no marker. An unreachable ladder returned `""`,
+  which the caller reads as "not refused", so a downed worker committed the
+  change; a failed `git diff` did the same through empty content. And it passed
+  `path: ""`, which skips the path filter in both `Loaded.governing` and
+  `gate.decide`, so every path-scoped rule was asked about every file and its
+  predicate got no path to name in a finding. Now `diffs.per_file` splits on
+  `diff --git` and the gate asks once per file with the real path, and
+  `rung_four` returns `(refusal, problem)` where only an empty pair commits.
+  `MAX_FILES` replaces the bound the old cut gave by accident. `d9a0616`.
+
+- **`concurrency` was parsed and nothing read it.** `repos.py` parsed the key
+  three times over and no code asked for the value, while `prepare_workspace`
+  argued that `worktree::claim` was the answer. That holds for one checkout and
+  not for one repository: two jobs get two worktrees, so both claims succeed and
+  both run `prepare`. The job store is the semaphore now, because it already
+  knows which jobs are live. A job at `waiting` counts, since `teardown` runs
+  `cleanup` on a terminal state only and an open pull request still holds the
+  ports. `df6cf98`.
+
+- **The agents standard.** `AGENTS.md` is the charter and the only file read,
+  and everything under `.agents/` is charter with each directory naming its
+  concept. Hooks are read from `.agents/settings.json` where Claude Code
+  declares them, and `hooks.py` turns that block into constraints the way
+  `permissions.py` already did. `DEFAULT_ROOTS` and `SETTINGS_FILES` had no
+  tests, which is how the whole path swap passed 644 of them without one
+  failure. This repository is now a target of itself, and that charter caught
+  its own first overclaim: `no-ai-attribution` declared `rung: delivery` and
+  `validate` refused it, because `publishing` reaches a bus predicate and
+  nothing else. `11acbe0`.
+
+**What the four have in common**, and it is the reason to keep them together: in
+every case the report was more confident than the mechanism. A gate that could
+not read its input said nothing, a prompt described evidence it had not
+attached, a setting read as protection while nothing consulted it, and a charter
+file claimed a rung nothing carried. None of it would fail a test, because
+nothing was asserting the claim.
+
+**Verify:** 675 tests, and `.agents/rules/never-claim-a-rung-you-do-not-carry.md`
+is the rule those four wrote.
+
 ---
 
 ## 7. Testing and evals
@@ -1336,7 +1401,15 @@ rather than in a footnote:
     because `run` and `review` want different answers. **M4 sets it per stage
     when it opens a session.**
 
-1. **Does the harness worker's `options.functions.allow` glob syntax cover
+1. ~~**Does the harness worker's `options.functions.allow` glob syntax cover
+   an explicit deny of one name in the same block?**~~ **Yes**, confirmed on
+   1.8.7. `turn.py` builds the deny list and the harness refuses on "no allow
+   match OR a deny match", so a deny beats an allow whatever the glob said.
+   Rung 1 rests on that and now says so where it is built.
+
+   The original question, kept because the answer is only meaningful with it:
+
+   **Does the harness worker's `options.functions.allow` glob syntax cover
    `ghola::tool::*` and an explicit deny of one name in the same block?** wipp
    relies on this for "checks do not repair." Confirm against 1.8.7 before M1
    closes, because the whole of rung 1 rests on it.
@@ -1350,13 +1423,27 @@ rather than in a footnote:
    worse than none. Ship the fallback table in `settings/pricing.yaml`, mark what a
    cost was derived from as `cost_source`, and let the catalogue win whenever it
    is non-zero.
-4. **Concurrency.** Nothing in wipp limits how many jobs prepare an environment at
-   once, and a Dockerized repo's prepare allocates real ports. `repos.toml`
-   carries a `concurrency` key in this plan; the semaphore that honors it is M4
-   work and is not designed yet.
-5. **Big diffs.** wipp truncates the review's input silently. ghola should refuse
-   or chunk, and say which. Truncating a check's input without telling anyone is
-   the same failure as a gate that fails open.
+4. ~~**Concurrency.**~~ **Answered in M9, and the key shipped dead for four
+   milestones first.** `repos.toml` carried `concurrency`, `repos.py` parsed it
+   three times, and nothing read the value. The job store is the semaphore:
+   `too_busy` counts the live jobs on a repository before `prepare` claims
+   anything, and only where a `prepare` command exists, because a repository
+   that allocates nothing has nothing for two jobs to fight over.
+
+   The second job fails rather than waiting, and that is the part still worth
+   improving. Waiting needs a stage that can defer itself plus a reconciler to
+   re-drive it, and `blocked` is not that: it waits on a person.
+
+5. ~~**Big diffs.**~~ **Answered in M9, and the answer was neither refuse nor
+   chunk.** The gate splits the diff per file and asks the ladder once per file
+   with that file's real path, which is the unit `check(path, content, context)`
+   was written for. So the truncation went away and two other bugs went with it:
+   the path filter that an empty `path` had been skipping, and the fail-open
+   branches that read an unreachable ladder as a clean change.
+
+   A single file over `PER_FILE_LIMIT` is still bounded, with the marker from
+   `publishing.trim` inside what the ladder reads, and `MAX_FILES` replaces the
+   bound the old whole-diff cut provided by accident.
 
 ---
 
