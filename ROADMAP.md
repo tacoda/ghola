@@ -126,32 +126,37 @@ named.
 confident wrong number. That is why the catalogue wins whenever it has one, and
 why each figure in `pricing.yaml` carries the date I wrote it down.
 
-## 5. The review phase is promised a diff and shown nothing
+## 5. The review phase was promised a diff and shown nothing (fixed)
 
-**A bug**, and it is not in `docs/LIMITATIONS.md` because nobody had noticed it.
+**A bug**, and it was not in `docs/LIMITATIONS.md` because nobody had noticed
+it.
 
-**Today.** `prompts/review.md` carries a `## The diff` heading with `$diff`
-under it, and the prose above says "You are shown this and the diff."
-`workers/ghola-factory/src/factory.py:457` fills that placeholder from
-`job.get("diff")`. Nothing ever writes `diff` onto a job. A missing field
-renders as an empty string, by design, at
-`workers/ghola-core/src/prompts.py:47`. So the reviewer reads a heading with
-nothing under it, and a sentence telling it that it has already seen the change.
+**What it was.** `prompts/review.md` carried a `## The diff` heading with a
+`$diff` placeholder under it, and the prose above said "You are shown this and
+the diff." `brief_for` in `workers/ghola-factory/src/factory.py` filled that
+placeholder from `job.get("diff")`, and nothing ever wrote `diff` onto a job. A
+missing field renders as an empty string, by design, so that a `$PATH` in a spec
+cannot break a turn. The reviewer therefore read a heading with nothing under
+it, plus a sentence telling it that it had already seen the change.
 
-The phase still has `RUNNING` in its grant, at
-`workers/ghola-core/src/defaults.py:72`, so it can run `git diff` itself.
-Nothing asks it to. A prompt that describes evidence it did not attach is worse
+The phase had `RUNNING` in its grant all along, at
+`workers/ghola-core/src/defaults.py:44`, so it could have run `git diff` itself.
+Nothing asked it to. A prompt that describes evidence it did not attach is worse
 than a prompt that attaches none, because the model has no reason to go looking.
 
-**What changes.** Pick one of the two and say which in the prompt. Either put
-the diff in the context, against the same ref the delivery gate uses, or tell
-the reviewer to run `git diff` and name that ref. The first choice makes this
-item depend on item 6, because the diff has to be bounded before it goes in a
-prompt.
+**What the fix does.** The reviewer gets the ref instead of the diff. `diff` is
+gone from `prompts.FIELDS` and `base` replaced it, `prompts/review.md` names the
+two commands that get the whole change, and `actions.base_ref` is the single
+derivation of that ref, read by the delivery gate and by the brief. So a
+reviewer cannot grade against a different ref than the gate reads.
 
-**Done when.** A rendered `review` brief either contains a diff or contains the
-command that gets one. One test renders the brief and fails when the diff
-section is empty. Until then, treat a `pass` verdict as weaker than it looks.
+Handing over the ref rather than the text also drops the dependency on item 6.
+Nothing large goes into the prompt, so nothing has to be bounded first.
+
+**How it stays fixed.** `prompts.FIELDS` is the promise that something fills a
+name, and `tests/test_docs.py` now checks every prompt against it. A prompt
+naming a field the factory does not supply fails there rather than quietly
+deleting a section of its own brief.
 
 ## 6. The delivery gate truncates its own input silently
 

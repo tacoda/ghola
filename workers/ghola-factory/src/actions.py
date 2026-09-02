@@ -194,7 +194,6 @@ def commit_and_push(worker, job: dict, settings: dict) -> dict:
     if not workspace or not branch:
         return {"ok": False, "error": "no worktree to commit from"}
 
-    base = str((settings.get("repo_settings") or {}).get("base") or "") or "HEAD"
     message = commit_message(job)
 
     # Stage whatever is loose, so the gate sees it whether the turn committed or
@@ -211,7 +210,7 @@ def commit_and_push(worker, job: dict, settings: dict) -> dict:
     if problem:
         return {"ok": False, "error": problem}
     remote = driver.remote
-    against = f"{remote}/{base}" if remote else base
+    against = base_ref(job, settings)
 
     refused = rung_four(worker, job, workspace, message, against)
     if refused:
@@ -291,6 +290,30 @@ def rung_four(worker, job: dict, workspace: str, publishing: str,
         return ""
     body = answer["value"]
     return "" if body.get("allowed", True) else str(body.get("reason") or "refused")
+
+
+def base_ref(job: dict, settings: dict | None = None) -> str:
+    """The ref this job's work is diffed against.
+
+    One derivation and two readers: the delivery gate at rung 4, and the brief
+    the review phase is handed. A reviewer grading against a different ref than
+    the gate reads is a reviewer whose `pass` means nothing at delivery, and
+    keeping the two in one function is cheaper than keeping them in step.
+
+    An unresolved driver degrades to the bare base rather than raising. The
+    commit stage names the missing forge itself, and a review against the local
+    branch is worth more than a brief that failed to render.
+
+    ponytail: `driver_for` runs twice per commit stage, once here and once for
+    the driver object the caller needs. It is a dict lookup for a built-in forge
+    and a directory glob for a custom one, both once per job.
+    """
+    settings = settings or {}
+    repo = job.get("repo_settings") or settings.get("repo_settings") or {}
+    base = str(repo.get("base") or "") or "HEAD"
+    driver, problem = driver_for(job, settings)
+    remote = "" if problem else str(getattr(driver, "remote", "") or "")
+    return f"{remote}/{base}" if remote else base
 
 
 def driver_for(job: dict, settings: dict):

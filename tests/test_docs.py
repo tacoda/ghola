@@ -18,7 +18,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "workers" / "ghola-core" / "src"))
 
-PAGES = sorted([ROOT / "README.md", *(ROOT / "docs").glob("*.md"),
+PAGES = sorted([ROOT / "README.md", ROOT / "ROADMAP.md",
+                *(ROOT / "docs").glob("*.md"),
                 *(ROOT / "examples").rglob("*.md")])
 
 LINK = re.compile(r"\[[^\]]*\]\(([^)#\s]+)(?:#[^)]*)?\)")
@@ -93,6 +94,32 @@ class EveryLinkResolves(unittest.TestCase):
                 continue
             self.assertIn(page.resolve(), indexed,
                           f"nothing links to {page.relative_to(ROOT)}")
+
+
+class EveryPlaceholderIsFilled(unittest.TestCase):
+    """A prompt is a page too, and it has its own way of lying.
+
+    `prompts/review.md` named `$diff` and nothing ever wrote a diff onto a job,
+    so the reviewer got a `## The diff` heading with nothing under it and a
+    sentence saying it had already been shown the change. It rendered empty
+    rather than failing, which is why it survived: `render` maps a missing field
+    to `""` on purpose, so that a `$PATH` in a spec cannot break the turn.
+
+    That makes `prompts.FIELDS` the promise, and this the check on it. A name a
+    prompt uses and the factory does not supply fails here instead of quietly
+    deleting a section of the brief.
+    """
+
+    def test_no_prompt_names_a_field_the_factory_does_not_supply(self):
+        import prompts as promptslib
+
+        for page in sorted((ROOT / "prompts").glob("*.md")):
+            for name in sorted(set(re.findall(r"\$([a-z_]+)", page.read_text()))):
+                self.assertIn(
+                    name, promptslib.FIELDS,
+                    f"prompts/{page.name} names `${name}`, which nothing "
+                    "fills. It renders as an empty string, so the prompt "
+                    "describes evidence the model cannot see")
 
 
 class TheThingsTheDocsNameByPath(unittest.TestCase):

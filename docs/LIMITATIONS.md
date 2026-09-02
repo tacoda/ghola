@@ -88,6 +88,11 @@ what to watch for in the parts nobody has exercised yet.
   its instructions described.
 - The improve lane's request template quoted its own comment heading, and a job
   reworked itself against its own document.
+- `prompts/review.md` promised a `$diff` and nothing ever wrote one onto a job.
+  A missing field renders empty, so the reviewer read a heading with nothing
+  under it and a sentence saying it had seen the change. Every prompt is now
+  checked against `prompts.FIELDS`, and the reviewer is handed the base ref
+  instead.
 
 ## Before you adopt this
 

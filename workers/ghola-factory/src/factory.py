@@ -454,7 +454,10 @@ def brief_for(job: dict, stage: graphlib.Stage) -> str:
         # produced, which is the whole point of the interface being a file.
         "spec": doc.get("spec") or job.get("spec"),
         "plan": doc.get("plan"),
-        "diff": job.get("diff"),
+        # The ref, not the diff. A reviewer with `shell::exec` can get the whole
+        # change itself, and the ref is what stops it grading a different one
+        # than the delivery gate will read.
+        "base": builtin_actions.base_ref(job),
         "brief": job.get("brief"),
         "document": doc.text,
         "repo": job.get("repo"),

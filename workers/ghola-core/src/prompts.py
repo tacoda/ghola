@@ -23,7 +23,15 @@ import paths
 # Everything a template may name. Anything else stays literal rather than
 # raising, because a `$` in a spec is a shell prompt far more often than it is
 # a placeholder.
-FIELDS = ("spec", "plan", "diff", "brief", "document", "repo", "branch",
+#
+# **A name here is a promise that something fills it.** `diff` was on this list
+# and nothing ever wrote one onto a job, so `prompts/review.md` rendered a
+# heading with nothing under it while telling the reviewer it had been shown the
+# change. A field that renders empty is worse than a field that does not exist:
+# the prompt still describes the evidence, so the model has no reason to go and
+# find it. `base` replaced it, because the ref is what a reviewer needs to get
+# the diff itself.
+FIELDS = ("spec", "plan", "base", "brief", "document", "repo", "branch",
           "phase", "evidence", "home")
 
 
