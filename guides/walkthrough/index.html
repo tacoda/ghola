@@ -592,7 +592,7 @@ flowchart LR
   <table>
     <tr><th>What you see</th><th>What it is</th></tr>
     <tr><td>every turn fails at <code>router::provider::resolve</code></td><td>the engine started without your key in scope. <code>make down &amp;&amp; make up</code></td></tr>
-    <tr><td><code>registration token mismatch</code></td><td>a stale provider registration. <code>iii worker restart provider-anthropic</code></td></tr>
+    <tr><td><code>registration token mismatch</code></td><td>a stale provider registration. <code>iii trigger compose::restart container=provider-anthropic</code></td></tr>
     <tr><td><code>make turn</code> never returns</td><td>ask <code>harness::status</code> for the session. A turn can fail while a listener waits</td></tr>
     <tr><td>a port is taken</td><td>another iii project's engine. <code>make status</code>, and note ghola is off the stock ports</td></tr>
     <tr><td>a rule seems not to fire</td><td>check the rung. Rung 0 enforces nothing by design</td></tr>

@@ -222,8 +222,9 @@ sequenceDiagram
 
   <div class="note warn">
     <span class="label">What I tried first</span>
-    <p>It runs as a host process rather than as a managed worker. I tried
-    <code>iii worker add</code> first, which puts a worker in a microVM that
+    <p>It runs as a host process rather than as a sandboxed package worker,
+    which is what <code>path://</code> says in <code>worker-compose.yaml</code>.
+    I tried the sandboxed form first, and it puts a worker in a microVM that
     mounts only the worker's own source. The target repository does not exist
     inside that sandbox. So the ladder read a
     <code>.claude/settings.json</code> that was not there, reported a repository
