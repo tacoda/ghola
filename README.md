@@ -65,7 +65,7 @@ worse starter kit.
 
 **Status: M8.** The whole lifecycle runs. A spec becomes a plan, a diff, a
 proof, a review, a commit through your repository's own hook, and a pull
-request. Comment on it and the job reworks. 644 tests, and the phased plan is in
+request. Comment on it and the job reworks. 675 tests, and the phased plan is in
 [PLAN.md](PLAN.md).
 
 **Start here:** [docs/ADOPTING.md](docs/ADOPTING.md) gets a pull request out of
@@ -112,7 +112,7 @@ make jobs       # every job, newest first
 make turn PHASE=plan PROMPT="why is the queue slow?" WORKSPACE=../some-repo
 make config     # the effective settings, and where each value came from
 make models     # what the router can actually reach
-make test       # 644 tests, seconds, no engine, no money
+make test       # 675 tests, seconds, no engine, no money
 make help       # everything else
 ```
 
@@ -206,7 +206,7 @@ Everything a team would want to change is configuration:
 | the flow of work in the factory | `settings/pipeline.yaml` |
 | the development process in the harness | `settings/phases.yaml`, `prompts/` |
 | how much a person watches | `settings/oversight.yaml` |
-| project specifics | the target repo's own `CLAUDE.md` and `.claude/` |
+| project specifics | the target repo's own `AGENTS.md` and `.agents/` |
 
 ## Oversight is a dial, not a switch
 

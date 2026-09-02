@@ -24,7 +24,12 @@ import context
 
 # Read fresh per turn. A charter cached at import is a charter you restart a
 # worker to change, which is a charter people work around.
-CHARTER_FILES = ("CLAUDE.md", "AGENTS.md")
+#
+# What to LOOK for, which is not the same as what gets read: `charter.which`
+# reads `AGENTS.md` and reports the other. This used to be a first-match tuple
+# with `CLAUDE.md` first, so a repository that had migrated to `AGENTS.md` and
+# kept the old file had its `AGENTS.md` ignored by the file it replaced.
+CHARTER_FILES = (charter_lib.STANDARD, charter_lib.SUPERSEDED)
 
 
 def reader(root: Path):
@@ -68,31 +73,77 @@ def rules_for(workspace: str) -> list[dict]:
         return []
 
 
+def under_charter_dir(root: Path) -> tuple[tuple[str, str], ...]:
+    """Every markdown under `.agents/` that the ladder does not already speak for.
+
+    **All of it is charter.** A repository separates its ideas by directory, so
+    `.agents/architecture/queues.md` arrives titled `architecture / queues` and
+    needs nothing to declare what it is about.
+
+    `rules/`, `skills/` and the other kind directories are skipped here because
+    `ladder::list` already carries their prose, with the rung each is enforced
+    at attached. Reading them twice would state every rule twice and the second
+    copy would have lost the rung.
+
+    Sorted, so a charter is the same document twice in a row. An unreadable file
+    is skipped rather than fatal: it is the target repository's file, and ghola
+    is a guest in it.
+    """
+    folder = root / charter_lib.CHARTER_DIR
+    if not folder.is_dir():
+        return ()
+
+    found = []
+    for path in sorted(folder.rglob("*.md")):
+        relative = path.relative_to(folder).as_posix()
+        if charter_lib.is_ladders(relative):
+            continue
+        try:
+            found.append((relative, path.read_text()))
+        except OSError:
+            continue
+    return tuple(found)
+
+
 def handle(payload: dict) -> dict:
     call = context.of(payload)
     if not call.known:
         return context.CONTINUE
 
     root = Path(call.workspace or ".")
-    text = next(((root / name).read_text() for name in CHARTER_FILES
-                 if (root / name).is_file()), None)
+    # `is_file` follows a symlink, which is the point: `CLAUDE.md -> AGENTS.md`
+    # is the migration the standard recommends, and the target is what gets read.
+    origin, missing = charter_lib.which(
+        name for name in CHARTER_FILES if (root / name).is_file())
+    text = (root / origin).read_text() if origin else None
 
     charter = charter_lib.build(
         text, reader(root),
         rules=[r for r in rules_for(call.workspace) if r.get("side") == "constraint"],
-        repo=str(root))
+        repo=str(root), origin=origin or charter_lib.STANDARD,
+        extras=under_charter_dir(root))
+    charter.problems.extend(missing)
 
     # Touched paths arrive with the factory in M4, which is what tracks them.
     # Until then every scoped piece waits, and the always-on pieces travel.
     arriving = charter.take(touched=())
-    if not arriving:
+
+    # Nothing to say AND nothing to report is the only silent case. A repository
+    # with a `CLAUDE.md` and no `AGENTS.md` has no charter and a reason why, and
+    # returning early on the empty charter would throw the reason away.
+    if not arriving and not charter.problems:
         return context.CONTINUE
 
-    return {
+    for problem in charter.problems:
+        print(f"charter: {problem}")
+
+    answer = {
         "decision": "continue",
-        "mutations": {"system_prompt": arriving},
         "annotations": {
             "ghola.charter_pieces": charter.count(),
             "ghola.charter_problems": len(charter.problems),
         },
     }
+    if arriving:
+        answer["mutations"] = {"system_prompt": arriving}
+    return answer

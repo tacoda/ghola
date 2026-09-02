@@ -1,7 +1,7 @@
 """A repository's own `permissions`, read as constraints on the ladder.
 
 A repository that uses Claude Code has already written down what it does not
-want an agent doing, in `.claude/settings.json`:
+want an agent doing, in `.agents/settings.json`:
 
     {"permissions": {"deny": ["Bash", "Bash(php *)"], "ask": ["Write(prod/**)"]}}
 
@@ -53,7 +53,7 @@ class Permissions:
 
 
 def parse(text: str, source: str = "") -> Permissions:
-    """Read `.claude/settings.json`. A missing or malformed file is empty.
+    """Read `.agents/settings.json`. A missing or malformed file is empty.
 
     Malformed is deliberately not an error. This file belongs to the target
     repository and ghola is a guest in it; refusing to run because somebody's
@@ -116,7 +116,7 @@ def as_primitives(perms: Permissions) -> list[Primitive]:
             layer="project",
             description=("This repository's own settings withhold "
                          f"{', '.join(perms.withheld)}"),
-            why=("The repository wrote this in .claude/settings.json to keep an "
+            why=("The repository wrote this in .agents/settings.json to keep an "
                  "agent away from something. Honouring it is the difference "
                  "between a ladder that respects what a project already said and "
                  "one that makes the project say it again."),
@@ -132,7 +132,7 @@ def as_primitives(perms: Permissions) -> list[Primitive]:
             kind="rule",
             layer="project",
             description=(f"This repository's `permissions` say deny for `{entry}`"),
-            why=("The repository wrote this in .claude/settings.json. Use whatever "
+            why=("The repository wrote this in .agents/settings.json. Use whatever "
                  "it offers instead, usually a make target, or say in your summary "
                  "why the work cannot be done without this."),
             rungs=(2,),

@@ -118,8 +118,63 @@ function id there rather than pretending.
 ## Where the project's own opinions go
 
 Not here. A target repository's conventions belong in that repository, in its
-`CLAUDE.md` and its `.claude/` directory, where they are versioned with the code
+`AGENTS.md` and its `.agents/` directory, where they are versioned with the code
 they describe and where every other tool can read them too.
 
 That split is the one worth holding. `settings/` says how work gets done.
 The repository says what the work must respect.
+
+### What ghola reads there
+
+```
+AGENTS.md              the charter. The standard, and the only file read
+.agents/rules/         constraints, and the ladder carries each at a rung
+.agents/skills/        }
+.agents/agents/        }  capabilities, one directory per kind
+.agents/commands/      }
+.agents/mcps/          }
+.agents/evals/         }
+.agents/settings.json  `permissions` and `hooks`, in Claude Code's shape
+.agents/hooks/         the scripts those hook entries point at
+.agents/<concept>/     anything else. All of it is charter
+```
+
+**Everything under `.agents/` is charter.** Separate ideas by directory and name
+the directory after the concept: `.agents/architecture/queues.md` reaches the
+model titled `architecture / queues`, and nothing has to declare what it is
+about. The directories above are the exception. The ladder already carries the
+kind directories with the rung attached, and `hooks/` holds shell scripts rather
+than prose.
+
+**Hooks are declared in `settings.json`, not by a directory.** That is where
+Claude Code declares them, so a repository's existing block works unchanged:
+
+```json
+{"hooks": {"PreToolUse": [
+  {"matcher": "Bash",
+   "hooks": [{"type": "command", "command": "./.agents/hooks/no-force-push.sh"}]}
+]}}
+```
+
+Each entry becomes a constraint on the ladder, the same way `permissions`
+already does. `PreToolUse` can refuse a call, so it lands at rung 2. Every other
+event observes, so it lands at prose: putting an observer at rung 2 would be the
+ladder claiming enforcement nothing performs.
+
+**ghola does not run them**, and every synthesized `why` says so. They are
+carried by whichever harness the repository runs them under, and a ghola turn is
+not that harness. They are on the ladder so the mechanism is visible rather
+than assumed. A hook whose command names a file that is not there is reported,
+and so is an event name that no harness fires.
+
+`AGENTS.md` is the only charter file ghola reads, and `CLAUDE.md` is not a
+fallback. A repository that wants Claude Code working from the same one file
+symlinks it, which is what the standard itself recommends:
+
+```bash
+git mv CLAUDE.md AGENTS.md && ln -s AGENTS.md CLAUDE.md
+```
+
+A repository holding only `CLAUDE.md` gets no charter, and says so: the reason
+is printed and counted in `ghola.charter_problems` rather than looking like a
+repository that never wrote one.

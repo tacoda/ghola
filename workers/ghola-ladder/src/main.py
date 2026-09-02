@@ -148,7 +148,7 @@ def ladder(repo: str = "", permissions: str | None = None) -> loader.Loaded:
     than the next restart. A ladder you have to restart to change is a ladder
     people work around.
 
-    `permissions` is the target repository's `.claude/settings.json`, as text,
+    `permissions` is the target repository's `.agents/settings.json`, as text,
     for a caller that can see it when this worker cannot.
     """
     settings = config()

@@ -69,31 +69,97 @@ name a provider and get a clear failure when that provider has no key.
 `make doctor` names every provider with a missing key, before a job pays for a
 turn.
 
-## 3. The agents standard, with a port for harnesses that lack it
+## 3. The agents standard (fixed)
 
-**Today.** Support is partial and split across two workers.
-`workers/ghola-policy/src/callbacks/pre_generate.py` reads both `CLAUDE.md` and
-`AGENTS.md`. The ladder is Claude-shaped: its project roots are `{repo}/.ladder`
-and `{repo}/.claude` in `workers/ghola-ladder/src/load.py`, and permissions come
-from `.claude/settings.json`.
+**What it was.** Support was partial and split across two workers.
+`pre_generate.py` looked for `CLAUDE.md` and `AGENTS.md` in a first-match tuple
+with `CLAUDE.md` first, so a repository that had migrated and kept the old file
+had its `AGENTS.md` ignored by the file it replaced. The charter piece's
+`source` was hardcoded to `CLAUDE.md` whichever file it came from. And the
+ladder was Claude-shaped: project roots of `{repo}/.ladder` and `{repo}/.claude`,
+permissions from `.claude/settings.json`.
 
-**What changes.** `AGENTS.md` and `.agents/` become the layout ghola reads
-first, and `.claude/` stays as a fallback so no existing target repository
-breaks. This repository follows the standard itself.
+**What the fix does.** `AGENTS.md` is the charter file and the only one read.
+Every primitive kind is unchanged, so `rules/`, `skills/`, `agents/`,
+`commands/`, `mcps/` and `evals/` mean under `.agents/` exactly what they meant
+under `.claude/`. Permissions come from `.agents/settings.json`, whose shape is
+still Claude Code's `permissions` block because no standard covers that.
 
-Then the harder half. Claude Code reads `CLAUDE.md` and `.claude/`, and Cursor
-and aider each read their own layout. Keep one standard setup, not three copies
-of it. So ghola ports: it generates the harness-specific layout from the
-standard files, and the standard files stay the authored ones.
+**Hooks close the last gap against Claude Code's primitives.** They are declared
+in `.agents/settings.json`, which is where Claude Code declares them, so a
+repository's existing block works unchanged. `hooks.py` turns that block into
+constraints the same way `permissions.py` already does, and `.agents/hooks/`
+holds the scripts the entries point at rather than primitives of its own.
 
-**Done when.** A target repository with only `AGENTS.md` and `.agents/` runs the
-whole lifecycle. A repository with only `.claude/` still runs it. Porting is one
-command, and every generated file says at the top that it is generated and names
-its source.
+`PreToolUse` can refuse a call, so it lands at rung 2. Every other event only
+observes, so it lands at prose: putting an observer at rung 2 would have the
+ladder claim enforcement nothing performs. ghola runs none of them, and every
+synthesized `why` says so. Whichever harness the repository runs them under
+carries them, and they sit on the ladder so the mechanism is visible rather
+than assumed.
 
-**The cost to state.** Porting writes files into the target repository. That
-needs a rule about what is authored and what is generated, or the next agent
-edits the copy and loses the edit on the next port.
+**This repository is now a target of itself.** It tracks `AGENTS.md` and
+`.agents/`, with `CLAUDE.md` and `.claude` as symlinks so Claude Code reads the
+same files. No code special-cases it, which was the point: the charter here is
+the layout ghola reads out of anywhere else. Seven primitives load, including
+the hook and two permission entries.
+
+That charter caught its own first overclaim. I wrote `no-ai-attribution`
+declaring `rung: delivery`, and `validate` refused it. Rung 4 enforces by
+running something, and no predicate here can read a commit message, because
+`publishing` reaches a predicate written as a function id on the bus and nothing
+else. The rule says rung 2 now, carried by its hook, and it names what carrying
+it at 4 would take.
+
+**The charter is everything under `.agents/`.** A repository separates its ideas
+by directory and the directory is named after the concept, so
+`.agents/architecture/queues.md` arrives as a piece titled `architecture /
+queues` and nothing has to declare what it is about. That closes a gap the
+kind-directory reading left: a concept the ladder has no kind for, an
+architecture note or a domain glossary, used to be ignored entirely.
+
+The charter reader skips the directories the ladder owns. It skips the six kind
+directories because `ladder::list` already carries their prose with the rung
+attached, and reading them in both places would state every rule twice with the
+second copy missing its rung. It skips `hooks/` because a shell script is not
+prose. `charter.LADDER_DIRS` mirrors `load.KIND_DIRS` plus `load.SCRIPT_DIRS`,
+and a test asserts they agree: a kind added there and missed here is exactly
+that double statement.
+
+**No fallback, and no generated files.** ghola reads the repository's agent
+files and implements the result itself, at whatever rung the ladder carries each
+rule. It does not write a vendor copy, because the same text in two files means
+the second one goes stale the first time somebody edits the first. A repository
+that also wants Claude Code to see its charter symlinks it, which is what the
+standard itself recommends and what keeps one authored file:
+
+```
+git mv CLAUDE.md AGENTS.md && ln -s AGENTS.md CLAUDE.md
+```
+
+A repository holding only `CLAUDE.md` therefore gets no charter. That is loud
+rather than silent: `charter.which` returns the reason with that command in it,
+the callback prints it and counts it in `ghola.charter_problems`, and an empty
+charter no longer returns early and throws the reason away.
+
+**What is deliberately not built.** Nested `AGENTS.md` files are not read. The
+standard says the closest file to the edited one wins, and ghola has no touched
+paths at `pre-generate`, so the choice would be between guessing which file
+applies and injecting every nested file into every turn. A monorepo gets its
+root file, and its subproject instructions belong under `.agents/` where the
+directory says what they are about.
+
+**How it stays fixed.** Thirty-one tests. `DEFAULT_ROOTS` and `SETTINGS_FILES`
+had none, which is how the whole path swap passed 644 tests without one failure:
+every existing ladder test hands `load` an explicit `roots`, so they covered the
+mechanism and never the convention. One test now asserts no `.claude` directory
+is consulted at all.
+
+**The cost to state.** This is a breaking change for any target repository
+already pointed at ghola. A repo with `.claude/rules` loses those primitives
+until the directory is renamed, and the rename is the whole migration. The
+tracked fixtures moved with it, so `tests/fixtures/permissions-repo` is now
+`.agents/settings.json`.
 
 ## 4. Cost, which reads zero and cannot be capped
 

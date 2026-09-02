@@ -427,7 +427,7 @@ whether the chain still verifies, and which actors wrote them. Run it before
 
 | lane | what it is about | how often to expect one |
 |---|---|---|
-| `charter` | the target repo's `CLAUDE.md`, rules, hooks, skills | constantly |
+| `charter` | the target repo's `AGENTS.md`, rules, hooks, skills | constantly |
 | `harness` | prompts, tool policy, phases, budgets | rarer, usually an edge case |
 | `factory` | stages, gates, guards, ordering | rarely. Process should be boring |
 

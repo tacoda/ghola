@@ -17,7 +17,7 @@ both ship inside this repository, at `workers/ghola-ladder` and
 
 Both run as host processes rather than managed workers. A managed worker gets a
 microVM that mounts only its own source, so the ladder would read a
-`.claude/settings.json` from a path that is not there, and the record would write
+`.agents/settings.json` from a path that is not there, and the record would write
 a log that dies with the sandbox. Anything that inspects your repository has to
 run where your repository is.
 
@@ -111,7 +111,7 @@ Now change something. In the order to reach for them:
    plus a security read.
 3. **The oversight dial.** `settings/oversight.yaml` runs from `manual` to
    `dark`, and ships at `supervised`.
-4. **A rule.** Write it in the target repository's `CLAUDE.md`. Then read
+4. **A rule.** Write it in the target repository's `AGENTS.md`. Then read
    [the ladder](LADDER.md) and pick the rung that can see what it is about.
 
 [The customization contract](CUSTOMIZING.md) lists everything that has a home,

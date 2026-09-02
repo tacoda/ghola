@@ -32,3 +32,8 @@ audit/
 
 # This machine's repositories. `repos.toml` is the tracked template.
 repos.local.toml
+
+# This machine's own agent settings. `.agents/settings.json` is tracked and
+# holds what the repository asks of everybody; the `.local` one is yours. Both
+# are in the ladder's `SETTINGS_FILES`, so either is honored if it is there.
+.agents/settings.local.json

@@ -74,6 +74,18 @@ prompt change.
 audit log, so it finds nothing and says so. Give it a few weeks. It is useless
 on day one and it will tell you that.
 
+**`AGENTS.md` only, and no `.claude/` fallback.** ghola reads the standard and
+the `.agents/` directory beside it. A repository still keeping its charter in
+`CLAUDE.md` and its primitives in `.claude/` gets neither, and renaming both is
+the whole migration. Symlink `CLAUDE.md -> AGENTS.md` and Claude Code keeps
+working from the one file.
+
+**Nested `AGENTS.md` files are not read.** The standard says the closest file to
+the edited one wins, and ghola has no touched paths when it assembles the
+charter, so it would be guessing which file applies or loading all of them into
+every turn. A monorepo gets its root file. Put subproject instructions under
+`.agents/` instead, where the directory names the concept.
+
 **Prompts are the least tested thing here.** `prompts/*.md` is the easiest file
 to change and the hardest to check. Two evals discriminate. The other four
 phases have none, so a prompt edit is the change with the weakest net under it.

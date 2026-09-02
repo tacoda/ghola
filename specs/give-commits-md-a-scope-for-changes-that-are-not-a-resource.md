@@ -2,7 +2,7 @@
 
 ## What
 
-Improve `.claude/rules/commits.md` in the **charter** layer.
+Improve `.agents/rules/commits.md` in the **charter** layer.
 
 Amend the Scopes line to close the gap explicitly:
 
@@ -11,9 +11,9 @@ Scopes: `rooms`, `guests`, `reservations`, `stays`, `db`, `frontend`,
 `backend`, `harness`, `deps`.
 
 A change that fits none of them — the `Makefile`, `README.md`,
-`docker-compose.yml`, `.gitignore`, `CLAUDE.md`, CI config — takes no scope.
+`docker-compose.yml`, `.gitignore`, `AGENTS.md`, CI config — takes no scope.
 Write `chore: <subject>` or `docs: <subject>` and do not stretch an existing
-scope to reach it. `harness` means `.claude/**` and the commit gate, not
+scope to reach it. `harness` means `.agents/**` and the commit gate, not
 tooling in general.
 ```
 
@@ -33,5 +33,5 @@ being the one thing escaping the factory's own gate.
 
 ## Acceptance criteria
 
-- `.claude/rules/commits.md` reflects the change described above.
+- `.agents/rules/commits.md` reflects the change described above.
 - The reason is written down where the next person will find it.

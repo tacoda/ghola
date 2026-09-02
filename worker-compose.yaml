@@ -211,7 +211,7 @@ containers:
   #
   # These four run as HOST processes rather than sandboxed package workers,
   # because a microVM mounts only the worker's own source. The target repository
-  # does not exist in there: the ladder would read a `.claude/settings.json`
+  # does not exist in there: the ladder would read a `.agents/settings.json`
   # from a path that is not present and report a repository with no permissions,
   # which looks exactly like permissions that are not enforced. The record has
   # the same problem from the other side — a log inside a sandbox dies with it,

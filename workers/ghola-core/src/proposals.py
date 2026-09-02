@@ -23,8 +23,8 @@ from dataclasses import dataclass, field
 # factory changes and no charter ones is describing the lane distribution being
 # wrong, not the factory.
 LANES = {
-    "charter": ("the TARGET repository's own configuration — CLAUDE.md, its "
-                "rules, hooks, skills, commands",
+    "charter": ("the TARGET repository's own configuration: AGENTS.md and the "
+                "rules, hooks, skills and commands under .agents/",
                 "constantly. Projects have opinions, and most of what goes "
                 "wrong is a thing the repo wanted and never said"),
     "harness": ("how a turn happens — prompts, tool policy, phases, budgets",

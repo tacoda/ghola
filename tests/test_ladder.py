@@ -227,7 +227,7 @@ class TheLifecycle(unittest.TestCase):
 
     def test_promoting_a_capability_moves_its_files(self):
         skill = Primitive(id="triage", kind="skill", layer="project", why="w", rungs=(1,),
-                          source="/repo/.claude/skills/triage.md")
+                          source="/repo/.agents/skills/triage.md")
         plan = lifecycle.plan_move(skill, "promote", to="team",
                                    layer_roots={"team": "/ladder/team"})
         self.assertTrue(plan.ok)
@@ -292,7 +292,7 @@ class LoadingFromDirectories(unittest.TestCase):
         self.root = Path(self.tmp.name)
         (self.root / "team" / "rules").mkdir(parents=True)
         (self.root / "team" / "skills").mkdir(parents=True)
-        (self.root / "repo" / ".claude" / "rules").mkdir(parents=True)
+        (self.root / "repo" / ".agents" / "rules").mkdir(parents=True)
 
     def tearDown(self):
         self.tmp.cleanup()
@@ -303,7 +303,7 @@ class LoadingFromDirectories(unittest.TestCase):
     def load(self):
         return loader.load(
             repo=str(self.root / "repo"), ladder_home=str(self.root),
-            roots={"org": [], "team": ["{ladder}/team"], "project": ["{repo}/.claude"]})
+            roots={"org": [], "team": ["{ladder}/team"], "project": ["{repo}/.agents"]})
 
     def test_the_directory_names_the_kind_and_the_layer(self):
         self.write("team/rules/a.md", "---\nid: a\nwhy: w\n---\n")
@@ -320,14 +320,14 @@ class LoadingFromDirectories(unittest.TestCase):
 
     def test_a_project_rule_adapts_a_team_rule_by_taking_its_id(self):
         self.write("team/rules/a.md", "---\nid: a\nwhy: team\n---\n")
-        self.write("repo/.claude/rules/a.md", "---\nid: a\nwhy: ours\n---\n")
+        self.write("repo/.agents/rules/a.md", "---\nid: a\nwhy: ours\n---\n")
         loaded = self.load()
         self.assertEqual(loaded.by_id("a").why, "ours")
         self.assertIn("a", loaded.adapted)
 
     def test_a_locked_rule_refuses_adaptation_and_records_the_attempt(self):
         self.write("team/rules/a.md", "---\nid: a\nwhy: team\nlocked: true\n---\n")
-        self.write("repo/.claude/rules/a.md", "---\nid: a\nwhy: ours\n---\n")
+        self.write("repo/.agents/rules/a.md", "---\nid: a\nwhy: ours\n---\n")
         loaded = self.load()
         self.assertEqual(loaded.by_id("a").why, "team", "the shipped one should stand")
         self.assertIn("a", loaded.refused_adaptations)
@@ -335,12 +335,12 @@ class LoadingFromDirectories(unittest.TestCase):
 
     def test_a_specialisation_may_not_go_below_its_standard(self):
         self.write("team/rules/std.md", "---\nid: std\nwhy: w\nrung: turn\n---\n")
-        self.write("repo/.claude/rules/ours.md",
+        self.write("repo/.agents/rules/ours.md",
                    "---\nid: ours\nwhy: w\nimplements: std\nrung: prose\n---\n")
         self.assertTrue(any("never lower" in p for p in self.load().problems))
 
     def test_a_specialisation_of_nothing_is_reported(self):
-        self.write("repo/.claude/rules/ours.md",
+        self.write("repo/.agents/rules/ours.md",
                    "---\nid: ours\nwhy: w\nimplements: ghost\n---\n")
         self.assertTrue(any("nothing holds" in p for p in self.load().problems))
 
@@ -442,6 +442,117 @@ class RoundTrip(unittest.TestCase):
         self.assertEqual(p.layer, "project")
         self.assertEqual(p.narrowed_from, "personal")
         self.assertFalse(p.travels)
+
+
+class TheDefaultsNobodyPassedIn(unittest.TestCase):
+    """`DEFAULT_ROOTS` and `SETTINGS_FILES`, which nothing pinned.
+
+    Every other test here hands `load` an explicit `roots`, so it exercises the
+    mechanism and never the convention. That is how `.claude/` could be swapped
+    for `.agents/` with 644 tests still passing: no test said where ghola looks
+    when nobody tells it.
+    """
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.repo = Path(self.tmp.name) / "repo"
+        (self.repo / ".agents" / "rules").mkdir(parents=True)
+
+    def tearDown(self):
+        self.tmp.cleanup()
+
+    def load(self):
+        return loader.load(repo=str(self.repo), ladder_home=str(self.repo / "nothing"))
+
+    def test_a_rule_in_dot_agents_is_found_with_no_roots_given(self):
+        (self.repo / ".agents" / "rules" / "no-secrets.md").write_text(
+            "---\nid: no-secrets\nwhy: keys do not belong in a diff\n---\n")
+        self.assertIsNotNone(self.load().by_id("no-secrets"))
+
+    def test_every_primitive_kind_reads_from_dot_agents(self):
+        # The whole point of the swap: the directory changed and the primitives
+        # did not. `skills/` still means skills.
+        for dirname, kind in loader.KIND_DIRS.items():
+            folder = self.repo / ".agents" / dirname
+            folder.mkdir(parents=True, exist_ok=True)
+            (folder / f"{kind}-one.md").write_text(
+                f"---\nid: {kind}-one\nwhy: w\n---\n")
+
+        found = {p.kind for p in self.load().primitives}
+        self.assertEqual(found, set(loader.KIND_DIRS.values()))
+
+    def test_ghola_keeps_its_own_ladder_directory(self):
+        (self.repo / ".ladder" / "rules").mkdir(parents=True)
+        (self.repo / ".ladder" / "rules" / "ours.md").write_text(
+            "---\nid: ours\nwhy: w\n---\n")
+        self.assertIsNotNone(self.load().by_id("ours"))
+
+    def test_dot_agents_wins_over_dot_ladder_on_the_same_id(self):
+        # Later root wins, and `.agents/` is last on purpose: what a repository
+        # tells every agent beats what it filed under ghola's own name.
+        (self.repo / ".ladder" / "rules").mkdir(parents=True)
+        (self.repo / ".ladder" / "rules" / "a.md").write_text(
+            "---\nid: a\nwhy: from ladder\n---\n")
+        (self.repo / ".agents" / "rules" / "a.md").write_text(
+            "---\nid: a\nwhy: from agents\n---\n")
+        self.assertEqual(self.load().by_id("a").why, "from agents")
+
+    def test_permissions_are_read_from_dot_agents(self):
+        (self.repo / ".agents" / "settings.json").write_text(
+            '{"permissions": {"deny": ["Bash(rm *)"]}}')
+        loaded = self.load()
+        self.assertIn(".agents/settings.json", loaded.permissions.source)
+        self.assertFalse(loaded.permissions.empty)
+        self.assertIn("Bash(rm *)", loaded.permissions.refused)
+
+    def test_a_declared_hook_reaches_the_ladder_from_settings(self):
+        # Parity with what a repository already wrote. Claude Code declares
+        # hooks in settings.json, so that is where ghola reads them.
+        (self.repo / ".agents" / "settings.json").write_text(
+            '{"hooks": {"PreToolUse": [{"matcher": "Bash", "hooks": '
+            '[{"type": "command", "command": "/bin/true"}]}]}}')
+
+        found = self.load().by_id("repo-hook-pretooluse-bash")
+        self.assertIsNotNone(found)
+        self.assertIn(2, found.rungs, "PreToolUse can refuse, so it is rung 2")
+        self.assertIn("/bin/true", found.description)
+        self.assertIn("ghola does not run it", found.why)
+
+    def test_an_observing_hook_lands_at_prose_rather_than_claiming_a_rung(self):
+        # PostToolUse cannot refuse anything. Putting it at rung 2 would be the
+        # ladder claiming enforcement that nothing performs.
+        (self.repo / ".agents" / "settings.json").write_text(
+            '{"hooks": {"PostToolUse": [{"hooks": [{"command": "/bin/true"}]}]}}')
+        self.assertEqual(self.load().by_id("repo-hook-posttooluse-any").rungs, (0,))
+
+    def test_an_authored_rule_beats_a_synthesised_hook_of_the_same_id(self):
+        (self.repo / ".agents" / "rules" / "repo-hook-pretooluse-bash.md").write_text(
+            "---\nid: repo-hook-pretooluse-bash\nwhy: said more precisely\n---\n")
+        (self.repo / ".agents" / "settings.json").write_text(
+            '{"hooks": {"PreToolUse": [{"matcher": "Bash", "hooks": '
+            '[{"command": "/bin/true"}]}]}}')
+        self.assertEqual(self.load().by_id("repo-hook-pretooluse-bash").why,
+                         "said more precisely")
+
+    def test_a_hook_pointing_at_a_script_that_is_not_there_is_reported(self):
+        (self.repo / ".agents" / "settings.json").write_text(
+            '{"hooks": {"PreToolUse": [{"hooks": [{"command": "./.agents/hooks/gone.sh"}]}]}}')
+        self.assertTrue(any("which is not there" in p
+                            for p in self.load().problems))
+
+    def test_an_event_nobody_fires_is_reported_rather_than_dropped(self):
+        (self.repo / ".agents" / "settings.json").write_text(
+            '{"hooks": {"PreToolUze": [{"hooks": [{"command": "/bin/true"}]}]}}')
+        self.assertTrue(any("is not a hook event" in p
+                            for p in self.load().problems))
+
+    def test_no_dot_claude_is_consulted(self):
+        # The swap is a swap rather than an addition. A repository that kept its
+        # Claude directory does not get two sources of truth.
+        (self.repo / ".claude" / "rules").mkdir(parents=True)
+        (self.repo / ".claude" / "rules" / "stale.md").write_text(
+            "---\nid: stale\nwhy: w\n---\n")
+        self.assertIsNone(self.load().by_id("stale"))
 
 
 if __name__ == "__main__":

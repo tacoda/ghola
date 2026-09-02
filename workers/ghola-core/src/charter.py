@@ -28,6 +28,61 @@ from dataclasses import dataclass, field
 # a repository that already uses it needs no second spelling.
 IMPORT = re.compile(r"^@([^\s]+)\s*$", re.MULTILINE)
 
+# The standard, and it is one plain markdown file: https://agents.md. No
+# required fields, no schema, and it is stewarded by the Agentic AI Foundation
+# at the Linux Foundation rather than by any one vendor.
+STANDARD = "AGENTS.md"
+
+# **Not read. Reported.** ghola reads the standard and nothing else, so there is
+# one file to author and no second copy to go stale. A repository that has only
+# the older file is told to symlink it, which is the migration the standard
+# itself recommends and the one thing that also keeps Claude Code working:
+#
+#     ln -s AGENTS.md CLAUDE.md
+#
+# Claude Code loads `CLAUDE.md` and does not load `AGENTS.md` on its own. The
+# symlink is what makes one authored file serve both, and it belongs in the
+# repository rather than in a generator here.
+SUPERSEDED = "CLAUDE.md"
+
+# Where a repository keeps everything else it tells agents. **All of it is
+# charter.** The directories under it are named after the concept they hold,
+# which is the convention the ladder already reads its kinds by, so
+# `.agents/architecture/` is about architecture and needs nothing to declare it.
+CHARTER_DIR = ".agents"
+
+# The concepts the LADDER owns. Their prose already reaches the model through
+# `ladder::list`, which takes the description and the why and adds the rung, so
+# reading the same files here would put every rule in the prompt twice.
+#
+# Mirrors `load.KIND_DIRS` rather than importing it: this module is in
+# ghola-core and that one is a separate worker. A test asserts the two agree,
+# because a kind added there and missed here would be a rule stated twice.
+LADDER_DIRS = ("rules", "commands", "skills", "agents", "mcps", "evals", "hooks")
+
+# `hooks/` is in that list for a different reason than the rest. It holds the
+# scripts a `.agents/settings.json` entry points at, and a shell script is not
+# prose. The ladder reports the hook; the file it runs is not charter.
+SCRIPT_DIRS = ("hooks",)
+
+
+def concept_of(relative: str) -> str:
+    """The concept a charter file belongs to, which is the directory holding it.
+
+    `architecture/queues.md` is about architecture. A file sitting directly in
+    `.agents/` is its own concept, so `domain.md` is about the domain.
+    """
+    parts = [p for p in str(relative).replace("\\", "/").split("/") if p]
+    if len(parts) > 1:
+        return " / ".join(parts[:-1] + [parts[-1].removesuffix(".md")])
+    return parts[0].removesuffix(".md") if parts else ""
+
+
+def is_ladders(relative: str) -> bool:
+    """Whether this path is one the ladder already speaks for."""
+    parts = [p for p in str(relative).replace("\\", "/").split("/") if p]
+    return bool(parts) and parts[0] in LADDER_DIRS
+
 # How deep an import chain may go. A charter that needs five levels of include
 # is a charter nobody can read, and the cycle guard below matters more than the
 # depth: a file importing itself is the common accident.
@@ -121,9 +176,48 @@ def resolve_imports(text: str, read, seen: frozenset[str] = frozenset(),
     return IMPORT.sub(replace, text), problems
 
 
-def build(claude_md: str | None, read, rules: list[dict] | None = None,
-          repo: str = "") -> Charter:
+def which(present) -> tuple[str, tuple[str, ...]]:
+    """The charter file to read, and what to say about what was not read.
+
+    `present` is whichever of the candidate names exist in the repository. Pure,
+    so the precedence is a set in a test rather than a directory on disk.
+
+    **Only the standard is read.** A repository holding both files gets its
+    `AGENTS.md`, and its `CLAUDE.md` is not consulted at all: two files read
+    into one prompt is the charter twice over when the second is a pointer, and
+    an argument nobody adjudicates when it is not.
+
+    A repository holding ONLY the older file gets no charter, and a problem
+    saying so with the one command that fixes it. That is the case worth being
+    loud about, because a silent empty charter looks exactly like a repository
+    that never wrote one.
+    """
+    present = set(present)
+    if STANDARD in present:
+        return STANDARD, ()
+    if SUPERSEDED in present:
+        return "", (
+            f"{SUPERSEDED} is here and {STANDARD} is not, so this repository has "
+            f"no charter: ghola reads {STANDARD}. Rename it and symlink the old "
+            f"name, which keeps Claude Code working from the same one file: "
+            f"`git mv {SUPERSEDED} {STANDARD} && ln -s {STANDARD} {SUPERSEDED}`",)
+    return "", ()
+
+
+def build(charter_text: str | None, read, rules: list[dict] | None = None,
+          repo: str = "", origin: str = STANDARD,
+          extras: tuple[tuple[str, str], ...] = ()) -> Charter:
     """The charter, from this repository's own files and the ladder's rules.
+
+    `origin` is the file the text came from, and it travels because a model told
+    something surprising should be able to find out which file said it. It used
+    to be hardcoded to `CLAUDE.md`, which was a lie the moment `AGENTS.md`
+    became the file ghola reads first.
+
+    `extras` is everything else under `.agents/`, as `(relative path, text)`
+    pairs the caller has already filtered. Each becomes its own piece titled by
+    its concept, because a directory named after what it holds is a heading
+    somebody already wrote.
 
     `rules` is what `ladder::list` returned. Only the prose is taken: a rule's
     enforcement is the ladder's job at whatever rung it is carried, and repeating
@@ -132,11 +226,19 @@ def build(claude_md: str | None, read, rules: list[dict] | None = None,
     """
     charter = Charter()
 
-    if claude_md:
-        body, problems = resolve_imports(claude_md, read)
+    if charter_text:
+        body, problems = resolve_imports(charter_text, read)
         charter.problems.extend(problems)
         charter.pieces.append(Piece(title="This repository's own instructions",
-                                    body=body, source=f"{repo}/CLAUDE.md"))
+                                    body=body, source=f"{repo}/{origin}"))
+
+    for relative, text in extras:
+        if not str(text or "").strip():
+            continue
+        body, problems = resolve_imports(text, read)
+        charter.problems.extend(problems)
+        charter.pieces.append(Piece(title=concept_of(relative), body=body,
+                                    source=f"{repo}/{CHARTER_DIR}/{relative}"))
 
     for rule in rules or []:
         # The prose is the description and the why. A rule carried at a

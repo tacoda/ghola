@@ -24,23 +24,37 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from pathlib import Path
 
+import hooks as hooks_lib
 import permissions as perms_lib
 from parse import parse
 from primitive import KIND_SIDE, LAYERS, Primitive, validate
 
 # Where a repository already wrote down what it does not want an agent doing.
-SETTINGS_FILES = (".claude/settings.json", ".claude/settings.local.json")
+# The SHAPE of this file is Claude Code's `permissions` block, which no standard
+# covers. The location is `.agents/`, because that is where a repository keeps
+# what it tells agents.
+SETTINGS_FILES = (".agents/settings.json", ".agents/settings.local.json")
 
-# Convention, and every path is optional. A repository with no `.claude/rules`
+# Convention, and every path is optional. A repository with no `.agents/rules`
 # still gets the team and org primitives, which is what makes them standards
 # rather than suggestions.
 #
 # The kind is the directory name, singular, so `rules/` holds rules and
 # `skills/` holds skills. Nothing declares it because the directory already has.
+#
+# **`.agents/` rather than `.claude/`.** ghola reads the repository's agent
+# files and implements the result itself, at whatever rung carries each rule, so
+# it reads from the vendor-neutral directory and not from one tool's. Every
+# primitive kind is unchanged: `rules/`, `skills/`, `agents/`, `commands/`,
+# `mcps/` and `evals/` mean here exactly what they meant under `.claude/`.
+#
+# `.ladder/` stays, and it is ghola's own: a repository that wants its rungs
+# separate from everything else it tells an agent has somewhere to put them.
+# `.agents/` is second, and the later root wins.
 DEFAULT_ROOTS = {
     "org": ["{ladder}/org"],
     "team": ["{ladder}/team"],
-    "project": ["{repo}/.ladder", "{repo}/.claude"],
+    "project": ["{repo}/.ladder", "{repo}/.agents"],
 }
 
 # Loaded least specific first, so a project primitive adapting a team one is the
@@ -48,6 +62,13 @@ DEFAULT_ROOTS = {
 ORDER = ("org", "team", "project")
 
 KIND_DIRS = {f"{kind}s": kind for kind in KIND_SIDE}
+
+# `hooks/` holds the scripts a settings entry points at, not primitives. A hook
+# is declared in `.agents/settings.json` the way Claude Code declares one, and
+# `hooks.py` turns that block into rung-2 constraints the same way `permissions`
+# becomes rung 1 and 2. Named here so the charter reader skips the directory:
+# shell scripts are not prose, and a README beside them is not a constraint.
+SCRIPT_DIRS = ("hooks",)
 
 
 @dataclass
@@ -62,6 +83,9 @@ class Loaded:
     # primitives, because rung 2 needs the argument patterns rather than the
     # description of them.
     permissions: perms_lib.Permissions = field(default_factory=perms_lib.Permissions)
+    # The other key in the same settings file, kept whole for the same reason:
+    # `ladder::list` reports the mechanism and the event it binds to.
+    hooks: hooks_lib.Hooks = field(default_factory=hooks_lib.Hooks)
 
     @property
     def constraints(self) -> list[Primitive]:
@@ -224,6 +248,17 @@ def load(repo: str = ".", ladder_home: str = ".",
             f"{result.permissions.source}: `{entry}` names no tool this engine has, "
             "so it takes nothing away")
 
+    # The other key in the same file, and the other half of parity with what a
+    # repository has already written down. `setdefault` for the same reason
+    # permissions use it: an authored rule with the same id is the repository
+    # saying it more precisely, and it wins.
+    result.hooks = hooks_of(repo, permissions)
+    for made in hooks_lib.as_primitives(result.hooks):
+        winning.setdefault(made.id, made)
+    result.problems.extend(result.hooks.problems)
+    result.problems.extend(hooks_lib.missing_scripts(
+        result.hooks, lambda p: (Path(repo).expanduser() / p).exists()))
+
     result.primitives = sorted(winning.values(), key=lambda p: (p.side, p.kind, p.id))
     result.problems.extend(check_specialisations(result.primitives))
     return result
@@ -246,6 +281,31 @@ def check_repository(repo: str) -> list[str]:
             "its permissions in"]
 
 
+def hooks_of(repo: str, supplied: str | None) -> hooks_lib.Hooks:
+    """The repository's own `hooks`, read here or handed over.
+
+    Same file and same argument as `permissions_of`, because they are two keys
+    in one settings file and a caller that could read it for one could read it
+    for the other.
+    """
+    if supplied is None:
+        return read_hooks(Path(repo))
+    return hooks_lib.parse(supplied,
+                           source=f"{repo}/.agents/settings.json (supplied)")
+
+
+def read_hooks(repo: Path) -> hooks_lib.Hooks:
+    """The first settings file this repository has, if it has one."""
+    for name in SETTINGS_FILES:
+        path = repo / name
+        if path.is_file():
+            try:
+                return hooks_lib.parse(path.read_text(), source=str(path))
+            except OSError:
+                continue
+    return hooks_lib.Hooks()
+
+
 def permissions_of(repo: str, supplied: str | None) -> perms_lib.Permissions:
     """The repository's own `permissions`, read here or handed over.
 
@@ -255,7 +315,7 @@ def permissions_of(repo: str, supplied: str | None) -> perms_lib.Permissions:
     if supplied is None:
         return read_permissions(Path(repo))
     return perms_lib.parse(supplied,
-                           source=f"{repo}/.claude/settings.json (supplied)")
+                           source=f"{repo}/.agents/settings.json (supplied)")
 
 
 def read_permissions(repo: Path) -> perms_lib.Permissions:
