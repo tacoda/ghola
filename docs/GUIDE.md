@@ -480,7 +480,7 @@ would be the one thing here that never passed through a pull request.
 | What you see | What it is |
 |---|---|
 | every turn fails at `router::provider::resolve` | the engine started without your key in scope. `make down && make up` |
-| `registration token mismatch` | a stale provider registration. `iii worker restart provider-anthropic` |
+| `registration token mismatch` | a stale provider registration. `iii trigger compose::restart container=provider-anthropic` |
 | `make turn` never returns | ask `harness::status` for the session. A turn can fail while a listener waits |
 | a port is taken | another iii project's engine. `make status`, and note ghola is off the stock ports |
 | a rule seems not to fire | check the rung. Rung 0 enforces nothing by design |

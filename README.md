@@ -46,8 +46,9 @@ stage graph before you pay for one, `status` for what is up, `audit` for whether
 the record still verifies, `improve` for what went wrong and what would have
 helped.
 
-ghola composes thirty-one iii workers and adds the conventions that wire them
-together. If a worker does it, ghola does not, which is why there is so little of
+ghola composes twenty-six iii workers, five engine-owned ones and its own four,
+declared in a single `worker-compose.yaml`, and adds the conventions that wire
+them together. If a worker does it, ghola does not, which is why there is so little of
 ghola to read.
 
 Two of those workers are ghola's own and ship inside this repository: the
@@ -263,8 +264,8 @@ everything else goes through.
 
 ## Requirements
 
-iii 0.22.1, Python 3.11+, `git`, and an authenticated `gh`. `iii.lock` pins
-`harness` at 1.8.7, and that pin is load-bearing: on 1.8.7 a `pre-trigger` hook's
+iii 0.23.0, Python 3.11+, `git`, and an authenticated `gh`. `worker-compose.yaml`
+pins `harness` at 1.8.7, and that pin is load-bearing: on 1.8.7 a `pre-trigger` hook's
 `deny` is honored, and on 1.8.1 it was ignored and the call ran anyway. A ladder
 mounted on 1.8.1 looks wired and enforces nothing.
 

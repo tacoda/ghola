@@ -92,9 +92,9 @@ make up
 make call FN=ladder::list JSON='{"repo":"/path/to/repo"}'
 ```
 
-It runs as a host process rather than as a managed worker. I tried
-`iii worker add` first, which puts a worker in a microVM that mounts only the
-worker's own source. The target repository does not exist inside that sandbox. So
+It runs as a host process rather than as a sandboxed package worker, which is
+what `path://` says in `worker-compose.yaml`. I tried the sandboxed form first,
+and it puts a worker in a microVM that mounts only the worker's own source. The target repository does not exist inside that sandbox. So
 the ladder read a `.claude/settings.json` that was not there, reported a
 repository with no permissions, and looked exactly like a ladder enforcing
 nothing. Anything that inspects a target repository has to run where that

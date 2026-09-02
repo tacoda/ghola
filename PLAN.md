@@ -805,11 +805,11 @@ nobody can see.
 ## 5. Repository layout
 
 ```
-config.yaml                     the iii engine: which workers, which ports
+worker-compose.yaml             the whole process surface: the engine, every
+                                worker, and the version pins. Tracked, because
+                                harness 1.8.7 is load-bearing.
 config/<worker>.yaml            one per iii worker, owned by the `configuration`
                                 worker. ghola does not write here.
-iii.lock                        the version pins. Tracked, because harness 1.8.7
-                                is load-bearing.
 
 settings/                   ghola's own settings. ALL OPTIONAL — every file
                                 overrides a default in ghola-core/defaults.py.
@@ -883,7 +883,7 @@ the one I expect to catch something.
   serves a router with no models and every turn fails at
   `router::provider::resolve` with nothing saying why. This cost wipp a live run.
 
-**Verify:** `make engine` comes up, `make call FN=router::models::list` returns a
+**Verify:** `make up` comes up, `make call FN=router::models::list` returns a
 non-empty catalogue, `make stop` frees every port.
 
 ### M1. One turn, through the seam
@@ -934,7 +934,8 @@ came back in the model's reply. Arbitrary on purpose — a rule the model would
 follow anyway proves nothing, because a turn that never saw the charter passes it
 too.
 
-**The governed listener is declared** in `config.yaml` as a second
+**The governed listener is declared** under `engine.workers` in
+`worker-compose.yaml` as a second
 `iii-worker-manager#governed` instance on 49155, with `gantry::middleware` in
 front of every call arriving on it. Nothing connects to it yet: M5 is the first
 stage with something to push. It exists now because a governed listener added on

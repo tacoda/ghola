@@ -6,7 +6,7 @@
 #   2. add config and scripts  name a repo in repos.local.toml, edit settings/
 #   3. tell it to do work      make submit SPEC=specs/x.md REPO=../repo
 
-.PHONY: help setup doctor install engine policy ladder factory auditd submit up down logs status stop restart \
+.PHONY: help setup doctor install submit up down logs status stop restart \
         call schema models console config pipeline jobs turn idea work test test-live eval audit \
         improve proposals accept repos clean
 
@@ -14,16 +14,17 @@ VENV := .venv
 PY   := $(VENV)/bin/python
 LOGS := .logs
 
-HTTP_PORT    := 3131
 CONSOLE_PORT := 3133
 STREAM_PORT  := 3132
 MGR_PORT     := 49154
 GOVERNED_PORT := 49155
 
-# `.env` is sourced for the ENGINE, not only for the workers. The provider
-# workers read their credentials from the engine's own environment, so an engine
-# started without them serves a router with no models and every turn fails at
-# `router::provider::resolve` with nothing saying why.
+# Sourced for what `make` itself runs — `turn`, `test-live`, and the compose
+# daemon's own environment, which is where the `${LADDER}`-style expansions in
+# worker-compose.yaml are read from. The workers no longer inherit it: each one
+# that needs a credential names `env_file: [./.env]` on its own container, which
+# is why a provider started without a key is now a readable failure rather than
+# a router with no models and every turn dying at `router::provider::resolve`.
 ENV := set -a; [ -f .env ] && . ./.env; set +a;
 RUN := $(ENV) PYTHONUNBUFFERED=1 GHOLA_ROOT=$(PWD) III_URL=ws://localhost:$(MGR_PORT)
 
@@ -33,10 +34,11 @@ help:
 	@echo "  make doctor     what is missing, before you waste a turn finding out"
 	@echo ""
 	@echo "running it"
-	@echo "  make up         engine and policy worker, in the background"
-	@echo "  make down       all of it, and wait for the ports to free"
-	@echo "  make status     what is up"
-	@echo "  make logs       tail what is running"
+	@echo "  make up         the whole project, in the background. Blocks until ready"
+	@echo "  make down       all of it, engine included"
+	@echo "  make restart    every worker, same engine"
+	@echo "  make status     what is up, per container"
+	@echo "  make logs       follow what every worker is printing"
 	@echo ""
 	@echo "doing work                                    $$ = sends a paid turn"
 	@echo '  make turn PHASE=plan PROMPT="..." [WORKSPACE=../repo]        $$'
@@ -97,9 +99,12 @@ doctor:
 			printf '  %-9s MISSING\n' "$$tool"; \
 		fi; \
 	done
+	@# The pins live in worker-compose.yaml now. iii 0.23 deleted `iii worker
+	@# add` and iii.lock with it: `version:` under a container IS the lock.
 	@printf '  %-9s ' "harness"; \
-		grep -A1 '^  harness:' iii.lock 2>/dev/null | grep version | sed 's/.*version: //' \
-		|| echo "not pinned — run: iii worker add harness"
+		grep -A2 '^  harness:$$' worker-compose.yaml 2>/dev/null \
+			| sed -n 's/.*version: "\(.*\)"/\1/p' | grep . \
+		|| echo "not pinned in worker-compose.yaml"
 	@printf '  %-9s ' ".env"; \
 		{ [ -f .env ] && grep -q '^ANTHROPIC_API_KEY=.\+' .env && echo "ANTHROPIC_API_KEY set"; } \
 		|| echo "no ANTHROPIC_API_KEY yet"
@@ -147,94 +152,33 @@ install:
 
 # ---------------------------------------------------------------- running
 
-# The console's port is a startup seed the engine consumes and comments out of
-# config.yaml on every boot, so it is put back first. Without this the console
-# silently returns to the stock 3113 and loses to whatever is already there.
-engine:
-	@python3 scripts/seed_console_port.py
-	@$(ENV) iii --config config.yaml
+# The whole process surface is `worker-compose.yaml` now: the engine, the thirty
+# stock workers and ghola's own four, with their versions pinned in the same
+# file. `iii compose` starts and supervises the lot, so the five targets that
+# used to hand-roll one process each are gone, and so are the `pgrep` patterns
+# that had to tell them apart.
+#
+# The ladder and the record are still BUNDLED by default and swappable by
+# variable — the compose file reads both of these:
+#
+#     make up LADDER=../ladder LADDER_PY=../ladder/.venv/bin/python
+#
+# The interpreter is now a variable rather than a wildcard probe, because an
+# external checkout has its own dependencies and ghola's venv was built for
+# ghola's pins.
+LADDER ?= ./workers/ghola-ladder
+AUDITLOG ?= ./workers/ghola-audit
+LADDER_PY ?= $(PY)
+AUDITLOG_PY ?= $(PY)
 
-# The ladder and the record: BUNDLED by default, swappable by variable.
-#
-# Both ship inside this repository so one clone is the whole thing. Point either
-# variable at a checkout of its upstream and that checkout serves instead:
-#
-#     make up LADDER=../ladder AUDITLOG=../audit-log
-#
-# The swap works because the seam is the function id. Nothing in ghola imports
-# either package; every caller triggers `ladder::*` or `audit::*` over the bus,
-# so exactly one provider registers those ids and no call site knows which.
-#
-# The interpreter follows the provider. A bundled copy shares ghola's venv,
-# because `make setup` built exactly one. An external checkout has its own, and
-# using ghola's would run upstream code against ghola's pinned dependencies.
-py_for = $(if $(wildcard $(1)/.venv/bin/python),$(1)/.venv/bin/python,$(PY))
-
-# A `pgrep -f` pattern for this provider's process. The provider's own path is
-# the pattern, so a bundled copy and an external checkout are told apart rather
-# than both answering to one name.
-#
-# The sed brackets the first character of the last path component, turning
-# `workers/ghola-ladder` into `workers/[g]hola-ladder`. That is the same trick
-# `[i]ii` uses below, and for the same reason: `pgrep -f` matches whole command
-# lines, and the shell running the recipe has this pattern in its own command
-# line. Unbracketed, every check reports the provider up because it found the
-# shell that went looking for it.
-proc = $(shell printf '%s' '$(1)' | sed -E 's|([^/])([^/]*)$$|[\1]\2|')/src/main.py
-running = pgrep -f '$(call proc,$(1))' >/dev/null
+# Exported, because the compose file reads these four out of the ENVIRONMENT.
+# A make variable that is not exported reaches the recipe and stops there, so
+# `make up LADDER=../ladder` would have silently started the bundled ladder.
+export LADDER AUDITLOG LADDER_PY AUDITLOG_PY
 
 # Which provider is serving, for `make status` and `make doctor`. A reader who
 # swapped one in three weeks ago should not have to remember that they did.
-provider = $(if $(filter workers/%,$(1)),(bundled),(external: $(1)))
-
-# Both run as HOST processes rather than managed workers.
-#
-# `iii worker add` puts a worker in a microVM with only its own source mounted,
-# and the target repository does not exist inside that sandbox: the ladder reads
-# a `.claude/settings.json` from a path that is not there and reports a
-# repository with no permissions, which looks exactly like permissions that are
-# not enforced. Anything that inspects a target repo has to run where that repo
-# is. The record has the same problem from the other side: a log inside the
-# sandbox dies with it, and an audit log that vanishes with the thing it audits
-# is not one.
-LADDER ?= workers/ghola-ladder
-
-ladder:
-	@test -d $(LADDER) || { echo "no ladder at $(LADDER)"; exit 2; }
-	@$(ENV) PYTHONUNBUFFERED=1 III_URL=ws://localhost:$(MGR_PORT) LADDER_HOME=$(LADDER) \
-		$(call py_for,$(LADDER)) $(LADDER)/src/main.py
-
-# One process owns the append-only chain. Two writers interleave their `prev`
-# hashes and produce a log that fails its own verification while nothing has
-# tampered with it, so this starts BEFORE the workers that record.
-#
-# `AUDIT_LOG_KINDS` is ghola's vocabulary, declared here because the record ships
-# none: it reports an entry whose kind is not on this list, which catches the
-# typo that would otherwise split a count in two. Keep it in step with what the
-# policy and factory workers actually append. Declaring it here rather than
-# inside the worker is also what keeps the worker swappable: the vocabulary
-# belongs to whoever writes the entries, not to whoever stores them.
-#
-# The last three were missing from the list this replaced, and had been missing
-# for as long as the lane existed. The old worker checked for an unknown kind and
-# then did nothing with the answer, so three kinds ghola writes on every improve
-# run were never once reported. A check whose result is discarded is the thing
-# this repository is against, and it was sitting inside the audit log.
-AUDITLOG ?= workers/ghola-audit
-AUDIT_KINDS := turn.started,turn.completed,ladder.refused,ladder.warned,\
-approval.held,approval.resolved,governance.verified,governance.denied,\
-stage.entered,stage.left,published,config.changed,\
-improve.started,improve.completed,proposal.accepted
-
-auditd:
-	@test -d $(AUDITLOG) || { echo "no record at $(AUDITLOG)"; exit 2; }
-	@$(ENV) PYTHONUNBUFFERED=1 III_URL=ws://localhost:$(MGR_PORT) \
-		AUDIT_LOG_DIR=$(PWD)/audit AUDIT_LOG_KINDS='$(AUDIT_KINDS)' \
-		$(call py_for,$(AUDITLOG)) $(AUDITLOG)/src/main.py
-
-# The pipeline. Serves no HTTP: the console is the UI.
-factory:
-	@$(RUN) $(PY) workers/ghola-factory/src/factory.py
+provider = $(if $(filter ./workers/%,$(1)),(bundled),(external: $(1)))
 
 # Step three: a spec and a repo.
 submit:
@@ -263,68 +207,47 @@ jobs:
 repos:
 	@$(PY) scripts/repos.py
 
-# What this repository contributes to a turn: four callbacks and no tools. The
-# turn loop is the harness worker's, started by the engine like every other one.
-policy:
-	@$(RUN) $(PY) workers/ghola-policy/src/boot.py
-
-# Both, backgrounded, because remembering two foreground terminals is a thing to
-# remember rather than a design. `make logs` is how you watch them.
+# Backgrounded, because remembering a foreground terminal is a thing to
+# remember rather than a design. `make logs` is how you watch it.
+#
+# The second call is the readiness check. `compose::up` is idempotent — ready
+# containers stay as they are — and it BLOCKS until every container has
+# registered or one has failed. That is what two ninety-second sleep loops and a
+# `sleep 4` used to approximate, and they were approximating it wrong: the loops
+# proved the router was up and then started five processes hoping.
 up:
 	@mkdir -p $(LOGS)
-	@pgrep -f '[i]ii --config config.yaml' >/dev/null || { \
-		python3 scripts/seed_console_port.py; \
-		($(ENV) iii --config config.yaml > $(LOGS)/engine.log 2>&1 &); \
-		printf 'starting engine '; }
-	@for i in $$(seq 1 90); do \
-		lsof -nP -iTCP:$(MGR_PORT) -sTCP:LISTEN >/dev/null 2>&1 && break; printf '.'; sleep 1; \
-	done
-	@# The workers are the engine's children and register over the following
-	@# minute. Starting the policy worker before the harness is up binds nothing,
-	@# and a hook that is not bound looks exactly like one that is.
-	@#
-	@# The probe is `router::provider::list`, NOT `harness::status`: that one
-	@# requires a session_id and fails with a serialization error, so this loop
-	@# ran all ninety seconds on every single boot and called it waiting.
-	@for i in $$(seq 1 90); do \
-		iii trigger router::provider::list --port $(MGR_PORT) >/dev/null 2>&1 && break; \
-		printf '.'; sleep 1; \
+	@pgrep -f '[i]ii compose --up' >/dev/null || { \
+		($(ENV) iii compose --up > $(LOGS)/compose.log 2>&1 &); \
+		printf 'starting '; }
+	@# `compose::up` is the readiness gate, and waiting for the FUNCTION is the
+	@# wait. The daemon registers its read-only calls as soon as it connects and
+	@# withholds the mutating ones until the operation in flight finishes, so
+	@# `compose::up` existing is exactly "the project is up or it gave up".
+	@# Polling `compose::list` instead answered on the first second and then the
+	@# call landed in the gap with `function_not_found`.
+	@for i in $$(seq 1 600); do \
+		iii trigger compose::up --port $(MGR_PORT) --timeout-ms 600000 >/dev/null 2>&1 && break; \
+		pgrep -f '[i]ii compose --up' >/dev/null \
+			|| { echo "the daemon exited: tail $(LOGS)/compose.log"; exit 1; }; \
+		printf '.'; sleep 2; \
 	done
 	@echo ""
-	@# Before the recorders, so their first entry has somewhere to go.
-	@#
-	@# The bundled record always exists, so this warning now means one thing
-	@# only: somebody pointed AUDITLOG at a path that is not there. That is a
-	@# typo in a swap rather than a missing clone, and it still ends with
-	@# nothing being written down, so it still says so loudly.
-	@test -d $(AUDITLOG) && { $(call running,$(AUDITLOG)) \
-		|| ($(ENV) PYTHONUNBUFFERED=1 III_URL=ws://localhost:$(MGR_PORT) \
-		    AUDIT_LOG_DIR=$(PWD)/audit AUDIT_LOG_KINDS='$(AUDIT_KINDS)' \
-		    $(call py_for,$(AUDITLOG)) $(AUDITLOG)/src/main.py > $(LOGS)/audit.log 2>&1 &); } \
-		|| echo "  AUDITLOG=$(AUDITLOG) is not a directory: NOTHING WILL BE RECORDED"
-	@sleep 2
-	@pgrep -f '[g]hola-policy/src/boot.py' >/dev/null \
-		|| ($(RUN) $(PY) workers/ghola-policy/src/boot.py > $(LOGS)/policy.log 2>&1 &)
-	@pgrep -f '[g]hola-factory/src/factory.py' >/dev/null \
-		|| ($(RUN) $(PY) workers/ghola-factory/src/factory.py > $(LOGS)/factory.log 2>&1 &)
-	@# Same again: bundled is always there, so a missing path is a bad swap. A
-	@# ladder that is not running enforces nothing, which is the failure this
-	@# worker exists to prevent, so it is not passed over in silence any more.
-	@test -d $(LADDER) && { $(call running,$(LADDER)) \
-		|| ($(ENV) PYTHONUNBUFFERED=1 III_URL=ws://localhost:$(MGR_PORT) LADDER_HOME=$(LADDER) \
-		    $(call py_for,$(LADDER)) $(LADDER)/src/main.py > $(LOGS)/ladder.log 2>&1 &); } \
-		|| echo "  LADDER=$(LADDER) is not a directory: NOTHING WILL BE ENFORCED"
-	@sleep 4
 	@$(MAKE) --no-print-directory status
 
 down: stop
 
+# Every worker, same engine, in dependency order. A changed `engine:` section
+# cannot be applied this way and says so: `ENGINE_RESTART_REQUIRED` means
+# `make down && make up`.
 restart:
-	@$(MAKE) --no-print-directory stop
-	@$(MAKE) --no-print-directory up
+	@iii trigger compose::restart --port $(MGR_PORT) --timeout-ms 600000
 
+# Per-worker stdout and stderr, retained by the daemon. The daemon's own output
+# — the engine's boot, and anything that failed before a worker existed — is in
+# $(LOGS)/compose.log.
 logs:
-	@tail -n 40 -f $(LOGS)/*.log
+	@iii compose logs --follow
 
 # ---------------------------------------------------------------- doing work
 
@@ -362,6 +285,10 @@ accept:
 	@test -n "$(RUN)" || { echo 'usage: make accept RUN=abc123 N=0'; exit 2; }
 	@$(MAKE) --no-print-directory call FN=ghola::accept \
 		JSON='{"run":"$(RUN)","proposal":$(or $(N),0)}'
+
+# Read out of the `audit-log` container's own environment, so the reader and the
+# writer cannot drift apart. It used to be declared twice.
+AUDIT_KINDS = $(shell sed -n 's/^ *AUDIT_LOG_KINDS: *//p' worker-compose.yaml)
 
 # The append-only record: whether it is intact, and what it says.
 # `VERIFY=1` exits non-zero on a broken chain, for a cron job or a CI step.
@@ -413,43 +340,30 @@ console:
 
 # ---------------------------------------------------------------- lifecycle
 
-# The bracket in `[i]ii` is load-bearing: `pgrep -f` matches on the full command
-# line, and the subshell running the pattern has the pattern in its own command
-# line. Without the bracket this target reports "up" forever, including with
-# every port free.
+# The daemon knows the state of every container it started, so this asks it
+# rather than guessing from `pgrep` patterns that had to be bracketed to avoid
+# matching the shell that went looking for them.
 status:
-	@echo "engine   : $$(pgrep -f '[i]ii --config config.yaml' >/dev/null && echo up || echo down)"
-	@echo "policy   : $$(pgrep -f '[g]hola-policy/src/boot.py' >/dev/null && echo up || echo down)"
-	@echo "ladder   : $$($(call running,$(LADDER)) && echo up || echo down)   $(call provider,$(LADDER))"
-	@echo "factory  : $$(pgrep -f '[g]hola-factory/src/factory.py' >/dev/null && echo up || echo down)"
-	@echo "audit    : $$($(call running,$(AUDITLOG)) && echo up || echo down)   $(call provider,$(AUDITLOG))"
-	@for p in $(HTTP_PORT) $(CONSOLE_PORT) $(STREAM_PORT) $(MGR_PORT) $(GOVERNED_PORT); do \
-		printf '%-9s: %s\n' "port $$p" "$$(lsof -nP -iTCP:$$p -sTCP:LISTEN >/dev/null 2>&1 && echo listening || echo free)"; \
+	@iii trigger compose::status --port $(MGR_PORT) 2>/dev/null | python3 scripts/status.py \
+		|| echo "compose is down — make up"
+	@echo "ladder   : $(call provider,$(LADDER))"
+	@echo "record   : $(call provider,$(AUDITLOG))"
+	@# The engine's own listeners. These are `engine.workers`, not containers, so
+	@# they do not appear above.
+	@for p in $(STREAM_PORT) $(MGR_PORT) $(GOVERNED_PORT); do \
+		printf 'port %-5s: %s\n' "$$p" "$$(lsof -nP -iTCP:$$p -sTCP:LISTEN >/dev/null 2>&1 && echo listening || echo free)"; \
 	done
 
-# `pkill -f` matches on the command line, not on the directory, so a second
-# clone of this repository running its own engine goes down with this one.
-# Run `make status` first if more than one is up.
-#
-# `|| true` because pkill exits 1 when nothing matched, and stopping what is
-# already stopped is a success here rather than an error to read past.
+# One call: every container in reverse dependency order, then the engine, then
+# the daemon exits. It replaced five `pkill -f` patterns, and pkill was the
+# wrong tool — it matches on the command line rather than on the directory, so
+# a second clone of this repository went down with this one.
 stop:
-	@pkill -f 'ghola-policy/src/boot.py' || true
-	@pkill -f 'ghola-factory/src/factory.py' || true
-	@# These two follow whichever provider is configured. The old patterns were
-	@# the upstream paths, and the bundled record does not contain
-	@# `audit-log/src/main.py`, so it would have survived every `make stop`.
-	@# Bracketed for the reason `status` explains: these run in a shell whose own
-	@# command line holds the pattern.
-	@pkill -f '$(call proc,$(AUDITLOG))' || true
-	@pkill -f '$(call proc,$(LADDER))' || true
-	@pkill -f 'iii --config config.yaml' || true
-	@# The engine's workers are its children and outlive the signal by a few
-	@# seconds. A fixed sleep reported them still up, which is the opposite of
-	@# what this target is for, so it waits for the ports instead.
+	@iii trigger compose::stop --port $(MGR_PORT) 2>/dev/null || echo "compose was not running"
+	@# The daemon answers first and exits after, and the engine is the last thing
+	@# it stops, so the manager port going free is the whole stack being down.
 	@for i in $$(seq 1 30); do \
-		lsof -nP -iTCP:$(HTTP_PORT),$(CONSOLE_PORT),$(MGR_PORT) -sTCP:LISTEN >/dev/null 2>&1 || break; \
-		sleep 1; \
+		lsof -nP -iTCP:$(MGR_PORT) -sTCP:LISTEN >/dev/null 2>&1 || break; sleep 1; \
 	done
 	@$(MAKE) --no-print-directory status
 

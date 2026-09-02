@@ -74,8 +74,8 @@ phases have none, so a prompt edit is the change with the weakest net under it.
 Kept on purpose. A list of fixed bugs tells you what kind of system this is, and
 what to watch for in the parts nobody has exercised yet.
 
-- Harness 1.8.1 ignored a `pre-trigger` `deny`. `iii.lock` pins 1.8.7. A ladder
-  on 1.8.1 looks wired and enforces nothing.
+- Harness 1.8.1 ignored a `pre-trigger` `deny`. `worker-compose.yaml` pins 1.8.7.
+  A ladder on 1.8.1 looks wired and enforces nothing.
 - `shell::exec` spawns a program and is not a shell. `git add -A && git commit`
   failed as a program name, and the commit silently never ran.
 - `shell::exec` returns a non-zero exit in the payload rather than raising. A

@@ -1,0 +1,300 @@
+# ghola, as one project. `make up` is `iii compose --up` on this file.
+#
+# iii 0.23 removed the engine-managed worker lifecycle: `iii worker add`, the
+# `worker::*` functions and `iii.lock` are gone, and an engine started with a
+# `config.yaml` that names a project worker refuses to boot with
+# `UNSUPPORTED_CONFIG_WORKERS`. So this file replaced both config.yaml and
+# iii.lock: `engine:` is the engine, `containers:` is everything that registers
+# on it, and the `version:` pins are the lock.
+#
+# Ports are 3131 (http), 3132 (stream), 3133 (console) and 49154 (worker
+# manager) rather than iii's stock 3111/3112/3113/49134, so a ghola engine runs
+# beside another project's.
+#
+# Docs: https://iii.dev/docs/using-iii/compose
+
+startup_timeout: 90s
+stop_timeout: 10s
+
+# No `namespace:`. ghola's functions resolve in `default`, which is what every
+# `iii trigger ghola::…` in the Makefile and in docs/ assumes, and it is also
+# where `compose::*` then answers — so `make status` needs no --namespace.
+
+engine:
+  url: ws://127.0.0.1:49154
+
+  # The five engine-owned workers, and the only names this map accepts. Compose
+  # renders them to ~/.iii/compose/default/<project>/engine-config.yaml and
+  # starts the engine from that; do not edit the generated file.
+  #
+  # `iii-observability` is NOT here on purpose: the engine injects it, and
+  # declaring it fails with ENGINE_WORKER_IS_INJECTED. Its settings still live
+  # in config/iii-observability.yaml like every other worker's.
+  workers:
+    # Owns config/, which is where every worker's real settings live.
+    configuration: {}
+
+    # The listener ghola's own workers connect to. Ungoverned: these are the
+    # operator's own processes, started from this file.
+    iii-worker-manager:
+      port: 49154
+
+    # The GOVERNED listener. A second instance of the same worker on its own
+    # port, with `gantry::middleware` in front of every call that arrives on it.
+    #
+    # iii can already run an agent unattended; the open question is letting one
+    # SHIP unattended. A promote-class call — anything ending in ::deploy,
+    # ::merge, ::publish, ::push, ::apply or ::promote — has to carry a verdict
+    # token bound to the exact revision it was minted against, and
+    # `gantry::middleware` recomputes the claims from disk rather than trusting
+    # the token's own payload.
+    #
+    # Nothing connects here yet. It exists so the port is reserved and the
+    # configuration is reviewable before M5 has something to push, and because a
+    # governed listener added on the day you first need it is a governed
+    # listener configured in a hurry.
+    iii-worker-manager#governed:
+      host: 127.0.0.1
+      port: 49155
+      middleware_function_id: gantry::middleware
+
+    iii-stream:
+      host: 0.0.0.0
+      port: 3132
+
+    iii-sandbox:
+      auto_install: true
+      image_allowlist:
+        - python
+        - node
+      default_idle_timeout_secs: 300
+      max_concurrent_sandboxes: 32
+      default_cpus: 1
+      default_memory_mb: 512
+
+# Every container's name is also its configuration id, so config/<name>.yaml
+# keeps applying with no `config_name:` anywhere. Registry dependencies resolve
+# themselves, which is why almost nothing here declares `start_after:` — only
+# ghola's own four workers do, and only where the order is load-bearing.
+containers:
+  # The turn loop. Pinned to 1.8.7, and the pin is load-bearing: on 1.8.1 a
+  # `pre-trigger` hook fired and its `deny` was IGNORED, so the call ran anyway.
+  # A ladder mounted there looks wired and enforces nothing.
+  harness:
+    worker: package://harness
+    version: "1.8.7"
+
+  session-manager:
+    worker: package://session-manager
+    version: "1.0.13"
+
+  context-manager:
+    worker: package://context-manager
+    version: "1.1.3"
+
+  llm-router:
+    worker: package://llm-router
+    version: "1.4.14"
+
+  # The providers read their credentials from their own environment. A provider
+  # started without them serves a router with no models, and every turn fails at
+  # `router::provider::resolve` with nothing saying why.
+  provider-anthropic:
+    worker: package://provider-anthropic
+    version: "1.2.10"
+    env_file: [./.env]
+
+  provider-openai:
+    worker: package://provider-openai
+    version: "1.2.8"
+    env_file: [./.env]
+
+  provider-openai-codex:
+    worker: package://provider-openai-codex
+    version: "0.4.5"
+    env_file: [./.env]
+
+  # Blocks what a machine can already prove is unsafe, which is a different
+  # question from what a human should decide (approval-gate) and from what a
+  # rule can decide (ladder).
+  opengantry:
+    worker: package://opengantry
+    version: "0.1.2"
+
+  # Serves the dashboard and the JSON endpoints.
+  http:
+    worker: package://http
+    version: "0.21.4"
+
+  # iii's own console: functions, triggers, queue depth, DLQ, trace waterfalls.
+  #
+  # `http_port` is a startup value the console does not persist, so the stock
+  # 3113 came back on every boot and collided with any other iii console on this
+  # machine. scripts/seed_console_port.py used to rewrite config.yaml before the
+  # engine read it; `config_override` is the same fix declared once.
+  console:
+    worker: package://console
+    version: "1.9.14"
+    config_override:
+      http_port: 3133
+
+  queue:
+    worker: package://queue
+    version: "0.21.6"
+
+  state:
+    worker: package://state
+    version: "0.22.2"
+
+  cron:
+    worker: package://cron
+    version: "0.21.10"
+
+  shell:
+    worker: package://shell
+    version: "0.11.12"
+
+  iii-directory:
+    worker: package://iii-directory
+    version: "1.2.4"
+
+  worktree:
+    worker: package://worktree
+    version: "0.3.3"
+
+  # The identity that opens a pull request. Its token is the worker's, not the
+  # operator shell's, and the two are routinely different.
+  github:
+    worker: package://github
+    version: "0.3.2"
+    env_file: [./.env]
+
+  eval:
+    worker: package://eval
+    version: "0.2.2-experimental"
+
+  approval-gate:
+    worker: package://approval-gate
+    version: "1.0.14"
+
+  document:
+    worker: package://document
+    version: "0.1.2"
+
+  pdf:
+    worker: package://pdf
+    version: "0.1.2"
+
+  storage:
+    worker: package://storage
+    version: "0.1.13"
+
+  fp:
+    worker: package://fp
+    version: "0.2.6"
+
+  memory:
+    worker: package://memory
+    version: "0.2.4"
+
+  claude-code:
+    worker: package://claude-code
+    version: "0.1.12"
+    env_file: [./.env]
+
+  codex:
+    worker: package://codex
+    version: "0.1.10"
+    env_file: [./.env]
+
+  # ---------------------------------------------------------------- ghola's own
+  #
+  # These four run as HOST processes rather than sandboxed package workers,
+  # because a microVM mounts only the worker's own source. The target repository
+  # does not exist in there: the ladder would read a `.claude/settings.json`
+  # from a path that is not present and report a repository with no permissions,
+  # which looks exactly like permissions that are not enforced. The record has
+  # the same problem from the other side — a log inside a sandbox dies with it,
+  # and an audit log that vanishes with the thing it audits is not one.
+  #
+  # `path://` is what says "host process", and `scripts.run` is the command.
+  # Compose injects III_URL and III_CONFIG itself; declaring either would fail
+  # with RESERVED_ENV_OVERRIDE.
+  #
+  # A container's name has to be the name its worker registers under, because
+  # that registration is what compose waits for. `audit-log` and `ladder` are
+  # named after the upstream packages they can be swapped for rather than after
+  # the directories they ship in, and calling them `ghola-audit` and
+  # `ghola-ladder` here bought a 90-second STARTUP_TIMEOUT on a worker that had
+  # already connected and said so on stdout.
+
+  # One process owns the append-only chain. Two writers interleave their `prev`
+  # hashes and produce a log that fails its own verification while nothing has
+  # tampered with it, which is why everything that records starts after it.
+  #
+  # `AUDIT_LOG_KINDS` is ghola's vocabulary, declared here because the record
+  # ships none: it reports an entry whose kind is not on this list, which
+  # catches the typo that would otherwise split a count in two. Keep it in step
+  # with what the policy and factory workers actually append. Declaring it here
+  # rather than inside the worker is also what keeps the worker swappable: the
+  # vocabulary belongs to whoever writes the entries, not to whoever stores them.
+  #
+  # AUDITLOG and LADDER point at a checkout of the upstream package instead:
+  #
+  #     make up LADDER=../ladder LADDER_PY=../ladder/.venv/bin/python
+  #
+  # The swap works because the seam is the function id. Nothing in ghola imports
+  # either package; every caller triggers `ladder::*` or `audit::*` over the bus,
+  # so exactly one provider registers those ids and no call site knows which.
+  # An external checkout has its own dependencies, so give it its own
+  # interpreter too — ghola's venv was built for ghola's pins.
+  audit-log:
+    worker: path://${AUDITLOG:-./workers/ghola-audit}
+    working_dir: .
+    env_file: [./.env]
+    environment:
+      PYTHONUNBUFFERED: "1"
+      AUDIT_LOG_DIR: ${PWD}/audit
+      AUDIT_LOG_KINDS: turn.started,turn.completed,ladder.refused,ladder.warned,approval.held,approval.resolved,governance.verified,governance.denied,stage.entered,stage.left,published,config.changed,improve.started,improve.completed,proposal.accepted
+    scripts:
+      run: ${AUDITLOG_PY:-.venv/bin/python} ${AUDITLOG:-./workers/ghola-audit}/src/main.py
+
+  # What this repository contributes to a turn: four callbacks and no tools. The
+  # turn loop is the harness worker's.
+  ghola-policy:
+    worker: path://./workers/ghola-policy
+    working_dir: .
+    start_after: [harness, llm-router, audit-log]
+    env_file: [./.env]
+    environment:
+      GHOLA_ROOT: ${PWD}
+      PYTHONUNBUFFERED: "1"
+    scripts:
+      run: .venv/bin/python workers/ghola-policy/src/boot.py
+
+  # The pipeline. Serves no HTTP: the console is the UI.
+  ghola-factory:
+    worker: path://./workers/ghola-factory
+    working_dir: .
+    start_after: [harness, queue, state, audit-log]
+    env_file: [./.env]
+    environment:
+      GHOLA_ROOT: ${PWD}
+      PYTHONUNBUFFERED: "1"
+    scripts:
+      run: .venv/bin/python workers/ghola-factory/src/factory.py
+
+  # A ladder that is not running enforces nothing, which is the failure this
+  # worker exists to prevent. Compose treats it like every other container: a
+  # container that never registers fails the project rather than being passed
+  # over in a warning nobody reads.
+  ladder:
+    worker: path://${LADDER:-./workers/ghola-ladder}
+    working_dir: .
+    start_after: [harness, audit-log]
+    env_file: [./.env]
+    environment:
+      LADDER_HOME: ${LADDER:-./workers/ghola-ladder}
+      PYTHONUNBUFFERED: "1"
+    scripts:
+      run: ${LADDER_PY:-.venv/bin/python} ${LADDER:-./workers/ghola-ladder}/src/main.py
