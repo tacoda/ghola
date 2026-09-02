@@ -24,6 +24,7 @@ from __future__ import annotations
 import os
 from pathlib import Path
 
+import diffs
 import extensions
 import forge as forgelib
 import governance
@@ -212,7 +213,12 @@ def commit_and_push(worker, job: dict, settings: dict) -> dict:
     remote = driver.remote
     against = base_ref(job, settings)
 
-    refused = rung_four(worker, job, workspace, message, against)
+    # A refusal is the change's problem and routes to a rework. A gate that
+    # could not answer is the job's problem: reworking a diff does not bring a
+    # worker back up, and pretending it was allowed is how a gate fails open.
+    refused, problem = rung_four(worker, job, workspace, message, against)
+    if problem:
+        return {"ok": False, "error": problem}
     if refused:
         return {"ok": True, "refused": True, "refusal": refused}
 
@@ -258,38 +264,96 @@ def commit_message(job: dict) -> str:
     return forgelib.title_of(job)[:72]
 
 
-def rung_four(worker, job: dict, workspace: str, publishing: str,
-              against: str = "HEAD") -> str:
+# Per file, where it used to be per whole diff. A file's patch this long is a
+# generated lockfile or a vendored tree, so the bound stays generous and says
+# when it bit. ponytail: one number for every repository. It becomes a setting
+# the first time a real change trips it.
+PER_FILE_LIMIT = 200000
+
+# The whole-diff cut used to bound the work as a side effect: 200,000 characters
+# was however many files that came to. Per file there is no such accident, so a
+# vendored bump touching thousands of files would make thousands of calls at a
+# 60-second timeout each. A change this wide is not a reviewable change, so the
+# gate says so instead of grinding.
+MAX_FILES = 500
+
+
+def rung_four(worker, job: dict, workspace: str, text: str,
+              against: str = "HEAD") -> tuple[str, str]:
     """The delivery gate, over the finished diff and the text about to ship.
+
+    Returns `(refusal, problem)`, and an empty pair is the only outcome that
+    reaches a commit. A **refusal** is the ladder saying no, which routes to a
+    rework because the change is what has to alter. A **problem** is the gate
+    unable to answer at all, which no rework fixes.
+
+    **This gate fails closed**, and it did not before. An unreachable ladder
+    returned "not refused", and so did a failed `git diff`, so a downed worker
+    read exactly like a clean change. The ladder states the principle in its own
+    predicate runner: a predicate that throws is a finding, not a pass.
 
     Asked of the `ladder` worker rather than reimplemented, so the same
     predicate that refuses a write at rung 3 refuses the finished file here.
-    A ladder that is unreachable does not wave the commit through silently: it
-    says so, and the caller records it.
+
+    **One call per file.** Rung 4 used to pass no path, and an empty path skips
+    the filter in `Loaded.governing` and in `gate.decide` both, so every
+    path-scoped rule was asked about every file in the change and its findings
+    could name none of them. A file is also the unit `check(path, content,
+    context)` was written for.
+
+    `text` is what the job is about to publish, and it goes with every file
+    rather than once: `gate.escaped` reads an escape hatch out of the commit
+    message, and a file evaluated without it would be refused by a rule the
+    operator had already escaped.
     """
     # Everything not yet on the base, committed or not. `--cached` alone would
     # miss work the turn committed itself, which is the hole that let a diff
     # reach a branch without the delivery gate reading it. The ref is passed in
     # rather than assumed: `origin/main` does not resolve in a repository with
     # no remote, and the gate would then read the staged half of the work.
-    diff = run(worker, "git", ["diff", f"{against}...HEAD", "--unified=0"],
-               workspace)
-    changed = str(diff.get("output") or "") if diff["ok"] else ""
-    staged = run(worker, "git", ["diff", "--cached", "--unified=0"], workspace)
-    changed = (changed + "\n" + str(staged.get("output") or ""))[:200000]
+    parts = []
+    for args in (["diff", f"{against}...HEAD", "--unified=0"],
+                 ["diff", "--cached", "--unified=0"]):
+        answer = run(worker, "git", args, workspace)
+        if not answer["ok"]:
+            return "", (f"the delivery gate could not read the change: `git "
+                        f"{' '.join(args)}` failed: {answer.get('error')}")
+        parts.append(str(answer.get("output") or ""))
 
-    answer = call(worker, "ladder::evaluate", {
-        "repo": workspace,
-        "path": "",
-        "content": changed,
-        "publishing": publishing,
-        "rung": 4,
-    }, timeout_ms=60000)
+    files = diffs.per_file("\n".join(parts))
+    if len(files) > MAX_FILES:
+        return "", (f"the delivery gate will not read {len(files)} files in one "
+                    f"change, and the limit is {MAX_FILES}. Split it, or raise "
+                    "MAX_FILES knowing every file costs a call to the ladder")
 
-    if not answer["ok"]:
-        return ""
-    body = answer["value"]
-    return "" if body.get("allowed", True) else str(body.get("reason") or "refused")
+    # An empty diff still gets one evaluation. A rule about what a pull request
+    # may say does not need a file to have been touched to be broken, and the
+    # "no commits on the branch" error belongs to the caller rather than here.
+    for path, patch in files or [("", "")]:
+        content = publishing.trim(patch, PER_FILE_LIMIT)
+        if len(patch) > PER_FILE_LIMIT:
+            # Said out loud rather than swallowed. The marker `trim` leaves is
+            # inside what the ladder reads, so a predicate sees the bound too.
+            print(f"rung 4: {path} is {len(patch)} characters of diff and the "
+                  f"gate read the first {PER_FILE_LIMIT}")
+
+        answer = call(worker, "ladder::evaluate", {
+            "repo": workspace,
+            "path": path,
+            "content": content,
+            "publishing": text,
+            "rung": 4,
+        }, timeout_ms=60000)
+
+        if not answer["ok"]:
+            return "", (f"the delivery gate could not reach the ladder, so "
+                        f"nothing has checked this change: {answer.get('error')}")
+
+        body = answer["value"]
+        if not body.get("allowed", True):
+            return str(body.get("reason") or "refused"), ""
+
+    return "", ""
 
 
 def base_ref(job: dict, settings: dict | None = None) -> str:

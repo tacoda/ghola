@@ -15,6 +15,7 @@ sys.path.insert(0, str(ROOT / "workers" / "ghola-core" / "src"))
 sys.path.insert(0, str(ROOT / "workers" / "ghola-factory" / "src"))
 
 import actions  # noqa: E402
+import diffs  # noqa: E402
 
 
 def pr(state="open", merged=False, comments=(), created="2026-01-01T00:00:00Z"):
@@ -283,6 +284,199 @@ class ShellExecIsNotAShell(unittest.TestCase):
         actions.run_command(shell, "make up && make migrate", "/w")
         self.assertEqual(shell.calls[0]["command"], "sh")
         self.assertEqual(shell.calls[0]["args"][0], "-c")
+
+
+TWO_FILES = """diff --git a/app/models/user.rb b/app/models/user.rb
+@@ -1 +1 @@
+-old
++new
+diff --git a/README.md b/README.md
+@@ -1 +1 @@
+-a
++b
+"""
+
+
+class SplittingADiff(unittest.TestCase):
+    """`per_file` is pure, so the gate's hardest input is a string."""
+
+    def test_each_file_comes_back_with_its_patch(self):
+        found = diffs.per_file(TWO_FILES)
+        self.assertEqual([p for p, _ in found],
+                         ["app/models/user.rb", "README.md"])
+        self.assertIn("+new", dict(found)["app/models/user.rb"])
+        self.assertNotIn("+new", dict(found)["README.md"])
+
+    def test_the_new_name_travels_not_the_old_one(self):
+        # A rename is the case: a path-scoped rule is about where the file is
+        # going, and `governs_path` is asked with one path.
+        renamed = "diff --git a/old/name.rb b/app/models/name.rb\n@@ -0,0 +1 @@\n+x\n"
+        self.assertEqual(diffs.per_file(renamed)[0][0], "app/models/name.rb")
+
+    def test_a_path_with_a_space_in_it_survives(self):
+        spaced = "diff --git a/doc/my notes.md b/doc/my notes.md\n@@ -1 +1 @@\n+x\n"
+        self.assertEqual(diffs.per_file(spaced)[0][0], "doc/my notes.md")
+
+    def test_a_file_in_two_diffs_is_one_entry(self):
+        # The gate reads `against...HEAD` and `--cached`, and a file loose in
+        # both would otherwise be shown to a predicate half at a time.
+        twice = TWO_FILES + "\n" + TWO_FILES
+        found = diffs.per_file(twice)
+        self.assertEqual(len(found), 2)
+        self.assertEqual(dict(found)["README.md"].count("diff --git"), 2)
+
+    def test_anything_before_the_first_header_is_dropped(self):
+        self.assertEqual(diffs.per_file("noise\n\n" + TWO_FILES)[0][0],
+                         "app/models/user.rb")
+
+    def test_no_diff_is_no_files_rather_than_one_empty_one(self):
+        self.assertEqual(diffs.per_file(""), [])
+        self.assertEqual(diffs.per_file("\n"), [])
+
+
+class TheDeliveryGateFailsClosed(unittest.TestCase):
+    """Rung 4, and the three ways it used to wave a change through.
+
+    It cut the diff at 200,000 characters with no marker, it read an
+    unreachable ladder as "not refused", and it read a failed `git diff` as an
+    empty change. All three ended in a commit, and the ladder states the
+    principle they broke in its own predicate runner: a predicate that throws is
+    a finding, not a pass.
+    """
+
+    class Worker:
+        """Answers `shell::exec` and `ladder::evaluate`, and records both."""
+
+        def __init__(self, diff=TWO_FILES, refuse="", unreachable=False,
+                     diff_fails=False):
+            self.diff, self.refuse = diff, refuse
+            self.unreachable, self.diff_fails = unreachable, diff_fails
+            self.asked, self.ran = [], []
+
+        def trigger(self, request):
+            function_id = request.get("function_id", "")
+            payload = request.get("payload") or {}
+
+            if function_id == "shell::exec":
+                args = payload.get("args") or []
+                self.ran.append(args)
+                if args[:1] == ["diff"]:
+                    if self.diff_fails:
+                        return {"exit_code": 128, "stderr": "not a git repository"}
+                    # `--cached` is empty: the work is committed already.
+                    out = "" if "--cached" in args else self.diff
+                    return {"exit_code": 0, "stdout": out}
+                return {"exit_code": 0, "stdout": ""}
+
+            if function_id == "ladder::evaluate":
+                if self.unreachable:
+                    raise RuntimeError("that worker is not up")
+                self.asked.append(payload)
+                if self.refuse and payload.get("path") == self.refuse:
+                    return {"allowed": False,
+                            "reason": f"no-secrets: {self.refuse}:1 an API key"}
+                return {"allowed": True}
+
+            return {}
+
+        def paths(self):
+            return [str(p.get("path") or "") for p in self.asked]
+
+        def committed(self):
+            return any(a[:1] == ["commit"] for a in self.ran)
+
+    def gate(self, worker, text="a commit message"):
+        return actions.rung_four(worker, {"id": "j"}, "/w", text, "origin/main")
+
+    def test_the_ladder_is_asked_once_per_file_with_the_real_path(self):
+        # The bug this replaces: one call with `path: ""`, which skips the path
+        # filter in `Loaded.governing` and in `gate.decide` both, so a rule
+        # scoped to `app/models/**` was asked about README.md as well.
+        worker = self.Worker()
+        self.assertEqual(self.gate(worker), ("", ""))
+        self.assertEqual(worker.paths(), ["app/models/user.rb", "README.md"])
+
+    def test_a_file_is_shown_its_own_patch_and_not_the_others(self):
+        worker = self.Worker()
+        self.gate(worker)
+        first = dict(zip(worker.paths(), [p["content"] for p in worker.asked]))
+        self.assertIn("+new", first["app/models/user.rb"])
+        self.assertNotIn("README", first["app/models/user.rb"])
+
+    def test_a_refusal_on_any_file_refuses_the_change(self):
+        worker = self.Worker(refuse="README.md")
+        refusal, problem = self.gate(worker)
+        self.assertEqual(problem, "")
+        self.assertIn("no-secrets", refusal)
+
+    def test_an_unreachable_ladder_is_a_problem_and_not_a_pass(self):
+        worker = self.Worker(unreachable=True)
+        refusal, problem = self.gate(worker)
+        self.assertEqual(refusal, "")
+        self.assertIn("nothing has checked this change", problem)
+
+    def test_a_failed_git_diff_is_a_problem_and_not_an_empty_change(self):
+        worker = self.Worker(diff_fails=True)
+        refusal, problem = self.gate(worker)
+        self.assertEqual(refusal, "")
+        self.assertIn("could not read the change", problem)
+        self.assertEqual(worker.asked, [],
+                         "the ladder was asked about a diff nobody could read")
+
+    def test_an_empty_diff_still_gets_the_publishing_text_checked(self):
+        # A rule about what a pull request may say does not need a file to have
+        # been touched to be broken.
+        worker = self.Worker(diff="")
+        self.assertEqual(self.gate(worker, "Co-Authored-By: a tool"), ("", ""))
+        self.assertEqual(len(worker.asked), 1)
+        self.assertEqual(worker.asked[0]["publishing"], "Co-Authored-By: a tool")
+
+    def test_the_publishing_text_goes_with_every_file(self):
+        # `gate.escaped` reads an escape hatch out of the commit message, so a
+        # file evaluated without it would be refused by a rule already escaped.
+        worker = self.Worker()
+        self.gate(worker, "ladder-escape: vendored")
+        self.assertEqual([p["publishing"] for p in worker.asked],
+                         ["ladder-escape: vendored"] * 2)
+
+    def test_an_oversized_file_is_bounded_and_says_so(self):
+        big = ("diff --git a/vendor/big.js b/vendor/big.js\n"
+               + "+x" * actions.PER_FILE_LIMIT)
+        worker = self.Worker(diff=big)
+        self.assertEqual(self.gate(worker), ("", ""))
+        content = worker.asked[0]["content"]
+        self.assertIn("truncated at", content)
+        self.assertLess(len(content), len(big))
+
+    def test_too_many_files_is_a_problem_rather_than_thousands_of_calls(self):
+        # The whole-diff cut used to bound this by accident. Per file it does
+        # not, and one call per file at a 60-second timeout is a factory that
+        # grinds rather than one that answers.
+        wide = "".join(f"diff --git a/f{n}.rb b/f{n}.rb\n+x\n"
+                       for n in range(actions.MAX_FILES + 1))
+        worker = self.Worker(diff=wide)
+        refusal, problem = self.gate(worker)
+        self.assertEqual(refusal, "")
+        self.assertIn(str(actions.MAX_FILES + 1), problem)
+        self.assertEqual(worker.asked, [])
+
+    def test_a_change_at_the_limit_still_goes_through(self):
+        wide = "".join(f"diff --git a/f{n}.rb b/f{n}.rb\n+x\n"
+                       for n in range(actions.MAX_FILES))
+        worker = self.Worker(diff=wide)
+        self.assertEqual(self.gate(worker), ("", ""))
+        self.assertEqual(len(worker.asked), actions.MAX_FILES)
+
+    def test_a_gate_that_could_not_answer_never_reaches_a_commit(self):
+        # The whole point, at the level the caller sees: a problem is `ok: False`
+        # rather than a refusal, because no rework brings a worker back up.
+        worker = self.Worker(unreachable=True)
+        result = actions.commit_and_push(
+            worker, {"id": "j", "workspace": "/w", "branch": "b", "title": "t"}, {})
+        self.assertFalse(result["ok"])
+        self.assertFalse(result.get("refused"))
+        self.assertFalse(worker.committed())
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -158,29 +158,62 @@ name, and `tests/test_docs.py` now checks every prompt against it. A prompt
 naming a field the factory does not supply fails there rather than quietly
 deleting a section of its own brief.
 
-## 6. The delivery gate truncates its own input silently
+## 6. The delivery gate read less than it claimed (fixed)
 
-**A bug.** It is the "big diffs" item in `PLAN.md` section 9, still open.
+**Three bugs**, found in one 30-line function while fixing the first. The
+truncation is the "big diffs" item in `PLAN.md` section 9.
 
-**Today.** `workers/ghola-factory/src/actions.py:280` builds the gate's input
-from two `git diff` calls and cuts the result at 200,000 characters. No marker,
-no refusal, no record. So a large change is graded on its first 200,000
-characters and the verdict reads exactly like a verdict on the whole thing.
+**What it was.** `rung_four` built its input from two `git diff` calls, joined
+them, and cut the result at 200,000 characters with no marker. So the gate
+graded a large change on its first 200,000 characters, and its verdict read
+exactly like a verdict on the whole thing.
 
-The pattern for doing this correctly already ships.
-`workers/ghola-core/src/publishing.py:140` appends `*(truncated at N
-characters)*` to what a reviewer reads, and the docstring two lines above says
-that silent truncation of a check's input is the same failure. The gate does
-not use it.
+Reading the rest of the function turned up two worse ones, both fail-open. An
+unreachable ladder returned `""`, which the caller reads as "not refused", so a
+downed worker committed the change. A failed `git diff` produced empty content,
+which evaluates as clean, so a broken git call did too. The docstring claimed
+the opposite: "A ladder that is unreachable does not wave the commit through
+silently." The ladder states the principle in its own predicate runner, at
+`workers/ghola-ladder/src/predicate.py`: a predicate that throws is a finding,
+not a pass.
 
-**What changes.** Refuse or chunk, and say which. A gate that cannot read the
-whole diff has not read the diff, so the honest answers are a refusal naming the
-size, or a chunked pass whose record says how many chunks it took. Reuse the
-marker in `publishing.py` rather than writing a second one.
+The third was the path. Rung 4 passed `path: ""`, and an empty path skips the
+filter twice on the way in, at `Loaded.governing` and again at `gate.decide`. So
+the gate asked every path-scoped rule about every file in the change, and handed
+its predicate `path=""`, which left the findings naming none of them.
 
-**Done when.** A diff over the limit produces a refusal or a chunked verdict.
-The audit record names which one happened and the size that triggered it.
-Nothing reaches a pull request on a partial read.
+**What the fix does.** `diffs.per_file` splits the diff on `diff --git`
+boundaries, and the gate makes one `ladder::evaluate` per file, each carrying
+its real path. A file is the unit `check(path, content, context)` expects, so
+path scoping works and a finding names a file. First refusal wins, matching
+`gate.decide`.
+
+`rung_four` now returns `(refusal, problem)`. A refusal is the ladder saying no
+and routes to a rework. A problem is the gate unable to answer, and the caller
+turns it into `ok: False`, because no rework brings a worker back up. An empty
+pair is the only outcome that commits.
+
+The publishing text goes with every file rather than once, because
+`gate.escaped` reads an escape hatch out of the commit message and a file
+evaluated without it would be refused by a rule the operator had escaped.
+
+Splitting per file removed a bound that the old cut provided by accident: 200,000
+characters was however many files it came to. So `MAX_FILES` is 500, and a change
+wider than that is a problem rather than 500 calls at a 60-second timeout each.
+
+**How it stays fixed.** Seventeen tests in `tests/test_gate.py`, over a fake
+that records what the gate showed the ladder rather than only what it concluded.
+The function had none before. Read that fake first if you change the gate. It
+pins all three of the old behaviors.
+
+**The cost to state.** For a single file over 200,000 characters of diff, the
+gate bounds the patch with the marker from `publishing.trim` and evaluates it
+anyway rather than blocking the job. So it can still pass a vendored tree or a
+lockfile on a bounded read. It says so on stdout, and the marker sits inside
+what the ladder read, which is weaker than a refusal and stronger than the
+silence it replaces. Watch for that line if a large change passes and you
+expected an argument. One number serves every repository, and it becomes a
+setting the first time a real change trips it.
 
 ## 7. `concurrency` is parsed and nothing reads it
 

@@ -93,6 +93,13 @@ what to watch for in the parts nobody has exercised yet.
   under it and a sentence saying it had seen the change. Every prompt is now
   checked against `prompts.FIELDS`, and the reviewer is handed the base ref
   instead.
+- The delivery gate cut its input at 200,000 characters with no marker, read an
+  unreachable ladder as "not refused", and read a failed `git diff` as an empty
+  change. All three ended in a commit. It now returns a refusal and a problem
+  separately, and only an empty pair commits.
+- The delivery gate passed no path, and an empty path skips the path filter in
+  both `Loaded.governing` and `gate.decide`. So every path-scoped rule was asked
+  about every file in the change. It asks once per file now.
 
 ## Before you adopt this
 
