@@ -75,10 +75,11 @@ that reason.
 make up
 ```
 
-This starts the engine, waits for the harness worker to report ready, then starts
-ghola's own workers: the record first, so the recorders have somewhere to write,
-then the policy worker, the factory and the ladder. Expect about a minute the
-first time, because 31 workers start in sequence.
+This starts one compose project and waits. Compose brings up the 30 containers in
+`worker-compose.yaml`, and the engine injects its own five. `start_after:` keeps
+the record ahead of the policy worker, the factory and the ladder, so the
+recorders have somewhere to write. The wait ends when every container has
+registered, or when one has failed. Expect about a minute the first time.
 
 ```bash
 make status
