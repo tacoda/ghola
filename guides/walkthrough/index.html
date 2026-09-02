@@ -114,10 +114,12 @@ git clone https://github.com/tacoda/ghola.git &amp;&amp; cd ghola
 
 <pre><span class="k">make up</span></pre>
 
-  <p>This starts the engine and waits for the harness worker to report ready.
-  Then it starts ghola's own workers: the record first, so the recorders have
-  somewhere to write, then the policy worker, the factory and the ladder. Expect
-  about a minute the first time, because 31 workers start in sequence.</p>
+  <p>This starts one compose project and waits. Compose brings up the 30
+  containers in <code>worker-compose.yaml</code>, and the engine injects its own
+  five. <code>start_after:</code> keeps the record ahead of the policy worker,
+  the factory and the ladder, so the recorders have somewhere to write. The wait
+  ends when every container has registered, or when one has failed. Expect about
+  a minute the first time.</p>
 
 <pre><span class="k">make status</span></pre>
 
