@@ -261,6 +261,7 @@ everything else goes through.
 | [docs/CUSTOMIZING.md](docs/CUSTOMIZING.md) | you want to change something and need to know where it lives |
 | [docs/EVALS.md](docs/EVALS.md) | you are about to edit a prompt |
 | [docs/LIMITATIONS.md](docs/LIMITATIONS.md) | before any of it |
+| [ROADMAP.md](ROADMAP.md) | you want to know which of those gaps is being worked on |
 
 ## Requirements
 
