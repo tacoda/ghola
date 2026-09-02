@@ -157,5 +157,47 @@ class WithTheGraph(unittest.TestCase):
         self.assertEqual(seen[:3], ["prepare", "refine", "plan"])
 
 
+class WhoHoldsARepository(unittest.TestCase):
+    """The concurrency limit, as a list and a number.
+
+    `repos.toml` carried a `concurrency` key that nothing read: three places in
+    `repos.py` parsed it and no code asked for the value. The worktree claim was
+    said to cover it, and it covers one checkout rather than one repository.
+    """
+
+    def job(self, ident, repo="/a", stage="run"):
+        return {"id": ident, "repo": repo, "stage": stage}
+
+    def test_the_job_asking_is_never_its_own_holder(self):
+        # At-least-once delivery means prepare can be handed the same job twice.
+        # A job blocked by itself would never start.
+        live = [self.job("me")]
+        self.assertEqual(jobs.holding(live, "/a", exclude="me"), [])
+
+    def test_another_repositorys_jobs_do_not_count(self):
+        live = [self.job("other", repo="/b")]
+        self.assertEqual(jobs.holding(live, "/a"), [])
+
+    def test_a_finished_job_holds_nothing(self):
+        for stage in jobs.RELEASED:
+            with self.subTest(stage=stage):
+                self.assertEqual(jobs.holding([self.job("x", stage=stage)], "/a"), [])
+
+    def test_an_open_pull_request_still_holds_the_environment(self):
+        # `waiting` is NOT released: `teardown` runs the repository's `cleanup`
+        # and it is called on a terminal state only, so the ports are still up.
+        held = jobs.holding([self.job("x", stage="waiting")], "/a")
+        self.assertEqual([j["id"] for j in held], ["x"])
+
+    def test_a_job_that_asked_a_question_still_holds_it(self):
+        held = jobs.holding([self.job("x", stage="blocked")], "/a")
+        self.assertEqual([j["id"] for j in held], ["x"])
+
+    def test_released_matches_the_graphs_terminal_states(self):
+        # The one drift that would matter: a terminal state missing from
+        # RELEASED lets a finished job hold a repository forever.
+        self.assertEqual(set(jobs.RELEASED), set(g.TERMINAL))
+
+
 if __name__ == "__main__":
     unittest.main()

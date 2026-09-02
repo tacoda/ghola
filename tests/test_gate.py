@@ -7,6 +7,7 @@ and it is the part of a factory most expensive to test any other way.
 """
 
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -16,6 +17,7 @@ sys.path.insert(0, str(ROOT / "workers" / "ghola-factory" / "src"))
 
 import actions  # noqa: E402
 import diffs  # noqa: E402
+import jobs as jobslib  # noqa: E402
 
 
 def pr(state="open", merged=False, comments=(), created="2026-01-01T00:00:00Z"):
@@ -476,6 +478,94 @@ class TheDeliveryGateFailsClosed(unittest.TestCase):
         self.assertFalse(result["ok"])
         self.assertFalse(result.get("refused"))
         self.assertFalse(worker.committed())
+
+
+class OneJobPerBusyRepository(unittest.TestCase):
+    """`concurrency` in `repos.toml`, which nothing read until now.
+
+    The worktree claim stops two jobs sharing one CHECKOUT. Two jobs on one
+    repository get two worktrees, so both claims succeed and both run `prepare`.
+    A prepare that binds a port then has two jobs fighting over it, which is the
+    case `docs/LIMITATIONS.md` tells you to set this key for.
+    """
+
+    BUSY = {"prepare": "make up", "cleanup": "make down", "concurrency": 1}
+
+    def setUp(self):
+        # The action reads the real store, so point it at an empty directory.
+        self.tmp = tempfile.TemporaryDirectory()
+        self.original, actions.STORE = actions.STORE, jobslib.Store(self.tmp.name)
+
+    def tearDown(self):
+        actions.STORE = self.original
+        self.tmp.cleanup()
+
+    def hold(self, ident="held00001", repo="/a", stage="run"):
+        actions.STORE.write({"id": ident, "repo": repo, "stage": stage,
+                             "created_at": 1, "updated_at": 1})
+
+    def asking(self, repo="/a"):
+        return {"id": "asking001", "repo": repo, "stage": "prepare"}
+
+    def test_a_repo_with_no_prepare_command_has_nothing_to_collide_over(self):
+        # The limit would only cost throughput: nothing was allocated, so two
+        # jobs on this repository cannot fight.
+        self.hold()
+        self.assertEqual(
+            actions.too_busy(self.asking(), {"concurrency": 1, "prepare": ""}), "")
+
+    def test_a_second_job_on_a_busy_repo_is_told_who_holds_it(self):
+        self.hold(ident="abc12345", stage="run")
+        problem = actions.too_busy(self.asking(), self.BUSY)
+        self.assertIn("abc12345", problem)
+        self.assertIn("is at run", problem)
+        self.assertIn("concurrency", problem)
+
+    def test_a_higher_limit_lets_the_second_job_through(self):
+        self.hold()
+        self.assertEqual(
+            actions.too_busy(self.asking(), {**self.BUSY, "concurrency": 2}), "")
+
+    def test_a_limit_of_zero_is_no_limit(self):
+        # `concurrency = 0` reads as "do not count", not as "allow none". A
+        # setting that stops all work is not a setting anybody meant to write.
+        self.hold()
+        self.assertEqual(
+            actions.too_busy(self.asking(), {**self.BUSY, "concurrency": 0}), "")
+
+    def test_a_job_on_another_repository_does_not_block_this_one(self):
+        self.hold(repo="/somewhere-else")
+        self.assertEqual(actions.too_busy(self.asking(), self.BUSY), "")
+
+    def test_a_landed_job_blocks_nothing(self):
+        self.hold(stage="landed")
+        self.assertEqual(actions.too_busy(self.asking(), self.BUSY), "")
+
+    def test_a_redelivered_job_is_not_blocked_by_itself(self):
+        # At-least-once delivery hands prepare the same job twice, and the
+        # second one must not read its own record as the holder.
+        actions.STORE.write({"id": "asking001", "repo": "/a", "stage": "prepare",
+                             "created_at": 1, "updated_at": 1})
+        self.assertEqual(actions.too_busy(self.asking(), self.BUSY), "")
+
+    def test_the_action_refuses_before_it_mints_a_worktree(self):
+        self.hold(ident="abc12345")
+
+        class Nothing:
+            def __init__(self):
+                self.calls = []
+
+            def trigger(self, request):
+                self.calls.append(request.get("function_id"))
+                return {}
+
+        worker = Nothing()
+        job = self.asking()
+        result = actions.prepare_workspace(worker, job, {"repo_settings": self.BUSY})
+        self.assertFalse(result["ok"])
+        self.assertIn("abc12345", result["error"])
+        self.assertEqual(worker.calls, [],
+                         "it asked the worktree worker for something anyway")
 
 
 if __name__ == "__main__":

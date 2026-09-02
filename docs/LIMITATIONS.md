@@ -35,8 +35,17 @@ rule marked `ask` refuses work you want, the rule is what to change.
 
 **One machine.** The engine, the workers and the worktrees share one box. ghola
 has no scheduler, no queue across hosts, and no way to run two factories
-against one repository. Set `concurrency = 1` in `repos.toml` for any repository
-whose prepare command allocates a port.
+against one repository.
+
+**A repository with a `prepare` command runs one job at a time, and the second
+one fails rather than waiting.** `concurrency` in `repos.toml` defaults to 1,
+and `prepare` counts the live jobs on that repository before it claims
+anything. Over the limit, the job fails at its first stage, before any turn is
+paid for, naming the job that holds the repository and the stage it is at.
+Failing is not what you want; waiting is. Waiting needs a stage that can defer
+itself and a reconciler to re-drive it, and neither exists. A repository with no
+`prepare` command is not counted at all, because nothing was allocated for two
+jobs to fight over.
 
 **Cost reads `$0.00`.** The router prices some models at null, so
 `session_cost_usd` comes back zero, which means the number in the job record and

@@ -65,7 +65,7 @@ worse starter kit.
 
 **Status: M8.** The whole lifecycle runs. A spec becomes a plan, a diff, a
 proof, a review, a commit through your repository's own hook, and a pull
-request. Comment on it and the job reworks. 630 tests, and the phased plan is in
+request. Comment on it and the job reworks. 644 tests, and the phased plan is in
 [PLAN.md](PLAN.md).
 
 **Start here:** [docs/ADOPTING.md](docs/ADOPTING.md) gets a pull request out of
@@ -112,7 +112,7 @@ make jobs       # every job, newest first
 make turn PHASE=plan PROMPT="why is the queue slow?" WORKSPACE=../some-repo
 make config     # the effective settings, and where each value came from
 make models     # what the router can actually reach
-make test       # 630 tests, seconds, no engine, no money
+make test       # 644 tests, seconds, no engine, no money
 make help       # everything else
 ```
 

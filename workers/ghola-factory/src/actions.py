@@ -33,6 +33,10 @@ import publishing
 
 ROOT = Path(os.environ.get("GHOLA_ROOT", Path(__file__).resolve().parents[3]))
 
+# Read, never written: the actions own no records. `prepare_workspace` asks it
+# who else is live on a repository, which is the whole of the concurrency limit.
+STORE = jobs.store_at(ROOT)
+
 
 def call(worker, function_id: str, payload: dict, timeout_ms: int = 120000) -> dict:
     """One function on the bus, with the governance gate in front of it.
@@ -100,18 +104,69 @@ def run_command(worker, command: str, cwd: str, env: dict | None = None,
 
 # ------------------------------------------------------------ the actions
 
+def too_busy(job: dict, repo: dict) -> str:
+    """Whether another job already holds this repository. The reason, or "".
+
+    **Only where there is something to collide over.** A repository with no
+    `prepare` command allocates nothing, so two jobs on it cannot fight and the
+    limit would only cost throughput. `docs/LIMITATIONS.md` names the case the
+    key exists for: a prepare that allocates a real port.
+
+    The holder is named rather than counted, because "the repository is busy" is
+    not something an operator can act on and `abc12345 is at run` is.
+
+    ponytail: the check races with itself. Two jobs entering prepare in the same
+    instant can both read a store where neither is holding yet, which is a
+    compare-and-swap that files cannot do. It closes the case this exists for,
+    which is a job submitted while another is already running, and one machine
+    is the stated scope in `docs/LIMITATIONS.md`.
+    """
+    limit = int(repo.get("concurrency") or 0)
+    if limit <= 0 or not str(repo.get("prepare") or "").strip():
+        return ""
+
+    path = str(job.get("repo") or "")
+    if not path:
+        return ""
+
+    others = jobs.holding(STORE.list(), path, exclude=str(job.get("id") or ""))
+    if len(others) < limit:
+        return ""
+
+    held = ", ".join(f"{str(o.get('id') or '')[:8]} is at "
+                     f"{o.get('stage') or 'an unknown stage'}" for o in others[:3])
+    return (f"{path} allows {limit} job(s) at once and {len(others)} are live "
+            f"({held}). Its prepare command allocates something two jobs would "
+            f"fight over. Wait for one to land or close, or raise "
+            f"`concurrency` in repos.toml")
+
+
 def prepare_workspace(worker, job: dict, settings: dict) -> dict:
     """Claim an isolated worktree, then run the repository's prepare command.
 
     The worktree is the `worktree` worker's, including the claim that stops two
-    jobs racing for one checkout: `worktree::claim` fails with `W210` when
-    another session holds it, and that is the concurrency answer rather than a
-    semaphore of ours.
+    jobs racing for one CHECKOUT: `worktree::claim` fails with `W210` when
+    another session holds it.
 
-    A rework re-runs prepare, because the environment was torn down when the
-    pull request opened and a reviewer's comment can arrive days later.
+    **That claim is not the concurrency answer**, which is what this function
+    used to say. Two jobs on one repository get two worktrees, so both claims
+    succeed and both run `prepare`. A repository whose prepare allocates a port
+    or migrates a database then has two jobs fighting over it, and `repos.toml`
+    carried a `concurrency` key that nothing read.
+
+    So the count is here, and the job store is the semaphore: it already knows
+    which jobs are live on this repository, which beats a lock file that can go
+    stale with nothing to say so.
+
+    A rework re-claims its old worktree rather than minting one, and it re-runs
+    prepare because a reviewer's comment can arrive days later.
     """
     repo = settings.get("repo_settings") or {}
+
+    problem = too_busy(job, repo)
+    if problem:
+        return {"ok": False, "error": problem}
+
     existing = job.get("worktree_id")
 
     if existing:

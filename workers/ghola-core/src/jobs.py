@@ -161,6 +161,44 @@ def is_terminal(job: dict, terminal: tuple[str, ...]) -> bool:
     return str(job.get("stage") or "") in terminal
 
 
+def store_at(root: str | Path) -> Store:
+    """The job store under a root. One definition of the layout.
+
+    Both the factory and the actions need records, and each has its own answer
+    for the root. What they may not have is two answers for where records live
+    under it.
+    """
+    return Store(Path(root) / "state" / "jobs")
+
+
+# A job holds its repository's prepared environment from `prepare` until it
+# reaches a terminal state, because `teardown` is what runs the repository's
+# `cleanup` and it is called from there and nowhere else. `waiting` is NOT past
+# that: a pull request being open does not put the ports back.
+#
+# Mirrors `graph.TERMINAL` rather than importing it, the same way `is_terminal`
+# above takes the tuple rather than reaching for the graph. A test asserts the
+# two agree, because a default that drifts here would let a finished job hold a
+# repository forever.
+RELEASED = ("landed", "closed", "failed")
+
+
+def holding(all_jobs: list[dict], repo: str, exclude: str = "",
+            released: tuple[str, ...] = RELEASED) -> list[dict]:
+    """Other jobs still holding this repository's environment.
+
+    Pure, so the concurrency decision is a list and a number in a test rather
+    than two live jobs and a port collision on somebody's machine.
+
+    Identity is the repository path, because that is the only name ghola
+    reliably has for a repository: a job names a directory, not a remote.
+    """
+    return [job for job in all_jobs
+            if str(job.get("repo") or "") == repo
+            and str(job.get("id") or "") != exclude
+            and str(job.get("stage") or "") not in released]
+
+
 def summary(job: dict) -> dict:
     """What a dashboard row needs, without the whole record."""
     return {

@@ -53,7 +53,7 @@ QUEUE = "ghola.stage"
 POLL = "0 * * * * *"
 
 WORKER = None
-STORE = jobslib.Store(ROOT / "state" / "jobs")
+STORE = jobslib.store_at(ROOT)
 
 
 def record(kind: str, actor: str = "", subject: str = "", **detail) -> None:

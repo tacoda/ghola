@@ -215,26 +215,66 @@ silence it replaces. Watch for that line if a large change passes and you
 expected an argument. One number serves every repository, and it becomes a
 setting the first time a real change trips it.
 
-## 7. `concurrency` is parsed and nothing reads it
+## 7. `concurrency` was parsed and nothing read it (fixed)
 
-**A bug**, and the cheap fix is a deletion.
+**A bug**, and the fix made the setting real rather than deleting it.
 
-**Today.** `workers/ghola-core/src/repos.py` parses `concurrency` three times
-over: a default of 1 at line 49, a numeric coercion at line 62, a field on the
-resolved settings at line 84. No code reads the value. The one other mention is
-a comment at `workers/ghola-factory/src/actions.py:107`, arguing that
-`worktree::claim` returning `W210` is the concurrency answer rather than a
-semaphore.
+**What it was.** `workers/ghola-core/src/repos.py` parsed `concurrency` three
+times over: a default of 1, a numeric coercion, a field on the resolved
+settings. No code read the value. The one other mention was a comment in
+`prepare_workspace` arguing that `worktree::claim` returning `W210` was the
+concurrency answer rather than a semaphore.
 
 That argument holds for one checkout and not for one repository. Two jobs on one
 repository get two worktrees, so both claims succeed and both run `prepare`.
-That is the exact case `docs/LIMITATIONS.md:38` tells you to set
-`concurrency = 1` for, and the setting does nothing.
+That is the exact case `docs/LIMITATIONS.md` told you to set `concurrency = 1`
+for, and the setting did nothing. A setting nothing reads is worse than no
+setting, because it reads as protection.
 
-**What changes.** Two honest endings, and either closes this. Write the
-semaphore, keyed on the repository path rather than the worktree. Or delete the
-key and correct the sentence in `docs/LIMITATIONS.md`. A setting that nothing
-reads is worse than no setting, because it reads as protection.
+**What the fix does.** `too_busy` counts the live jobs on the repository before
+`prepare` claims anything, and the job store is the semaphore. It already knows
+which jobs are live, which beats a lock file that can go stale with nothing to
+say so. Over the limit, the job fails naming the holder and the stage it is at,
+because "the repository is busy" is not something an operator can act on and
+`abc12345 is at run` is.
+
+Three things the count deliberately does not do. It does not count a repository
+with no `prepare` command, because nothing was allocated for two jobs to fight
+over and the limit would only cost throughput. It does not treat `concurrency =
+0` as "allow none", since nobody writes that meaning to stop all work. And it
+does not count the asking job against itself: at-least-once delivery hands
+`prepare` the same job twice, and a job blocked by its own record would never
+start.
+
+`jobs.holding` is pure, so the decision is a list and a number in a test rather
+than two live jobs and a port collision on somebody's machine. `jobs.RELEASED`
+mirrors `graph.TERMINAL`, and one test asserts the two agree, because a terminal
+state missing from that tuple would let a finished job hold a repository
+forever.
+
+**How it stays fixed.** Fourteen tests across `tests/test_jobs.py` and
+`tests/test_gate.py`, including one asserting the action refuses before it asks
+the worktree worker for anything. Start from `jobs.holding` if you change the
+rule: the store lookup around it is four lines.
+
+**The cost to state.** The second job fails rather than waiting, which is not
+what anybody wants. Waiting needs a stage that can defer itself plus a
+reconciler to re-drive it, and `blocked` is not that: it waits on a person.
+Failing at `prepare` is cheap because it is the first stage, so no turn has been
+paid for yet, and the message names what to wait for.
+
+A job with an open pull request still counts, because `cleanup` runs from
+`teardown` on a terminal state only. So the ports are still up while a reviewer
+reads. On a repository with `prepare` and the default limit of 1, that means one
+open pull request stops new work until it lands or closes. That is the truth
+about the environment rather than a policy. Raise `concurrency` if your prepare
+can take it, or drop the `prepare` command if the spec does not need the app
+running.
+
+The count also races with itself. Two jobs entering `prepare` in the same
+instant can both read a store where neither holds yet, because files cannot
+compare-and-swap. It closes the case the key exists for, which is a job
+submitted while another is already running. Do not read it as a lock.
 
 **Done when.** `make config` and `repos.toml` agree with the code. If the key
 survives, two jobs on one repository serialize at `prepare`, and the second one

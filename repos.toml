@@ -37,6 +37,14 @@ max_revisions = 2
 #   prepare = "make up"
 #   cleanup = "make down"
 #
+#   # How many jobs may hold this repository at once. Counted only when
+#   # `prepare` is set, because a repository that allocates nothing has nothing
+#   # for two jobs to fight over. Over the limit, the second job FAILS at its
+#   # first stage naming the one that holds it, rather than waiting. `cleanup`
+#   # runs when a job lands, closes or fails, so a job with an open pull
+#   # request is still holding the ports.
+#   concurrency = 1
+#
 #   # The repository's own convention, not ghola's. One real repo had
 #   # `feature/` written in its CONTRIBUTING all along.
 #   branch_prefix = "ghola/"
